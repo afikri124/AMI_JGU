@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 //Audit Plan
 Route::group(['prefix' => 'audit_plan'], function () {
     Route::get('/',[AuditPlanController::class, 'index'])->name('audit_plan.index');
-    Route::get('/auditPlan',[AuditPlanController::class, 'auditPlan'])->name('audit_plan.from');
+    // Route::get('/',[AuditPlanController::class, 'form'])->name('audit_plan.form');
     });
 
 //Audit Plan Status

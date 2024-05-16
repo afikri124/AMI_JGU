@@ -3,14 +3,8 @@
 @extends('layouts.master')
 @section('title', 'Audit Status')
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Audit Plan Statuses</div>
 
-                    <div class="card-body">
-                        <table class="table">
+<table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -41,9 +35,5 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+</table>
 @endsection

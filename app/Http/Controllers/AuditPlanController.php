@@ -18,6 +18,16 @@ class AuditPlanController extends Controller
         return view('audit_plan.index', compact('auditPlan'));
     }
 
+
+    public function form(Request $request) // Assuming form returns a view
+    {
+        // Code to prepare data for the form
+
+        return view('audit_plans.form', [ // Replace with your view name
+            // Data to be passed to the view
+        ]);
+    }
+
     /**
      * Show the form for creating a new audit plan.
      *
@@ -70,7 +80,7 @@ class AuditPlanController extends Controller
      */
     public function edit(AuditPlan $auditPlan)
     {
-        return view('audit_plan.form', compact('auditPlan'));
+        return view('audit_plan.form', compact('auditPlan','AuditPlan'));
     }
 
     /**

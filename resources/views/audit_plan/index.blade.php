@@ -19,8 +19,8 @@
 @extends('layouts.master')
 @section('title', 'Audit Plans')
 @section('content')
-    
-    <a href="" class="btn btn-primary mb-3">Create Audit Plan</a>
+
+    <a href="{{ url('form') }}" class="btn btn-primary mb-3">Create Audit Plan</a>
 
     <table class="table table-bordered">
         <thead>
@@ -30,8 +30,6 @@
                 <th>Status</th>
                 <th>Auditee</th>
                 <th>Location</th>
-                <th>Remark by LPM</th>
-                <th>Remark by Approver</th>
                 <th>Departement</th>
                 <th>Actions</th>
             </tr>
@@ -44,8 +42,6 @@
                     <td>{{ $auditPlan->audit_plan_status_id }}</td>
                     <td>{{ $auditPlan->auditee_id }}</td>
                     <td>{{ $auditPlan->location_id }}</td>
-                    <td>{{ $auditPlan->remark_by_lpm }}</td>
-                    <td>{{ $auditPlan->remark_by_approver }}</td>
                     <td>{{ $auditPlan->departement_id }}</td>
                     <td>
                         <a href="" class="btn btn-warning btn-sm">Edit</a>
