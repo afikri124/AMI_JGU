@@ -14,8 +14,8 @@ class AuditPlanController extends Controller
      */
     public function index()
     {
-        $auditPlan = AuditPlan::all();
-        return view('audit_plan.index', compact('auditPlan'));
+        $data = AuditPlan::all();
+        return view('audit_plan.index', compact('data'));
     }
 
 
@@ -55,41 +55,41 @@ class AuditPlanController extends Controller
             'departement_id' => 'required|integer',
         ]);
 
-        $auditPlan = AuditPlan::create($validatedData);
+        $data = AuditPlan::create($validatedData);
 
-        return response()->json($auditPlan, 201);
+        return response()->json($data, 201);
     }
 
     /**
      * Display the specified audit plan.
      *
-     * @param  \App\Models\AuditPlan  $auditPlan
+     * @param  \App\Models\AuditPlan  $data
      * @return \Illuminate\Http\Response
      */
-    public function show(AuditPlan $auditPlan)
+    public function show(AuditPlan $data)
     {
-        return response()->json($auditPlan);
+        return response()->json($data);
     }
 
     /**
      * Show the form for editing the specified audit plan.
      *
-     * @param  \App\Models\AuditPlan  $auditPlan
+     * @param  \App\Models\AuditPlan  $data
      * @return \Illuminate\Http\Response
      */
-    public function edit(AuditPlan $auditPlan)
+    public function edit(AuditPlan $data)
     {
-        return view('audit_plan.form', compact('auditPlan','AuditPlan'));
+        return view('audit_plan.edit', compact('data'));
     }
 
     /**
      * Update the specified audit plan in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AuditPlan  $auditPlan
+     * @param  \App\Models\AuditPlan  $data
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AuditPlan $auditPlan)
+    public function update(Request $request, AuditPlan $data)
     {
         $validatedData = $request->validate([
             'date' => 'required|date',
@@ -100,7 +100,7 @@ class AuditPlanController extends Controller
             'departement_id' => 'required|integer',
         ]);
 
-        $auditPlan->update($validatedData);
+        $data->update($validatedData);
 
         return redirect()->route('audit-plan.index');
     }
@@ -108,12 +108,12 @@ class AuditPlanController extends Controller
     /**
      * Remove the specified audit plan from storage.
      *
-     * @param  \App\Models\AuditPlan  $auditPlan
+     * @param  \App\Models\AuditPlan  $data
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AuditPlan $auditPlan)
+    public function destroy(AuditPlan $data)
     {
-        $auditPlan->delete();
+        $data->delete();
 
         return redirect()->route('audit-plan.index');
     }
