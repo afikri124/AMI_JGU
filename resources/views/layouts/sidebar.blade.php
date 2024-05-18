@@ -24,13 +24,13 @@
         </li>
         <li class="menu-item {{ request()->segment(1) == 'audit_plan' ? 'active' : '' }}">
             <a href="{{ route('audit_plan.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book"></i>
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Dashboards">Audit Plans</div>
             </a>
         </li>
         <li class="menu-item {{ request()->segment(1) == 'audit_status' ? 'active' : '' }}">
             <a href="{{ route('audit_status.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
                 <div data-i18n="Dashboards">Audit Status</div>
             </a>
         </li>
