@@ -33,7 +33,10 @@ Route::get('/dashboard', function () {
 Route::group(['prefix' => 'audit_plan'], function () {
     Route::get('/',[AuditPlanController::class, 'index'])->name('audit_plan.index');
     // Route::get('/',[AuditPlanController::class, 'form'])->name('audit_plan.form');
-    });
+    Route::get('/data',[AuditPlanController::class, 'data'])->name('audit_plan.data');
+    Route::any('/edit/{id}', [AuditPlanController::class, 'edit'])->name('audit_plan.edit');
+
+});
 
 //Audit Plan Status
 Route::group(['prefix' => 'audit_status'], function () {

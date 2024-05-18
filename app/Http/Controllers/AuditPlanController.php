@@ -51,8 +51,7 @@ class AuditPlanController extends Controller
             'audit_plan_status_id' => 'required|integer',
             'auditee_id' => 'required|integer',
             'location_id' => 'required|integer',
-            'remark_by_lpm' => 'nullable|string',
-            'remark_by_approver' => 'nullable|string',
+            'auditor_id' => 'required|integer',
             'departement_id' => 'required|integer',
         ]);
 
@@ -97,8 +96,7 @@ class AuditPlanController extends Controller
             'audit_plan_status_id' => 'required|integer',
             'auditee_id' => 'required|integer',
             'location_id' => 'required|integer',
-            'remark_by_lpm' => 'nullable|string',
-            'remark_by_approver' => 'nullable|string',
+            'auditor_id' => 'required|integer',
             'departement_id' => 'required|integer',
         ]);
 

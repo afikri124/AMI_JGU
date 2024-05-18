@@ -18,8 +18,7 @@ class AuditPlan extends Model
         'audit_plan_status_id',
         'auditee_id',
         'location_id',
-        'remark_by_lpm',
-        'remark_by_approver',
+        'auditor_id',
         'departement_id'
     ];
 
