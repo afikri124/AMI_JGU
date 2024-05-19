@@ -31,10 +31,15 @@
         <li class="menu-item {{ request()->segment(1) == 'audit_status' ? 'active' : '' }}">
             <a href="{{ route('audit_status.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Dashboards">Audit Status</div>
+                <div data-i18n="Dashboards">Status Plans</div>
             </a>
         </li>
-
+        <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
+            <a href="{{ route('notification.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <div data-i18n="Dashboards">Notification</div>
+            </a>
+        </li>
 
         @can('control panel.read')
         <li class="menu-header small text-uppercase">

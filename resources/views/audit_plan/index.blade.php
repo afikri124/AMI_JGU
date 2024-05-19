@@ -78,8 +78,8 @@
                         </div>
                     </div>
     @endsection
+    
     @section('script')
-
 <script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
@@ -94,7 +94,7 @@
                 url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_fakultas = $('#select_fakultas').val()
+                    d.select_auditor_id = $('#select_auditor_id').val()
                 },
             },
             columnDefs: [{
@@ -146,8 +146,7 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `
-                            <a class="btn btn-warning" style="cursor:pointer" href="{{ url('edit_prodi/') }}/${row.id}">
+                            `<a class="btn btn-warning" style="cursor:pointer" href="{{ url('edit_prodi/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
                             <a class="btn btn-danger" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.nama_prodi + `\')" >
                             <i class="bx bx-trash"></i></a>`;

@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             UserRolePermissionSeeder::class,
             PermissionSeeder::class,
             AuditPlanSeeder::class,
-            AuditPlanStatusSeeder::class
+            AuditPlanStatusSeeder::class,
+            NotificationAuditSeeder::class
         ]);
     }
 }

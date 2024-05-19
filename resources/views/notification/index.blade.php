@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Progress Status Plan')
+@section('title', 'Notification Audit Plan')
 
 <div class="container">
 
@@ -8,10 +8,9 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Name</th>
-                <th>Title</th>
-                <th>Remark By LPM</th>
-                <th>Remark By Approver</th>
+                <th>Date</th>
+                <th>Program</th>
+                <th>Auditor</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -31,7 +30,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_status.data') }}",
+                url: "{{ route('notification.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_fakultas = $('#select_fakultas').val()
@@ -50,25 +49,19 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.name;
+                        return row.date;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.title;
+                            return row.program;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.remark_by_lpm;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.remark_by_approver;
+                            return row.auditor;
                     },
                 },
                 {

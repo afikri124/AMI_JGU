@@ -25,10 +25,10 @@ class AuditPlan extends Model
     // Relasi ke model lain (opsional, jika diperlukan)
 
     // Contoh relasi ke model AuditPlanStatus
-    // public function auditPlanStatus()
-    // {
-    //     return $this->belongsTo(AuditPlanStatus::class, 'audit_plan_status_id');
-    // }
+    public function auditPlanStatus()
+    {
+        return $this->belongsTo(AuditPlanStatus::class, 'audit_plan_status_id');
+    }
 
     // // Contoh relasi ke model Auditee
     // public function auditee()

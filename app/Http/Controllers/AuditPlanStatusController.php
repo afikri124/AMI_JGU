@@ -4,82 +4,60 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditPlanStatus;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
-class AuditPlanStatusController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $auditPlanStatuses = AuditPlanStatus::all();
-        return view('audit_status.index', compact('auditPlanStatuses'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'remark_by_lpm' => 'nullable|string',
-            'remark_by_approver' => 'nullable|string',
+class AuditPlanStatusController extends Controller{
+    //
+    public function index(Request $request){
+        if ($request->isMethod('POST')){ $this->validate($request, [
+            'name'    => ['required'],
+            'title'    => ['required'],
+            'remark_by_lpm'    => ['required'],
+            'remark_by_approver'    => ['required'],
         ]);
-
-        $auditPlanStatus = AuditPlanStatus::create($validatedData);
-
-        return response()->json($auditPlanStatus, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\AuditPlanStatus  $auditPlanStatus
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AuditPlanStatus $auditPlanStatus)
-    {
-        return response()->json($auditPlanStatus);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AuditPlanStatus  $auditPlanStatus
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, AuditPlanStatus $auditPlanStatus)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'remark_by_lpm' => 'nullable|string',
-            'remark_by_approver' => 'nullable|string',
+        $new = AuditPlanStatus::create([
+            'name'=> $request->name,
+            'title'=> $request->title,
+            'remark_by_lpm'=> $request->remark_by_lpm,
+            'remark_by_approver'=> $request->remark_by_approver,
         ]);
-
-        $auditPlanStatus->update($validatedData);
-
-        return response()->json($auditPlanStatus);
+        if($new){
+            return redirect()->route('audit_status.index');
+        }
+    }
+        $data = AuditPlanStatus::all();
+        return view("audit_status.index",compact("data"));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\AuditPlanStatus  $auditPlanStatus
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(AuditPlanStatus $auditPlanStatus)
-    {
-        $auditPlanStatus->delete();
+    public function data(Request $request){
+        $data = AuditPlanStatus::select('*')->orderBy("id");
+            return DataTables::of($data)
+                    ->filter(function ($instance) use ($request) {
+                        if (!empty($request->get('search'))) {
+                            $search = $request->get('search');
+                            $instance->where('auditor_id', 'LIKE', "%$search%");
+                        }
+                    })
+                ->make(true);
+    }
 
-        return response()->json(null, 204);
+    public function getData(){
+        $data = AuditPlanStatus::get()->map(function ($audit_status) {
+            return [
+                'name' => $audit_status->name,
+                'title' => $audit_status->title,
+                'remark_by_lpm' => $audit_status->remark_by_lpm,
+                'remark_by_approver' => $audit_status->remark_by_approver,
+                'created_at' => $audit_status->created_at,
+                'updated_at' => $audit_status->updated_at,
+            ];
+        });
+
+        return response()->json($data);
+    }
+
+    public function datatables(){
+        $audit_status = AuditPlanStatus::select('*');
+        return DataTables::of($audit_status)->make(true);
     }
 }

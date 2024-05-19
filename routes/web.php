@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\AuditPlanStatusController;
+use App\Http\Controllers\NotificationAuditController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -41,7 +42,13 @@ Route::group(['prefix' => 'audit_plan'], function () {
 //Audit Plan Status
 Route::group(['prefix' => 'audit_status'], function () {
     Route::get('/',[AuditPlanStatusController::class, 'index'])->name('audit_status.index');
-    });
+    Route::get('/data',[AuditPlanStatusController::class, 'data'])->name('audit_status.data');
+});
+
+Route::group(['prefix' => 'notif_audit'], function () {
+    Route::get('/',[NotificationAuditController::class, 'index'])->name('notification.index');
+    Route::get('/data',[NotificationAuditController::class, 'data'])->name('notification.data');
+});
 
 
 Route::middleware('auth')->group(function () {
