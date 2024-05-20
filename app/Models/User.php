@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'departement_id',
         'username',
         'gender'
     ];
@@ -46,7 +47,7 @@ class User extends Authenticatable
     ];
 
     function image()
-    { 
+    {
       $has_valid_avatar = false;
       if(env('APP_ENV') != 'local'){
         $hash = md5(strtolower(trim($this->email)));
@@ -71,7 +72,7 @@ class User extends Authenticatable
       }
     }
     public function getUserAvatarAttribute()
-    { 
+    {
       if($this->gender == 'F'){
         return asset('assets/img/avatars/user-f.png');
       } else {

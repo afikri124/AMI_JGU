@@ -30,6 +30,11 @@ class AuditPlan extends Model
         return $this->belongsTo(AuditPlanStatus::class, 'audit_plan_status_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     // // Contoh relasi ke model Auditee
     // public function auditee()
     // {

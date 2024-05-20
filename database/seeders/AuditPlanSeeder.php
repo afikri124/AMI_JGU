@@ -14,13 +14,27 @@ class AuditPlanSeeder extends Seeder
      */
         // Data contoh untuk tabel audit_plan
         public function run(): void {
-        AuditPlan::create([
-            'date' => '2024-05-19',
-            'audit_plan_status_id' => 2,
-            'auditee_id' => 3,
-            'location_id' => 4,
-            'auditor_id' => 5,
-            'departement_id' => 6,
-        ]);
+            $data = [
+                [
+                    'date' => '2024-5-14',
+                    'audit_plan_status_id' => 1,
+                    'location_id' => 3,
+                    'user_id' => 4,
+                    'departement_id' => 5,
+                ],
+                [
+                    'date' => '2024-6-15',
+                    'audit_plan_status_id' => 2,
+                    'location_id' => 4,
+                    'user_id' => 5,
+                    'departement_id' => 6,
+                ],
+                // Tambahkan data contoh lain sesuai kebutuhan
+            ];
+
+            // Masukkan data contoh ke tabel audit_plan
+            foreach ($data as $auditPlan) {
+                AuditPlan::create($auditPlan);
+            }
     }
 }

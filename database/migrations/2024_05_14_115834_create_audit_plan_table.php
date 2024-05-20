@@ -17,10 +17,9 @@ class CreateAuditPlanTable extends Migration
             $table->id(); // Primary key, auto-increment
             $table->date('date'); // Tanggal audit plan
             $table->unsignedBigInteger('audit_plan_status_id')->references('id')->on('audit_plan_statuses')->onDelete('cascade');
-            $table->unsignedBigInteger('auditee_id'); // ID auditee
             $table->unsignedBigInteger('location_id'); // ID lokasi
-            $table->unsignedBigInteger('auditor_id'); // ID auditor
             $table->unsignedBigInteger('departement_id'); // ID departemen
+            $table->unsignedBigInteger('user_id'); // ID users
             $table->timestamps(); // Kolom created_at dan updated_at
 
             // Opsional: Menambahkan foreign key constraints jika diperlukan

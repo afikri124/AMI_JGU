@@ -2,6 +2,15 @@
 @section('content')
 @section('title', 'Data Audit Plan')
 
+@section('css')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+@endsection
+
 <div class="container">
     <table class="table" id="datatable">
 
@@ -18,9 +27,7 @@
                 <th>Date</th>
                 <th>Status</th>
                 <th>Auditee</th>
-                <th>Location</th>
                 <th>Auditor</th>
-                <th>Department</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -47,28 +54,43 @@
                                 <strong>{{ $message }}</strong></span>
                                     @enderror
                                         </div></div>
-                                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditee_id" class="form-label" >Select Auditee</label>
-                            <select name="auditee_id" id="auditee_id" class="form-select" required>
-                                <option value="">Select Auditee</option>
-                            </select>
-                        </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="location_id" class="form-label" >Select Location</label>
+                            <label for="location_id" class="form-label" >Location</label>
                             <select name="location_id" id="location_id" class="form-select" required>
                                 <option value="">Select Location</option>
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditor_id" class="form-label" >Select Auditor</label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" required>
-                                <option value="">Select Auditor</option>
+                            <label for="user_id" class="form-label" >Auditee</label>
+                            <select name="user_id" id="user_id" class="form-select" required>
+                                <option value="">Select Auditee</option>
+                                @foreach($users as $role)
+                                    <option value="{{$role->id}}"
+                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                        {{$role->name}}</option>
+                                    @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="departement_id" class="form-label" >Select Department</label>
+                            <label for="user_id" class="form-label">Auditor</label>
+                            <select name="user_id" id="user_id" class="form-select" required>
+                                <option value="">Select Auditor</option>
+                                @foreach($users as $role)
+                                    <option value="{{$role->id}}"
+                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                        {{$role->name}}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-12 fv-plugins-icon-container">
+                            <label for="departement_id" class="form-label" >Department</label>
                             <select name="departement_id" id="departement_id" class="form-select" required>
                                 <option value="">Select Department</option>
+                                @foreach($users as $role)
+                                    <option value="{{$role->id}}"
+                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                        {{$role->departement_id}}</option>
+                                    @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 mt-4">
@@ -78,8 +100,19 @@
                         </div>
                     </div>
     @endsection
-    
-    @section('script')
+
+
+@section('script')
+<script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables-bootstrap5.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables.responsive.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/responsive.bootstrap5.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
+<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
@@ -122,25 +155,13 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.auditee_id;
+                            return row.user_id;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.location_id;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.auditor_id;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.departement_id;
+                            return row.user_id;
                     },
                 },
                 {

@@ -30,10 +30,11 @@ class UserController extends Controller
         $this->authorize('setting/manage_account/users.read');
         if ($request->isMethod('post')) { //jika menerima method post dari form
             //validasi input form
-            $this->validate($request, [ 
+            $this->validate($request, [
                 'username'=> ['required', 'string', 'max:255', Rule::unique('users')],
                 'name'=> ['required', 'string', 'max:255'],
                 'email'=> ['required', 'email', 'max:255', Rule::unique('users')],
+                'departement_id'=> ['required'],
                 'gender'=> ['required'],
                 'new_password' => ['required', 'string', 'min:8'],
                 'confirm_password' => ['required', 'string', 'min:8','same:new_password'],
@@ -44,13 +45,14 @@ class UserController extends Controller
                 'username' => $request->username,
                 'name' => $request->name,
                 'email' => $request->email,
+                'departement_id' => $request->departement_id,
                 'gender' => $request->gender,
                 'password'=> Hash::make($request->new_password),
                 'email_verified_at' => Carbon::now(),
                 'created_at' => Carbon::now()
             ]);
             //memeberikan roles ke user
-            $data->assignRole($request->roles); 
+            $data->assignRole($request->roles);
             //kembali ke halaman index
             return redirect()->route('users.index')->with('msg','User "'.$request->name.'" successfully added!');
         }
@@ -106,15 +108,16 @@ class UserController extends Controller
         } catch (DecryptException $e) {
             return redirect()->route('users.index');
         }
-        //variabel digunakan untuk pilihan 
+        //variabel digunakan untuk pilihan
         $roles   = Role::orderBy('name')->get();
         $permissions   = Permission::orderBy('name')->get();
         //jika menerima method post dari form
         if ($request->isMethod('post')) {
-            $this->validate($request, [ 
+            $this->validate($request, [
                 'name' => ['required', 'string'],
                 'username'=> ['required', 'string', 'max:255', Rule::unique('users')->ignore($id, 'id')],
                 'email'=> ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id, 'id')],
+                'departement_id' => ['required', 'string'],
                 'gender' => ['required', 'string'],
             ]);
             //mengubah data user di database
@@ -122,6 +125,7 @@ class UserController extends Controller
                 'name'=> $request->name,
                 'username'=> $request->username,
                 'email'=> $request->email,
+                'departement_id'=> $request->departement_id,
                 'gender' => $request->gender,
                 'updated_at' => Carbon::now()
             ]);
@@ -130,7 +134,7 @@ class UserController extends Controller
                 $attach = User::find($id)->syncRoles($request->roles);
                 //sync ulang direct permissions ke user
                 $set_direct_permissions = User::find($id)->syncPermissions($request->permissions);
-            } 
+            }
             //mencatat perubahan di log
             Log::info(Auth::user()->name." update user profile #".$id.", ".$request->name);
             //kembali ke halaman edit dengan pesan notifikasi
