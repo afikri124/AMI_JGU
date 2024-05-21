@@ -93,11 +93,11 @@
                         id="form-add-new-record" method="POST" action="">
                         @csrf
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Username</label>
+                            <label class="form-label" for="basicDate">Name</label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                    name="username" id="nik" placeholder="Username" value="{{ old('username') }}">
-                                @error('username')
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" placeholder="Name" value="{{ old('name') }}">
+                                @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -105,11 +105,11 @@
                             </div>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Name</label>
+                            <label class="form-label" for="basicDate">Username</label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                                    placeholder="Name" value="{{ old('name') }}">
-                                @error('name')
+                                <input type="text" class="form-control @error('username') is-invalid @enderror" username="username"
+                                    placeholder="Username" value="{{ old('username') }}">
+                                @error('username')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

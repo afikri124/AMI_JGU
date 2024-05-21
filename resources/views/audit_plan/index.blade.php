@@ -57,7 +57,19 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location_id" class="form-label" >Location</label>
                             <select name="location_id" id="location_id" class="form-select" required>
-                                <option value="">Select Location</option>
+                                <option value="Online" {{ (isset($data->location_id) && "Online" == $data->location_id ? "selected" : "") }}
+                                    {{ ("Online" == old('location_id') ? "selected" : "") }}>Select Location
+                                </option>
+                                @foreach($locations as $d)
+                                <option value="{{ $d->title }}"
+                                    {{ (isset($data->location_id) && $d->title == $data->location_id ? "selected" : "") }}
+                                    {{ ($d->title == old('location_id') ? "selected" : "") }}>
+                                    {{ $d->title }}
+                                </option>
+                                @endforeach
+                                <option value="Others" {{ (isset($data->location_id) && "Others" == $data->location_id ? "selected" : "") }}
+                                    {{ ("Others" == old('location_id') ? "selected" : "") }}>Others
+                                </option>
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">

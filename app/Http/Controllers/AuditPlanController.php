@@ -6,11 +6,13 @@ use App\Models\AuditPlan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
+use App\Models\Location;
 
 class AuditPlanController extends Controller{
 
     //
     public function index(Request $request){
+        $data = new \stdClass();
         if ($request->isMethod('POST')) { $this->validate($request, [
             'date'    => ['required'],
             'audit_plan_status_id' => ['required'],
@@ -27,13 +29,13 @@ class AuditPlanController extends Controller{
         ]);
         if($data){
             $data->assignRole($request->user);
-
             return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
+            $locations = Location::orderBy('title')->get();
             $users = User::where('name',"!=",'admin')->orderBy('name')->get();
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("users"));
+            return view("audit_plan.index", compact("users", "locations", "data"));
        }
 
     // public function edit($id){

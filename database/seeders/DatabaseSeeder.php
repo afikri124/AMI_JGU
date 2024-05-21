@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             AuditPlanSeeder::class,
             AuditPlanStatusSeeder::class,
-            NotificationAuditSeeder::class
+            NotificationAuditSeeder::class,
+            LocationSeeder::class
         ]);
     }
 }
