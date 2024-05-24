@@ -34,9 +34,10 @@ Route::get('/dashboard', function () {
 Route::group(['prefix' => 'audit_plan'], function () {
     Route::any('/',[AuditPlanController::class, 'index'])->name('audit_plan.index');
     Route::get('/data',[AuditPlanController::class, 'data'])->name('audit_plan.data');
-    Route::any('/edit/{id}', [AuditPlanController::class, 'edit'])->name('audit_plan.edit');
     Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
 });
+Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
+Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
 //Audit Plan Status
 Route::group(['prefix' => 'audit_status'], function () {

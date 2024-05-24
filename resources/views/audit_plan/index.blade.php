@@ -13,7 +13,6 @@
 
 <div class="container">
     <table class="table" id="datatable">
-
     <div class="offset-md-1 text-md-end text-center pt-3 pt-md-0">
         <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
@@ -26,8 +25,10 @@
                 <th>No</th>
                 <th>Date</th>
                 <th>Status</th>
+                <th>Location</th>
                 <th>Auditee</th>
                 <th>Auditor</th>
+                <th>Department</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -56,6 +57,17 @@
                                 @enderror
                                     </div>
                                         </div>
+                                        <div class="col-sm-12 fv-plugins-icon-container">
+                            <label for="audit_plan_status_id" class="form-label" >Status</label>
+                            <select name="audit_plan_status_id" id="audit_plan_status_id" class="form-select" required>
+                                <option value="">Select Status</option>
+                                @foreach($auditstatus as $role)
+                                    <option value="{{$role->id}}"
+                                        {{ (in_array($role->id, old('auditstatus') ?? []) ? "selected": "") }}>
+                                        {{$role->title}}</option>
+                                    @endforeach
+                            </select>
+                        </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location_id" class="form-label" >Location</label>
                             <select name="location_id" id="location_id" class="form-select" required>
@@ -141,7 +153,7 @@
                 url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_auditor_id = $('#select_auditor_id').val()
+                    d.select_user_id = $('#select_user_id').val()
                 },
             },
             columnDefs: [{
@@ -165,7 +177,13 @@
 
                             return row.audit_plan_status_id;
                     },
+                },{
+                    render: function (data, type, row, meta) {
+
+                            return row.location_id;
+                    },
                 },
+
                 {
                     render: function (data, type, row, meta) {
 
@@ -176,12 +194,18 @@
                     render: function (data, type, row, meta) {
 
                             return row.user_id;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.departement_id;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="btn btn-success btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
+                            `<a class="btn btn-warning btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
                             <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.user_id + `\')" >
                             <i class="bx bx-trash"></i></a>`;

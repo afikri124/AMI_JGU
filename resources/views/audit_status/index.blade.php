@@ -92,10 +92,9 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="btn btn-warning" style="cursor:pointer" href="{{ url('edit_prodi/') }}/${row.id}">
-                            <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-danger" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.nama_prodi + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                            `
+                            <a class="btn btn-dark" btn-sm px-2" (\'` + row.id + `\',\'` + row.nama_prodi + `\')" >
+                            <i class="bx bx-upload"></i></a>`;
                         return html;
                     },
                     "orderable": false,

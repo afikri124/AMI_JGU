@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditPlan;
+use App\Models\AuditPlanStatus;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
@@ -25,38 +26,43 @@ class AuditPlanController extends Controller{
             'departement_id'=> $request->departement_id,
         ]);
         if($data){
-            $data->assignRole($request->user);
             return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
+            $auditstatus = AuditPlanStatus::orderBy('title')->get();
             $locations = Location::orderBy('title')->get();
             $users = User::where('name',"!=",'admin')->orderBy('name')->get();
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("users", "locations"));
+            return view("audit_plan.index", compact("users", "auditstatus","locations"));
        }
 
-    // public function edit($id){
-    //     $data = AuditPlan::findOrFail($id);
-    //     $fakultas = AuditPlan::all();
-    //     return view('prodi.edit_prodi', compact('data', 'fakultas'));
-    // }
+    public function edit($id){
+        $data = AuditPlan::findOrFail($id);
+        $auditstatus = AuditPlanStatus::all();
+        $locations = Location::all();
+        $users = User::all();
+        return view('audit_plan.edit_audit', compact('data', 'auditstatus', 'locations', 'users'));
+    }
 
-    // public function update(Request $request, $id){
-    //     $request->validate([
-    //         'kode_prodi' => 'required',
-    //         'nama_prodi' => 'required',
-    //         'fakultas_id' => 'required',
-    //     ]);
+        public function update(Request $request, $id){
+        $request->validate([
+            'date'    => 'required',
+            'audit_plan_status_id' => 'required',
+            'location_id'    => 'required',
+            'user_id'    => 'required',
+            'departement_id'   => 'required',
+        ]);
 
-    //     $data = AuditPlan::findOrFail($id);
-    //     $data->update([
-    //         'kode_prodi' => $request->kode_prodi,
-    //         'nama_prodi' => $request->nama_prodi,
-    //         'fakultas_id' => $request->fakultas_id,
-    //     ]);
-
-    //     return redirect()->route('prodi.index')->with('success', 'prodi berhasil diperbarui.');
-    // }
+        $data = AuditPlan::findOrFail($id);
+        $data->update([
+            'date'=> $request->date,
+            'audit_plan_status_id'=> $request->audit_plan_status_id,
+            'location_id'=> $request->location_id,
+            'user_id'=> $request->user_id,
+            'departement_id'=> $request->departement_id,
+        ]);
+        return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
+    }
 
     public function delete(Request $request){
         $data = AuditPlan::find($request->id);
@@ -89,15 +95,15 @@ class AuditPlanController extends Controller{
 
 //Json
     public function getData(){
-        $data = AuditPlan::with('audit_plan_status_id')->get()->map(function ($auditplan) {
+        $data = AuditPlan::with('user_id')->get()->map(function ($data) {
             return [
-                'date' => $auditplan->date,
-                'audit_plan_status_id' => $auditplan->audit_plan_status_id->title,
-                'location_id' => $auditplan->location_id,
-                'user_id' => $auditplan->user_id,
-                'departement_id' => $auditplan->departement_id,
-                'created_at' => $auditplan->created_at,
-                'updated_at' => $auditplan->updated_at,
+                'date' => $data->date,
+                'audit_plan_status_id' => $data->audit_plan_status_id->title,
+                'location_id' => $data->location_id,
+                'user_id' => $data->user_id,
+                'departement_id' => $data->departement_id,
+                'created_at' => $data->created_at,
+                'updated_at' => $data->updated_at,
             ];
         });
 

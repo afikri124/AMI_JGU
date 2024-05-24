@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Location;
-use App\Http\Requests\StoreLocationRequest;
-use App\Http\Requests\UpdateLocationRequest;
+use App\Models\AuditStandard;
+use App\Http\Requests\StoreAuditStandardRequest;
+use App\Http\Requests\UpdateAuditStandardRequest;
 
-class LocationController extends Controller
+class AuditStandardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class LocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLocationRequest $request)
+    public function store(StoreAuditStandardRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Location $location)
+    public function show(AuditStandard $auditStandard)
     {
         //
     }
@@ -43,7 +43,7 @@ class LocationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Location $location)
+    public function edit(AuditStandard $auditStandard)
     {
         //
     }
@@ -51,7 +51,7 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLocationRequest $request, Location $location)
+    public function update(UpdateAuditStandardRequest $request, AuditStandard $auditStandard)
     {
         //
     }
@@ -59,7 +59,7 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Location $location)
+    public function destroy(AuditStandard $auditStandard)
     {
         //
     }

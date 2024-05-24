@@ -58,6 +58,10 @@
                     <a href="" class="menu-link menu-toggle">
                         <div>Manage Account</div>
                     </a>
+                    <li class="menu-item {{ request()->segment(2) == 'standard_audit' ? 'open active' : '' }}">
+                    <a href="" class="menu-link menu-toggle">
+                        <div>Standard Audit</div>
+                    </a>
                     <ul class="menu-sub">
                         @can('setting/manage_account/users.read')
                         <li class="menu-item {{ request()->segment(3) == 'users' ? 'active' : '' }}">

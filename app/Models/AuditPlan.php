@@ -16,9 +16,8 @@ class AuditPlan extends Model
     protected $fillable = [
         'date',
         'audit_plan_status_id',
-        'auditee_id',
         'location_id',
-        'auditor_id',
+        'user_id',
         'departement_id'
     ];
 
