@@ -107,7 +107,7 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Username</label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('username') is-invalid @enderror" username="username"
+                                <input type="text" class="form-control @error('username') is-invalid @enderror" name="username"
                                     placeholder="Username" value="{{ old('username') }}">
                                 @error('username')
                                 <span class="invalid-feedback" role="alert">

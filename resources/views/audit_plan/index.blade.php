@@ -39,21 +39,23 @@
         <div class="offcanvas-header">
             <h5 id="offcanvasEndLabel" class="offcanvas-title">Add Audit Plan</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body my-auto mx-0 flex-grow-1">
-                    <form method="POST" action="">
-                    @csrf
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Date</label>
-                                <div class="input-group input-group-merge has-validation">
-                                    <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                                        placeholder="Masukkan nama Date" value="{{ old('date') }}">
-                                            @error('date')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong></span>
-                                    @enderror
-                                        </div></div>
+                    aria-label="Close">
+                </button>
+            </div>
+            <div class="offcanvas-body my-auto mx-0 flex-grow-1">
+                <form method="POST" action="">
+                @csrf
+                    <div class="col-sm-12 fv-plugins-icon-container">
+                        <label class="form-label" for="basicDate">Date</label>
+                            <div class="input-group input-group-merge has-validation">
+                                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
+                                    placeholder="Masukkan Date" value="{{ old('date') }}">
+                                        @error('date')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong></span>
+                                @enderror
+                                    </div>
+                                        </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location_id" class="form-label" >Location</label>
                             <select name="location_id" id="location_id" class="form-select" required>
@@ -179,9 +181,9 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="btn btn-warning" style="cursor:pointer" href="{{ url('edit_prodi/') }}/${row.id}">
+                            `<a class="btn btn-success btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-danger" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.nama_prodi + `\')" >
+                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.user_id + `\')" >
                             <i class="bx bx-trash"></i></a>`;
                         return html;
                     },
@@ -193,39 +195,39 @@
         });
     });
 
-    // function DeleteId(id, data) {
-    //     swal({
-    //             title: "Apa kamu yakin?",
-    //             text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
-    //             icon: "warning",
-    //             buttons: true,
-    //             dangerMode: true,
-    //         })
-    //         .then((willDelete) => {
-    //             if (willDelete) {
-    //                 $.ajax({
-    //                     url: "",
-    //                     type: "DELETE",
-    //                     data: {
-    //                         "id": id,
-    //                         "_token": $("meta[name='csrf-token']").attr("content"),
-    //                     },
-    //                     success: function (data) {
-    //                         if (data['success']) {
-    //                             swal(data['message'], {
-    //                                 icon: "success",
-    //                             });
-    //                             $('#datatable').DataTable().ajax.reload();
-    //                         } else {
-    //                             swal(data['message'], {
-    //                                 icon: "error",
-    //                             });
-    //                         }
-    //                     }
-    //                 })
-    //             }
-    //         })
-    // }
+    function DeleteId(id, data) {
+        swal({
+                title: "Apa kamu yakin?",
+                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('audit_plan.delete') }}",
+                        type: "DELETE",
+                        data: {
+                            "id": id,
+                            "_token": $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function (data) {
+                            if (data['success']) {
+                                swal(data['message'], {
+                                    icon: "success",
+                                });
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                swal(data['message'], {
+                                    icon: "error",
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+    }
 
 </script>
 

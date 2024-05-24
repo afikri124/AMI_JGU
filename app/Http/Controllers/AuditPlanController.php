@@ -9,10 +9,7 @@ use App\Models\User;
 use App\Models\Location;
 
 class AuditPlanController extends Controller{
-
-    //
     public function index(Request $request){
-        $data = new \stdClass();
         if ($request->isMethod('POST')) { $this->validate($request, [
             'date'    => ['required'],
             'audit_plan_status_id' => ['required'],
@@ -35,7 +32,7 @@ class AuditPlanController extends Controller{
             $locations = Location::orderBy('title')->get();
             $users = User::where('name',"!=",'admin')->orderBy('name')->get();
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("users", "locations", "data"));
+            return view("audit_plan.index", compact("users", "locations"));
        }
 
     // public function edit($id){
@@ -61,21 +58,21 @@ class AuditPlanController extends Controller{
     //     return redirect()->route('prodi.index')->with('success', 'prodi berhasil diperbarui.');
     // }
 
-    // public function delete(Request $request){
-    //     $data = AuditPlan::find($request->id);
-    //     if($data){
-    //         $data->delete();
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Berhasil dihapus!'
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Gagal dihapus!'
-    //         ]);
-    //     }
-    // }
+    public function delete(Request $request){
+        $data = AuditPlan::find($request->id);
+        if($data){
+            $data->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal dihapus!'
+            ]);
+        }
+    }
     public function data(Request $request){
         $data = AuditPlan::select('*')->orderBy("id");
             return DataTables::of($data)
