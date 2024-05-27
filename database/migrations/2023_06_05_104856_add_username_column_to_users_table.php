@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('departement_id')->nullable();
             $table->string('username')->unique()->after('name')->nullable();
             $table->string('google_id')->unique()->nullable();
             $table->char('gender')->nullable();
@@ -29,7 +28,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('departement_id');
             $table->dropColumn('username');
             $table->dropColumn('google_id');
             $table->dropColumn('gender');

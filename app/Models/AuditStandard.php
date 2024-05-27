@@ -11,6 +11,11 @@ class AuditStandard extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'name',
+        'id', 'title', 'description', 'is_required','status'
     ];
+
+    // public function criterias()
+    // {
+    //     return $this->hasMany(Criteria::class);
+    // }
 }

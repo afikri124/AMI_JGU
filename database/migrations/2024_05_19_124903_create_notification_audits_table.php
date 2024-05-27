@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('notification_audits', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->date('date');
-            $table->string('program');
-            $table->string('auditor');
+            $table->string('file_path')->nullable();
+            $table->text('description');
             $table->timestamps();
         });
     }

@@ -23,12 +23,10 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Lecture</th>
                 <th>Date</th>
                 <th>Status</th>
-                <th>Location</th>
-                <th>Auditee</th>
                 <th>Auditor</th>
-                <th>Department</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -46,6 +44,17 @@
             <div class="offcanvas-body my-auto mx-0 flex-grow-1">
                 <form method="POST" action="">
                 @csrf
+                <div class="col-sm-12 fv-plugins-icon-container">
+                            <label for="user_id" class="form-label" >Lecture</label>
+                            <select name="user_id" id="user_id" class="form-select" required>
+                                <option value="">Select Lecture</option>
+                                @foreach($users as $role)
+                                    <option value="{{$role->id}}"
+                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                        {{$role->name}}</option>
+                                    @endforeach
+                            </select>
+                        </div>
                     <div class="col-sm-12 fv-plugins-icon-container">
                         <label class="form-label" for="basicDate">Date</label>
                             <div class="input-group input-group-merge has-validation">
@@ -57,17 +66,6 @@
                                 @enderror
                                     </div>
                                         </div>
-                                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="audit_plan_status_id" class="form-label" >Status</label>
-                            <select name="audit_plan_status_id" id="audit_plan_status_id" class="form-select" required>
-                                <option value="">Select Status</option>
-                                @foreach($auditstatus as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('auditstatus') ?? []) ? "selected": "") }}>
-                                        {{$role->title}}</option>
-                                    @endforeach
-                            </select>
-                        </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location_id" class="form-label" >Location</label>
                             <select name="location_id" id="location_id" class="form-select" required>
@@ -87,24 +85,17 @@
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="user_id" class="form-label" >Auditee</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
-                                <option value="">Select Auditee</option>
-                                @foreach($users as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}</option>
-                                    @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="user_id" class="form-label">Auditor</label>
                             <select name="user_id" id="user_id" class="form-select" required>
                                 <option value="">Select Auditor</option>
                                 @foreach($users as $role)
                                     <option value="{{$role->id}}"
                                         {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}</option>
+                                        {{$role->name}} (
+                                            @foreach ($role->roles as $x)
+                                                {{ $x->name}}
+                                            @endforeach
+                                        )</option>
                                     @endforeach
                             </select>
                         </div>
@@ -169,6 +160,12 @@
                 },
                 {
                     render: function (data, type, row, meta) {
+
+                            return row.user_id;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
                         return row.date;
                     },
                 },
@@ -177,18 +174,6 @@
 
                             return row.audit_plan_status_id;
                     },
-                },{
-                    render: function (data, type, row, meta) {
-
-                            return row.location_id;
-                    },
-                },
-
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.user_id;
-                    },
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -196,12 +181,7 @@
                             return row.user_id;
                     },
                 },
-                {
-                    render: function (data, type, row, meta) {
 
-                            return row.departement_id;
-                    },
-                },
                 {
                     render: function (data, type, row, meta) {
                         var html =

@@ -28,16 +28,16 @@
                 <div data-i18n="Dashboards">Audit Plans</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'audit_status' ? 'active' : '' }}">
-            <a href="{{ route('audit_status.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Dashboards">Status Plans</div>
-            </a>
-        </li>
         <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
             <a href="{{ route('notification.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
+                <div data-i18n="Dashboards">Status Audit</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->segment(1) == 'audit_status' ? 'active' : '' }}">
+            <a href="{{ route('audit_status.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-bell"></i>
-                <div data-i18n="Dashboards">Notification</div>
+                <div data-i18n="Dashboards">History Audit</div>
             </a>
         </li>
 
@@ -80,6 +80,18 @@
                             </a>
                         </li>
                         @endcan
+                    </ul>
+                </li>
+                <li class="menu-item {{ request()->segment(2) == 'standard_audit' ? 'active' : '' }}">
+                    <a href="" class="menu-link  menu-toggle">
+                        <div>Manage Standard</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->segment(3) == 'standard' ? 'active' : '' }}">
+                            <a href="{{ route('standard_audit.index') }}" class="menu-link">
+                                <div>Standard Audit</div>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 @endcan

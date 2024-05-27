@@ -10,16 +10,15 @@ class AuditPlanStatusController extends Controller{
     //
     public function index(Request $request){
         if ($request->isMethod('POST')){ $this->validate($request, [
-            'name'    => ['required'],
-            'title'    => ['required'],
-            'remark_by_lpm'    => ['required'],
-            'remark_by_approver'    => ['required'],
+            'user_id'    => ['required'],
+            'date'    => ['required'],
+            'user_id'    => ['required'],
         ]);
         $new = AuditPlanStatus::create([
-            'name'=> $request->name,
-            'title'=> $request->title,
-            'remark_by_lpm'=> $request->remark_by_lpm,
-            'remark_by_approver'=> $request->remark_by_approver,
+            'user_id'=> $request->user_id,
+            'audit_plan_status_id'=> "Pending",
+            'date'=> $request->date,
+            'user_id'=> $request->user_id,
         ]);
         if($new){
             return redirect()->route('audit_status.index');
@@ -27,6 +26,26 @@ class AuditPlanStatusController extends Controller{
     }
         $data = AuditPlanStatus::all();
         return view("audit_status.index",compact("data"));
+    }
+
+    public function update(Request $request, $id){
+        $request->validate([
+            'date'    => 'required',
+            'audit_plan_status_id' => 'required',
+            'location_id'    => 'required',
+            'user_id'    => 'required',
+            'departement_id'   => 'required',
+        ]);
+
+        $data = AuditPlanStatus::findOrFail($id);
+        $data->update([
+            'date'=> $request->date,
+            'audit_plan_status_id'=> "Approver",
+            'location_id'=> $request->location_id,
+            'user_id'=> $request->user_id,
+            'departement_id'=> $request->departement_id,
+        ]);
+        return redirect()->route('audit_status.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
 
     public function data(Request $request){
@@ -44,10 +63,9 @@ class AuditPlanStatusController extends Controller{
     public function getData(){
         $data = AuditPlanStatus::get()->map(function ($audit_status) {
             return [
-                'name' => $audit_status->name,
-                'title' => $audit_status->title,
-                'remark_by_lpm' => $audit_status->remark_by_lpm,
-                'remark_by_approver' => $audit_status->remark_by_approver,
+                'user_id' => $audit_status->user_id,
+                'date' => $audit_status->date,
+                'user_id' => $audit_status->user_id,
                 'created_at' => $audit_status->created_at,
                 'updated_at' => $audit_status->updated_at,
             ];

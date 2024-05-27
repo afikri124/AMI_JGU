@@ -13,15 +13,6 @@
 
 @endsection
 
-@section('breadcrumb-title')
-<h3>@yield('title')</h3>
-@endsection
-
-@section('breadcrumb-items')
-<li class="breadcrumb-item">Settings</li>
-<li class="breadcrumb-item active">@yield('title')</li>
-@endsection
-
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -36,7 +27,7 @@
                         </select>
                     </div>
                     <div class="col-md-9 d-flex justify-content-center justify-content-md-end">
-                        <a class="btn btn-primary btn-block btn-mail" title="Add new" href="{{ route('settings.category_add')}}">
+                        <a class="btn btn-primary btn-block btn-mail" title="Add new" href="{{ route('standard_audit.add_qst')}}">
                             <i data-feather="plus"></i>New
                         </a>
                     </div>
@@ -52,9 +43,7 @@
                                 <tr>
                                     <th scope="col" width="60px" class="text-center">Code ID</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col" width="50px">Status</th>
-                                    <th scope="col" width="50px">Required</th>
+                                    <th scope="col">Standard</th>
                                     <th scope="col" width="65px">Action</th>
                                 </tr>
                             </thead>
@@ -99,7 +88,7 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('api.categories') }}",
+                url: "standard_audit.index",
                 data: function (d) {
                     d.status = $('#Select_2').val(),
                     d.search = $('input[type="search"]').val()
@@ -175,7 +164,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('settings.category_delete') }}",
+                        url: "",
                         type: "DELETE",
                         data: {
                             "id": id,

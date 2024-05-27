@@ -13,14 +13,14 @@ class AuditPlanController extends Controller{
     public function index(Request $request){
         if ($request->isMethod('POST')) { $this->validate($request, [
             'date'    => ['required'],
-            'audit_plan_status_id' => ['required'],
+            // 'audit_plan_status_id' => ['required'],
             'location_id'    => ['required'],
             'user_id'    => ['required'],
             'departement_id'   => ['required'],
         ]);
         $data = AuditPlan::create([
             'date'=> $request->date,
-            'audit_plan_status_id'=> $request->audit_plan_status_id,
+            'audit_plan_status_id'=> "Pending", //status pending
             'location_id'=> $request->location_id,
             'user_id'=> $request->user_id,
             'departement_id'=> $request->departement_id,
@@ -28,10 +28,14 @@ class AuditPlanController extends Controller{
         if($data){
             return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
+            return redirect()->route('audit_status.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
         }
             $auditstatus = AuditPlanStatus::orderBy('title')->get();
             $locations = Location::orderBy('title')->get();
-            $users = User::where('name',"!=",'admin')->orderBy('name')->get();
+            $users = User::with(['roles' => function ($query) {
+                $query->select( 'id','name' );
+            }])->where('name',"!=",'admin')->orderBy('name')->get();
+            // dd($users);
             $data = AuditPlan::all();
             return view("audit_plan.index", compact("users", "auditstatus","locations"));
        }
@@ -61,7 +65,7 @@ class AuditPlanController extends Controller{
             'user_id'=> $request->user_id,
             'departement_id'=> $request->departement_id,
         ]);
-        return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
+        return redirect()->route('audit_status.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
 
     public function delete(Request $request){

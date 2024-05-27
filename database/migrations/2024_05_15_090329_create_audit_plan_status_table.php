@@ -15,9 +15,8 @@ class CreateAuditPlanStatusTable extends Migration
     {
         Schema::create('audit_plan_status', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('title');
-            $table->text('remark_by_lpm')->nullable();
+            $table->string('user_id');
+            $table->string('date');
             $table->text('remark_by_approver')->nullable();
             $table->timestamps();
         });

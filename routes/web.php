@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\AuditPlanStatusController;
 use App\Http\Controllers\NotificationAuditController;
+use App\Http\Controllers\AuditStandardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -46,8 +47,11 @@ Route::group(['prefix' => 'audit_status'], function () {
 });
 
 Route::group(['prefix' => 'notif_audit'], function () {
-    Route::get('/',[NotificationAuditController::class, 'index'])->name('notification.index');
-    Route::get('/data',[NotificationAuditController::class, 'data'])->name('notification.data');
+    Route::any('/', [NotificationAuditController::class, 'index'])->name('notification.index')->middleware('auth');
+    Route::get('/data', [NotificationAuditController::class, 'data'])->name('notification.data');
+    Route::delete('/delete', [NotificationAuditController::class, 'delete'])->name('notification.delete');
+    Route::get('/edit/{id}', [NotificationAuditController::class, 'edit'])->name('notification.edit');
+    Route::put('/update/{id}', [NotificationAuditController::class, 'update'])->name('notification.update');
 });
 
 
@@ -81,6 +85,10 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::get('/view/{id}/users', [PermissionController::class, 'view_users_data'])->name('permissions.view_users_data');
             Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
         });
+    });
+    Route::group(['prefix' => 'standard_audit'], function () {
+        Route::get('/',[AuditStandardController::class, 'index'])->name('standard_audit.index');
+        Route::any('/add_qst',[AuditStandardController::class, 'add_qst'])->name('standard_audit.add_qst');
     });
 });
 

@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('audit_standards', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->uuid('id')->primary();
+            $table->string('title');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

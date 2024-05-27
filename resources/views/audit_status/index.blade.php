@@ -16,10 +16,10 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Name</th>
-                <th>Title</th>
-                <th>Remark By LPM</th>
-                <th>Remark By Approver</th>
+                <th>Lecture</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Auditor</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -68,25 +68,25 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.name;
+                        return row.user_id;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.title;
+                            return row.audit_plan_status_id;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.remark_by_lpm;
+                            return row.date;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.remark_by_approver;
+                            return row.user_id;
                     },
                 },
                 {
