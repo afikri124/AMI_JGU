@@ -17,12 +17,12 @@ class NotificationAuditController extends Controller
         if ($request->isMethod('POST')){ $this->validate($request, [
             'date'    => ['required'],
             'program'    => ['required'],
-            'auditor_id'    => ['required'],
+            'auditor'    => ['required'],
         ]);
         $new = NotificationAudit::create([
             'date'=> $request->date,
             'program'=> $request->program,
-            'auditor_id'=> $request->auditor_id,
+            'auditor'=> $request->auditor,
         ]);
         if($new){
             return redirect()->route('notification.index');
@@ -32,6 +32,35 @@ class NotificationAuditController extends Controller
         return view("notification.index",compact("data"));
     }
 
+    public function data(Request $request){
+        $data = NotificationAudit::select('*')->orderBy("id");
+            return DataTables::of($data)
+                    ->filter(function ($instance) use ($request) {
+                        if (!empty($request->get('search'))) {
+                            $search = $request->get('search');
+                            $instance->where('program', 'LIKE', "%$search%");
+                        }
+                    })
+                ->make(true);
+    }
+
+    public function getData(){
+        $data = NotificationAudit::get()->map(function ($notificationaudit) {
+            return [
+                'date' => $notificationaudit->date,
+                'program' => $notificationaudit->program,
+                'auditor' => $notificationaudit->auditor,
+                'created_at' => $notificationaudit->created_at,
+                'updated_at' => $notificationaudit->updated_at,
+            ];
+        });
+
+        return response()->json($data);
+    }
+    public function datatables(){
+        $notificationaudit = NotificationAudit::select('*');
+        return DataTables::of($notificationaudit)->make(true);
+    }
 
     /**
      * Show the form for creating a new resource.

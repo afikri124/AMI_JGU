@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Notification Audit Plan')
+@section('title', 'Announcement Audit Plan')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -12,13 +12,12 @@
 @endsection
 
 <div class="container">
-
     <table class="table" id="datatable">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Date</th>
-                <th>Progrm</th>
+                <th>Program</th>
                 <th>Auditor</th>
                 <th>Action</th>
             </tr>
@@ -87,10 +86,10 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="btn btn-warning" style="cursor:pointer" href="{{ url('edit_prodi/') }}/${row.id}">
-                            <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-danger" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.nama_prodi + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                            `<a class="btn btn-success btn-sm px-2" href="{{ url('observations/` +
+                            row.link + `') }}"><i class="bx bx-tv"></i></a>
+                            <a class="btn btn-dark btn-sm px-2" href="{{ url('observations/` +
+                            row.link + `') }}"><i class="bx bx-upload"></i></a>`;
                         return html;
                     },
                     "orderable": false,

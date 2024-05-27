@@ -92,9 +92,10 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `
-                            <a class="btn btn-dark" btn-sm px-2" (\'` + row.id + `\',\'` + row.nama_prodi + `\')" >
-                            <i class="bx bx-upload"></i></a>`;
+                            `<a class="btn btn-success btn-sm px-2" href="{{ url('observations/` +
+                            row.link + `') }}"><i class="bx bx-tv"></i></a>
+                            <a class="btn btn-dark btn-sm px-2" href="{{ url('observations/` +
+                            row.link + `') }}"><i class="bx bx-upload"></i></a>`;
                         return html;
                     },
                     "orderable": false,

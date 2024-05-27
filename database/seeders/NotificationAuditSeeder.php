@@ -13,11 +13,18 @@ class NotificationAuditSeeder extends Seeder
      */
     public function run() {
         // Buat beberapa data contoh
-            NotificationAudit::create(
+        $data = [
             [
-                'date' => '2024-05-19',
-                'program' => 'Pembiayaan Mahasiswa',
-                'auditor' => 'Arisa',
-            ]);
+                'date' => '2024-5-14',
+                'program' => 'Pembiayaan Mahasisa JGU',
+                'auditor' => 'Aria'
+            ],
+            // Tambahkan data contoh lain sesuai kebutuhan
+        ];
+
+        // Masukkan data contoh ke tabel audit_plan
+        foreach ($data as $notificationaudit) {
+            NotificationAudit::create($notificationaudit);
+        }
     }
 }
