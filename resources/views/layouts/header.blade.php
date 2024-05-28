@@ -45,7 +45,7 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="" alt class="w-40 h-40 rounded-circle"
+                        <img src="{{ Auth::user()->image() }}" alt class="w-40 h-40 rounded-circle"
                             style="object-fit: cover;">
                     </div>
                 </a>
@@ -55,22 +55,29 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="" class="w-40 h-40 rounded-circle"
+                                        <img src="{{ Auth::user()->image() }}" class="w-40 h-40 rounded-circle"
                                             style="object-fit: cover;">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block"></span>
-                                    <small class="text-muted"></small>
+                                    <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                                    <small class="text-muted">{{ Auth::user()->email }}</small>
                                 </div>
                             </div>
                         </a>
                     </li>
                     <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName()=='profile.edit' ? 'active' : '' }}"
-                            href="{{ route('profile.edit') }}">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
+                            href="{{ route('profile.index') }}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.edit' ? 'active' : '' }}"
+                            href="{{ route('profile.edit') }}">
+                            <i class="bx bx-cog  me-2"></i>
+                            <span class="align-middle">Settings</span>
                         </a>
                     </li>
                     <li>
@@ -83,7 +90,8 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
                             <i class="bx bx-power-off me-2"></i>
                             <span class="align-middle">Logout</span>

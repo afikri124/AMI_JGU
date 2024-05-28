@@ -93,6 +93,13 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->segment(3) == 'standard' ? 'active' : '' }}">
+                            <a href="{{ route('departement.index') }}" class="menu-link">
+                                <div>Departement</div>
+                            </a>
+                        </li>_
+                    </ul>
                 </li>
                 @endcan
             </ul>

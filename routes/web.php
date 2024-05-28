@@ -4,6 +4,7 @@ use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\AuditPlanStatusController;
 use App\Http\Controllers\NotificationAuditController;
 use App\Http\Controllers\AuditStandardController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -56,8 +57,9 @@ Route::group(['prefix' => 'notif_audit'], function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::any('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
@@ -89,6 +91,9 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
     Route::group(['prefix' => 'standard_audit'], function () {
         Route::get('/',[AuditStandardController::class, 'index'])->name('standard_audit.index');
         Route::any('/add_qst',[AuditStandardController::class, 'add_qst'])->name('standard_audit.add_qst');
+    });
+    Route::group(['prefix' => 'departement'], function () {
+        Route::any('/', [DepartmentController::class, 'index'])->name('departement.index');
     });
 });
 
