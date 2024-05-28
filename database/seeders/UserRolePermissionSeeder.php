@@ -30,10 +30,41 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Admin',
                 'username' => 'admin',
             ], $default_user_value));
+            $lecture = User::create(array_merge([
+                'email' => 'lecture@example',
+                'name' => 'Ziddan Azzahra',
+                'username' => 'lecture',
+                'gender' => 'M',
+            ], $default_user_value));
+            $auditor = User::create(array_merge([
+                'email' => 'auditor@example',
+                'name' => 'Muhammad Abdul Rofiq',
+                'username' => 'auditor',
+                'gender' => 'M',
+            ], $default_user_value));
+            $lpm = User::create(array_merge([
+                'email' => 'lpm@example',
+                'name' => 'Feni Dwi Lestari',
+                'username' => 'lpm',
+                'gender' => 'L',
+            ], $default_user_value));
+            $approver = User::create(array_merge([
+                'email' => 'approver@example',
+                'name' => 'Wakil Rektor',
+                'username' => 'approver',
+            ], $default_user_value));
             //create role
             $role_admin = Role::create(['name' => 'admin', 'color' => '#000000', 'description' => 'Administrator']);
+            $role_lecture = Role::create(['name' => 'lecture', 'color' => '#003285', 'description' => 'Audit Person']);
+            $role_auditor = Role::create(['name' => 'auditor', 'color' => '#006769', 'description' => 'Audits Person']);
+            $role_lpm = Role::create(['name' => 'lpm', 'color' => '#FF0000', 'description' => 'LPM Person']);
+            $role_approver = Role::create(['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Apporverd']);
             //set default role
             $admin->assignRole('admin');
+            $lecture->assignRole('lecture');
+            $auditor->assignRole('auditor');
+            $lpm->assignRole('lpm');
+            $approver->assignRole('approver');
             //create permission
             $permission = Permission::create(['name' => 'log-viewers.read']);
             //set direct permissions

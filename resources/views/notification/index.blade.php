@@ -160,6 +160,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="container">
                             <table class="table table-hover table-sm" id="datatable" width="100%">
                                 <thead>
                                     <tr>
@@ -177,6 +178,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     @foreach ($notification_audits as $anc)
         <div class="modal fade" id="modalToggle" aria-labelledby="modalToggleLabel" tabindex="-1"

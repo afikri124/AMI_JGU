@@ -129,18 +129,6 @@
                             </div>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Department</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('departement_id') is-invalid @enderror" name="departement_id"
-                                    placeholder="Department" value="{{ old('departement_id') }}">
-                                @error('departement_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Gender</label>
                             <div class="input-group input-group-merge has-validation">
                                 <select class="form-select @error('gender') is-invalid @enderror select2-modal"
@@ -226,7 +214,6 @@
                     <th data-priority="2">Name</th>
                     <th width="40px">Username</th>
                     <th>Email</th>
-                    <th width="40px">Department</th>
                     <th width="40px">Gender</th>
                     <th>Roles</th>
                     <th width="40px" data-priority="3">Action</th>
@@ -331,14 +318,6 @@
                     render: function (data, type, row, meta) {
                         var html = "<span title='" + row.email + "'>" + row.email +
                             "</span>";
-                        return html;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html = `<a class="text-dark" title="` + row.departement_id +
-                            `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.departement_id + `</a>`;
                         return html;
                     },
                 },

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditPlan;
 use App\Models\AuditPlanStatus;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
@@ -30,14 +31,15 @@ class AuditPlanController extends Controller{
             }
             return redirect()->route('audit_status.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
         }
-            $auditstatus = AuditPlanStatus::orderBy('title')->get();
+            $auditstatus = AuditPlanStatus::orderBy('user_id')->get();
             $locations = Location::orderBy('title')->get();
+            $departments = Department::orderBy('title')->get();
             $users = User::with(['roles' => function ($query) {
                 $query->select( 'id','name' );
             }])->where('name',"!=",'admin')->orderBy('name')->get();
             // dd($users);
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("users", "auditstatus","locations"));
+            return view("audit_plan.index", compact("users", "auditstatus", "locations", "departments"));
        }
 
     public function edit($id){
@@ -99,7 +101,7 @@ class AuditPlanController extends Controller{
 
 //Json
     public function getData(){
-        $data = AuditPlan::with('user_id')->get()->map(function ($data) {
+        $data = AuditPlan::with('users')->with('audit_plan_status')->with('locations')->get()->map(function ($data) {
             return [
                 'date' => $data->date,
                 'audit_plan_status_id' => $data->audit_plan_status_id->title,

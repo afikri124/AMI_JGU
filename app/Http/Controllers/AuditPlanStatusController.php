@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditPlan;
 use App\Models\AuditPlanStatus;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,7 +26,8 @@ class AuditPlanStatusController extends Controller{
         }
     }
         $data = AuditPlanStatus::all();
-        return view("audit_status.index",compact("data"));
+        $audit_plan = AuditPlan::all('*');
+        return view("audit_status.index",compact("audit_plan", "audit_plan"));
     }
 
     public function update(Request $request, $id){

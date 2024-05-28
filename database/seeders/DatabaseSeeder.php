@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Department;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,7 +27,8 @@ class DatabaseSeeder extends Seeder
             AuditPlanSeeder::class,
             AuditPlanStatusSeeder::class,
             NotificationAuditSeeder::class,
-            LocationSeeder::class
+            LocationSeeder::class,
+            DepartmentSeeder::class
         ]);
     }
 }

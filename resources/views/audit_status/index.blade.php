@@ -10,22 +10,35 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
-
-<div class="container">
-    <table class="table" id="datatable">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Lecture</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Auditor</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-    </table>
-</div>
-@endsection
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="container">
+                    <table class="table table-hover table-sm" id="datatable" width="100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Lecture</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Auditor</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                @endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>

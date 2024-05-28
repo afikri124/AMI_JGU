@@ -1,0 +1,34 @@
+[
+    {
+     "id": "1.0.01",
+     "title": "Teknik Informatika"
+    },
+    {
+        "id": "1.0.02",
+        "title": "Teknik Industri"
+    },
+    {
+        "id": "1.0.03",
+        "title": "Teknik Sipil"
+    },
+    {
+        "id": "1.0.04",
+        "title": "Teknik Mesin"
+    },
+    {
+        "id": "1.3.05",
+        "title": "Bisnis Digital"
+    },
+    {
+        "id": "1.3.06",
+        "title": "Managemen"
+    },
+    {
+        "id": "1.3.07",
+        "title": "Farmasi"
+    },
+    {
+        "id": "1.3.08",
+        "title": "Akuntansi"
+    }
+]

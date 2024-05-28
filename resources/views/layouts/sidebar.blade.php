@@ -28,16 +28,16 @@
                 <div data-i18n="Dashboards">Audit Plans</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
-            <a href="{{ route('notification.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Dashboards">Status Audit</div>
-            </a>
-        </li>
         <li class="menu-item {{ request()->segment(1) == 'audit_status' ? 'active' : '' }}">
             <a href="{{ route('audit_status.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-bell"></i>
-                <div data-i18n="Dashboards">History Audit</div>
+                <div data-i18n="Dashboards">Observation</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
+            <a href="{{ route('notification.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
+                <div data-i18n="Dashboards">History</div>
             </a>
         </li>
 

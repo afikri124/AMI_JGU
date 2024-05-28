@@ -51,7 +51,11 @@
                                 @foreach($users as $role)
                                     <option value="{{$role->id}}"
                                         {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}</option>
+                                        {{$role->name}} (
+                                            @foreach ($role->roles as $x)
+                                                {{ $x->name}}
+                                            @endforeach
+                                        )</option>
                                     @endforeach
                             </select>
                         </div>
@@ -103,10 +107,10 @@
                             <label for="departement_id" class="form-label" >Department</label>
                             <select name="departement_id" id="departement_id" class="form-select" required>
                                 <option value="">Select Department</option>
-                                @foreach($users as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->departement_id}}</option>
+                                @foreach($departments as $d)
+                                    <option value="{{$d->id}}"
+                                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                                        {{$d->title}}</option>
                                     @endforeach
                             </select>
                         </div>
