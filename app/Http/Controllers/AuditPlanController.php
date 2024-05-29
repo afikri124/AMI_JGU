@@ -27,9 +27,8 @@ class AuditPlanController extends Controller{
             'departement_id'=> $request->departement_id,
         ]);
         if($data){
-            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
-            }
             return redirect()->route('audit_status.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
+            }
         }
             $auditstatus = AuditPlanStatus::orderBy('user_id')->get();
             $locations = Location::orderBy('title')->get();
@@ -47,13 +46,14 @@ class AuditPlanController extends Controller{
         $auditstatus = AuditPlanStatus::all();
         $locations = Location::all();
         $users = User::all();
-        return view('audit_plan.edit_audit', compact('data', 'auditstatus', 'locations', 'users'));
+        $departments = Department::all();
+        return view('audit_plan.edit_audit', compact('data', 'auditstatus', 'locations', 'users', 'departments'));
     }
 
         public function update(Request $request, $id){
         $request->validate([
             'date'    => 'required',
-            'audit_plan_status_id' => 'required',
+            // 'audit_plan_status_id' => 'required',
             'location_id'    => 'required',
             'user_id'    => 'required',
             'departement_id'   => 'required',
@@ -67,7 +67,7 @@ class AuditPlanController extends Controller{
             'user_id'=> $request->user_id,
             'departement_id'=> $request->departement_id,
         ]);
-        return redirect()->route('audit_status.index')->with('Success', 'Audit Plan berhasil diperbarui.');
+        return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
 
     public function delete(Request $request){
@@ -89,8 +89,8 @@ class AuditPlanController extends Controller{
         $data = AuditPlan::select('*')->orderBy("id");
             return DataTables::of($data)
                     ->filter(function ($instance) use ($request) {
-                        if (!empty($request->get('select_auditor_id'))) {
-                            $instance->where("user_id", $request->get('select_auditor_id'));
+                        if (!empty($request->get('user_id'))) {
+                            $instance->where("user_id", $request->get('user_id'));
                         }
                         if (!empty($request->get('search'))) {
                             $search = $request->get('search');
@@ -104,7 +104,7 @@ class AuditPlanController extends Controller{
         $data = AuditPlan::with('users')->with('audit_plan_status')->with('locations')->get()->map(function ($data) {
             return [
                 'date' => $data->date,
-                'audit_plan_status_id' => $data->audit_plan_status_id->title,
+                'audit_plan_status_id' => $data->audit_plan_status_id->user_id,
                 'location_id' => $data->location_id,
                 'user_id' => $data->user_id,
                 'departement_id' => $data->departement_id,

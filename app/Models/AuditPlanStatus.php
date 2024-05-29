@@ -22,10 +22,11 @@ class AuditPlanStatus extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'title',
-        'remark_by_lpm',
-        'remark_by_approver',
+        'user_id',
+        'date',
+        'location_id',
+        'file_path',
+        'description'
     ];
 
     /**

@@ -28,12 +28,13 @@
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Lecture</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Auditor</th>
-                                <th>Action</th>
+                                <th><b>No</b></th>
+                                <th><b>Lecture</b></th>
+                                <th><b>Date</b></th>
+                                <th><b>Location</b></th>
+                                <th><b>Status</b></th>
+                                <th><b>Doc</b></th>
+                                <th><b>Action</b></th>
                             </tr>
                         </thead>
                     </table>
@@ -87,34 +88,39 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.audit_plan_status_id;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-
                             return row.date;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.user_id;
+                            return row.location_id;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html =
-                            `<a class="btn btn-success btn-sm px-2" href="{{ url('observations/` +
-                            row.link + `') }}"><i class="bx bx-tv"></i></a>
-                            <a class="btn btn-dark btn-sm px-2" href="{{ url('observations/` +
-                            row.link + `') }}"><i class="bx bx-upload"></i></a>`;
-                        return html;
-                    },
-                    "orderable": false,
-                    className: "text-md-center"
-                }
 
+                            return row.audit_plan_status_id;
+                    },
+                },
+                {
+                        render: function(data, type, row, meta) {
+                            var html = row.file_path;
+                            return html;
+                        }
+                    },
+                {
+                        render: function(data, type, row, meta) {
+                            var html =
+                                `<a class=" text-success" title="Edit" href="{{ url('edit_status/` + row.id + `') }}"><i class="bx bx-upload"></i></a>
+                                <a href="#modalToggle" data-bs-toggle="modal" data-bs-target="#modalToggle" class="bx bx-show-alt badge-dark"></a>
+                                <a class=" text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row
+                                .id + `\',\'` + row.name + `\')" ><i class="bx bx-trash"></i></a>`;
+                            return html;
+                        },
+                        "orderable": false,
+                        className: "text-md-center"
+                    }
             ]
         });
     });

@@ -15,9 +15,11 @@ class CreateAuditPlanStatusTable extends Migration
     {
         Schema::create('audit_plan_status', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->string('user_id')->references('id')->on('users')->onDelete('cascade');;
             $table->string('date');
-            $table->text('remark_by_approver')->nullable();
+            $table->string('location_id')->references('id')->on('locations')->onDelete('cascade');;
+            $table->string('file_path')->nullable();
+            $table->text('description');
             $table->timestamps();
         });
     }
