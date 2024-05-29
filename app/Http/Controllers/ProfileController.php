@@ -24,7 +24,7 @@ class ProfileController extends Controller
     }
     function edit(Request $request)
     {
-        $studiprogram = StudyProgram::all();
+        $department = Department::all();
         $dept = Department::all();
         if ($request->isMethod('post')) {
             $this->validate($request, [ 
@@ -43,7 +43,7 @@ class ProfileController extends Controller
             ]);
             return redirect()->route('profile.edit')->with('msg','Profil telah diperbarui!');
         }
-        return view('profile.edit', compact('studiprogram','dept'));
+        return view('profile.edit', compact('department','dept'));
     }
 
     /**

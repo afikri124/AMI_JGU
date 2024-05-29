@@ -22,7 +22,7 @@ class AuditPlanStatus extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
+        'lecture_id',
         'date',
         'location_id',
         'file_path',

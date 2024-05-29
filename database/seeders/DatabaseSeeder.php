@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             AuditPlanStatusSeeder::class,
             NotificationAuditSeeder::class,
             LocationSeeder::class,
-            DepartmentSeeder::class
+            DepartmentSeeder::class,
+            DosenSeeder::class
         ]);
     }
 }

@@ -18,7 +18,13 @@ class CreateAuditPlanTable extends Migration
             $table->date('date'); // Tanggal audit plan
             $table->string('audit_plan_status_id')->references('id')->on('audit_plan_status')->onDelete('cascade');
             $table->string('location_id')->references('id')->on('locations')->onDelete('cascade'); // ID lokasi
-            $table->string('user_id')->references('id')->on('users')->onDelete('cascade'); // ID users
+            
+            $table->unsignedBigInteger('lecture_id');
+            $table->foreign('lecture_id')->references('id')->on('users');//Created Use 
+
+            $table->unsignedBigInteger('auditor_id');
+            $table->foreign('auditor_id')->references('id')->on('users');//Created Use 
+            
             $table->string('departement_id')->references('id')->on('users')->onDelete('cascade'); // ID departemen
             $table->timestamps(); // Kolom created_at dan updated_at
 

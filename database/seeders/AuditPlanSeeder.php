@@ -19,7 +19,8 @@ class AuditPlanSeeder extends Seeder
                     'date' => '2024-5-14',
                     'audit_plan_status_id' => 1,
                     'location_id' => 3,
-                    'user_id' => 4,
+                    'lecture_id' => 4,
+                    'auditor_id' => 2,
                     'departement_id' => 5,
                 ],
                 // Tambahkan data contoh lain sesuai kebutuhan
