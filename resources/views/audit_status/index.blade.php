@@ -82,7 +82,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.user_id;
+                        return row.lecture.name;
                     },
                 },
                 {
@@ -115,7 +115,7 @@
                                 `<a class=" text-success" title="Edit" href="{{ url('edit_status/` + row.id + `') }}"><i class="bx bx-upload"></i></a>
                                 <a href="#modalToggle" data-bs-toggle="modal" data-bs-target="#modalToggle" class="bx bx-show-alt badge-dark"></a>
                                 <a class=" text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row
-                                .id + `\',\'` + row.name + `\')" ><i class="bx bx-trash"></i></a>`;
+                                .id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
                             return html;
                         },
                         "orderable": false,

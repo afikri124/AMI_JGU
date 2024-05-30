@@ -34,7 +34,6 @@ class UserController extends Controller
                 'username'=> ['required', 'string', 'max:255', Rule::unique('users')],
                 'name'=> ['required', 'string', 'max:255'],
                 'email'=> ['required', 'email', 'max:255', Rule::unique('users')],
-                'departement_id'=> ['required'],
                 'gender'=> ['required'],
                 'new_password' => ['required', 'string', 'min:8'],
                 'confirm_password' => ['required', 'string', 'min:8','same:new_password'],
@@ -45,7 +44,6 @@ class UserController extends Controller
                 'username' => $request->username,
                 'name' => $request->name,
                 'email' => $request->email,
-                'departement_id' => $request->departement_id,
                 'gender' => $request->gender,
                 'password'=> Hash::make($request->new_password),
                 'email_verified_at' => Carbon::now(),
@@ -117,7 +115,6 @@ class UserController extends Controller
                 'name' => ['required', 'string'],
                 'username'=> ['required', 'string', 'max:255', Rule::unique('users')->ignore($id, 'id')],
                 'email'=> ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id, 'id')],
-                'departement_id' => ['required', 'string'],
                 'gender' => ['required', 'string'],
             ]);
             //mengubah data user di database
@@ -125,7 +122,6 @@ class UserController extends Controller
                 'name'=> $request->name,
                 'username'=> $request->username,
                 'email'=> $request->email,
-                'departement_id'=> $request->departement_id,
                 'gender' => $request->gender,
                 'updated_at' => Carbon::now()
             ]);

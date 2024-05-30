@@ -13,33 +13,30 @@ class AuditPlanStatusController extends Controller{
     //
     public function index(Request $request){
         if ($request->isMethod('POST')){ $this->validate($request, [
-            'user_id'    => ['required'],
-            'date'    => ['required'],
-            'location_id'    => ['required'],
-            'file_path'    => ['required'],
+            'file_path'    => [''],
+            'link'    => [''],
+            'description'    => [''],
+
         ]);
         $new = AuditPlanStatus::create([
-            'user_id'=> $request->user_id,
-            'audit_plan_status_id'=> "Pending",
-            'date'=> $request->date,
-            'location_id'=> $request->location_id,
             'file_path'=> $request->file_path,
-            'link' => $request->link
+            'link' => $request->link,
+            'description' => $request->description
         ]);
         if($new){
             return redirect()->route('audit_status.index');
         }
     }
-        $data = AuditPlanStatus::all();
-        $audit_plan = AuditPlan::all('*');
+        $data = AuditPlan::all();
+        $auditstatus = AuditPlanStatus::with('lecture')->get();;
         $locations = Location::all();
         $users = User::all();
-        return view("audit_status.index",compact("data", "audit_plan", "locations"));
+        return view("audit_status.index",compact("data", "auditstatus", "locations", "users"));
     }
 
     public function edit($id){
-        $data =  AuditPlan::all('*');
-        $auditstatus = AuditPlanStatus::all();
+        $data = AuditPlan::findOrFail($id);
+        $auditstatus = AuditPlan::all();
         $locations = Location::all();
         $users = User::all();
         return view('audit_status.edit_status', compact('data', 'auditstatus', 'locations', 'users'));
@@ -47,19 +44,16 @@ class AuditPlanStatusController extends Controller{
 
     public function update(Request $request, $id){
         $request->validate([
-            'user_id'    => 'required',
-            'date'    => 'required',
-            'location_id'    => 'required',
+            'file_path' => '',
+            'link'  => '',
+            'description'  => '',
         ]);
 
-        $data = AuditPlanStatus::findOrFail($id);
+        $data = AuditPlan::findOrFail($id);
         $data->update([
-            'user_id'=> $request->user_id,
-            'date'=> $request->date,
-            'audit_plan_status_id'=> "Approver",
-            'location_id'=> $request->location_id,
             'file_path'=> $request->file_path,
             'link'=> $request->link,
+            'description'=> $request->description,
         ]);
         return redirect()->route('audit_status.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
@@ -83,7 +77,8 @@ class AuditPlanStatusController extends Controller{
     public function getData(){
         $data = AuditPlanStatus::get()->map(function ($audit_status) {
             return [
-                'user_id' => $audit_status->user_id,
+                'lecture_id' => $audit_status->lecture_id,
+                'auditor_id ' => $audit_status->auditor_id ,
                 'date' => $audit_status->date,
                 'location_id' => $audit_status->location_id,
                 'file_path' => $audit_status->file_path,

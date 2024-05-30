@@ -25,24 +25,13 @@
                         <label class="form-label" for="basicDate">Date</label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                                    placeholder="Masukkan Date" value="{{ old('date') }}">
+                                    placeholder="Masukkan Date" value="{{ $data->date }}">
                                         @error('date')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
                                 @enderror
                                     </div>
                                         </div>
-                                <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="audit_plan_status_id" class="form-label" >Status</label>
-                            <select name="audit_plan_status_id" id="audit_plan_status_id" class="form-select" required>
-                                <option value="">Select Status</option>
-                                @foreach($auditstatus as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('auditstatus') ?? []) ? "selected": "") }}>
-                                        {{$role->title}}</option>
-                                    @endforeach
-                            </select>
-                        </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location_id" class="form-label" >Location</label>
                             <select name="location_id" id="location_id" class="form-select" required>
@@ -62,38 +51,47 @@
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="user_id" class="form-label" >Auditee</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
+                            <label for="lecture_id" class="form-label" >Auditee</label>
+                            <select name="lecture_id" id="lecture_id" class="form-select" required>
                                 <option value="">Select Auditee</option>
                                 @foreach($users as $role)
                                     <option value="{{$role->id}}"
                                         {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}</option>
+                                        {{$role->name}}
+                                        (
+                                            @foreach ($role->roles as $x)
+                                                {{ $x->name}}
+                                            @endforeach
+                                            )</option>
                                     @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="user_id" class="form-label">Auditor</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
+                            <label for="auditor_id" class="form-label">Auditor</label>
+                            <select name="auditor_id" id="auditor_id" class="form-select" required>
                                 <option value="">Select Auditor</option>
                                 @foreach($users as $role)
                                     <option value="{{$role->id}}"
                                         {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}</option>
+                                        {{$role->name}}
+                                        (
+                                            @foreach ($role->roles as $x)
+                                                {{ $x->name}}
+                                            @endforeach
+                                        )</option>
                                     @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="departement_id" class="form-label" >Department</label>
-                            <select name="departement_id" id="departement_id" class="form-select" required>
+                            <label for="department_id" class="form-label" >Department</label>
+                            <select name="department_id" id="department_id" class="form-select" required>
                                 <option value="">Select Department</option>
-                                @foreach($users as $role)
+                                @foreach($departments as $role)
                                     <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->departement_id}}</option>
+                                        {{ (in_array($role->id, old('departments') ?? []) ? "selected": "") }}>
+                                        {{$role->title}}</option>
                                     @endforeach
                             </select>
-                        </div>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Update</button>

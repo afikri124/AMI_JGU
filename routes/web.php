@@ -50,6 +50,7 @@ Route::group(['prefix' => 'audit_status'], function () {
 Route::get('/edit_status/{id}', [AuditPlanStatusController::class, 'edit'])->name('edit_status');
 Route::put('/update_status/{id}', [AuditPlanStatusController::class, 'update'])->name('update_status');
 
+//Notification Audit
 Route::group(['prefix' => 'notif_audit'], function () {
     Route::any('/', [NotificationAuditController::class, 'index'])->name('notification.index')->middleware('auth');
     Route::get('/data', [NotificationAuditController::class, 'data'])->name('notification.data');

@@ -3,7 +3,11 @@
     <div class="app-brand demo ">
         <a href="{{ route('index') }}" class="app-brand-link">
             <span class="app-brand-logo demo" style="margin-left: -10px">
+<<<<<<< HEAD
                 <img src="{{asset('assets/img/CIS.png')}}" height="4" >
+=======
+                <img src="{{asset('assets/img/CIS.png')}}" height="44" >
+>>>>>>> c5f2ecc17ebc1ae23e2f152612cead3a9eb42fdf
             </span>
         </a>
 

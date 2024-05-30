@@ -12,7 +12,7 @@ use App\Models\Location;
 
 class AuditPlanController extends Controller{
     public function index(Request $request){
-        if ($request->isMethod('POST')) { 
+        if ($request->isMethod('POST')) {
             $this->validate($request, [
             'date'    => ['required'],
             'location_id'    => ['required'],
@@ -32,7 +32,7 @@ class AuditPlanController extends Controller{
             return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
-            $audit_plan =AuditPlan::with('auditPlanStatus')->get();   
+            $audit_plan =AuditPlan::with('auditPlanStatus')->get();
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('title')->get();
             $users = User::with(['roles' => function ($query) {
@@ -44,10 +44,12 @@ class AuditPlanController extends Controller{
        }
 
     public function edit($id){
-        $data = AuditPlan::all('*');
+        $data = AuditPlan::findOrFail($id);
         $auditstatus = AuditPlanStatus::all();
         $locations = Location::all();
-        $users = User::all();
+        $users = User::with(['roles' => function ($query) {
+            $query->select( 'id','name' );
+        }])->where('name',"!=",'admin')->orderBy('name')->get();
         $departments = Department::all();
         return view('audit_plan.edit_audit', compact('data', 'auditstatus', 'locations', 'users', 'departments'));
     }
@@ -115,7 +117,7 @@ class AuditPlanController extends Controller{
         $data = AuditPlan::with('users')->with('audit_plan_status')->with('locations')->get()->map(function ($data) {
             return [
                 'date' => $data->date,
-                'audit_plan_status_id' => $data->audit_plan_status_id->user_id,
+                'audit_plan_status_id' => 'Pending',
                 'location_id' => $data->location_id,
                 'lecture_id' => $data->lecture_id,
                 'auditor_id' => $data->auditor_id,
