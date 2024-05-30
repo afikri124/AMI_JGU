@@ -19,6 +19,7 @@ class AuditPlanStatusSeeder extends Seeder
                 'date' => '2024-5-14',
                 'location_id' => 'Class 13',
                 'file_path' => '/Revisi.jpg',
+                'link' => '',
                 'description' => 'Revisi ke 2',
 
             ],

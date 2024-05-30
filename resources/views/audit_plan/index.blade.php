@@ -120,6 +120,7 @@
                                 data-bs-dismiss="offcanvas">Batal</button>
                         </div>
                     </div>
+        
     @endsection
 
 
@@ -165,7 +166,7 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.user_id;
+                            return row.lecture.name;
                     },
                 },
                 {
@@ -176,13 +177,13 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.audit_plan_status_id;
+                            return row.audit_plan_status_id.title;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.user_id;
+                            return row.auditor.name;
                     },
                 },
 

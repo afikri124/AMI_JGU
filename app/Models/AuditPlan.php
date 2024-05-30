@@ -17,7 +17,8 @@ class AuditPlan extends Model
         'date',
         'audit_plan_status_id',
         'location_id',
-        'user_id',
+        'lecture_id',
+        'auditor_id',
         'departement_id'
     ];
 
@@ -29,9 +30,16 @@ class AuditPlan extends Model
         return $this->belongsTo(AuditPlanStatus::class, 'audit_plan_status_id');
     }
 
-    public function user()
+
+
+    public function lecture()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'lecture_id');
+    }
+
+    public function auditor()
+    {
+        return $this->belongsTo(User::class, 'auditor_id');
     }
 
     // // Contoh relasi ke model Auditee
@@ -41,14 +49,14 @@ class AuditPlan extends Model
     // }
 
     // // Contoh relasi ke model Location
-    // public function location()
-    // {
-    //     return $this->belongsTo(Location::class, 'location_id');
-    // }
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
 
     // // Contoh relasi ke model Department
-    // public function department()
-    // {
-    //     return $this->belongsTo(Department::class, 'departement_id');
-    // }
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'departement_id');
+    }
 }

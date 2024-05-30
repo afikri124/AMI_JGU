@@ -19,6 +19,7 @@ class CreateAuditPlanStatusTable extends Migration
             $table->string('date');
             $table->string('location_id')->references('id')->on('locations')->onDelete('cascade');;
             $table->string('file_path')->nullable();
+            $table->string('link');
             $table->text('description');
             $table->timestamps();
         });

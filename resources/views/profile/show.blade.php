@@ -123,15 +123,11 @@
                                 </li>
                                 <li class="d-flex align-items-center mb-3"><i class="bx bx-briefcase"></i><span
                                         class="fw-semibold mx-2">NIDN:</span>
-                                    <span>{{ Auth::user()->nidn }}</span>
+                                    <span>{{ Auth::user()->id }}</span>
                                 </li>
                                 <li class="d-flex align-items-center mb-3"><i class="bx bx-male-sign"></i><span
                                         class="fw-semibold mx-2">Department:</span>
                                     <span>{{ Auth::user()->department }}</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3"><i class="bx bx-male-sign"></i><span
-                                        class="fw-semibold mx-2">Study Program:</span>
-                                    <span>{{ Auth::user()->study_program }}</span>
                                 </li>
                             </ul>
                         </div>

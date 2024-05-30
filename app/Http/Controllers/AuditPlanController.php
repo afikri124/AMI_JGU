@@ -12,25 +12,27 @@ use App\Models\Location;
 
 class AuditPlanController extends Controller{
     public function index(Request $request){
-        if ($request->isMethod('POST')) { $this->validate($request, [
+        if ($request->isMethod('POST')) { 
+            $this->validate($request, [
             'date'    => ['required'],
-            // 'audit_plan_status_id' => ['required'],
             'location_id'    => ['required'],
-            'user_id'    => ['required'],
-            'departement_id'   => ['required'],
+            'lecture_id'    => ['required'],
+            'auditor_id'    => ['required'],
+            'department_id'   => ['required'],
         ]);
         $data = AuditPlan::create([
             'date'=> $request->date,
             'audit_plan_status_id'=> "Pending", //status pending
             'location_id'=> $request->location_id,
-            'user_id'=> $request->user_id,
-            'departement_id'=> $request->departement_id,
+            'lecture_id'=> $request->lecture_id,
+            'auditor_id'=> $request->auditor_id,
+            'department_id'=> $request->department_id,
         ]);
         if($data){
-            return redirect()->route('audit_status.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
+            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
-            $auditstatus = AuditPlanStatus::orderBy('user_id')->get();
+            $audit_plan =AuditPlan::with('auditPlanStatus')->get();   
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('title')->get();
             $users = User::with(['roles' => function ($query) {
@@ -38,11 +40,11 @@ class AuditPlanController extends Controller{
             }])->where('name',"!=",'admin')->orderBy('name')->get();
             // dd($users);
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("users", "auditstatus", "locations", "departments"));
+            return view("audit_plan.index", compact("users", "locations", "departments", "audit_plan"));
        }
 
     public function edit($id){
-        $data = AuditPlan::findOrFail($id);
+        $data = AuditPlan::all('*');
         $auditstatus = AuditPlanStatus::all();
         $locations = Location::all();
         $users = User::all();
@@ -55,17 +57,19 @@ class AuditPlanController extends Controller{
             'date'    => 'required',
             // 'audit_plan_status_id' => 'required',
             'location_id'    => 'required',
-            'user_id'    => 'required',
-            'departement_id'   => 'required',
+            'lecture_id'    => 'required',
+            'auditor_id'    => 'required',
+            'department_id'   => 'required',
         ]);
 
         $data = AuditPlan::findOrFail($id);
         $data->update([
             'date'=> $request->date,
-            'audit_plan_status_id'=> $request->audit_plan_status_id,
+            'audit_plan_status_id'=> 'Pending',
             'location_id'=> $request->location_id,
-            'user_id'=> $request->user_id,
-            'departement_id'=> $request->departement_id,
+            'lecture_id'=> $request->lecture_id,
+            'auditor_id'=> $request->auditor_id,
+            'department_id'=> $request->department_id,
         ]);
         return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
@@ -86,7 +90,14 @@ class AuditPlanController extends Controller{
         }
     }
     public function data(Request $request){
-        $data = AuditPlan::select('*')->orderBy("id");
+        $data = AuditPlan::
+        with(['lecture' => function ($query) {
+                $query->select('id','name');
+            }])
+            ->with(['auditor' => function ($query) {
+                $query->select('id', 'name');
+            }])->
+        select('*')->orderBy("id");
             return DataTables::of($data)
                     ->filter(function ($instance) use ($request) {
                         if (!empty($request->get('user_id'))) {
@@ -106,7 +117,8 @@ class AuditPlanController extends Controller{
                 'date' => $data->date,
                 'audit_plan_status_id' => $data->audit_plan_status_id->user_id,
                 'location_id' => $data->location_id,
-                'user_id' => $data->user_id,
+                'lecture_id' => $data->lecture_id,
+                'auditor_id' => $data->auditor_id,
                 'departement_id' => $data->departement_id,
                 'created_at' => $data->created_at,
                 'updated_at' => $data->updated_at,
