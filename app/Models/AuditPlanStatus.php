@@ -29,6 +29,11 @@ class AuditPlanStatus extends Model
         'description'
     ];
 
+    public function lecture()
+    {
+        return $this->belongsTo(User::class, 'lecture_id');
+    }
+
     /**
      * The attributes that should be cast to native types.
      *

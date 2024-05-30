@@ -45,8 +45,8 @@
                 <form method="POST" action="">
                 @csrf
                 <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="user_id" class="form-label" >Lecture</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
+                            <label for="lecture_id" class="form-label" >Lecture</label>
+                            <select name="lecture_id" id="lecture_id" class="form-select" required>
                                 <option value="">Select Lecture</option>
                                 @foreach($users as $role)
                                     <option value="{{$role->id}}"
@@ -89,8 +89,8 @@
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="user_id" class="form-label">Auditor</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
+                            <label for="auditor_id" class="form-label">Auditor</label>
+                            <select name="auditor_id" id="auditor_id" class="form-select" required>
                                 <option value="">Select Auditor</option>
                                 @foreach($users as $role)
                                     <option value="{{$role->id}}"
@@ -105,7 +105,7 @@
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="departement_id" class="form-label" >Department</label>
-                            <select name="departement_id" id="departement_id" class="form-select" required>
+                            <select name="department_id" id="department_id" class="form-select" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
                                     <option value="{{$d->id}}"
@@ -120,7 +120,7 @@
                                 data-bs-dismiss="offcanvas">Batal</button>
                         </div>
                     </div>
-        
+
     @endsection
 
 
@@ -177,7 +177,7 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.audit_plan_status_id.title;
+                            return row.audit_plan_status_id;
                     },
                 },
                 {
@@ -192,7 +192,7 @@
                         var html =
                             `<a class="btn btn-warning btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.user_id + `\')" >
+                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.date + `\')" >
                             <i class="bx bx-trash"></i></a>`;
                         return html;
                     },

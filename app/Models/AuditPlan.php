@@ -19,7 +19,7 @@ class AuditPlan extends Model
         'location_id',
         'lecture_id',
         'auditor_id',
-        'departement_id'
+        'department_id'
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -57,6 +57,6 @@ class AuditPlan extends Model
     // // Contoh relasi ke model Department
     public function department()
     {
-        return $this->belongsTo(Department::class, 'departement_id');
+        return $this->belongsTo(Department::class, 'department_id');
     }
 }

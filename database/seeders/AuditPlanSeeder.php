@@ -21,7 +21,7 @@ class AuditPlanSeeder extends Seeder
                     'location_id' => 3,
                     'lecture_id' => 4,
                     'auditor_id' => 2,
-                    'departement_id' => 5,
+                    'department_id' => 5,
                 ],
                 // Tambahkan data contoh lain sesuai kebutuhan
             ];

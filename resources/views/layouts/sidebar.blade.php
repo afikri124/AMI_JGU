@@ -3,7 +3,7 @@
     <div class="app-brand demo ">
         <a href="{{ route('index') }}" class="app-brand-link">
             <span class="app-brand-logo demo" style="margin-left: -10px">
-                <img src="{{asset('assets/img/CIS.png')}}" height="100" >
+                <img src="{{asset('assets/img/CIS.png')}}" height="44" >
             </span>
         </a>
 
