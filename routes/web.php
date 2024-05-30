@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\AuditQuesition;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -94,8 +95,10 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
         Route::get('/',[AuditStandardController::class, 'index'])->name('standard_audit.index');
         Route::any('/add_qst',[AuditStandardController::class, 'add_qst'])->name('standard_audit.add_qst');
     });
-    Route::group(['prefix' => 'departement'], function () {
-        Route::any('/', [DepartmentController::class, 'index'])->name('departement.index');
+    Route::group(['prefix' => 'audit_quesition'], function () {
+        Route::get('/',[AuditQuesition::class, 'index'])->name('audit_quesition.index');
     });
+    
+    
 });
 

@@ -3,7 +3,7 @@
     <div class="app-brand demo ">
         <a href="{{ route('index') }}" class="app-brand-link">
             <span class="app-brand-logo demo" style="margin-left: -10px">
-                <img src="{{asset('assets/img/CIS.png')}}" height="100" >
+                <img src="{{asset('assets/img/CIS.png')}}" height="4" >
             </span>
         </a>
 
@@ -82,7 +82,8 @@
                         @endcan
                     </ul>
                 </li>
-                <li class="menu-item {{ request()->segment(2) == 'standard_audit' ? 'active' : '' }}">
+
+                <li class="menu-item {{ request()->segment(2) == 'standard_audit' ? 'open active' : '' }}">
                     <a href="" class="menu-link  menu-toggle">
                         <div>Manage Standard</div>
                     </a>
@@ -93,6 +94,12 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->segment(3) == 'quesition' ? 'active' : '' }}">
+                            <a href="{{ route('audit_quesition.index') }}" class="menu-link">
+                                <div>Question Audit</div>
+                            </a>
+                        </li>
                 </li>
                 @endcan
             </ul>

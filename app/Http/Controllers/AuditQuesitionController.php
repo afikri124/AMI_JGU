@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AuditStandard;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreAuditStandardRequest;
 use App\Http\Requests\UpdateAuditStandardRequest;
+use App\Models\AuditQuesition;
+use Illuminate\Http\Request;
 
-class AuditStandardController extends Controller
+class AuditQuesitionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,17 +19,17 @@ class AuditStandardController extends Controller
                 'title'=> ['required', 'string', 'max:191'],
                 'description'=> ['required', 'string', 'max:191'],
             ]);
-            $data = AuditStandard::create([
+            $data = AuditQuesition::create([
                 'id'=> $request->id,
                 'title'=> $request->title,
                 'description' => $request->description,
             ]);
             if($data){
-                return redirect()->route('`standard_audit`.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
+                return redirect()->route('`audit_quesition`.index')->with('message','Data Auditee ('.$request->user_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
                 }
         }
-        $data = AuditStandard::all();
-        return view('standard_audit.index');
+        $data = AuditQuesition::all();
+        return view('audit_quesition.index');
     }
 
     /**
@@ -51,7 +51,7 @@ class AuditStandardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AuditStandard $auditStandard)
+    public function show(AuditQuesition $auditQuesition)
     {
         //
     }
@@ -59,7 +59,7 @@ class AuditStandardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AuditStandard $auditStandard)
+    public function edit(AuditQuesition $auditQuesition)
     {
         //
     }
@@ -67,7 +67,7 @@ class AuditStandardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAuditStandardRequest $request, AuditStandard $auditStandard)
+    public function update(UpdateAuditStandardRequest $request, AuditQuesition $auditQuesition)
     {
         //
     }
@@ -75,7 +75,7 @@ class AuditStandardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AuditStandard $auditStandard)
+    public function destroy(AuditQuesition $auditQuesition)
     {
         //
     }
