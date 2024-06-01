@@ -1,10 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuditDocController;
 use App\Http\Controllers\AuditPlanController;
-use App\Http\Controllers\AuditPlanStatusController;
-use App\Http\Controllers\NotificationAuditController;
 use App\Http\Controllers\AuditStandardController;
-use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -43,22 +41,14 @@ Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
 //Audit Plan Status
-Route::group(['prefix' => 'audit_status'], function () {
-    Route::get('/',[AuditPlanStatusController::class, 'index'])->name('audit_status.index');
-    Route::get('/data',[AuditPlanStatusController::class, 'data'])->name('audit_status.data');
-});
-Route::get('/edit_status/{id}', [AuditPlanStatusController::class, 'edit'])->name('edit_status');
-Route::put('/update_status/{id}', [AuditPlanStatusController::class, 'update'])->name('update_status');
+Route::group(['prefix' => 'audit_doc'], function () {
+    Route::get('/',[AuditDocController::class, 'index'])->name('audit_doc.index');
+    Route::get('/data',[AuditDocController::class, 'data'])->name('audit_doc.data');
+    Route::delete('/delete', [AuditDocController::class, 'delete'])->name('audit_doc.delete');
 
-//Notification Audit
-Route::group(['prefix' => 'notif_audit'], function () {
-    Route::any('/', [NotificationAuditController::class, 'index'])->name('notification.index')->middleware('auth');
-    Route::get('/data', [NotificationAuditController::class, 'data'])->name('notification.data');
-    Route::delete('/delete', [NotificationAuditController::class, 'delete'])->name('notification.delete');
-    Route::get('/edit/{id}', [NotificationAuditController::class, 'edit'])->name('notification.edit');
-    Route::put('/update/{id}', [NotificationAuditController::class, 'update'])->name('notification.update');
 });
-
+Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
+Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 
 Route::middleware('auth')->group(function () {
     Route::any('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -92,14 +82,5 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
         });
     });
-    Route::group(['prefix' => 'standard_audit'], function () {
-        Route::get('/',[AuditStandardController::class, 'index'])->name('standard_audit.index');
-        Route::any('/add_qst',[AuditStandardController::class, 'add_qst'])->name('standard_audit.add_qst');
-    });
-    Route::group(['prefix' => 'audit_quesition'], function () {
-        Route::get('/',[AuditQuesition::class, 'index'])->name('audit_quesition.index');
-    });
-    
-    
 });
 

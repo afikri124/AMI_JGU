@@ -26,7 +26,9 @@
                 <th>Lecture</th>
                 <th>Date</th>
                 <th>Status</th>
+                <th>Location</th>
                 <th>Auditor</th>
+                <th>Department</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -71,20 +73,20 @@
                                     </div>
                                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="location_id" class="form-label" >Location</label>
-                            <select name="location_id" id="location_id" class="form-select" required>
-                                <option value="Online" {{ (isset($data->location_id) && "Online" == $data->location_id ? "selected" : "") }}
-                                    {{ ("Online" == old('location_id') ? "selected" : "") }}>Select Location
+                            <label for="location" class="form-label" >Location</label>
+                            <select name="location" id="location" class="form-select" required>
+                                <option value="Online" {{ (isset($data->location) && "Online" == $data->location ? "selected" : "") }}
+                                    {{ ("Online" == old('location') ? "selected" : "") }}>Select Location
                                 </option>
                                 @foreach($locations as $d)
                                 <option value="{{ $d->title }}"
-                                    {{ (isset($data->location_id) && $d->title == $data->location_id ? "selected" : "") }}
-                                    {{ ($d->title == old('location_id') ? "selected" : "") }}>
+                                    {{ (isset($data->location) && $d->title == $data->location ? "selected" : "") }}
+                                    {{ ($d->title == old('location') ? "selected" : "") }}>
                                     {{ $d->title }}
                                 </option>
                                 @endforeach
-                                <option value="Others" {{ (isset($data->location_id) && "Others" == $data->location_id ? "selected" : "") }}
-                                    {{ ("Others" == old('location_id') ? "selected" : "") }}>Others
+                                <option value="Others" {{ (isset($data->location) && "Others" == $data->location ? "selected" : "") }}
+                                    {{ ("Others" == old('location') ? "selected" : "") }}>Others
                                 </option>
                             </select>
                         </div>
@@ -104,13 +106,13 @@
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="departement_id" class="form-label" >Department</label>
+                            <label for="department_id" class="form-label" >Department</label>
                             <select name="department_id" id="department_id" class="form-select" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
                                     <option value="{{$d->id}}"
                                         {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
-                                        {{$d->title}}</option>
+                                        {{$d->name}}</option>
                                     @endforeach
                             </select>
                         </div>
@@ -177,7 +179,13 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.audit_plan_status_id;
+                            return row.audit_status_id;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.location;
                     },
                 },
                 {
@@ -185,8 +193,12 @@
 
                             return row.auditor.name;
                     },
-                },
+                },{
+                    render: function (data, type, row, meta) {
 
+                            return row.department_id;
+                    },
+                },
                 {
                     render: function (data, type, row, meta) {
                         var html =

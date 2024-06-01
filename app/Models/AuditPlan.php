@@ -10,53 +10,39 @@ class AuditPlan extends Model
     use HasFactory;
 
     // Menentukan nama tabel
-    protected $table = 'audit_plan';
+    protected $table = 'audit_plans';
 
     // Menentukan kolom-kolom yang dapat diisi
     protected $fillable = [
-        'date',
-        'audit_plan_status_id',
-        'location_id',
         'lecture_id',
-        'auditor_id',
-        'department_id'
+        'date',
+        'audit_status_id',
+        'location',
+        'department_id',
+        'auditor_id'
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
-
-    // Contoh relasi ke model AuditPlanStatus
-    public function auditPlanStatus()
-    {
-        return $this->belongsTo(AuditPlanStatus::class, 'audit_plan_status_id');
-    }
-
-
 
     public function lecture()
     {
         return $this->belongsTo(User::class, 'lecture_id');
     }
 
-    public function auditor()
+    // Contoh relasi ke model AuditPlanStatus
+    public function auditStatus()
     {
-        return $this->belongsTo(User::class, 'auditor_id');
+        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
-
-    // // Contoh relasi ke model Auditee
-    // public function auditee()
-    // {
-    //     return $this->belongsTo(Auditee::class, 'auditee_id');
-    // }
-
-    // // Contoh relasi ke model Location
-    public function location()
-    {
-        return $this->belongsTo(Location::class, 'location_id');
-    }
-
+    
     // // Contoh relasi ke model Department
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function auditor()
+    {
+        return $this->belongsTo(User::class, 'auditor_id');
     }
 }

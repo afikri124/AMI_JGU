@@ -3,11 +3,7 @@
     <div class="app-brand demo ">
         <a href="{{ route('index') }}" class="app-brand-link">
             <span class="app-brand-logo demo" style="margin-left: -10px">
-<<<<<<< HEAD
-                <img src="{{asset('assets/img/CIS.png')}}" height="4" >
-=======
                 <img src="{{asset('assets/img/CIS.png')}}" height="44" >
->>>>>>> c5f2ecc17ebc1ae23e2f152612cead3a9eb42fdf
             </span>
         </a>
 
@@ -32,14 +28,14 @@
                 <div data-i18n="Dashboards">Audit Plans</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'audit_status' ? 'active' : '' }}">
-            <a href="{{ route('audit_status.index') }}" class="menu-link">
+        <li class="menu-item {{ request()->segment(1) == 'audit_doc' ? 'active' : '' }}">
+            <a href="{{ route('audit_doc.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-bell"></i>
                 <div data-i18n="Dashboards">Observation</div>
             </a>
         </li>
         <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
-            <a href="{{ route('notification.index') }}" class="menu-link">
+            <a href="" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clipboard"></i>
                 <div data-i18n="Dashboards">History</div>
             </a>
@@ -93,14 +89,14 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->segment(3) == 'standard' ? 'active' : '' }}">
-                            <a href="{{ route('standard_audit.index') }}" class="menu-link">
+                            <a href="" class="menu-link">
                                 <div>Standard Audit</div>
                             </a>
                         </li>
                     </ul>
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->segment(3) == 'quesition' ? 'active' : '' }}">
-                            <a href="{{ route('audit_quesition.index') }}" class="menu-link">
+                            <a href="" class="menu-link">
                                 <div>Question Audit</div>
                             </a>
                         </li>
