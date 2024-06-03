@@ -19,6 +19,8 @@ class AuditPlanController extends Controller{
             'location'    => ['required'],
             'department_id'   => ['required'],
             'auditor_id'    => ['required'],
+            'doc_path'    => ['required'],
+            'link'    => ['required'],
         ]);
         $data = AuditPlan::create([
             'lecture_id'=> $request->lecture_id,
@@ -27,21 +29,22 @@ class AuditPlanController extends Controller{
             'location'=> $request->location,
             'department_id'=> $request->department_id,
             'auditor_id'=> $request->auditor_id,
+            'doc_path'=> $request->doc_path,
+            'link'=> $request->link,
         ]);
         if($data){
             return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
-            $audit_plan =AuditPlan::with('auditStatus')->get();
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('name')->get();
-            $status = AuditStatus::get();
+            $auditStatus = AuditStatus::get();
             $users = User::with(['roles' => function ($query) {
                 $query->select( 'id','name' );
             }])->where('name',"!=",'admin')->orderBy('name')->get();
             // dd($users);
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("users", "locations", "departments", "audit_plan"));
+            return view("audit_plan.index", compact("data", "users", "locations", "auditStatus", "departments"));
        }
 
     public function edit($id){
@@ -97,7 +100,7 @@ class AuditPlanController extends Controller{
         with(['lecture' => function ($query) {
                 $query->select('id','name');
             }])->with(['auditStatus' => function ($query) {
-                $query->select('id','title');
+                $query->select('id','title', 'color');
             }])->with(['department' => function ($query) {
                 $query->select('id','name');
             }])->with(['auditor' => function ($query) {

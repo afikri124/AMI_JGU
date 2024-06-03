@@ -72,22 +72,15 @@
                                 @enderror
                                     </div>
                                         </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
+                                <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location" class="form-label" >Location</label>
                             <select name="location" id="location" class="form-select" required>
-                                <option value="Online" {{ (isset($data->location) && "Online" == $data->location ? "selected" : "") }}
-                                    {{ ("Online" == old('location') ? "selected" : "") }}>Select Location
-                                </option>
-                                @foreach($locations as $d)
-                                <option value="{{ $d->title }}"
-                                    {{ (isset($data->location) && $d->title == $data->location ? "selected" : "") }}
-                                    {{ ($d->title == old('location') ? "selected" : "") }}>
-                                    {{ $d->title }}
-                                </option>
-                                @endforeach
-                                <option value="Others" {{ (isset($data->location) && "Others" == $data->location ? "selected" : "") }}
-                                    {{ ("Others" == old('location') ? "selected" : "") }}>Others
-                                </option>
+                            <option value="">Select Location</option>
+                            @foreach($locations as $d)
+                                <option value="{{$d->id}}"
+                                    {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
+                                    {{$d->title}}</option>
+                            @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
@@ -193,10 +186,11 @@
 
                             return row.auditor.name;
                     },
-                },{
+                },
+                {
                     render: function (data, type, row, meta) {
 
-                            return row.department_id;
+                            return row.department_id
                     },
                 },
                 {
