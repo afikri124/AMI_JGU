@@ -21,77 +21,39 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                        <label for="lecture_id" class="form-label" >Lecture</label>
-                        <select name="lecture_id" id="lecture_id" class="form-select" required>
-                            <option value="">Select Lecture</option>
-                            @foreach($users as $role)
-                                <option value="{{$role->id}}"
-                                    {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                    {{$role->name}}
-                                    (
-                                        @foreach ($role->roles as $x)
-                                            {{ $x->name}}
-                                        @endforeach
-                                        )</option>
-                                @endforeach
-                        </select>
-                    </div>
                     <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date</label>
+                        <label class="form-label" for="basicDate">Date Start</label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                                    placeholder="Masukkan Date" value="{{ $data->date }}">
-                                        @error('date')
+                                <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
+                                    placeholder="Masukkan Date " value="{{ $data->date_start }}">
+                                        @error('date_start')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
                                 @enderror
                                     </div>
                                         </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="location_id" class="form-label" >Location</label>
-                            <select name="location_id" id="location_id" class="form-select" required>
-                                <option value="Online" {{ (isset($data->location_id) && "Online" == $data->location_id ? "selected" : "") }}
-                                    {{ ("Online" == old('location_id') ? "selected" : "") }}>Select Location
-                                </option>
-                                @foreach($locations as $d)
-                                <option value="{{ $d->title }}"
-                                    {{ (isset($data->location_id) && $d->title == $data->location_id ? "selected" : "") }}
-                                    {{ ($d->title == old('location_id') ? "selected" : "") }}>
-                                    {{ $d->title }}
-                                </option>
-                                @endforeach
-                                <option value="Others" {{ (isset($data->location_id) && "Others" == $data->location_id ? "selected" : "") }}
-                                    {{ ("Others" == old('location_id') ? "selected" : "") }}>Others
-                                </option>
+                    <div class="col-sm-12 fv-plugins-icon-container">
+                        <label class="form-label" for="basicDate">Date</label>
+                            <div class="input-group input-group-merge has-validation">
+                                <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
+                                    placeholder="Masukkan Date" value="{{ $data->date_end }}">
+                                        @error('date_end')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong></span>
+                                @enderror
+                                    </div>
+                                        </div>
+                            <div class="col-sm-12 fv-plugins-icon-container">
+                            <label for="location" class="form-label" >Location</label>
+                            <select name="location" id="location" class="form-select" required>
+                            <option value="{{ $data->location }}">Select Location</option>
+                            @foreach($locations as $d)
+                                <option value="{{$d->id}}"
+                                    {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
+                                    {{$d->title}}</option>
+                            @endforeach
                             </select>
                         </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditor_id" class="form-label">Auditor</label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" required>
-                                <option value="">Select Auditor</option>
-                                @foreach($users as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}
-                                        (
-                                            @foreach ($role->roles as $x)
-                                                {{ $x->name}}
-                                            @endforeach
-                                        )</option>
-                                    @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="department_id" class="form-label" >Department</label>
-                            <select name="department_id" id="department_id" class="form-select" required>
-                                <option value="">Select Department</option>
-                                @foreach($departments as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('departments') ?? []) ? "selected": "") }}>
-                                        {{$role->title}}</option>
-                                    @endforeach
-                            </select>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Update</button>

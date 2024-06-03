@@ -15,71 +15,58 @@ class AuditPlanController extends Controller{
         if ($request->isMethod('POST')) {
             $this->validate($request, [
             'lecture_id'    => ['required'],
-            'date'    => ['required'],
-            'location'    => ['required'],
-            'department_id'   => ['required'],
+            'date_start'    => ['required'],
+            'date_end'      => ['required'],
+            'location'      => ['required'],
+            'department_id' => ['required'],
             'auditor_id'    => ['required'],
-            'doc_path'    => ['required'],
-            'link'    => ['required'],
         ]);
         $data = AuditPlan::create([
-            'lecture_id'=> $request->lecture_id,
-            'date'=> $request->date,
-            'audit_status_id'=> '1',
-            'location'=> $request->location,
-            'department_id'=> $request->department_id,
-            'auditor_id'=> $request->auditor_id,
-            'doc_path'=> $request->doc_path,
-            'link'=> $request->link,
+            'lecture_id'        => $request->lecture_id,
+            'date_start'        => $request->date_start,
+            'date_end'          => $request->date_end,
+            'audit_status_id'   => '1',
+            'location'          => $request->location,
+            'department_id'     => $request->department_id,
+            'auditor_id'        => $request->auditor_id,
+            'doc_path'          => 'pdf',
+            'link'              => 'blabla',
         ]);
         if($data){
-            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
+            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
             }
         }
+            $audit_plan =AuditPlan::with('auditstatus')->get();
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('name')->get();
-            $audit_statuses = AuditStatus::get();
+            $auditstatus = AuditStatus::get();
             $users = User::with(['roles' => function ($query) {
                 $query->select( 'id','name' );
             }])->where('name',"!=",'admin')->orderBy('name')->get();
             // dd($users);
             $data = AuditPlan::all();
-            return view("audit_plan.index", compact("data", "users", "locations", "audit_statuses", "departments"));
+            return view("audit_plan.index", compact("data", "users", "locations", "auditstatus", "departments", "audit_plan"));
        }
 
     public function edit($id){
         $data = AuditPlan::findOrFail($id);
-        $audit_statuses = AuditStatus::all();
-        $locations = Location::all();
-        $users = User::with(['roles' => function ($query) {
-            $query->select( 'id','name' );
-        }])->where('name',"!=",'admin')->orderBy('name')->get();
-        $departments = Department::all();
-        return view('audit_plan.edit_audit', compact('data', 'audit_statuses', 'locations', 'users', 'departments'));
+        $locations = Location::orderBy('title')->get();
+        return view('audit_plan.edit_audit', compact('data', 'locations'));
     }
 
         public function update(Request $request, $id){
         $request->validate([
-            'lecture_id'    => 'required',
-            'date'    => 'required',
+            'date_start'    => 'required',
+            'date_end'    => 'required',
             // 'audit_plan_status_id' => 'required',
             'location'    => 'required',
-            'department_id'   => 'required',
-            'auditor_id'    => 'required',
-            'doc_path'    => 'required',
-            'link'    => 'required',
         ]);
 
         $data = AuditPlan::findOrFail($id);
         $data->update([
-            'lecture_id'=> $request->lecture_id,
-            'date'=> $request->date,
-            'audit_status_id'=> '1',
+            'date_start'=> $request->date_start,
+            'date_end'=> $request->date_end,
             'location'=> $request->location,
-            'department_id'=> $request->department_id,
-            'auditor_id'=> $request->auditor_id,
-            'doc_path'=> $request->doc_path,
-            'link'=> $request->link,
         ]);
         return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
@@ -103,13 +90,17 @@ class AuditPlanController extends Controller{
         $data = AuditPlan::
         with(['lecture' => function ($query) {
                 $query->select('id','name');
-            }])->with(['auditStatus' => function ($query) {
-                $query->select('id','title', 'color');
-            }])->with(['department' => function ($query) {
-                $query->select('id','name');
-            }])->with(['auditor' => function ($query) {
-                $query->select('id','name');
-            }])->select('*')->orderBy("id");
+            },
+            'auditstatus' => function ($query) {
+                $query->select('id', 'title', 'color');
+            },
+            'department' => function ($query) {
+                $query->select('id', 'name');
+            },
+            'auditor' => function ($query) {
+                $query->select('id', 'name');
+            }
+        ])->select('*')->orderBy("id");
             return DataTables::of($data)
                     ->filter(function ($instance) use ($request) {
                         if (!empty($request->get('auditor_id'))) {
@@ -124,10 +115,11 @@ class AuditPlanController extends Controller{
 
 //Json
     public function getData(){
-        $data = AuditPlan::with('users')->with('audit_statuses')->with('locations')->get()->map(function ($data) {
+        $data = AuditPlan::with('users')->with('auditstatus')->with('locations')->get()->map(function ($data) {
             return [
                 'lecture_id' => $data->lecture_id,
-                'date' => $data->date,
+                'date_start' => $data->date_start,
+                'date_end' => $data->date_end,
                 'audit_status_id' => '1',
                 'location' => $data->location,
                 'auditor_id' => $data->auditor_id,

@@ -11,6 +11,21 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flaex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 <div class="container">
     <table class="table" id="datatable">
     <div class="offset-md-1 text-md-end text-center pt-3 pt-md-0">
@@ -20,22 +35,7 @@
                 <span>Add</span></span>
         </button>
     </div>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Lecture</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Location</th>
-                <th>Auditor</th>
-                <th>Department</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-    </table>
-</div>
-
-<div class="offcanvas offcanvas-end @if($errors->all()) show @endif" id="newrecord"
+    <div class="offcanvas offcanvas-end @if($errors->all()) show @endif" id="newrecord"
     aria-labelledby="offcanvasEndLabel">
         <div class="offcanvas-header">
             <h5 id="offcanvasEndLabel" class="offcanvas-title">Add Audit Plan</h5>
@@ -62,17 +62,28 @@
                             </select>
                         </div>
                     <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date</label>
+                        <label class="form-label" for="basicDate">Date Start</label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                                    placeholder="Masukkan Date" value="{{ old('date') }}">
-                                        @error('date')
+                                <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
+                                    placeholder="Masukkan Date Start" value="{{ old('date_start') }}">
+                                        @error('date_start')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
                                 @enderror
                                     </div>
                                         </div>
                                 <div class="col-sm-12 fv-plugins-icon-container">
+                        <label class="form-label" for="basicDate">Date End</label>
+                            <div class="input-group input-group-merge has-validation">
+                                <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
+                                    placeholder="Masukkan Date End" value="{{ old('date_end') }}">
+                                        @error('date_end')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong></span>
+                                @enderror
+                                    </div>
+                                        </div>
+                            <div class="col-sm-12 fv-plugins-icon-container">
                             <label for="location" class="form-label" >Location</label>
                             <select name="location" id="location" class="form-select" required>
                             <option value="">Select Location</option>
@@ -115,6 +126,23 @@
                                 data-bs-dismiss="offcanvas">Batal</button>
                         </div>
                     </div>
+                </div>
+
+    <div class="container">
+        <thead>
+            <tr>
+                <th><b>No</b></th>
+                <th><b>Lecture</b></th>
+                <th><b>Date Start</b></th>
+                <th><b>Date End</b></th>
+                <th><b>Status</b></th>
+                <th><b>Auditor</b></th>
+                <th><b>Department</b></th>
+                <th><b>Action</b></th>
+            </tr>
+        </thead>
+    </table>
+</div>
 
     @endsection
 
@@ -166,20 +194,20 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.date;
+                        return row.date_start;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.audit_status_id;
+                        return row.date_end;
                     },
                 },
                 {
-                    render: function (data, type, row, meta) {
-
-                            return row.location;
-                    },
+                    render: function(data, type, row, meta) {
+                        var html =
+                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
+                        return html;
+                    }
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -190,7 +218,7 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.department_id;
+                            return row.department.name;
                     },
                 },
                 {

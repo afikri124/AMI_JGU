@@ -11,6 +11,6 @@ class Location extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'title',
+        'id', 'title'
     ];
 }

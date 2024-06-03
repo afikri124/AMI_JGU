@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('lecture_id');
             $table->foreign('lecture_id')->references('id')->on('users');
-            $table->dateTime('date');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end');
             $table->unsignedBigInteger('audit_status_id');
             $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
             $table->string('location');

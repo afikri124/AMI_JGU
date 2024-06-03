@@ -26,13 +26,7 @@ class AuditDocController extends Controller{
 
     public function edit($id){
         $data = AuditPlan::findOrFail($id);
-        $auditStatus = AuditStatus::all();
-        $locations = Location::all();
-        $users = User::with(['roles' => function ($query) {
-            $query->select( 'id','name' );
-        }])->where('name',"!=",'admin')->orderBy('name')->get();
-        $departments = Department::all();
-        return view('audit_doc.edit_doc', compact('data', 'auditStatus', 'locations', 'users', 'departments'));
+        return view('audit_doc.edit_doc', compact('data'));
     }
 
         public function update(Request $request, $id){
@@ -43,19 +37,16 @@ class AuditDocController extends Controller{
         }
         if ($request->isMethod('POST') && isset($request->submit)) {
             $this->validate($request, [
-            'audit_plan_id'    => 'required',
-            'date'    => 'required',
-            'location'    => 'required',
             'doc_path'    => 'required',
-            'link'    => '',
+            'link'    => 'required',
         ]);
 
         $data = AuditPlan::findOrFail($id);
         $fileName = $data->doc_path;
         if(isset($request->doc_path)){
-            $name = Carbon::now()->format('Ym').'_'.md5($o_id).'.'.$request->doc_path->extension(); 
-            $fileName = Auth::user()->id.'_'.$name; 
-            $folderName =  "storage/FILE/".Carbon::now()->format('Y/m');
+            $name = Carbon::now()->format('Ym').'_'.md5($o_id).'.'.$request->doc_path->extension();
+            $fileName = Auth::user()->id.'_'.$name;
+            $folderName =  "FILE/".Carbon::now()->format('Y/m');
             $path = public_path()."/".$folderName;
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0755, true); //create folder
@@ -71,13 +62,7 @@ class AuditDocController extends Controller{
             }
         }
         $data->update([
-            'audit_plan_id'=> $request->audit_plan_id,
-            'doc_path'=> $request->doc_path,
-            'date'=> $request->date,
-            'audit_doc_list_name_id'=> $request->audit_doc_list_name_id,
-            'audit_doc_status_id'=> $request->audit_doc_status_id,
-            'remark_by_auditor'=> $request->remark_by_auditor,
-            'remark_by_lecture'=> $request->remark_by_lecture,
+            'doc_path'=> $fileName,
             'link'=> $request->link,
         ]);
         return redirect()->route('audit_doc.index')->with('Success', 'Audit Plan berhasil diperbarui.');
@@ -103,8 +88,8 @@ class AuditDocController extends Controller{
         $data = AuditPlan::
         with(['lecture' => function ($query) {
                 $query->select('id','name');
-            }])->with(['auditStatus' => function ($query) {
-                $query->select('id','title');
+            }])->with(['auditstatus' => function ($query) {
+                $query->select('id','title', 'color');
             }])->with(['auditor' => function ($query) {
                 $query->select('id','name');
             }])->select('*')->orderBy("id");

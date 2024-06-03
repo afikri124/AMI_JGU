@@ -24,13 +24,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 <div class="container">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
                                 <th><b>Lecture</b></th>
-                                <th><b>Date</b></th>
+                                <th><b>Date Start</b></th>
+                                <th><b>Date End</b></th>
                                 <th><b>Location</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
@@ -88,7 +90,13 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.date;
+                            return row.date_start;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.date_end;
                     },
                 },
                 {
@@ -98,10 +106,11 @@
                     },
                 },
                 {
-                    render: function (data, type, row, meta) {
-
-                            return row.audit_status_id;
-                    },
+                    render: function(data, type, row, meta) {
+                        var html =
+                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
+                        return html;
+                    }
                 },
                 {
                     render: function (data, type, row, meta) {
