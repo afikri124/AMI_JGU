@@ -151,7 +151,7 @@
                 url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_user_id = $('#select_user_id').val()
+                    d.select_lecture_id = $('#select_lecture_id').val()
                 },
             },
             columnDefs: [{

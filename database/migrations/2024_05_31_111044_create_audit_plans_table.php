@@ -22,7 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
             $table->unsignedBigInteger('auditor_id');
-            $table->foreign('auditor_id')->references('id')->on('users');            
+            $table->foreign('auditor_id')->references('id')->on('users');  
+            $table->string('doc_path');          
+            $table->string('link');
             $table->timestamps();
         });
     }

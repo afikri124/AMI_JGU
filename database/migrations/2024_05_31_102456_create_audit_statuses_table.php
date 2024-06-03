@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('audit_statuses', function (Blueprint $table) {
             $table->id('id');
             $table->string('title');
+            $table->string('color');
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->nullable();
 

@@ -21,6 +21,22 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
+                        <div class="col-sm-12 fv-plugins-icon-container">
+                        <label for="lecture_id" class="form-label" >Lecture</label>
+                        <select name="lecture_id" id="lecture_id" class="form-select" required>
+                            <option value="">Select Lecture</option>
+                            @foreach($users as $role)
+                                <option value="{{$role->id}}"
+                                    {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                    {{$role->name}}
+                                    (
+                                        @foreach ($role->roles as $x)
+                                            {{ $x->name}}
+                                        @endforeach
+                                        )</option>
+                                @endforeach
+                        </select>
+                    </div>
                     <div class="col-sm-12 fv-plugins-icon-container">
                         <label class="form-label" for="basicDate">Date</label>
                             <div class="input-group input-group-merge has-validation">
@@ -48,22 +64,6 @@
                                 <option value="Others" {{ (isset($data->location_id) && "Others" == $data->location_id ? "selected" : "") }}
                                     {{ ("Others" == old('location_id') ? "selected" : "") }}>Others
                                 </option>
-                            </select>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="lecture_id" class="form-label" >Auditee</label>
-                            <select name="lecture_id" id="lecture_id" class="form-select" required>
-                                <option value="">Select Auditee</option>
-                                @foreach($users as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
-                                        {{$role->name}}
-                                        (
-                                            @foreach ($role->roles as $x)
-                                                {{ $x->name}}
-                                            @endforeach
-                                            )</option>
-                                    @endforeach
                             </select>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">

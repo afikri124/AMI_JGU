@@ -20,41 +20,40 @@ class AuditDocController extends Controller{
     public function index(Request $request){
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-            'audit_plan_id'    => ['required'],
-            'doc_path'    => ['required'],
+            'lecture_id'    => ['required'],
             'date'    => ['required'],
-            'audit_doc_list_name_id'    => ['required'],
-            'audit_doc_status_id'   => ['required'],
-            'remark_by_auditor'    => ['required'],
-            'remark_by_lecture'    => ['required'],
-            'link'    => ['required'],
+            'location'    => ['required'],
+            'department_id'   => ['required'],
+            'auditor_id'    => ['required'],
+            'doc_path'    => ['required'],
+            'link' => ['required']
         ]);
-        $fileName = "";
+        $document = "";
             if(isset($request->doc_path)){
                 $ext = $request->doc_path->extension();
                 $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
-                $fileName = Auth::user()->id.'_'.$name; 
+                $document = Auth::user()->id.'_'.$name; 
                 $folderName =  "storage/FILE/".Carbon::now()->format('Y/m');
                 $path = public_path()."/".$folderName;
                 if (!File::exists($path)) {
                     File::makeDirectory($path, 0755, true); //create folder
                 }
-                $upload = $request->doc_path->move($path, $fileName); //upload image to folder
+                $upload = $request->doc_path->move($path, $document); //upload image to folder
                 if($upload){
-                    $fileName=$folderName."/".$fileName;
+                    $document=$folderName."/".$document;
                 } else {
-                    $fileName = "";
+                    $document = "";
                 }
             }
             
         $data = AuditPlan::create([
-            'audit_plan_id'=> $request->audit_plan_id,
-            'doc_path'=> $request->doc_path,
+            'lecture_id'=> $request->lecture_id,
             'date'=> $request->date,
-            'audit_doc_list_name_id'=> $request->audit_doc_list_name_id,
-            'audit_doc_status_id'=> $request->audit_doc_status_id,
-            'remark_by_auditor'=> $request->remark_by_auditor,
-            'remark_by_lecture'=> $request->remark_by_lecture,
+            'audit_status_id'=> '1',
+            'location'=> $request->location,
+            'department_id'=> $request->department_id,
+            'auditor_id'=> $request->auditor_id,
+            'doc_path'=> $document,
             'link'=> $request->link,
         ]);
         if($data){
@@ -68,11 +67,6 @@ class AuditDocController extends Controller{
     }
 
     public function edit($id){
-        try {
-            $o_id = Crypt::decrypt($id);
-        } catch (DecryptException $e) {
-            return redirect()->route('audit_doc.index');
-        }
         $data = AuditPlan::findOrFail($id);
         $auditStatus = AuditStatus::all();
         $locations = Location::all();
@@ -80,25 +74,28 @@ class AuditDocController extends Controller{
             $query->select( 'id','name' );
         }])->where('name',"!=",'admin')->orderBy('name')->get();
         $departments = Department::all();
-        return view('audit_plan.edit_doc', compact('data', 'auditStatus', 'locations', 'users', 'departments'));
+        return view('audit_doc.edit_doc', compact('data', 'auditStatus', 'locations', 'users', 'departments'));
     }
 
         public function update(Request $request, $id){
-        $request->validate([
+            try {
+            $o_id = Crypt::decrypt($id);
+        } catch (DecryptException $e) {
+            return redirect()->route('audit_doc.index');
+        }
+        if ($request->isMethod('POST') && isset($request->submit)) {
+            $this->validate($request, [
             'audit_plan_id'    => 'required',
-            'doc_path'    => 'required',
             'date'    => 'required',
-            'audit_doc_list_name_id'    => 'required',
-            'audit_doc_status_id'   => 'required',
-            'remark_by_auditor'    => 'required',
-            'remark_by_lecture'    => 'required',
-            'link'    => 'required',
+            'location'    => 'required',
+            'doc_path'    => 'required',
+            'link'    => '',
         ]);
 
         $data = AuditPlan::findOrFail($id);
         $fileName = $data->doc_path;
         if(isset($request->doc_path)){
-            $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
+            $name = Carbon::now()->format('Ym').'_'.md5($o_id).'.'.$request->doc_path->extension(); 
             $fileName = Auth::user()->id.'_'.$name; 
             $folderName =  "storage/FILE/".Carbon::now()->format('Y/m');
             $path = public_path()."/".$folderName;
@@ -112,7 +109,7 @@ class AuditDocController extends Controller{
                     File::delete(public_path()."/".$data->doc_path);
                 }
             } else {
-                $fileName = $data->file_path;
+                $fileName = $data->doc_path;
             }
         }
         $data->update([
@@ -127,6 +124,7 @@ class AuditDocController extends Controller{
         ]);
         return redirect()->route('audit_doc.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
+}
 
     public function delete(Request $request){
         $data = AuditPlan::find($request->id);

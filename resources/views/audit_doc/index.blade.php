@@ -63,7 +63,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_doc.data') }}",
+                url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_fakultas = $('#select_fakultas').val()
@@ -104,11 +104,16 @@
                     },
                 },
                 {
-                        render: function(data, type, row, meta) {
-                            var html = row.doc_path;
-                            return html;
+                    render: function (data, type, row, meta) {
+                        var x = "";
+                        if (row.doc_path != null) {
+                            x =
+                                '<span><img class="chat-user-img img-30" src="' + "{{ asset('') }}" +
+                                row.doc_path + '"></span>';
                         }
+                        return x;
                     },
+                },
                 {
                         render: function(data, type, row, meta) {
                             var html =
@@ -135,7 +140,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('audit_doc.delete') }}",
+                        url: "{{ route('audit_plan.delete') }}",
                         type: "DELETE",
                         data: {
                             "id": id,

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
             $table->string('doc_path');
             $table->string('date');
+            $table->string('location');
             $table->unsignedBigInteger('audit_doc_list_name_id');
             $table->foreign('audit_doc_list_name_id')->references('id')->on('audit_doc_list_names');
             $table->unsignedBigInteger('audit_doc_status_id');

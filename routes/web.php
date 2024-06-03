@@ -40,12 +40,18 @@ Route::group(['prefix' => 'audit_plan'], function () {
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
-//Audit Plan Status
+// Route::group(['prefix' => 'audit_observation'], function () {
+//     Route::get('/',[AuditDocController::class, 'index'])->name('audit_observation.index');
+//     Route::get('/data',[AuditDocController::class, 'data'])->name('audit_observation.data');
+//     Route::delete('/delete', [AuditDocController::class, 'delete'])->name('audit_doc.delete');
+// });
+// Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
+// Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
+
 Route::group(['prefix' => 'audit_doc'], function () {
     Route::get('/',[AuditDocController::class, 'index'])->name('audit_doc.index');
     Route::get('/data',[AuditDocController::class, 'data'])->name('audit_doc.data');
     Route::delete('/delete', [AuditDocController::class, 'delete'])->name('audit_doc.delete');
-
 });
 Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
