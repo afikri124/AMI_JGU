@@ -22,7 +22,7 @@ class AuditPlan extends Model
         'auditor_id',
         'doc_path',
         'link',
-    ];
+        ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
 

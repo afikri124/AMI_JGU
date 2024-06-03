@@ -44,8 +44,13 @@ class AuditPlanController extends Controller{
             }])->where('name',"!=",'admin')->orderBy('name')->get();
             // dd($users);
             $data = AuditPlan::all();
+<<<<<<< HEAD
             return view("audit_plan.index", compact("data", "users", "locations", "auditStatus", "departments"));
        }
+=======
+            return view("audit_plan.index", compact("users", "locations", "departments", "audit_plan"));
+        }
+>>>>>>> b85f107e9155fb86d9bde4550b331e6977679fc3
 
     public function edit($id){
         $data = AuditPlan::findOrFail($id);
@@ -66,6 +71,8 @@ class AuditPlanController extends Controller{
             'location'    => 'required',
             'department_id'   => 'required',
             'auditor_id'    => 'required',
+            'doc_path'    => 'required',
+            'link'    => 'required',
         ]);
 
         $data = AuditPlan::findOrFail($id);
@@ -76,6 +83,8 @@ class AuditPlanController extends Controller{
             'location'=> $request->location,
             'department_id'=> $request->department_id,
             'auditor_id'=> $request->auditor_id,
+            'doc_path'=> $request->doc_path,
+            'link'=> $request->link,
         ]);
         return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
     }
@@ -100,7 +109,11 @@ class AuditPlanController extends Controller{
         with(['lecture' => function ($query) {
                 $query->select('id','name');
             }])->with(['auditStatus' => function ($query) {
+<<<<<<< HEAD
                 $query->select('id','title', 'color');
+=======
+                $query->select('id','title','color');
+>>>>>>> b85f107e9155fb86d9bde4550b331e6977679fc3
             }])->with(['department' => function ($query) {
                 $query->select('id','name');
             }])->with(['auditor' => function ($query) {
