@@ -18,53 +18,11 @@ use Illuminate\Support\Facades\File;
 
 class AuditDocController extends Controller{
     public function index(Request $request){
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-            'lecture_id'    => ['required'],
-            'date'    => ['required'],
-            'location'    => ['required'],
-            'department_id'   => ['required'],
-            'auditor_id'    => ['required'],
-            'doc_path'    => ['required'],
-            'link' => ['required']
-        ]);
-        $document = "";
-            if(isset($request->doc_path)){
-                $ext = $request->doc_path->extension();
-                $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
-                $document = Auth::user()->id.'_'.$name; 
-                $folderName =  "storage/FILE/".Carbon::now()->format('Y/m');
-                $path = public_path()."/".$folderName;
-                if (!File::exists($path)) {
-                    File::makeDirectory($path, 0755, true); //create folder
-                }
-                $upload = $request->doc_path->move($path, $document); //upload image to folder
-                if($upload){
-                    $document=$folderName."/".$document;
-                } else {
-                    $document = "";
-                }
-            }
-            
-        $data = AuditPlan::create([
-            'lecture_id'=> $request->lecture_id,
-            'date'=> $request->date,
-            'audit_status_id'=> '1',
-            'location'=> $request->location,
-            'department_id'=> $request->department_id,
-            'auditor_id'=> $request->auditor_id,
-            'doc_path'=> $document,
-            'link'=> $request->link,
-        ]);
-        if($data){
-            return redirect()->route('audit_doc.index');
-            }
-        }
+        {
         $data = AuditPlan::all();
-        $locations = Location::all();
-        $users = User::all();
-        return view("audit_doc.index",compact("data", "locations", "users"));
+        return view('audit_doc.index', compact('data'));
     }
+}
 
     public function edit($id){
         $data = AuditPlan::findOrFail($id);
