@@ -38,29 +38,24 @@ class AuditPlanController extends Controller{
         }
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('name')->get();
-            $auditStatus = AuditStatus::get();
+            $audit_statuses = AuditStatus::get();
             $users = User::with(['roles' => function ($query) {
                 $query->select( 'id','name' );
             }])->where('name',"!=",'admin')->orderBy('name')->get();
             // dd($users);
             $data = AuditPlan::all();
-<<<<<<< HEAD
-            return view("audit_plan.index", compact("data", "users", "locations", "auditStatus", "departments"));
+            return view("audit_plan.index", compact("data", "users", "locations", "audit_statuses", "departments"));
        }
-=======
-            return view("audit_plan.index", compact("users", "locations", "departments", "audit_plan"));
-        }
->>>>>>> b85f107e9155fb86d9bde4550b331e6977679fc3
 
     public function edit($id){
         $data = AuditPlan::findOrFail($id);
-        $auditStatus = AuditStatus::all();
+        $audit_statuses = AuditStatus::all();
         $locations = Location::all();
         $users = User::with(['roles' => function ($query) {
             $query->select( 'id','name' );
         }])->where('name',"!=",'admin')->orderBy('name')->get();
         $departments = Department::all();
-        return view('audit_plan.edit_audit', compact('data', 'auditStatus', 'locations', 'users', 'departments'));
+        return view('audit_plan.edit_audit', compact('data', 'audit_statuses', 'locations', 'users', 'departments'));
     }
 
         public function update(Request $request, $id){
@@ -79,7 +74,7 @@ class AuditPlanController extends Controller{
         $data->update([
             'lecture_id'=> $request->lecture_id,
             'date'=> $request->date,
-            'audit_status_id'=> 'Pending',
+            'audit_status_id'=> '1',
             'location'=> $request->location,
             'department_id'=> $request->department_id,
             'auditor_id'=> $request->auditor_id,
@@ -109,11 +104,7 @@ class AuditPlanController extends Controller{
         with(['lecture' => function ($query) {
                 $query->select('id','name');
             }])->with(['auditStatus' => function ($query) {
-<<<<<<< HEAD
                 $query->select('id','title', 'color');
-=======
-                $query->select('id','title','color');
->>>>>>> b85f107e9155fb86d9bde4550b331e6977679fc3
             }])->with(['department' => function ($query) {
                 $query->select('id','name');
             }])->with(['auditor' => function ($query) {
@@ -133,13 +124,16 @@ class AuditPlanController extends Controller{
 
 //Json
     public function getData(){
-        $data = AuditPlan::with('users')->with('auditStatus')->with('locations')->get()->map(function ($data) {
+        $data = AuditPlan::with('users')->with('audit_statuses')->with('locations')->get()->map(function ($data) {
             return [
-                'user_id' => $data->user_id,
+                'lecture_id' => $data->lecture_id,
                 'date' => $data->date,
-                'audit_plan_status_id' => 'Pending',
+                'audit_status_id' => '1',
                 'location' => $data->location,
+                'auditor_id' => $data->auditor_id,
                 'department_id' => $data->department_id,
+                'doc_path' => $data->doc_path,
+                'link' => $data->link,
                 'created_at' => $data->created_at,
                 'updated_at' => $data->updated_at,
             ];
@@ -149,7 +143,7 @@ class AuditPlanController extends Controller{
     }
 
     public function datatables(){
-        $audit_plan = AuditPlan::select('*');
-        return DataTables::of($audit_plan)->make(true);
+        $data = AuditPlan::select('*');
+        return DataTables::of($data)->make(true);
     }
 }

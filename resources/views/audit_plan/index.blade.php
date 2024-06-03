@@ -190,7 +190,7 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.department_id
+                            return row.department_id;
                     },
                 },
                 {
