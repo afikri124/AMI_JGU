@@ -65,7 +65,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_plan.data') }}",
+                url: "{{ route('audit_doc.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_fakultas = $('#select_fakultas').val()
@@ -84,7 +84,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.lecture.name;
+                        var html = `<a class="text-primary" title="` + row.lecture.name +
+                            `" href="">` + row.lecture.name + `</a>`;
+                        return html;
                     },
                 },
                 {
@@ -102,7 +104,7 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.location;
+                            return row.location_id;
                     },
                 },
                 {

@@ -19,13 +19,14 @@ return new class extends Migration
             $table->dateTime('date_end');
             $table->unsignedBigInteger('audit_status_id');
             $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
-            $table->string('location');
+            $table->uuid('location_id')->nullable();
+            $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
             $table->unsignedBigInteger('auditor_id');
             $table->foreign('auditor_id')->references('id')->on('users');
-            $table->string('doc_path');
-            $table->string('link');
+            $table->string('doc_path')->nullable();
+            $table->string('link')->nullable();
             $table->timestamps();
         });
     }

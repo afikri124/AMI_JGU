@@ -84,8 +84,8 @@
                                     </div>
                                         </div>
                             <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="location" class="form-label" >Location</label>
-                            <select name="location" id="location" class="form-select" required>
+                            <label for="location_id" class="form-label" >Location</label>
+                            <select name="location_id" id="location_id" class="form-select" required>
                             <option value="">Select Location</option>
                             @foreach($locations as $d)
                                 <option value="{{$d->id}}"
@@ -188,8 +188,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.lecture.name;
+                        var html = `<a class="text-primary" title="` + row.lecture.name +
+                            `" href="">` + row.lecture.name + `</a>`;
+                        return html;
                     },
                 },
                 {
@@ -211,8 +212,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.auditor.name;
+                        var html = "<code><span title='" + row.auditor.name + "'>" + row.auditor.name +
+                            "</span></code>";
+                        return html;
                     },
                 },
                 {
@@ -226,7 +228,7 @@
                         var html =
                             `<a class="btn btn-warning btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.date + `\')" >
+                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" >
                             <i class="bx bx-trash"></i></a>`;
                         return html;
                     },

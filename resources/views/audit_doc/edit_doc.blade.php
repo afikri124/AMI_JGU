@@ -17,15 +17,16 @@
                 <div class="card">
                     <div class="card-header">Upload Document Audit</div>
                 <div class="card-body">
-                    <form action="{{ route('update_doc', $data->id) }}" method="POST">
+                    <form action="{{ route('update_doc', $data->id) }}" method="POST"
+                    enctype="multipart/form-data"></form>
                         @csrf
                         @method('PUT')
                         <div class="col-sm-12">
                                 <label class="form-label">Upload Images<i class="text-danger">*</i></label>
                                 <div class="input-group mb-3">
                                     <input class="form-control @error('doc_path') is-invalid @enderror"
-                                        name="doc_path" type="file" accept=".jpg, .jpeg, .png"
-                                        title="JPG/PNG">
+                                        name="doc_path" type="file" accept=".jpg, .jpeg, .png, .pdf"
+                                        title="JPG/PNG/PDF">
                                     @error('doc_path')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -36,9 +37,9 @@
                             <div class="col-sm-12 fv-plugins-icon-container">
                                 <label class="form-label" for="basicDate">Link Drive</label>
                                 <div class="input-group input-group-merge has-validation">
-                                    <input class="form-control @error('Link Doc') is-invalid @enderror" name="Link Doc" id="Link Doc"
-                                        placeholder="Input your link drive">{{ old('Link Doc') }}
-                                    @error('Link Doc')
+                                    <input class="form-control @error('link') is-invalid @enderror" name="link" id="link"
+                                        placeholder="Input your link drive">{{ old('link') }}
+                                    @error('link')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

@@ -89,13 +89,13 @@
                     </ul>
                 </li>
 
-                <li class="menu-item {{ request()->segment(2) == 'standard_audit' ? 'open active' : '' }}">
+                <li class="menu-item {{ request()->segment(2) == 'manage_standar' ? 'open active' : '' }}">
                     <a href="" class="menu-link  menu-toggle">
                         <div>Manage Standard</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ request()->segment(3) == 'standard' ? 'active' : '' }}">
-                            <a href="" class="menu-link">
+                        <li class="menu-item {{ request()->segment(3) == 'standar' ? 'active' : '' }}">
+                            <a href="{{ route('standar.index') }}" class="menu-link">
                                 <div>Standard Audit</div>
                             </a>
                         </li>
