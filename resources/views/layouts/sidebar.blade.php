@@ -95,14 +95,14 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->segment(3) == 'standard' ? 'active' : '' }}">
-                            <a href="" class="menu-link">
+                            <a href="{{ route('standard_audit.index') }}" class="menu-link">
                                 <div>Standard Audit</div>
                             </a>
                         </li>
                     </ul>
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->segment(3) == 'quesition' ? 'active' : '' }}">
-                            <a href="" class="menu-link">
+                            <a href="{{ route('question.index') }}" class="menu-link">
                                 <div>Question Audit</div>
                             </a>
                         </li>

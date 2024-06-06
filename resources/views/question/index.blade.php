@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Audit Standard')
+@section('title', 'Question Standard')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -28,15 +28,21 @@
                 </div>
 <div class="container">
     <table class="table" id="datatable">
-        
+        <div class="col-md-6 d-flex justify-content-center justify-content-md-end">
+            <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                href="{{ route('question.add_qst')}}">
+                <i data-feather="plus"></i>New
+            </a>
+        </div>
     
 
     <div class="container">
         <thead>
             <tr>
-                <th scope="col" width="20px">No</th>
+                <th scope="col" width="50px">No</th>
                 <th scope="col" width="50px">Title</th>
                 <th scope="col" width="50px">Weight</th>
+                <th scope="col" width="50px">Status</th>
                 <th scope="col" width="50px">Category</th>
                 <th scope="col" width="50px">Action</th>
             </tr>
@@ -69,7 +75,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_plan.data') }}",
+                url: "{{ route('question.add_qst') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_lecture_id = $('#select_lecture_id').val()
