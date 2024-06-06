@@ -17,7 +17,7 @@ class AuditPlanController extends Controller{
             'lecture_id'    => ['required'],
             'date_start'    => ['required'],
             'date_end'      => ['required'],
-            'location_id'      => ['required'],
+            'location_id'   => ['required'],
             'department_id' => ['required'],
             'auditor_id'    => ['required'],
         ]);
@@ -27,7 +27,7 @@ class AuditPlanController extends Controller{
             'date_start'        => $request->date_start,
             'date_end'          => $request->date_end,
             'audit_status_id'   => '1',
-            'location_id'          => $request->location_id,
+            'location_id'       => $request->location_id,
             'department_id'     => $request->department_id,
             'auditor_id'        => $request->auditor_id,
             'doc_path'          => $request->doc_path,

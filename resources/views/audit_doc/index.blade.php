@@ -36,6 +36,7 @@
                                 <th><b>Location</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
+                                <th><b>Link</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -67,8 +68,7 @@
             ajax: {
                 url: "{{ route('audit_doc.data') }}",
                 data: function (d) {
-                    d.search = $('input[type="search"]').val(),
-                    d.select_fakultas = $('#select_fakultas').val()
+                    d.search = $('input[type="search"]').val()
                 },
             },
             columnDefs: [{
@@ -126,9 +126,15 @@
                     },
                 },
                 {
+                    render: function (data, type, row, meta) {
+
+                            return row.link;
+                    },
+                },
+                {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class=" text-success" title="Edit" href="{{ url('edit_doc/` + row.id + `') }}"><i class="bx bx-upload"></i></a>
+                                `<a class=" text-success" href="{{ url('add/') }}"><i class="bx bx-upload"></i></a>
                                 <a href="#modalToggle" data-bs-toggle="modal" data-bs-target="#modalToggle" class="bx bx-show-alt badge-dark"></a>
                                 <a class=" text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
                             return html;

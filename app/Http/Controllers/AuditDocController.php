@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditPlan;
-use App\Models\AuditStatus;
-use App\Models\Department;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\User;
 use App\Models\Location;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Carbon;
@@ -18,49 +15,44 @@ use Illuminate\Support\Facades\File;
 
 class AuditDocController extends Controller{
     public function index(Request $request){
-        {
         $data = AuditPlan::all();
-        return view('audit_doc.index', compact('data'));
-    }
-}
-
-    public function edit($id){
-        $data = AuditPlan::findOrFail($id);
-        return view('audit_doc.edit_doc', compact('data'));
+        $locations = Location::orderBy('title')->get();
+        return view('audit_doc.index', compact('data', 'locations'));
     }
 
-        public function update(Request $request, $id){
-        if ($request->isMethod('POST') && isset($request->submit)) {
+    public function add(Request $request){
+        if ($request->isMethod('POST')) {
             $this->validate($request, [
-            'doc_path'    => ['required','mime s:jpg,jpeg,png,pdf','max:5120'],
-            'link'    => 'required',
+            'doc_path'  => 'required','mime s:jpg,jpeg,png,pdf','max:5120',
+            'link'      => 'required',
+        ]);
+
+        $fileName = "";
+            if ($request->hasFile('doc_path')) {
+                $ext = $request->doc_path->extension();
+                $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
+                $fileName = Auth::user()->id . '_' . $name;
+                $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
+                $path = public_path() . "/" . $folderName;
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0755, true); //create folder
+                }
+                $upload = $request->doc_path->move($path, $fileName); //upload file to folder
+                if ($upload) {
+                    $fileName = $folderName . "/" . $fileName;
+                } else {
+                    $fileName = "";
+                }
+            }
+            //document upload
+            $data = AuditPlan::create([
+            'doc_path'          => $fileName,
+            'link'              => $request->link,
         ]);
         //dd($request);
-        $data = AuditPlan::findOrFail($id);
-        $fileName = $data->doc_path;
-        if(isset($request->doc_path)){
-            $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
-            $fileName = Auth::user()->id.'_'.$name;
-            $folderName =  "FILE/".Carbon::now()->format('Y/m');
-            $path = public_path()."/".$folderName;
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0755, true); //create folder
-            }
-            $upload = $request->doc_path->move($path, $fileName); //upload image to folder
-            if($upload){
-                $fileName=$folderName."/".$fileName;
-                if($data->doc_path != null){
-                    File::delete(public_path()."/".$data->doc_path);
-                }
-            } else {
-                $fileName = $data->doc_path;
-            }
+        if($data){
+            return redirect()->route('audit_doc.index')->with('Success', 'Document Anda berhasil di Upload');
         }
-        $data->update([
-            'doc_path'=> $fileName,
-            'link'=> $request->link,
-        ]);
-        return redirect()->route('audit_doc.index')->with('Success', 'Document Anda berhasil di Upload');
     }
 }
 
@@ -87,46 +79,40 @@ class AuditDocController extends Controller{
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'department' => function ($query) {
-                $query->select('id', 'name');
-            },
-            'auditor' => function ($query) {
-                $query->select('id', 'name');
-            },
             'location' => function ($query) {
                 $query->select('id', 'title');
             }
             ])->select('*')->orderBy("id");
             return DataTables::of($data)
-                    ->filter(function ($instance) use ($request) {
-                        if (!empty($request->get('auditor_id'))) {
-                            $instance->where("lecture_id", $request->get('lecture_id'));
-                        }
-                        if (!empty($request->get('search'))) {
-                            $search = $request->get('search');
-                            $instance->where('lecture_id', 'LIKE', "%$search%");
-                        }
-                    })->make(true);
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('lecture_id'))) {
+                    $instance->where("lecture_id", $request->get('lecture_id'));
+                }
+                if (!empty($request->get('search'))) {
+                    $search = $request->get('search');
+                    $instance->where('lecture_id', 'LIKE', "%$search%");
+                }
+            })->make(true);
     }
 
 //Json
-    public function getData(){
-        $data = AuditPlan::with('users')->with('auditStatus')->with('locations')->get()->map(function ($data) {
-            return [
-                'audit_plan_id'=> $data->audit_plan_id,
-                'doc_path'=> $data->doc_path,
-                'date'=> $data->date,
-                'audit_doc_list_name_id'=> $data->audit_doc_list_name_id,
-                'audit_doc_status_id'=> $data->audit_doc_status_id,
-                'remark_by_auditor'=> $data->remark_by_auditor,
-                'remark_by_lecture'=> $data->remark_by_lecture,
-                'link'=> $data->link,
-                'created_at' => $data->created_at,
-                'updated_at' => $data->updated_at,
-            ];
-        });
-
-        return response()->json($data);
+public function getData(){
+    $data = AuditPlan::with('users')->with('auditstatus')->with('locations')->get()->map(function ($data) {
+        return [
+            'lecture_id' => $data->lecture_id,
+            'date_start' => $data->date_start,
+            'date_end' => $data->date_end,
+            'audit_status_id' => '1',
+            'location_id' => $data->location_id,
+            'auditor_id' => $data->auditor_id,
+            'department_id' => $data->department_id,
+            'doc_path' => $data->doc_path,
+            'link' => $data->link,
+            'created_at' => $data->created_at,
+            'updated_at' => $data->updated_at,
+        ];
+    });
+    return response()->json($data);
     }
 
     public function datatables(){

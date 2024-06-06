@@ -17,10 +17,9 @@
                 <div class="card">
                     <div class="card-header">Upload Document Audit</div>
                 <div class="card-body">
-                    <form action="{{ route('update_doc', $data->id) }}" method="POST"
-                    enctype="multipart/form-data"></form>
+                <form id="form-add-new-record" method="POST" action="{{ route('audit_doc.add') }}"
+                        enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <div class="col-sm-12">
                                 <label class="form-label">Upload Images<i class="text-danger">*</i></label>
                                 <div class="input-group mb-3">
@@ -62,4 +61,5 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+</script>
 @endsection
