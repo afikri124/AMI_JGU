@@ -94,15 +94,20 @@
                         <div>Manage Standard</div>
                     </a>
                     <ul class="menu-sub">
+<<<<<<< HEAD
+                        <li class="menu-item {{ request()->segment(3) == 'standard' ? 'active' : '' }}">
+                            <a href="{{ route('standard_audit.index') }}" class="menu-link">
+=======
                         <li class="menu-item {{ request()->segment(3) == 'standar' ? 'active' : '' }}">
                             <a href="{{ route('standar.index') }}" class="menu-link">
+>>>>>>> b89a30da7d43aa94c6df72120381ebcf7cfc498c
                                 <div>Standard Audit</div>
                             </a>
                         </li>
                     </ul>
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->segment(3) == 'quesition' ? 'active' : '' }}">
-                            <a href="" class="menu-link">
+                            <a href="{{ route('question.index') }}" class="menu-link">
                                 <div>Question Audit</div>
                             </a>
                         </li>
