@@ -13,4 +13,8 @@ class Location extends Model
     protected $fillable = [
         'id', 'title'
     ];
+
+    public function auditplan(){
+        return $this->hasMany(AuditPlan::class, 'location_id');
+    }
 }

@@ -12,17 +12,263 @@ class LocationSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        Location::truncate();
-        $json = File::get("database/data/room.json");
-        $loc = json_decode($json);
-  
-        foreach ($loc as $key => $value) {
-            Location::create([
-                "id" => $value->id,
-                "title" => $value->title
-            ]);
+        //
+        $data = [
+                [
+                 "id"=> "1.3.04",
+                 "title"=> "Asphalt Laboratory"
+                ],
+                [
+                 "id"=> "4.4.02",
+                 "title"=> "Auditorium"
+                ],
+                [
+                 "id"=> "1.3.02",
+                 "title"=> "Basic & Machine Achievements Laboratory"
+                ],
+                [
+                 "id"=> "1.3.13",
+                 "title"=> "Centrifugal Pump Laboratory"
+                ],
+                [
+                 "id"=> "3.1.01",
+                 "title"=> "Class - 01"
+                ],
+                [
+                 "id"=> "3.1.02",
+                 "title"=> "Class - 02"
+                ],
+                [
+                 "id"=> "3.1.03",
+                 "title"=> "Class - 03"
+                ],
+                [
+                 "id"=> "3.1.04",
+                 "title"=> "Class - 04"
+                ],
+                [
+                 "id"=> "3.1.05",
+                 "title"=> "Class - 05"
+                ],
+                [
+                 "id"=> "3.1.06",
+                 "title"=> "Class - 06"
+                ],
+                [
+                 "id"=> "3.1.07",
+                 "title"=> "Class - 07"
+                ],
+                [
+                 "id"=> "3.1.08",
+                 "title"=> "Class - 08"
+                ],
+                [
+                 "id"=> "3.1.09",
+                 "title"=> "Class - 09"
+                ],
+                [
+                 "id"=> "3.1.10",
+                 "title"=> "Class - 10"
+                ],
+                [
+                 "id"=> "3.1.11",
+                 "title"=> "Class - 11"
+                ],
+                [
+                 "id"=> "3.1.12",
+                 "title"=> "Class - 12"
+                ],
+                [
+                 "id"=> "3.1.13",
+                 "title"=> "Class - 13"
+                ],
+                [
+                 "id"=> "3.1.14",
+                 "title"=> "Class - 14"
+                ],
+                [
+                 "id"=> "3.1.15",
+                 "title"=> "Class - 15"
+                ],
+                [
+                 "id"=> "3.1.16",
+                 "title"=> "Class - 16"
+                ],
+                [
+                 "id"=> "3.1.17",
+                 "title"=> "Class - 17"
+                ],
+                [
+                 "id"=> "3.1.18",
+                 "title"=> "Class - 18"
+                ],
+                [
+                 "id"=> "3.1.19",
+                 "title"=> "Class - 19"
+                ],
+                [
+                 "id"=> "4.1.20",
+                 "title"=> "Class - 20"
+                ],
+                [
+                 "id"=> "4.1.21",
+                 "title"=> "Class - 21"
+                ],
+                [
+                 "id"=> "4.1.22",
+                 "title"=> "Class - 22"
+                ],
+                [
+                 "id"=> "4.1.23",
+                 "title"=> "Class - 23"
+                ],
+                [
+                 "id"=> "5.1.24",
+                 "title"=> "Class - 23"
+                ],
+                [
+                 "id"=> "5.1.25",
+                 "title"=> "Class - 24"
+                ],
+                [
+                 "id"=> "5.1.26",
+                 "title"=> "Class - 25"
+                ],
+                [
+                 "id"=> "3.3.19",
+                 "title"=> "COE Laboratory"
+                ],
+                [
+                 "id"=> "3.3.26",
+                 "title"=> "Computer Laboratory-1"
+                ],
+                [
+                 "id"=> "3.3.27",
+                 "title"=> "Computer Laboratory-2"
+                ],
+                [
+                 "id"=> "1.3.03",
+                 "title"=> "Concrete Laboratory"
+                ],
+                [
+                 "id"=> "1.3.08",
+                 "title"=> "Control System & Instrumentation Laboratory"
+                ],
+                [
+                 "id"=> "1.3.05",
+                 "title"=> "Electric Power Engineer Laboratory"
+                ],
+                [
+                 "id"=> "1.3.06",
+                 "title"=> "Electronic & Robotic Laboratory"
+                ],
+                [
+                 "id"=> "1.3.10",
+                 "title"=> "Fluid Mechanics Laboratory"
+                ],
+                [
+                 "id"=> "3.3.25",
+                 "title"=> "Language Laboratory"
+                ],
+                [
+                 "id"=> "2.2.01",
+                 "title"=> "Lecture Theatre-1"
+                ],
+                [
+                 "id"=> "2.2.02",
+                 "title"=> "Lecture Theatre-2"
+                ],
+                [
+                 "id"=> "2.2.03",
+                 "title"=> "Lecture Theatre-3"
+                ],
+                [
+                 "id"=> "2.2.04",
+                 "title"=> "Lecture Theatre-4"
+                ],
+                [
+                 "id"=> "4.2.05",
+                 "title"=> "Lecture Theatre-5"
+                ],
+                [
+                 "id"=> "4.2.06",
+                 "title"=> "Lecture Theatre-6"
+                ],
+                [
+                 "id"=> "4.4.04",
+                 "title"=> "Library"
+                ],
+                [
+                 "id"=> "1.3.01",
+                 "title"=> "Metal Science Laboratory"
+                ],
+                [
+                 "id"=> "3.3.17",
+                 "title"=> "Microbiology Laboratory"
+                ],
+                [
+                 "id"=> "3.3.20",
+                 "title"=> "Multimedia Studio "
+                ],
+                [
+                 "id"=> "3.3.24",
+                 "title"=> "Pharmaceutical Chemistry Laboratory"
+                ],
+                [
+                 "id"=> "3.3.23",
+                 "title"=> "Pharmaceutical Laboratory"
+                ],
+                [
+                 "id"=> "3.3.22",
+                 "title"=> "Pharmacognosy Laboratory"
+                ],
+                [
+                 "id"=> "1.3.15",
+                 "title"=> "Pharmacology Laboratory"
+                ],
+                [
+                 "id"=> "3.3.21",
+                 "title"=> "Physics\/Mechanics Laboratory"
+                ],
+                [
+                 "id"=> "1.3.14",
+                 "title"=> "Process & Production System Laboratory"
+                ],
+                [
+                 "id"=> "1.3.11",
+                 "title"=> "Simulation\/Optimation Laboratory"
+                ],
+                [
+                 "id"=> "1.3.09",
+                 "title"=> "Soil Mechanics Laboratory"
+                ],
+                [
+                 "id"=> "1.3.16",
+                 "title"=> "Solid Pharmaceuticals Laboratory"
+                ],
+                [
+                 "id"=> "3.3.18",
+                 "title"=> "Sterile Laboratory"
+                ],
+                [
+                 "id"=> "1.3.07",
+                 "title"=> "Telecomunication & Microwave Laboratory"
+                ],
+                [
+                 "id"=> "1.3.12",
+                 "title"=> "Work System Design & Ergonomics Laboratory"
+                ]
+        ];
+
+        foreach ($data as $x) {
+            if(!Location::where('id', $x['id'])->first()){
+                $m = new Location();
+                $m->id = $x['id'];
+                $m->title = $x['title'];
+                $m->save();
+            }
         }
-    }
+}
 }

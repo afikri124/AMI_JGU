@@ -30,21 +30,16 @@ class AuditDocController extends Controller{
     }
 
         public function update(Request $request, $id){
-            try {
-            $o_id = Crypt::decrypt($id);
-        } catch (DecryptException $e) {
-            return redirect()->route('audit_doc.index');
-        }
         if ($request->isMethod('POST') && isset($request->submit)) {
             $this->validate($request, [
-            'doc_path'    => 'required',
+            'doc_path'    => ['required','mime s:jpg,jpeg,png,pdf','max:5120'],
             'link'    => 'required',
         ]);
-
+        //dd($request);
         $data = AuditPlan::findOrFail($id);
         $fileName = $data->doc_path;
         if(isset($request->doc_path)){
-            $name = Carbon::now()->format('Ym').'_'.md5($o_id).'.'.$request->doc_path->extension();
+            $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
             $fileName = Auth::user()->id.'_'.$name;
             $folderName =  "FILE/".Carbon::now()->format('Y/m');
             $path = public_path()."/".$folderName;
@@ -65,7 +60,7 @@ class AuditDocController extends Controller{
             'doc_path'=> $fileName,
             'link'=> $request->link,
         ]);
-        return redirect()->route('audit_doc.index')->with('Success', 'Audit Plan berhasil diperbarui.');
+        return redirect()->route('audit_doc.index')->with('Success', 'Document Anda berhasil di Upload');
     }
 }
 
@@ -88,11 +83,20 @@ class AuditDocController extends Controller{
         $data = AuditPlan::
         with(['lecture' => function ($query) {
                 $query->select('id','name');
-            }])->with(['auditstatus' => function ($query) {
-                $query->select('id','title', 'color');
-            }])->with(['auditor' => function ($query) {
-                $query->select('id','name');
-            }])->select('*')->orderBy("id");
+            },
+            'auditstatus' => function ($query) {
+                $query->select('id', 'title', 'color');
+            },
+            'department' => function ($query) {
+                $query->select('id', 'name');
+            },
+            'auditor' => function ($query) {
+                $query->select('id', 'name');
+            },
+            'location' => function ($query) {
+                $query->select('id', 'title');
+            }
+            ])->select('*')->orderBy("id");
             return DataTables::of($data)
                     ->filter(function ($instance) use ($request) {
                         if (!empty($request->get('auditor_id'))) {

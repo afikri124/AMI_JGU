@@ -18,7 +18,7 @@ class AuditPlan extends Model
         'date_start',
         'date_end',
         'audit_status_id',
-        'location',
+        'location_id',
         'department_id',
         'auditor_id',
         'doc_path',
@@ -47,6 +47,11 @@ class AuditPlan extends Model
     public function auditor()
     {
         return $this->belongsTo(User::class, 'auditor_id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
 }
