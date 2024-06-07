@@ -30,7 +30,7 @@
     <table class="table" id="datatable">
         <div class="col-md-6 d-flex justify-content-center justify-content-md-end">
             <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                href="{{ route('question.add_qst')}}">
+                href="{{ route('question_category.add_qst')}}">
                 <i data-feather="plus"></i>New
             </a>
         </div>
@@ -39,11 +39,11 @@
     <div class="container">
         <thead>
             <tr>
-                <th scope="col" width="50px">No</th>
+                <th scope="col" width="50px">Code ID</th>
                 <th scope="col" width="50px">Title</th>
-                <th scope="col" width="50px">Weight</th>
+                <th scope="col" width="50px">Description</th>
                 <th scope="col" width="50px">Status</th>
-                <th scope="col" width="50px">Category</th>
+                <th scope="col" width="50px">Required</th>
                 <th scope="col" width="50px">Action</th>
             </tr>
         </thead>
@@ -75,10 +75,9 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('question.add_qst') }}",
+                url: "{{ route('question_category.add_qst') }}",
                 data: function (d) {
-                    d.search = $('input[type="search"]').val(),
-                    d.select_lecture_id = $('#select_lecture_id').val()
+                    d.search = $('input[type="search"]').val()
                 },
             },
             columnDefs: [{
@@ -87,45 +86,41 @@
             }],
             columns: [{
                     render: function (data, type, row, meta) {
-                        var no = (meta.row + meta.settings._iDisplayStart + 1);
-                        return no;
+                        var x = '<code>' + row.id + '</code>';
+                        return x;
                     },
                     className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.lecture.name;
+                            return row.title;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.date_start;
+                        return row.description;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.date_end;
+                        if(row.status == 1){
+                            var x = '<span class="badge rounded-pill badge-success">ON</span>';
+                        } else {
+                            var x = '<span class="badge rounded-pill badge-danger">OFF</span>';
+                        }
+                        return x;
                     },
-                },
-                {
-                    render: function(data, type, row, meta) {
-                        var html =
-                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
-                        return html;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.auditor.name;
-                    },
+                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.department.name;
+                        var x = "";
+                        if (row.is_required == true) {
+                            x = '<i class="fa fa-check"></i>';
+                        } 
+                        return x;
                     },
+                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
