@@ -23,7 +23,7 @@ class AuditStandarController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function standar_add(Request $request) {
+    public function add(Request $request) {
         if ($request->isMethod('post')) {
             $this->validate($request, [
                 'id'=> ['required', 'string', 'max:191'],

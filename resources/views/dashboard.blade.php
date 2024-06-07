@@ -20,7 +20,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="card mb-4">
             <div class="card-body">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -38,45 +38,77 @@
                     </p>
                     @endif
 
-            <div class="row">
-        <div class="col-xl-6 col-lg-12 xl-50 morning-sec box-col-12">
-            <div class="card profile-greeting">
-                <div class="card-body pb-0">
-                    <div class="media">
-                        <div class="media-body">
-                            <div class="greeting-user m-0">
-                                <h4 class="f-w-600 font-light m-0" id="greeting">Good Morning</h4>
-                                <h3>{{ Auth::user()->name }}</h3>
-                                <i>{{ Auth::user()->email }}   {{ Auth::user()->phone }}</i>
-                                @if(Auth::user()->roles->count() == 0)
-                                <p class="p-0 mb-0 text-danger">You don't have access rights, please contact the
-                                    administrator!</p>
-                                @else
-                                <p class="p-0 mb-0 font-light">You have access rights as:</p>
-                                @foreach(Auth::user()->roles as $x)
-                                <i class="badge badge-secondary m-0">{{ $x->title }}</i>
-                                @endforeach
-                                @endif
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 xl-100 morning-sec box-col-12">
+                            <div class="card profile-greeting">
+                                <div class="card-body pb-0">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div class="greeting-user m-0">
+                                                <h4 class="f-w-600 font-light m-0" id="greeting">Good Morning</h4>
+                                                <h3>{{ Auth::user()->name }}</h3>
+                                                <i>{{ Auth::user()->email }}   {{ Auth::user()->phone }}</i>
+                                                @if(Auth::user()->roles->count() == 0)
+                                                <p class="p-0 mb-0 text-danger">You don't have access rights, please contact the
+                                                    administrator!</p>
+                                                @else
+                                                <p class="p-0 mb-0 font-light">You have access rights as:</p>
+                                                @foreach(Auth::user()->roles as $x)
+                                                <i class="badge badge-secondary m-0">{{ $x->title }}</i>
+                                                @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <div class="badge f-10 rounded-pill badge-primary"><i class="fa fa-clock-o"></i> <span
+                                                    id="txt"></span>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/images/cartoon.png')}}"
+                                            style="max-width: 90%;" alt="">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <h4>
-                            <div class="badge f-10 rounded-pill badge-primary"><i class="fa fa-clock-o"></i> <span
-                                    id="txt"></span>
-                            </div>
-                        </h4>
-                    </div>
-                    <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/images/cartoon.png')}}"
-                            style="max-width: 90%;" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="default-datepicker">
+                    <div class="datepicker-here" data-language="en">
+                        <div class="datepicker-inline">
+                            <div class="datepicker"><i class="datepicker--pointer"></i>
+                                <nav class="datepicker--nav">
+                                    <div class="datepicker--nav-action" data-action="prev">
+                                        <svg>
+                                            <path d="M 17,12 l -5,5 l 5,5">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div class="datepicker--nav-title">June, <i> 2024 </i>
+                                    </div>
+                                    <div class="datepicker--nav-action" data-action="next">
+                                        <svg>
+                                            <path d="M 14,12 l 5,5 l -5,5">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </nav>
+                                <div class="datepicker--content">
+                                    <!-- Date picker content here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @endsection

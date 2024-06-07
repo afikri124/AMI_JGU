@@ -41,7 +41,7 @@
                             <div class="offset-m-2 text-md-end text-center ">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
-                                    aria-controls="DataTables_Table_0" type="button" title="Add new" href="{{ route('standar.add_standar')}}"></button>><span><i
+                                    aria-controls="DataTables_Table_0" type="button" title="Add new" href="{{ route('standar.add_standar')}}"><span><i
                                             class="bx bx-plus me-sm-2"></i>
                                         <span>Add</span></span>
                                 </button>
