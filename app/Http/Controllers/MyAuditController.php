@@ -5,28 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\AuditPlan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\Location;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 
-class AuditDocController extends Controller{
+class MyAuditController extends Controller{
     public function index(Request $request){
         $data = AuditPlan::all();
-        $locations = Location::orderBy('title')->get();
-        return view('audit_doc.index', compact('data', 'locations'));
+        return view('my_audit.index', compact('data'));
     }
 
-    public function add(Request $request){
+    public function add(Request $request, $id){
         if ($request->isMethod('POST')) {
             $this->validate($request, [
             'doc_path'  => 'required','mime s:jpg,jpeg,png,pdf','max:5120',
             'link'      => 'required',
         ]);
-
         $fileName = "";
             if ($request->hasFile('doc_path')) {
                 $ext = $request->doc_path->extension();
@@ -45,13 +40,17 @@ class AuditDocController extends Controller{
                 }
             }
             //document upload
-            $data = AuditPlan::create([
+            $data = AuditPlan::findOrFail($id);
+            $data->create([
             'doc_path'          => $fileName,
             'link'              => $request->link,
         ]);
-        //dd($request);
         if($data){
-            return redirect()->route('audit_doc.index')->with('Success', 'Document Anda berhasil di Upload');
+            return redirect()->route('my_audit.index')->with('Success', 'Document Anda berhasil di Upload');
+        }else{
+        $data = AuditPlan::all();
+        return view("my_audit.add", compact("data"));
+        //dd($request);
         }
     }
 }
@@ -82,7 +81,9 @@ class AuditDocController extends Controller{
             'location' => function ($query) {
                 $query->select('id', 'title');
             }
-            ])->select('*')->orderBy("id");
+            ])
+            ->where('lecture_id', Auth::user()->id)
+            ->select('*')->orderBy("id");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('lecture_id'))) {
@@ -96,24 +97,24 @@ class AuditDocController extends Controller{
     }
 
 //Json
-public function getData(){
-    $data = AuditPlan::with('users')->with('auditstatus')->with('locations')->get()->map(function ($data) {
-        return [
-            'lecture_id' => $data->lecture_id,
-            'date_start' => $data->date_start,
-            'date_end' => $data->date_end,
-            'audit_status_id' => '1',
-            'location_id' => $data->location_id,
-            'auditor_id' => $data->auditor_id,
-            'department_id' => $data->department_id,
-            'doc_path' => $data->doc_path,
-            'link' => $data->link,
-            'created_at' => $data->created_at,
-            'updated_at' => $data->updated_at,
-        ];
-    });
-    return response()->json($data);
-    }
+    public function getData(){
+        $data = AuditPlan::with('users')->with('auditstatus')->with('locations')->get()->map(function ($data) {
+            return [
+                'lecture_id' => $data->lecture_id,
+                'date_start' => $data->date_start,
+                'date_end' => $data->date_end,
+                'audit_status_id' => '1',
+                'location_id' => $data->location_id,
+                'auditor_id' => $data->auditor_id,
+                'department_id' => $data->department_id,
+                'doc_path' => $data->doc_path,
+                'link' => $data->link,
+                'created_at' => $data->created_at,
+                'updated_at' => $data->updated_at,
+            ];
+        });
+        return response()->json($data);
+        }
 
     public function datatables(){
         $audit_plan = AuditPlan::select('*');

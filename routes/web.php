@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuditDocController;
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\AuditStandardController;
 use App\Http\Controllers\ProfileController;
@@ -10,7 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StandardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuditStandarController;
-use App\Models\AuditQuesition;
+use App\Http\Controllers\MyAuditController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +33,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 //Audit Plan
 Route::group(['prefix' => 'audit_plan'], function () {
     Route::any('/',[AuditPlanController::class, 'index'])->name('audit_plan.index');
@@ -51,11 +51,11 @@ Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('
 // Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 // Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 
-Route::group(['prefix' => 'audit_doc'], function () {
-    Route::get('/',[AuditDocController::class, 'index'])->name('audit_doc.index');
-    Route::get('/data',[AuditDocController::class, 'data'])->name('audit_doc.data');
-    Route::delete('/delete', [AuditDocController::class, 'delete'])->name('audit_doc.delete');
-    Route::any('/add',[AuditDocController::class, 'add'])->name('audit_doc.add');
+Route::group(['prefix' => 'my_audit'], function () {
+    Route::get('/',[MyAuditController::class, 'index'])->name('my_audit.index');
+    Route::get('/data',[MyAuditController::class, 'data'])->name('my_audit.data');
+    Route::delete('/delete', [MyAuditController::class, 'delete'])->name('my_audit.delete');
+    Route::any('/add',[MyAuditController::class, 'add'])->name('my_audit.add');
 });
 
 Route::middleware('auth')->group(function () {

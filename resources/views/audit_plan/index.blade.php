@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 @endsection
 
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
@@ -26,6 +27,14 @@
                         </div>
                     </div>
                 </div>
+        <div class="col-md-3">
+            <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
+                <option value="">Select Lecture</option>
+                @foreach($lecture as $d)
+                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                @endforeach
+            </select>
+        </div>
 <div class="container">
     <table class="table" id="datatable">
     <div class="offset-md-1 text-md-end text-center pt-3 pt-md-0">
@@ -50,9 +59,9 @@
                             <label for="lecture_id" class="form-label" >Lecture</label>
                             <select name="lecture_id" id="lecture_id" class="form-select" required>
                                 <option value="">Select Lecture</option>
-                                @foreach($users as $role)
+                                @foreach($lecture as $role)
                                     <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                        {{ (in_array($role->id, old('lecture') ?? []) ? "selected": "") }}>
                                         {{$role->name}} (
                                             @foreach ($role->roles as $x)
                                                 {{ $x->name}}
@@ -65,7 +74,7 @@
                         <label class="form-label" for="basicDate">Date Start</label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
-                                    placeholder="Masukkan Date Start" value="{{ old('date_start') }}">
+                                    placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_start') }}">
                                         @error('date_start')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
@@ -76,7 +85,7 @@
                         <label class="form-label" for="basicDate">Date End</label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
-                                    placeholder="Masukkan Date End" value="{{ old('date_end') }}">
+                                    placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_end') }}">
                                         @error('date_end')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
@@ -98,9 +107,9 @@
                             <label for="auditor_id" class="form-label">Auditor</label>
                             <select name="auditor_id" id="auditor_id" class="form-select" required>
                                 <option value="">Select Auditor</option>
-                                @foreach($users as $role)
+                                @foreach($auditor as $role)
                                     <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('users') ?? []) ? "selected": "") }}>
+                                        {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
                                         {{$role->name}} (
                                             @foreach ($role->roles as $x)
                                                 {{ $x->name}}
@@ -137,7 +146,7 @@
                 <th><b>Date End</b></th>
                 <th><b>Status</b></th>
                 <th><b>Auditor</b></th>
-                <th><b>Department</b></th>
+                <th><b>Location</b></th>
                 <th><b>Action</b></th>
             </tr>
         </thead>
@@ -157,6 +166,7 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -172,7 +182,7 @@
                 url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_lecture_id = $('#select_lecture_id').val()
+                    d.select_lecture = $('#select_lecture').val()
                 },
             },
             columnDefs: [{
@@ -220,23 +230,25 @@
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.department.name;
+                            return row.location;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="btn btn-warning btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
+                            `<a class="text-warning" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" >
+                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" >
                             <i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     "orderable": false,
                     className: "text-md-center"
                 }
-
             ]
+        });
+        $('#select_lecture').change(function () {
+            table.draw();
         });
     });
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('date_end');
             $table->unsignedBigInteger('audit_status_id');
             $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
-            $table->uuid('location_id')->nullable();
+            $table->string('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');

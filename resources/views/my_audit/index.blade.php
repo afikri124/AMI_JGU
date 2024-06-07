@@ -9,7 +9,19 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
+
 @endsection
+
+        <!-- <div class=" col-md-3">
+            <select id="select_lecture" class="select2 form-select" data-placeholder="lecture">
+                <option value="">Select Lecture</option>
+                @foreach($data as $d)
+                    <option value="{{ $d->id }}">{{ $d->lecture_id }}</option>
+                @endforeach
+            </select>
+        </div> -->
+
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
             <div class="card-datatable table-responsive">
@@ -33,10 +45,7 @@
                                 <th><b>Lecture</b></th>
                                 <th><b>Date Start</b></th>
                                 <th><b>Date End</b></th>
-                                <th><b>Location</b></th>
-                                <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
-                                <th><b>Link</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -54,6 +63,7 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -66,7 +76,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_doc.data') }}",
+                url: "{{ route('my_audit.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val()
                 },
@@ -103,19 +113,6 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.location_id;
-                    },
-                },
-                {
-                    render: function(data, type, row, meta) {
-                        var html =
-                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
-                        return html;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
                         var x = "";
                         if (row.doc_path != null) {
                             x =
@@ -126,17 +123,11 @@
                     },
                 },
                 {
-                    render: function (data, type, row, meta) {
-
-                            return row.link;
-                    },
-                },
-                {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class=" text-success" href="{{ url('add/') }}"><i class="bx bx-upload"></i></a>
-                                <a href="#modalToggle" data-bs-toggle="modal" data-bs-target="#modalToggle" class="bx bx-show-alt badge-dark"></a>
-                                <a class=" text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
+                                `<a class="text-success" href="{{ url('add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                                <a href="#modalToggle" data-bs-toggle="modal" data-bs-target="#modalToggle" class="bx bx-show-alt text-dark"></a>
+                                <a class="text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
                             return html;
                         },
                         "orderable": false,

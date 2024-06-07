@@ -17,7 +17,7 @@
                 <div class="card">
                     <div class="card-header">Upload Document Audit</div>
                 <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('audit_doc.add') }}"
+                <form id="form-add-new-record" method="POST" action="{{ route('my_audit.add') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="col-sm-12">
