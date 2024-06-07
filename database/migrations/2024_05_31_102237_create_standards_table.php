@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('standards', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('name');
-            $table->string('description');
-            $table->timestamps();
+            $table->id();
+            $table->string('title');
+            $table->decimal('weight');
+            $table->boolean('status')->nullable()->default(true);
+            $table->uuid('question_category_id')->nullable();
+            $table->foreign('question_category_id')->references('id')->on('question_categories')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

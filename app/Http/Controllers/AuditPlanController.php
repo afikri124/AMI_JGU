@@ -47,7 +47,7 @@ class AuditPlanController extends Controller{
             // dd($users);
             $data = AuditPlan::all();
             return view("audit_plan.index", compact("data", "users", "locations", "auditstatus", "departments", "audit_plan"));
-       }
+        }
 
     public function edit($id){
         $data = AuditPlan::findOrFail($id);

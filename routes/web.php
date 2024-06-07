@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StandardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuditStandarController;
+use App\Http\Controllers\QuestionCategoryController;
 use App\Models\AuditQuesition;
 use Illuminate\Support\Facades\Route;
 
@@ -91,20 +92,18 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
         });
     });
-<<<<<<< HEAD
     Route::group(['prefix' => 'manage_standard'], function () {
         Route::group(['prefix' => 'standard_audit'], function () {
-            Route::any('/', [StandardController::class, 'index'])->name('standard_audit.index');
+            Route::any('/', [StandardController::class, 'question'])->name('standard_audit.index');
             Route::get('/data', [StandardController::class, 'data'])->name('standard_audit.add_std');
         });
         Route::group(['prefix' => 'question_categories'], function () {
-            Route::any('/', [QuestionController::class, 'question'])->name('question.index');
-            Route::get('/data', [QuestionController::class, 'data'])->name('question.add_qst');
+            Route::any('/', [QuestionCategoryController::class, 'question'])->name('question_category.index');
+            Route::get('/question_add', [QuestionCategoryController::class, 'question_add'])->name('question_category.add_qst');
         });
     });
 });
-=======
-});
+
 
 Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
     Route::group(['prefix' => 'manage_standar'], function () {
@@ -132,4 +131,4 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
 });
 
 
->>>>>>> b89a30da7d43aa94c6df72120381ebcf7cfc498c
+
