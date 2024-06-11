@@ -16,9 +16,17 @@ class StandardCategoryController extends Controller
 
     public function category_add(Request $request) {
         if ($request->isMethod('POST')) {
-            $this->validate($request, [ 
+            $this->validate($request, [
                 'id'=> ['required', 'string', 'max:191', Rule::unique('standard_categories')],
                 'title'=> ['required', 'string', 'max:191'],
+                'description'=> ['required', 'string', 'max:191'],
+                'is_required'=> ['required', 'string', 'max:191'],
+            ]);
+            StandardCategory::create([
+                'id'=> $request->id,
+                'title'=> $request->title,
+                'description'=> $request->description,
+                'is_required'=> $request->is_required,
             ]);
             StandardCategory::insert(request()->except(['_token']));
             return redirect()->route('standard_category.category');

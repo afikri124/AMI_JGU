@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->onDelete('set null');
             $table->boolean('attendance')->default(false);
             $table->string('remark')->nullable();
-            $table->string('doc_path')->nullable();
+            $table->string('file_path')->nullable();
             $table->string('subject_course')->nullable();
             $table->string('topic')->nullable();
             $table->string('class_type')->nullable();

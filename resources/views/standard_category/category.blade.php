@@ -2,12 +2,13 @@
 @section('title', 'Standard Categories')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/date-picker.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatable-extension.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/sweetalert2.css')}}">
-@endsection
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 
 @section('style')
 
@@ -21,34 +22,31 @@
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 project-list">
-            <div class="card">
-                <div class="row">
-                    <div class="col-md-3">
-                        <select id="Select_2" class="form-control input-sm select2" data-placeholder="Status">
-                            <option value="">Status</option>
-                            <option value='true'>ON</option>
-                            <option value='false'>OFF</option>
-                        </select>
-                    </div>
-                    <div class="col-md-9 d-flex justify-content-center justify-content-md-end">
-                        <a class="btn btn-primary btn-block btn-mail" title="Add new" 
-                            href="{{ route('standard_category.category_add') }}">
-                            <i data-feather="plus-"></i>New
-                        </a>
-                    </div>
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flaex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="">
-                        <table class="table table-hover table-sm" id="datatable" width="100%">
-                            <thead>
-                                <tr>
+        <div class="container">
+            <table class="table" id="datatable">
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                        href="{{ route('standard_category.category_add')}}">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
+                </div>
+                    <div class="container">
+                        <thead>
+                            <tr>
                                         <th scope="col" width="60px" class="text-center">Code ID</th>
                                         <th scope="col">Title</th>
                                         <th scope="col">Description</th>
@@ -137,7 +135,7 @@
                         var x = "";
                         if (row.is_required == true) {
                             x = '<i class="fa fa-check"></i>';
-                        } 
+                        }
                         return x;
                     },
                     className: "text-center"

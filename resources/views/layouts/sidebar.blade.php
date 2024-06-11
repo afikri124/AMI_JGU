@@ -88,9 +88,6 @@
                         @endcan
                     </ul>
                 </li>
-<<<<<<< HEAD
-=======
-
                 <li class="menu-item {{ request()->segment(2) == 'manage_standard' ? 'open active' : '' }}">
                     <a href="" class="menu-link  menu-toggle">
                         <div>Manage Standard</div>
@@ -106,7 +103,6 @@
                                 <div>Standard Criterias</div>
                             </a>
                         </li>
->>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
                 @endcan
             </ul>
         </li>

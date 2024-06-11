@@ -34,7 +34,8 @@
                             <tr>
                                 <th><b>No</b></th>
                                 <th><b>Lecture</b></th>
-                                <th><b>Schecdule</b></th>
+                                <th><b>Date Start</b></th>
+                                <th><b>Date End</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
@@ -112,10 +113,10 @@
                 {
                     render: function (data, type, row, meta) {
                         var x = "";
-                        if (row.doc_path != null) {
+                        if (row.file_path != null) {
                             x =
                                 '<span><img class="chat-user-img img-30" src="' + "{{ asset('') }}" +
-                                row.doc_path + '"></span>';
+                                row.file_path + '"></span>';
                         }
                         return x;
                     },
