@@ -94,14 +94,14 @@
                         <div>Manage Standard</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ request()->segment(3) == 'standar' ? 'active' : '' }}">
-                            <a href="{{ route('standar.index') }}" class="menu-link">
-                                <div>Standard Audit</div>
+                        <li class="menu-item {{ request()->segment(3) == 'category' ? 'active' : '' }}">
+                            <a href="{{ route('standard_category.category') }}" class="menu-link">
+                                <div>Standard Category</div>
                             </a>
                         </li>
-                        <li class="menu-item {{ request()->segment(3) == 'quesition' ? 'active' : '' }}">
-                            <a href="{{ route('question_category.index') }}" class="menu-link">
-                                <div>Question Criteria</div>
+                        <li class="menu-item {{ request()->segment(3) == 'criteria' ? 'active' : '' }}">
+                            <a href="{{ route('standard_criteria.criteria') }}" class="menu-link">
+                                <div>Standard Criterias</div>
                             </a>
                         </li>
                 @endcan

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
             $table->unsignedBigInteger('department_id')->nullable();
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
-            $table->unsignedBigInteger('standar_id')->nullable();
-            $table->foreign('standar_id')->references('id')->on('standards')->onDelete('set null');
+            $table->unsignedBigInteger('standard_criterias_id')->nullable();
+            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->onDelete('set null');
             $table->boolean('attendance')->default(false);
             $table->string('remark')->nullable();
             $table->string('doc_path')->nullable();

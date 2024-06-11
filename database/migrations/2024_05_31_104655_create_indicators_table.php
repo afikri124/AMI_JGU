@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('indicators', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
-            $table->unsignedBigInteger('standard_id');
-            $table->foreign('standard_id')->references('id')->on('standards');
+            $table->unsignedBigInteger('standard_criterias_id');
+            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias');
             $table->timestamps();
         });
     }
