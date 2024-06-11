@@ -11,17 +11,25 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
-<div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card">
-                    <div class="card-header">Upload Document Audit</div>
-                <div class="card-body">
+<div class="row">
+    <div class="col-md-12">
+        @if(session('msg'))
+        <div class="alert alert-primary alert-dismissible" role="alert">
+            {{session('msg')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        <div class="card mb-4">
+            <!-- Account -->
+            <hr class="my-0">
+            <div class="card-header">Upload Document Audit</div>
+            <div class="card-body">
                 <form id="form-add-new-record" method="POST" action="{{ route('my_audit.update', $data->id) }}"
                         enctype="multipart/form-data">
+
                         @csrf
                         @method('PUT')
-                        <div class="col-sm-12">
+                        <div class="form-group">
                                 <label class="form-label">Upload Images<i class="text-danger">*</i></label>
                                 <div class="input-group mb-3">
                                     <input class="form-control @error('doc_path') is-invalid @enderror"

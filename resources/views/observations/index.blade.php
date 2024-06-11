@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Data Audit Plan')
+@section('title', 'Observations')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -10,9 +10,10 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
+
 @endsection
 
-<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
             <div class="card-datatable table-responsive">
                 <div class="card-header flex-column flaex-md-row pb-0">
@@ -27,39 +28,21 @@
                         </div>
                     </div>
                 </div>
-        <div class="col-md-3">
-            <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
-                <option value="">Select Lecture</option>
-                @foreach($lecture as $d)
-                    <option value="{{ $d->id }}">{{ $d->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="container">
-            <table class="table" id="datatable">
-                <div class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                        href="{{ route('audit_plan.add')}}">
-                        <i data-feather="plus"></i>+ Add
-                    </a>
+                <div class="container">
+                    <table class="table table-hover table-sm" id="datatable" width="100%">
+                        <thead>
+                            <tr>
+                                <th><b>No</b></th>
+                                <th><b>Lecture</b></th>
+                                <th><b>Schecdule</b></th>
+                                <th><b>Status</b></th>
+                                <th><b>Doc</b></th>
+                                <th><b>Action</b></th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-    <div class="container">
-        <thead>
-            <tr>
-                <th><b>No</b></th>
-                <th><b>Lecture</b></th>
-                <th><b>Date Start</b></th>
-                <th><b>Date End</b></th>
-                <th><b>Status</b></th>
-                <th><b>Auditor</b></th>
-                <th><b>Location</b></th>
-                <th><b>Action</b></th>
-            </tr>
-        </thead>
-    </table>
-</div>
-
-@endsection
+                @endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
@@ -72,8 +55,8 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
             responsive: true,
@@ -84,10 +67,9 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_plan.data') }}",
+                url: "{{ route('observations.data') }}",
                 data: function (d) {
-                    d.search = $('input[type="search"]').val(),
-                    d.select_lecture = $('#select_lecture').val()
+                    d.search = $('input[type="search"]').val()
                 },
             },
             columnDefs: [{
@@ -110,12 +92,14 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.date_start;
+
+                            return row.date_start;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return row.date_end;
+
+                            return row.date_end;
                     },
                 },
                 {
@@ -127,33 +111,25 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = "<code><span title='" + row.auditor.name + "'>" + row.auditor.name +
-                            "</span></code>";
-                        return html;
+                        var x = "";
+                        if (row.doc_path != null) {
+                            x =
+                                '<span><img class="chat-user-img img-30" src="' + "{{ asset('') }}" +
+                                row.doc_path + '"></span>';
+                        }
+                        return x;
                     },
                 },
                 {
-                    render: function (data, type, row, meta) {
-
-                            return row.location;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html =
-                            `<a class="text-warning" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
-                            <i class="bx bx-pencil"></i></a>
-                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
-                        return html;
-                    },
-                    "orderable": false,
-                    className: "text-md-center"
-                }
+                        render: function(data, type, row, meta) {
+                            var html =
+                                `<a class="text-warning" title="Show" href="{{ url('observations/make/${row.id}') }}"><i class="bx bx-plus-lg"></i></a>`
+                            return html;
+                        },
+                        "orderable": false,
+                        className: "text-md-center"
+                    }
             ]
-        });
-        $('#select_lecture').change(function () {
-            table.draw();
         });
     });
 
@@ -168,7 +144,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('audit_plan.delete') }}",
+                        url: "",
                         type: "DELETE",
                         data: {
                             "id": id,

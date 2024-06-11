@@ -28,9 +28,9 @@
                 <div data-i18n="Dashboards">Audit Plans</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'audit_observation' ? 'active' : '' }}">
-            <a href="" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-bell"></i>
+        <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
+            <a href="{{ route('observations.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-search"></i>
                 <div data-i18n="Dashboards">Observation</div>
             </a>
         </li>
@@ -88,6 +88,8 @@
                         @endcan
                     </ul>
                 </li>
+<<<<<<< HEAD
+=======
 
                 <li class="menu-item {{ request()->segment(2) == 'manage_standard' ? 'open active' : '' }}">
                     <a href="" class="menu-link  menu-toggle">
@@ -104,6 +106,7 @@
                                 <div>Standard Criterias</div>
                             </a>
                         </li>
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
                 @endcan
             </ul>
         </li>

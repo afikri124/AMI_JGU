@@ -14,8 +14,13 @@ use App\Http\Controllers\QuestionCategoryController;
 use App\Models\AuditQuesition;
 
 use App\Http\Controllers\MyAuditController;
+<<<<<<< HEAD
+use App\Http\Controllers\ObservationController;
+use App\Models\Observation;
+=======
 use App\Http\Controllers\StandardCategoryController;
 use App\Http\Controllers\StandardCriteriaController;
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,11 +55,11 @@ Route::group(['prefix' => 'audit_plan'], function () {
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
-// Route::group(['prefix' => 'audit_observation'], function () {
-//     Route::get('/',[AuditDocController::class, 'index'])->name('audit_observation.index');
-//     Route::get('/data',[AuditDocController::class, 'data'])->name('audit_observation.data');
-//     Route::delete('/delete', [AuditDocController::class, 'delete'])->name('audit_doc.delete');
-// });
+Route::group(['prefix' => 'observations'], function () {
+    Route::get('/',[ObservationController::class, 'index'])->name('observations.index');
+    Route::get('/data',[ObservationController::class, 'data'])->name('observations.data');
+    Route::delete('/delete', [ObservationController::class, 'delete'])->name('audit_doc.delete');
+});
 // Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 // Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 
@@ -99,6 +104,8 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
         });
     });
+<<<<<<< HEAD
+=======
     Route::group(['prefix' => 'manage_standard'], function () {
         Route::group(['prefix' => 'category'], function () {
             Route::any('/', [StandardCategoryController::class, 'category'])->name('standard_category.category');
@@ -110,13 +117,17 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::any('criteria/add', [StandardCriteriaController::class, 'criteria_add'])->name('standard_criteria.criteria_add');
         });
     });
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
 });
 
 
 
 
+<<<<<<< HEAD
+=======
 
 
 
 
 
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
