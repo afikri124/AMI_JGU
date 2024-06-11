@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('audit_plan_id');
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
-            $table->unsignedBigInteger('standard_id');
-            $table->foreign('standard_id')->references('id')->on('standards');
+            $table->unsignedBigInteger('standard_criterias_id');
+            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias');
             $table->timestamps();
         });
     }
