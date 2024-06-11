@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->boolean('status')->nullable()->default(true);
+            $table->boolean('is_required')->nullable()->default(true);
         });
     }
 
