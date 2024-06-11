@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('audit_plan_id')->nullable();
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans')->onDelete('cascade');
+            $table->unsignedBigInteger('audit_status_id')->nullable();
+            $table->foreign('audit_status_id')->references('id')->on('audit_statuses')->onDelete('cascade');
             $table->unsignedBigInteger('auditor_id')->nullable();
             $table->foreign('auditor_id')->references('id')->on('users')->onDelete('set null');
             $table->string('location_id')->nullable();

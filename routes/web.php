@@ -14,7 +14,8 @@ use App\Http\Controllers\QuestionCategoryController;
 use App\Models\AuditQuesition;
 
 use App\Http\Controllers\MyAuditController;
-
+use App\Http\Controllers\ObservationController;
+use App\Models\Observation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +50,11 @@ Route::group(['prefix' => 'audit_plan'], function () {
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
-// Route::group(['prefix' => 'audit_observation'], function () {
-//     Route::get('/',[AuditDocController::class, 'index'])->name('audit_observation.index');
-//     Route::get('/data',[AuditDocController::class, 'data'])->name('audit_observation.data');
-//     Route::delete('/delete', [AuditDocController::class, 'delete'])->name('audit_doc.delete');
-// });
+Route::group(['prefix' => 'observations'], function () {
+    Route::get('/',[ObservationController::class, 'index'])->name('observations.index');
+    Route::get('/data',[ObservationController::class, 'data'])->name('observations.data');
+    Route::delete('/delete', [ObservationController::class, 'delete'])->name('audit_doc.delete');
+});
 // Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 // Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 
@@ -98,49 +99,7 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
         });
     });
-    Route::group(['prefix' => 'manage_standard'], function () {
-        Route::group(['prefix' => 'standard_audit'], function () {
-            Route::any('/', [StandardController::class, 'question'])->name('standard_audit.index');
-            Route::get('/data', [StandardController::class, 'data'])->name('standard_audit.add_std');
-        });
-        Route::group(['prefix' => 'question_categories'], function () {
-            Route::any('/', [QuestionCategoryController::class, 'question'])->name('question_category.index');
-            Route::get('/question_add', [QuestionCategoryController::class, 'question_add'])->name('question_category.add_qst');
-            Route::get('/data', [QuestionCategoryController::class, 'data'])->name('question_category.data');
-            Route::delete('/delete', [QuestionCategoryController::class, 'delete'])->name('question_category.delete');
-        });
-    });
 });
-
-
-
-
-Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
-    Route::group(['prefix' => 'manage_standar'], function () {
-        Route::group(['prefix' => 'standar'], function () { //route to manage users
-            Route::any('/', [AuditStandarController::class, 'index'])->name('standar.index');
-            Route::get('/data', [AuditStandarController::class, 'data'])->name('standar.data');
-            Route::any('/add_standar', [AuditStandarController::class, 'add'])->name('standar.add_standar');
-            // Route::any('/reset_password/{id}', [UserController::class, 'reset_password'])->name('users.reset_password');
-            // Route::delete('/delete', [UserController::class, 'delete'])->name('users.delete');
-        });
-        // Route::group(['prefix' => 'roles'], function () { //route to manage roles
-        //     Route::any('/', [RoleController::class, 'index'])->name('roles.index');
-        //     Route::get('/data', [RoleController::class, 'data'])->name('roles.data');
-        //     Route::any('/edit/{id}', [RoleController::class, 'edit'])->name('roles.edit');
-        //     Route::delete('/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
-        // });
-        // Route::group(['prefix' => 'permissions'], function () { //route to manage permissions
-        //     Route::any('/', [PermissionController::class, 'index'])->name('permissions.index');
-        //     Route::get('/data', [PermissionController::class, 'data'])->name('permissions.data');
-        //     Route::get('/view/{id}', [PermissionController::class, 'view'])->name('permissions.view');
-        //     Route::get('/view/{id}/users', [PermissionController::class, 'view_users_data'])->name('permissions.view_users_data');
-        //     Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
-        // });
-    });
-});
-
-
 
 
 

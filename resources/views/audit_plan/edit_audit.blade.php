@@ -20,7 +20,6 @@
         </div>
         @endif
         <div class="card mb-4">
-        <div class="card-header">EDIT AUDIT PLAN</div>
             <!-- Account -->
             <hr class="my-0">
             <div class="card-body">

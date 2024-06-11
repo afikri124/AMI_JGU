@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Audit Plan')
+@section('title', 'Add Audit Plan')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -30,7 +30,6 @@
             <form class="card" method="POST" action="">
                 @csrf
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Add @yield('title')</h4>
                     <div class="card-options"><a class="card-options-collapse" href="#"
                             data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a
                             class="card-options-remove" href="#" data-bs-toggle="card-remove"><i
@@ -150,7 +149,7 @@
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 <script type="text/javascript">
-    
+
     "use strict";
     setTimeout(function () {
         (function ($) {

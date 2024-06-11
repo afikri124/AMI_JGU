@@ -13,6 +13,7 @@ class Observation extends Model
     protected $fillable = [
         'id',
         'audit_plan_id',
+        'audit_status_id',
         'auditor_id',
         'location_id',
         'department_id',
@@ -25,4 +26,15 @@ class Observation extends Model
         'class_type',
         'total_students'
     ];
+
+    public function lecture()
+    {
+        return $this->belongsTo(User::class, 'lecture_id');
+    }
+
+    // Contoh relasi ke model AuditPlanStatus
+    public function auditstatus()
+    {
+        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
+    }
 }
