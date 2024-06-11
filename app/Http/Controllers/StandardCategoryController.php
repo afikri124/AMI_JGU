@@ -25,10 +25,10 @@ class StandardCategoryController extends Controller
             StandardCategory::create([
                 'id'=> $request->id,
                 'title'=> $request->title,
+                'status'=> true,
                 'description'=> $request->description,
                 'is_required'=> $request->is_required,
             ]);
-            StandardCategory::insert(request()->except(['_token']));
             return redirect()->route('standard_category.category');
         }
         return view('standard_category.category_add');

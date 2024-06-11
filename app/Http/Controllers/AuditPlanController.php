@@ -32,44 +32,43 @@ class AuditPlanController extends Controller{
             'location_id'   => ['required'],
             'auditor_id'    => ['required'],
         ]);
-            $data = AuditPlan::create([
-                'lecture_id'        => $request->lecture_id,
-                'date_start'        => $request->date_start,
-                'date_end'          => $request->date_end,
-                'audit_status_id'   => '1',
-                'location_id'       => $request->location_id,
-                'department_id'     => $request->department_id,
-                'auditor_id'        => $request->auditor_id,
-                'doc_path'          => $request->doc_path,
-                'link'              => $request->link,
-            ]);
-            if($data){
-                return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
-                }
+        $data = AuditPlan::create([
+            'lecture_id'        => $request->lecture_id,
+            'date_start'        => $request->date_start,
+            'date_end'          => $request->date_end,
+            'audit_status_id'   => '1',
+            'location_id'       => $request->location_id,
+            'department_id'     => $request->department_id,
+            'auditor_id'        => $request->auditor_id,
+            'doc_path'          => $request->doc_path,
+            'link'              => $request->link,
+        ]);
+        if($data){
+            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
             }
-            $audit_plan =AuditPlan::with('auditstatus')->get();
-            $locations = Location::orderBy('title')->get();
-            $departments = Department::orderBy('name')->get();
-            $auditstatus = AuditStatus::get();
-            $lecture = User::with(['roles' => function ($query) {
-                $query->select( 'id','name' );
-            }])
-            ->whereHas('roles', function($q) use($request){
-                $q->where('name', 'lecture');
-            })
-            ->orderBy('name')->get();
-            $auditor = User::with(['roles' => function ($query) {
-                $query->select( 'id','name' );
-            }])
-            ->whereHas('roles', function($q) use($request){
-                $q->where('name', 'auditor');
-            })
-            ->orderBy('name')->get();
-            // dd($users);
-            $data = AuditPlan::all();
-            return view("audit_plan.add", compact("data", "lecture", "auditor", "locations", "auditstatus", "departments", "audit_plan"));
-       }
-
+        }
+        $audit_plan =AuditPlan::with('auditstatus')->get();
+        $locations = Location::orderBy('title')->get();
+        $departments = Department::orderBy('name')->get();
+        $auditstatus = AuditStatus::get();
+        $lecture = User::with(['roles' => function ($query) {
+            $query->select( 'id','name' );
+        }])
+        ->whereHas('roles', function($q) use($request){
+            $q->where('name', 'lecture');
+        })
+        ->orderBy('name')->get();
+        $auditor = User::with(['roles' => function ($query) {
+            $query->select( 'id','name' );
+        }])
+        ->whereHas('roles', function($q) use($request){
+            $q->where('name', 'auditor');
+        })
+        ->orderBy('name')->get();
+        // dd($users);
+        $data = AuditPlan::all();
+        return view("audit_plan.add", compact("data", "lecture", "auditor", "locations", "auditstatus", "departments", "audit_plan"));
+    }
 
     public function edit(Request $request, $id){
         $data = AuditPlan::findOrFail($id);

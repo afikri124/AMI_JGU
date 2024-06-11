@@ -16,6 +16,6 @@ class StandardCategory extends Model
 
     public function criterias()
     {
-        return $this->hasMany(StandardCriteria::class);
+        return $this->hasMany(StandardCriteria::class, 'id');
     }
 }

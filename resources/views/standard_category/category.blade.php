@@ -36,23 +36,23 @@
                             </div>
                         </div>
                 </div>
-        <div class="container">
-            <table class="table" id="datatable">
-                <div class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                        href="{{ route('standard_category.category_add')}}">
-                        <i data-feather="plus"></i>+ Add
-                    </a>
-                </div>
-                    <div class="container">
-                        <thead>
-                            <tr>
-                                        <th scope="col" width="60px" class="text-center">Code ID</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col" width="50px">Status</th>
-                                        <th scope="col" width="50px">Required</th>
-                                        <th scope="col" width="65px">Action</th>
+            <div class="container">
+                <table class="table" id="datatable">
+                    <div class="col-md d-flex justify-content-center justify-content-md-end">
+                        <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                            href="{{ route('standard_category.category_add')}}">
+                            <i data-feather="plus"></i>+ Add
+                        </a>
+                    </div>
+                        <div class="container">
+                            <thead>
+                                <tr>
+                                    <th scope="col" width="60px" class="text-center">Code ID</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col" width="50px">Status</th>
+                                    <th scope="col" width="50px">Required</th>
+                                    <th scope="col" width="65px">Action</th>
                                 </tr>
                             </thead>
                         </table>

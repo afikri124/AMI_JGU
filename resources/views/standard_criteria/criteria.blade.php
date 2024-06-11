@@ -54,7 +54,7 @@
                         </select>
                     </div>
                     <div class="col-md-9 d-flex justify-content-center justify-content-md-end">
-                        <a class="btn btn-primary btn-block btn-mail" title="Add new" 
+                        <a class="btn btn-primary btn-block btn-mail" title="Add new"
                             href="{{ route('standard_criteria.criteria_add') }}">
                             <i data-feather="plus"></i>New
                         </a>
@@ -173,7 +173,7 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="btn btn-success btn-sm px-2" title="Edit" href="{{ url('settings/criteria/edit/` +
+                            `<a class="btn btn-success btn-sm px-2" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
                             row.link +
                             `') }}"><i class="fa fa-pencil-square-o"></i></a> <a class="btn btn-danger btn-sm px-2" title="Delete" onclick="DeleteId(` +
                             x + `)" ><i class="fa fa-trash"></i></a>`;
