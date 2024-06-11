@@ -30,13 +30,19 @@ class ObservationController extends Controller{
         $data = Observation::create([
             'audit_plan_id'=> $request->audit_plan_id,
             'auditor_id'=> $request->auditor_id,
-            'audit_status_id'=> '1',
             'location_id'=> $request->location_id,
             'department_id'=> $request->department_id,
             'standar_id'=> $request->standar_id,
+            'attendance'=> $request->attendance,
+            'remark'=> $request->remark,
+            'doc_path'=> $request->doc_path,
+            'subject_course'=> $request->subject_course,
+            'topic'=> $request->topic,
+            'class_type'=> $request->class_type,
+            'total_students'=> $request->total_students,
         ]);
         if($data){
-            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
+            return redirect()->route('observation.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
             $audit_plan =AuditPlan::with('auditStatus')->get();
