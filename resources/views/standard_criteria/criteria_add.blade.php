@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'New question')
+@section('title', 'New Criteria')
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
@@ -19,7 +19,8 @@
 <!-- <h3>User Profile</h3> -->
 @endsection
 
-
+@section('breadcrumb-items')
+@endsection
 
 @section('content')
 <div class="container-fluid">
@@ -38,13 +39,18 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label class="col-form-label">Question<i class="text-danger">*</i></label>
+                                <label class="col-form-label">Category<i class="text-danger">*</i></label>
                                 <select
-                                    class="form-select digits select2 @error('question_categories_id') is-invalid @enderror"
-                                    name="question_categories_id" id="question_categories_id" data-placeholder="Select">
+                                    class="form-select digits select2 @error('standard_category_id') is-invalid @enderror"
+                                    name="standard_category_id" id="standard_category_id" data-placeholder="Select">
                                     <option value="" selected disabled>Select</option>
+                                    @foreach($category as $p)
+                                    <option value="{{ $p->id }}"
+                                        {{ ($p->id==old('standard_category_id') ? "selected": "") }}>
+                                        {{ $p->id }} - {{ $p->title }}</option>
+                                    @endforeach
                                 </select>
-                                @error('question_categories_id')
+                                @error('standard_category_id')
                                 <span class="invalid-feedback d-block" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

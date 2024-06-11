@@ -54,7 +54,8 @@
                         </select>
                     </div>
                     <div class="col-md-9 d-flex justify-content-center justify-content-md-end">
-                        <a class="btn btn-primary btn-block btn-mail" title="Add new" href="">
+                        <a class="btn btn-primary btn-block btn-mail" title="Add new" 
+                            href="{{ route('standard_criteria.criteria_add') }}">
                             <i data-feather="plus"></i>New
                         </a>
                     </div>
