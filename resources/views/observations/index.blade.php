@@ -124,7 +124,7 @@
                 {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-warning" title="Show" href="{{ url('observations/make/${row.id}') }}"><i class="bx bx-plus-lg"></i></a>`
+                                `<a class="text-warning" title="Show" href="{{ url('observations/make/${row.id}') }}"><i class="bx bx-plus"></i></a>`
                             return html;
                         },
                         "orderable": false,
