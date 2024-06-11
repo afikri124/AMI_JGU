@@ -17,15 +17,16 @@
                 <div class="card">
                     <div class="card-header">Upload Document Audit</div>
                 <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('my_audit.add') }}"
+                <form id="form-add-new-record" method="POST" action="{{ route('my_audit.update', $data->id) }}"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="col-sm-12">
                                 <label class="form-label">Upload Images<i class="text-danger">*</i></label>
                                 <div class="input-group mb-3">
                                     <input class="form-control @error('doc_path') is-invalid @enderror"
-                                        name="doc_path" type="file" accept=".jpg, .jpeg, .png, .pdf"
-                                        title="JPG/PNG/PDF">
+                                        name="doc_path" type="file" accept=".pdf"
+                                        title="PDF">
                                     @error('doc_path')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

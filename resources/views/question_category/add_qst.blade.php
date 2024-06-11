@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'New question')
+@section('title', 'New Question')
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">

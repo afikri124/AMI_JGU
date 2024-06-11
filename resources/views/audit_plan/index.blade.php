@@ -35,108 +35,14 @@
                 @endforeach
             </select>
         </div>
-<div class="container">
-    <table class="table" id="datatable">
-    <div class="offset-md-1 text-md-end text-center pt-3 pt-md-0">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
-            aria-controls="DataTables_Table_0" type="button"><span><i class="bx bx-plus me-sm-2"></i>
-                <span>Add</span></span>
-        </button>
-    </div>
-    <div class="offcanvas offcanvas-end @if($errors->all()) show @endif" id="newrecord"
-    aria-labelledby="offcanvasEndLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasEndLabel" class="offcanvas-title">Add Audit Plan</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                    aria-label="Close">
-                </button>
-            </div>
-            <div class="offcanvas-body my-auto mx-0 flex-grow-1">
-                <form method="POST" action="">
-                @csrf
-                <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="lecture_id" class="form-label" >Lecture</label>
-                            <select name="lecture_id" id="lecture_id" class="form-select" required>
-                                <option value="">Select Lecture</option>
-                                @foreach($lecture as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('lecture') ?? []) ? "selected": "") }}>
-                                        {{$role->name}} (
-                                            @foreach ($role->roles as $x)
-                                                {{ $x->name}}
-                                            @endforeach
-                                        )</option>
-                                    @endforeach
-                            </select>
-                        </div>
-                    <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date Start</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
-                                    placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_start') }}">
-                                        @error('date_start')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong></span>
-                                @enderror
-                                    </div>
-                                        </div>
-                                <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date End</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
-                                    placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_end') }}">
-                                        @error('date_end')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong></span>
-                                @enderror
-                                    </div>
-                                        </div>
-                            <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="location_id" class="form-label" >Location</label>
-                            <select name="location_id" id="location_id" class="form-select" required>
-                            <option value="">Select Location</option>
-                            @foreach($locations as $d)
-                                <option value="{{$d->id}}"
-                                    {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
-                                    {{$d->title}}</option>
-                            @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditor_id" class="form-label">Auditor</label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" required>
-                                <option value="">Select Auditor</option>
-                                @foreach($auditor as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
-                                        {{$role->name}} (
-                                            @foreach ($role->roles as $x)
-                                                {{ $x->name}}
-                                            @endforeach
-                                        )</option>
-                                    @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="department_id" class="form-label" >Department</label>
-                            <select name="department_id" id="department_id" class="form-select" required>
-                                <option value="">Select Department</option>
-                                @foreach($departments as $d)
-                                    <option value="{{$d->id}}"
-                                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
-                                        {{$d->name}}</option>
-                                    @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-12 mt-4">
-                            <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
-                            <button type="reset" class="btn btn-outline-secondary"
-                                data-bs-dismiss="offcanvas">Batal</button>
-                        </div>
-                    </div>
+        <div class="container">
+            <table class="table" id="datatable">
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                        href="{{ route('audit_plan.add')}}">
+                        <i data-feather="plus"></i>Add
+                    </a>
                 </div>
-
     <div class="container">
         <thead>
             <tr>
@@ -153,8 +59,7 @@
     </table>
 </div>
 
-    @endsection
-
+@endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
@@ -167,8 +72,8 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
-
 <script type="text/javascript">
+
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
             responsive: true,

@@ -16,45 +16,49 @@ class MyAuditController extends Controller{
         return view('my_audit.index', compact('data'));
     }
 
-    public function add(Request $request, $id){
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-            'doc_path'  => 'required','mime s:jpg,jpeg,png,pdf','max:5120',
-            'link'      => 'required',
-        ]);
-        $fileName = "";
-            if ($request->hasFile('doc_path')) {
-                $ext = $request->doc_path->extension();
-                $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
-                $fileName = Auth::user()->id . '_' . $name;
-                $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
-                $path = public_path() . "/" . $folderName;
-                if (!File::exists($path)) {
-                    File::makeDirectory($path, 0755, true); //create folder
-                }
-                $upload = $request->doc_path->move($path, $fileName); //upload file to folder
-                if ($upload) {
-                    $fileName = $folderName . "/" . $fileName;
-                } else {
-                    $fileName = "";
-                }
-            }
-            //document upload
-            $data = AuditPlan::findOrFail($id);
-            $data->create([
-            'doc_path'          => $fileName,
-            'link'              => $request->link,
-        ]);
-        if($data){
-            return redirect()->route('my_audit.index')->with('Success', 'Document Anda berhasil di Upload');
-        }else{
-        $data = AuditPlan::all();
-        return view("my_audit.add", compact("data"));
-        //dd($request);
+    public function show($id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        $documentPath = $data->documents->first()->doc_path;
+        $documentUrl = url($documentPath);
+        return view('my_audit.show', compact('data', 'documentUrl'));
+    }
+
+    public function add($id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        return view('my_audit.add', compact('data'));
+    }
+
+public function update(Request $request, $id){
+    $request->validate([
+        'doc_path' => 'mimes:pdf|max:10000',
+    ]);
+    $fileName = "";
+    if ($request->hasFile('doc_path')) {
+        $ext = $request->doc_path->extension();
+        $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
+        $fileName = Auth::user()->id . '_' . $name;
+        $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
+        $path = public_path() . "/" . $folderName;
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0755, true); //create folder
+        }
+        $upload = $request->doc_path->move($path, $fileName); //upload file to folder
+        if ($upload) {
+            $fileName = $folderName . "/" . $fileName;
+        } else {
+            $fileName = "";
         }
     }
+    //document upload
+    $data = AuditPlan::findOrFail($id);
+    $data->update([
+    'doc_path'          => $fileName,
+    'link'              => $request->link,
+]);
+    return redirect()->route('my_audit.index')->with('Success', 'Audit Plan berhasil diperbarui.');
 }
-
     public function delete(Request $request){
         $data = AuditPlan::find($request->id);
         if($data){

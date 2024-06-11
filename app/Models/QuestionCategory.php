@@ -11,7 +11,7 @@ class QuestionCategory extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'title', 'description', 'is_required','status'
+        'id', 'title', 'description','status', 'is_required',
     ];
 
     public function standars()
@@ -19,6 +19,6 @@ class QuestionCategory extends Model
         return $this->hasMany(Standard::class);
     }
 
-    
+
 
 }

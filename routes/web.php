@@ -44,6 +44,7 @@ Route::group(['prefix' => 'audit_plan'], function () {
     Route::any('/',[AuditPlanController::class, 'index'])->name('audit_plan.index');
     Route::get('/data',[AuditPlanController::class, 'data'])->name('audit_plan.data');
     Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
+    Route::any('/add',[AuditPlanController::class, 'add'])->name('audit_plan.add');
 });
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
@@ -60,7 +61,9 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/',[MyAuditController::class, 'index'])->name('my_audit.index');
     Route::get('/data',[MyAuditController::class, 'data'])->name('my_audit.data');
     Route::delete('/delete', [MyAuditController::class, 'delete'])->name('my_audit.delete');
-    Route::any('/add',[MyAuditController::class, 'add'])->name('my_audit.add');
+    Route::get('/add/{id}',[MyAuditController::class, 'add'])->name('my_audit.add');
+    Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
+    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
 });
 
 Route::middleware('auth')->group(function () {
@@ -103,6 +106,8 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
         Route::group(['prefix' => 'question_categories'], function () {
             Route::any('/', [QuestionCategoryController::class, 'question'])->name('question_category.index');
             Route::get('/question_add', [QuestionCategoryController::class, 'question_add'])->name('question_category.add_qst');
+            Route::get('/data', [QuestionCategoryController::class, 'data'])->name('question_category.data');
+            Route::delete('/delete', [QuestionCategoryController::class, 'delete'])->name('question_category.delete');
         });
     });
 });

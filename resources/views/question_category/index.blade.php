@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Question Standard')
+@section('title', 'Question Category')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 @endsection
 
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
@@ -26,17 +27,16 @@
                         </div>
                     </div>
                 </div>
-<div class="container">
-    <table class="table" id="datatable">
-        <div class="col-md-6 d-flex justify-content-center justify-content-md-end">
-            <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                href="{{ route('question_category.add_qst')}}">
-                <i data-feather="plus"></i>New
-            </a>
-        </div>
-    
 
-    <div class="container">
+        <div class="container">
+            <table class="table" id="datatable">
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                        href="{{ route('question_category.add_qst')}}">
+                        <i data-feather="plus"></i>Add
+                    </a>
+                </div>
+<div class="container">
         <thead>
             <tr>
                 <th scope="col" width="50px">Code ID</th>
@@ -50,8 +50,7 @@
     </table>
 </div>
 
-    @endsection
-
+@endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
@@ -63,8 +62,9 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-
+<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 <script type="text/javascript">
+
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
             responsive: true,
@@ -75,7 +75,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('question_category.add_qst') }}",
+                url: "{{ route('question_category.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val()
                 },
@@ -86,8 +86,8 @@
             }],
             columns: [{
                     render: function (data, type, row, meta) {
-                        var x = '<code>' + row.id + '</code>';
-                        return x;
+                        var no = (meta.row + meta.settings._iDisplayStart + 1);
+                        return no;
                     },
                     className: "text-center"
                 },
@@ -117,7 +117,7 @@
                         var x = "";
                         if (row.is_required == true) {
                             x = '<i class="fa fa-check"></i>';
-                        } 
+                        }
                         return x;
                     },
                     className: "text-center"
@@ -125,16 +125,15 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="btn btn-warning btn-sm px-2" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
+                            `<a class="text-warning" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="btn btn-primary btn-sm px-2" title="Delete" onclick="DeleteId(\'` + row.id + `\',\'` + row.date + `\')" >
+                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" >
                             <i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     "orderable": false,
                     className: "text-md-center"
                 }
-
             ]
         });
     });
@@ -150,7 +149,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('audit_plan.delete') }}",
+                        url: "{{ route('question_category.delete') }}",
                         type: "DELETE",
                         data: {
                             "id": id,

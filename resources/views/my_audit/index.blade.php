@@ -125,8 +125,8 @@
                 {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-success" href="{{ url('add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
-                                <a href="#modalToggle" data-bs-toggle="modal" data-bs-target="#modalToggle" class="bx bx-show-alt text-dark"></a>
+                                `<a class="text-success" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                                <a class="text-warning" title="Show" href="{{ url('my_audit/show/${row.id}') }}"><i class="bx bx-show"></i></a>
                                 <a class="text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
                             return html;
                         },

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\QuestionCategory;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Yajra\DataTables\Facades\DataTables;
 
 class QuestionCategoryController extends Controller
 {
@@ -12,13 +12,14 @@ class QuestionCategoryController extends Controller
      * Display a listing of the resource.
      */
     public function question(Request $request) {
-        return view('question_category.index');
+        $data = QuestionCategory::all();
+        return view('question_category.index', compact('data'));
     }
 
     public function question_add(Request $request) {
         if ($request->isMethod('post')) {
-            $this->validate($request, [ 
-                'id'=> ['required', 'string', 'max:191'], 
+            $this->validate($request, [
+                'id'=> ['required', 'string', 'max:191'],
                 // Rule::unique('criteria_question')],
                 'title'=> ['required', 'string', 'max:191'],
             ]);
@@ -28,10 +29,15 @@ class QuestionCategoryController extends Controller
         return view('question_category.add_qst');
     }
 
+    public function data(Request $request){
+        $data = QuestionCategory::select('*')->orderBy("id");
+            return DataTables::of($data);
+    }
+
     // public function category_edit($id, Request $request) {
     //     if ($request->isMethod('post')) {
-    //         $this->validate($request, [ 
-    //             'id'=> ['required', 'string', 'max:191'], 
+    //         $this->validate($request, [
+    //             'id'=> ['required', 'string', 'max:191'],
     //             // Rule::unique('criteria_question')->ignore($id, 'id')],
     //             'title'=> ['required', 'string', 'max:191'],
     //         ]);
@@ -52,27 +58,20 @@ class QuestionCategoryController extends Controller
     //     return view('settings.question_edit', compact('data'));
     // }
 
-    // public function category_delete(Request $request) {
-    //     $check = Observation_Category::where('questionqategory_id',$request->id)->first();
-    //     if($check){
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Not Allowed! Category Already used.'
-    //         ]);
-    //     }
-    //     $data = QuestionCategory::find($request->id);
-    //     if($data){
-    //         Log::warning(Auth::user()->username." deleted Category #".$data->id.", title : ".$data->title);
-    //         $data->delete();
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Record deleted successfully!'
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Failed to delete!'
-    //         ]);
-    //     }
-    // }
+    public function delete(Request $request){
+        $data = QuestionCategory::find($request->id);
+        if($data){
+            $data->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal dihapus!'
+            ]);
+        }
+    }
+
 }
