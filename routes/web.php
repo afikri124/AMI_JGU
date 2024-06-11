@@ -14,8 +14,13 @@ use App\Http\Controllers\QuestionCategoryController;
 use App\Models\AuditQuesition;
 
 use App\Http\Controllers\MyAuditController;
+<<<<<<< HEAD
 use App\Http\Controllers\ObservationController;
 use App\Models\Observation;
+=======
+use App\Http\Controllers\StandardCategoryController;
+use App\Http\Controllers\StandardCriteriaController;
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -99,8 +104,29 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
             Route::get('/view/{id}/roles', [PermissionController::class, 'view_roles_data'])->name('permissions.view_roles_data');
         });
     });
+<<<<<<< HEAD
+=======
+    Route::group(['prefix' => 'manage_standard'], function () {
+        Route::group(['prefix' => 'category'], function () {
+            Route::any('/', [StandardCategoryController::class, 'category'])->name('standard_category.category');
+            Route::any('category/add', [StandardCategoryController::class, 'category_add'])->name('standard_category.category_add');
+            
+        });
+        Route::group(['prefix' => 'criteria'], function () {
+            Route::any('/', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
+        });
+    });
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
 });
 
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0

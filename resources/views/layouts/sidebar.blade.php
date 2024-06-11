@@ -88,6 +88,25 @@
                         @endcan
                     </ul>
                 </li>
+<<<<<<< HEAD
+=======
+
+                <li class="menu-item {{ request()->segment(2) == 'manage_standard' ? 'open active' : '' }}">
+                    <a href="" class="menu-link  menu-toggle">
+                        <div>Manage Standard</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->segment(3) == 'category' ? 'active' : '' }}">
+                            <a href="{{ route('standard_category.category') }}" class="menu-link">
+                                <div>Standard Category</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->segment(3) == 'criteria' ? 'active' : '' }}">
+                            <a href="{{ route('standard_criteria.criteria') }}" class="menu-link">
+                                <div>Standard Criterias</div>
+                            </a>
+                        </li>
+>>>>>>> 18000a4159c46bf60626acccee1653aa76389dc0
                 @endcan
             </ul>
         </li>
