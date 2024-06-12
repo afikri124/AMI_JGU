@@ -51,6 +51,14 @@ class AuditStatusSeeder extends Seeder
             ["id" => "9",
             "title" => "Request note by Approver",
             "color" => "success"],
+
+            ["id" => "10",
+            "title" => "ON",
+            "color" => "success"],
+
+            ["id" => "11",
+            "title" => "OFF",
+            "color" => "warning"],
         ];
 
 

@@ -101,7 +101,8 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
         Route::group(['prefix' => 'category'], function () {
             Route::any('/', [StandardCategoryController::class, 'category'])->name('standard_category.category');
             Route::any('category/add', [StandardCategoryController::class, 'category_add'])->name('standard_category.category_add');
-
+            Route::get('data', [StandardCategoryController::class, 'data'])->name('standard_category.data');
+            Route::get('category/edit/{id}', [StandardCategoryController::class, 'category_edit'])->name('standard_category.category_edit');
         });
         Route::group(['prefix' => 'criteria'], function () {
             Route::any('/', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');

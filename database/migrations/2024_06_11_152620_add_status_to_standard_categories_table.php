@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('standard_categories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('title')->nullable();
-            $table->string('description')->nullable();
-            $table->boolean('is_required')->default(false);
+        Schema::table('standard_categories', function (Blueprint $table) {
+            $table->unsignedBigInteger('status_id');
+            $table->foreign('status_id')->references('id')->on('audit_statuses')->nullable();
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('standard_categories');
+        Schema::table('standard_categories', function (Blueprint $table) {
+            //
+        });
     }
 };

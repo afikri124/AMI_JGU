@@ -36,4 +36,8 @@ class AuditStatus extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function standard_category(){
+        return $this->hasMany(StandardCategory::class, 'status_id');
+    }
 }

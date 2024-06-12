@@ -11,11 +11,16 @@ class StandardCategory extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'title', 'description', 'is_required','status'
+        'id', 'title', 'description', 'is_required','status_id'
     ];
 
     public function criterias()
     {
         return $this->hasMany(StandardCriteria::class, 'id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(AuditStatus::class, 'status_id');
     }
 }

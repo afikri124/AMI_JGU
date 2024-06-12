@@ -71,7 +71,7 @@
                         <div class="col-lg-12 col-md-12">
                             <div class="form-group">
                                 <div class="form-check checkbox checkbox-default mb-0">
-                                    <input class="form-check-input" id="is_required" type="checkbox" value="0"
+                                    <input class="form-check-input" id="is_required" type="checkbox" value="1"
                                         name="is_required">
                                     <label class="form-check-label" for="is_required">Comments are required for this
                                         category.</label>

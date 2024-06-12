@@ -2,14 +2,13 @@
 @section('title', 'Standard Categories')
 
 @section('css')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
-
 @section('style')
 
 @endsection
@@ -34,8 +33,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <select id="Select_2" class="select form-select" data-placeholder="Status">
+                                <option value="">Status</option>
+                                <option value='true'>ON</option>
+                                <option value='false'>OFF</option>
+                        </select>
+                    </div>
                         </div>
-                </div>
+                    </div>
             <div class="container">
                 <table class="table" id="datatable">
                     <div class="col-md d-flex justify-content-center justify-content-md-end">
@@ -65,12 +71,11 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 <script>
     "use strict";
     setTimeout(function () {
@@ -96,7 +101,7 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_category.category') }}",
+                url: "{{ route('standard_category.data') }}",
                 data: function (d) {
                     d.status = $('#Select_2').val(),
                     d.search = $('input[type="search"]').val()
@@ -104,7 +109,7 @@
             },
             columns: [{
                     render: function (data, type, row, meta) {
-                        var x = '<code>' + row.id + '</code>';
+                        var x =  row.id ;
                         return x;
                     },
                     className: "text-center"
@@ -120,21 +125,20 @@
                     },
                 },
                 {
-                    render: function (data, type, row, meta) {
-                        if(row.status == 1){
-                            var x = '<span class="badge rounded-pill badge-success">ON</span>';
-                        } else {
-                            var x = '<span class="badge rounded-pill badge-danger">OFF</span>';
-                        }
-                        return x;
-                    },
-                    className: "text-center"
+                    render: function(data, type, row, meta) {
+                        var html =
+                            `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
+                        return html;
+                    }
                 },
                 {
                     render: function (data, type, row, meta) {
                         var x = "";
-                        if (row.is_required == true) {
-                            x = '<i class="fa fa-check"></i>';
+                        if (row.is_required) {
+                            x = '<i class="bx bx-check text-warning"></i>';
+                        }
+                        else{
+                            x = '<i class="bx bx-x text-danger"></i>';
                         }
                         return x;
                     },
@@ -144,8 +148,8 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="btn btn-success btn-sm px-2" title="Edit" href=""><i class="fa fa-pencil-square-o"></i></a> <a class="btn btn-danger btn-sm px-2" title="Delete" onclick="DeleteId('` +
-                            x + `')" ><i class="fa fa-trash"></i></a>`;
+                            `<a class="text-warning" title="Edit" href="{{url('standard_category/category_edit')}}"><i class="bx bx-pencil"></i></a>
+                            <a class="text-danger" title="Delete" onclick="DeleteId('` + x + `')" ><i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     orderable: false,
