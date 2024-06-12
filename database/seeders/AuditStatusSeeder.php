@@ -22,35 +22,35 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "2",
             "title" => "Reschedule",
-            "color" => "success"],
+            "color" => "dark"],
 
             ["id" => "3",
             "title" => "Process",
-            "color" => "success"],
+            "color" => "warning"],
 
             ["id" => "4",
             "title" => "Approved by auditor",
-            "color" => "success"],
+            "color" => "secondary"],
 
             ["id" => "5",
             "title" => "Revised",
-            "color" => "success"],
+            "color" => "primary"],
 
             ["id" => "6",
             "title" => "Approved by LPM",
-            "color" => "success"],
+            "color" => "warning"],
 
             ["id" => "7",
             "title" => "Request note by LPM",
-            "color" => "success"],
+            "color" => "warning"],
 
             ["id" => "8",
             "title" => "Approved by Approver",
-            "color" => "success"],
+            "color" => "warning"],
 
             ["id" => "9",
             "title" => "Request note by Approver",
-            "color" => "success"],
+            "color" => "secondary"],
 
             ["id" => "10",
             "title" => "ON",
@@ -58,7 +58,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "11",
             "title" => "OFF",
-            "color" => "warning"],
+            "color" => "primary"],
         ];
 
 

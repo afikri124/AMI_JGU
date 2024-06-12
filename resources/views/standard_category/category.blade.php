@@ -53,12 +53,12 @@
                         <div class="container">
                             <thead>
                                 <tr>
-                                    <th scope="col" width="60px" class="text-center">Code ID</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col" width="50px">Status</th>
-                                    <th scope="col" width="50px">Required</th>
-                                    <th scope="col" width="65px">Action</th>
+                                    <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>
+                                    <th scope="col"><b>Title</b></th>
+                                    <th scope="col"><b>Description</b></th>
+                                    <th scope="col" width="50px"><b>Status</b></th>
+                                    <th scope="col" width="50px"><b>Required</b></th>
+                                    <th scope="col" width="65px"><b>Action</b></th>
                                 </tr>
                             </thead>
                         </table>
@@ -72,10 +72,23 @@
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+@if(session('msg'))
+<script type="text/javascript">
+    //swall message notification
+    $(document).ready(function () {
+        swal(`{!! session('msg') !!}`, {
+            icon: "info",
+        });
+    });
+
+</script>
+@endif
+
 <script>
     "use strict";
     setTimeout(function () {
@@ -145,14 +158,16 @@
                     className: "text-center"
                 },
                 {
-                    render: function (data, type, row, meta) {
-                        var x = row.id;
+                    render: function(data, type, row, meta) {
                         var html =
-                            `<a class="text-warning" title="Edit" href="{{url('standard_category/category_edit')}}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-danger" title="Delete" onclick="DeleteId('` + x + `')" ><i class="bx bx-trash"></i></a>`;
+                            `<a class="text-warning" title="Edit" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
+                            <i class="bx bx-pencil"></i></a>
+                            <a class="text-danger" title="Hapus" style="cursor:pointer"
+                            onclick="DeleteId(\'` + row.id + `\',\'` + row.description + `\')" >
+                            <i class="bx bx-trash"></i></a>`;
                         return html;
                     },
-                    orderable: false,
+                    "orderable": false,
                     className: "text-end"
                 }
             ]
@@ -163,10 +178,10 @@
     });
 
 
-    function DeleteId(id) {
+    function DeleteId(id, data) {
         swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this!",
+                title: "Apa kamu yakin?",
+                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -174,7 +189,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "",
+                        url: "{{ route('standard_category.delete') }}",
                         type: "DELETE",
                         data: {
                             "id": id,
