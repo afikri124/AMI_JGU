@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->decimal('weight');
-            $table->boolean('status')->nullable()->default(true);
             $table->uuid('standard_category_id')->nullable();
             $table->foreign('standard_category_id')->references('id')->on('standard_categories')->onUpdate('cascade')->onDelete('set null');
         });

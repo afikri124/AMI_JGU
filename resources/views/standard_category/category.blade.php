@@ -35,11 +35,11 @@
                             </div>
                             <div class="col-md-3">
                                 <select id="Select_2" class="select form-select" data-placeholder="Status">
-                                <option value="">Status</option>
-                                <option value='true'>ON</option>
-                                <option value='false'>OFF</option>
-                        </select>
-                    </div>
+                                    <option value="">Status</option>
+                                    <option value='true'>ON</option>
+                                    <option value='false'>OFF</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
             <div class="container">

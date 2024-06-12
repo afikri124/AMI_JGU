@@ -23,7 +23,7 @@ class StandardCategoryController extends Controller
                 'id'=> ['required', 'string', 'max:191', Rule::unique('standard_categories')],
                 'title'=> ['required', 'string', 'max:191'],
                 'description'=> ['required', 'string', 'max:191'],
-                'is_required'=> ['boolean'],
+                'is_required'=> ['boolean'],    
             ]);
             StandardCategory::create([
                 'id'=> $request->id,

@@ -9,21 +9,26 @@ use Illuminate\Http\Request;
 class StandardCriteriaController extends Controller
 {
     public function criteria(Request $request) {
-        $category = StandardCategory::get();
-        return view('standard_criteria.criteria', compact('category'));
+        $data = StandardCategory::all();
+        return view('standard_criteria.criteria', compact('data'));
     }
 
     public function criteria_add(Request $request) {
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('POST')) {
             $this->validate($request, [ 
                 'standard_categories_id'=> ['required'],
                 'title'=> ['required', 'string', 'max:191'],
                 'weight'=> ['required', 'numeric'],
             ]);
-            StandardCriteria::insert(request()->except(['_token']));
+            StandardCriteria::created([
+                'standard_categories_id' => $request->standard_categories_id,
+                'title' => $request->title,
+                'weight' => $request->weight,
+                'status_id'=> '10',
+            ]);
             return redirect()->route('standard_criteria.criteria');
         } 
-        $category = StandardCategory::get();
-        return view('standard_criteria.criteria_add', compact('category'));
+        $data = StandardCategory::all();
+        return view('standard_criteria.criteria_add',  compact('data'));
     }
 }

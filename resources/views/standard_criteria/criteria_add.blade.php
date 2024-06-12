@@ -2,8 +2,12 @@
 @section('title', 'New Criteria')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2-bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
 @section('style')
@@ -42,7 +46,7 @@
                                     class="form-select digits select2 @error('criteria_category_id') is-invalid @enderror"
                                     name="criteria_category_id" id="criteria_category_id" data-placeholder="Select">
                                     <option value="" selected disabled>Select</option>
-                                    @foreach($category as $p)
+                                    @foreach($data as $p)
                                     <option value="{{ $p->id }}"
                                         {{ ($p->id==old('criteria_category_id') ? "selected": "") }}>
                                         {{ $p->id }} - {{ $p->title }}</option>
@@ -95,7 +99,7 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script>
     "use strict";
     setTimeout(function () {
