@@ -53,7 +53,7 @@
                 </div>
                 @endsection
 
-@section('script')
+                @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/datatables-bootstrap5.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/datatables.responsive.js')}}"></script>
@@ -63,6 +63,19 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+@if(session('msg'))
+<script type="text/javascript">
+    //swall message notification
+    $(document).ready(function () {
+        swal(`{!! session('msg') !!}`, {
+            icon: "info",
+        });
+    });
+
+</script>
+@endif
+
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 
 <script type="text/javascript">

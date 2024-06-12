@@ -37,10 +37,43 @@ class StandardCategoryController extends Controller
         return view('standard_category.category_add');
     }
 
-    public function category_edit(Request $request, $id){
-        $data = StandardCategory::find($id);
+    public function category_edit($id){
+        $data = StandardCategory::findOrFail($id);
         $status = AuditStatus::orderBy('title')->get();
+        //dd($data);
         return view('standard_category.category_edit', compact('data', 'status'));
+    }
+
+    public function category_update(Request $request, $id){
+        $is_required = $request->has('is_required') ? $request->is_required : false;
+        $request->validate([
+            'description'    => 'required', 'string', 'max:191',
+            'is_required' => 'boolean',
+        ]);
+
+        $data = StandardCategory::findOrFail($id);
+        $data->update([
+            'status_id'=> '11',
+            'description'=> $request->description,
+            'is_required'=> $is_required,
+        ]);
+        return redirect()->route('standard_category.category')->with('Success', 'Category berhasil diperbarui.');
+    }
+
+    public function delete(Request $request){
+        $data = StandardCategory::find($request->id);
+        if($data){
+            $data->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal dihapus!'
+            ]);
+        }
     }
 
     public function data(Request $request){

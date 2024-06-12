@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', ' Edit Data Audit Plan')
+@section('title', 'Edit Category')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -23,63 +23,44 @@
             <!-- Account -->
             <hr class="my-0">
             <div class="card-body">
-                <form action="{{ route('update_standard', $data->id) }}" method="POST">
+                <form action="{{ route('standard_category.category_update', $data->id) }}" method="POST">
                     <div class="row">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                    <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date Start</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
-                                    placeholder="Masukkan Date " value="{{ $data->date_start }}">
-                                        @error('date_start')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong></span>
-                                @enderror
-                                    </div>
-                                        </div>
-                    <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
-                                    placeholder="Masukkan Date" value="{{ $data->date_end }}">
-                                        @error('date_end')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong></span>
-                                @enderror
-                                    </div>
-                                        </div>
-                            <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditor_id" class="form-label" >Auditor</label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" required>
-                            <option value="">Select Auditor</option>
-                            @foreach($auditor as $role)
-                                <option value="{{$role->id}}" {{ $data->auditor_id ? 'selected' : '' }}>
-                                    {{$role->name}}</option>
-                                @endforeach
+                        <div class="col-sm-12 fv-plugins-icon-container">
+                            <label for="status_id" class="form-label" >Status</label>
+                            <select name="status_id" id="status_id" class="form-select" required>
+                            <option value="">Select Status</option>
+                            <option value='true'>ON</option>
+                            <option value='false'>OFF</option>
                             </select>
                             </div>
-                    <div class="col-sm-12 fv-plugins-icon-container">
-                        <label for="location_id" class="form-label" >Location</label>
-                            <select name="location_id" id="location_id" class="form-select" required>
-                                <option value="">Select Location</option>
-                                @foreach($locations as $d)
-                                <option value="{{$d->id}}" {{ $data->location_id ? 'selected' : '' }}>
-                                    {{$d->title}}</option>
-                                @endforeach
-                            </select>
-                            </select>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">Description</label>
+                                <textarea class="form-control" rows="2" name="description" id="description" value="{{ $data->description }}">{{ old('description') }}</textarea>
+                            </div>
                         </div>
-                    </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <div class="form-check checkbox checkbox-default mb-0">
+                                    <input class="form-check-input" id="is_required" type="checkbox" value="1"
+                                        name="is_required">
+                                    <label class="form-check-label" for="is_required">Comments are required for this
+                                        category.</label>
+                                </div>
+                            </div>
+                        </div>
                         <br>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
-                        <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
+                        <a class="btn btn-outline-secondary" href="{{ route('standard_category.category') }}">Back</a>
                     </div>
                 </form>
                 </div>
-            @endsection
+</div>
+                @endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>

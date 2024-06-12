@@ -26,7 +26,6 @@
             <div class="card-body">
                 <form id="form-add-new-record" method="POST" action="{{ route('my_audit.update', $data->id) }}"
                         enctype="multipart/form-data">
-
                         @csrf
                         @method('PUT')
                         <div class="form-group">
