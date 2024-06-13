@@ -15,11 +15,6 @@ return new class extends Migration
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')->on('audit_statuses')->nullable();
         });
-
-        Schema::table('standard_criterias', function (Blueprint $table) {
-            $table->unsignedBigInteger('status_id');
-            $table->foreign('status_id')->references('id')->on('audit_statuses')->nullable();
-        });
     }
 
     /**

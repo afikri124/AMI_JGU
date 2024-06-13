@@ -28,14 +28,15 @@ class ObservationController extends Controller{
         if ($request->isMethod('POST')) {
             $this->validate($request, [
             'audit_plan_id'    => ['required'],
-            'auditor_id'    => ['required'],
+            'auditor_id'    => ['string'],
             'location_id'    => ['required'],
             'department_id'   => ['required'],
-            'standar_id'    => ['required'],
-            'attendance'    => ['required'],
+            'standard_id'    => ['required'],
+            'indicator_id'    => ['required'],
+            'standard_criterias_id'    => ['required'],
             'remark'    => ['required'],
             'file_path'    => ['required'],
-            'subject_course'   => ['required'],
+            'required'   => ['required'],
             'topic'    => ['required'],
             'class_type'    => ['required'],
             'total_students'    => ['required'],
@@ -46,11 +47,12 @@ class ObservationController extends Controller{
             'location_id'=> $request->location_id,
             'department_id'=> $request->department_id,
             'audit_status_id'   => '3',
-            'standar_id'=> $request->standar_id,
-            'attendance'=> $request->attendance,
+            'standard_id'=> $request->standard_id,
+            'standard_criterias_id'=> $request->standard_criterias_id,
+            'indicator_id'=> $request->indicator_id,
             'remark'=> $request->remark,
             'file_path'=> $request->file_path,
-            'subject_course'=> $request->subject_course,
+            'required'=> $request->required,
             'topic'=> $request->topic,
             'class_type'=> $request->class_type,
             'total_students'=> $request->total_students,
@@ -62,12 +64,16 @@ class ObservationController extends Controller{
             $audit_plan =AuditPlan::with('auditStatus')->get();
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('name')->get();
-            $users = User::with(['roles' => function ($query) {
-                $query->select( 'id','name' );
-            }])->where('name',"!=",'admin')->orderBy('name')->get();
-            // dd($users);
+            $lecture = User::with(['roles' => function ($query) {
+            $query->select( 'id','name' );
+            }])
+            ->whereHas('roles', function($q) use($request){
+                $q->where('name', 'lecture');
+            })
+            ->orderBy('name')->get();
+            // dd($lecture);
             $data = AuditPlan::all();
-            return view("observations.make", compact("users", "locations", "departments", "audit_plan"));
+            return view("observations.make", compact("lecture", "locations", "departments", "audit_plan"));
        }
 
        public function data(Request $request){

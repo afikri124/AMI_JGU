@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AuditStandar extends Model
+class SubIndicator extends Model
 {
     use HasFactory;
-
-    protected $table = 'standards';
+    public $timestamps = false;
+    public $incrementing = false;
     protected $fillable = [
         'id',
-        'title',
-        'description'
+        'name'
     ];
 }

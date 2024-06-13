@@ -29,17 +29,17 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                                <label class="form-label">Upload Images<i class="text-danger">*</i></label>
-                                <div class="input-group mb-3">
-                                    <input class="form-control @error('doc_path') is-invalid @enderror"
-                                        name="doc_path" type="file" accept=".pdf"
-                                        title="PDF">
-                                    @error('doc_path')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                            <label class="form-label">Upload Images<i class="text-danger">*</i></label>
+                            <div class="input-group mb-3">
+                                <input class="form-control @error('doc_path') is-invalid @enderror"
+                                    name="doc_path" type="file" accept=".pdf"
+                                    title="PDF">
+                                @error('doc_path')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                             </div>
                             <div class="col-sm-12 fv-plugins-icon-container">
                                 <label class="form-label" for="basicDate">Link Drive</label>

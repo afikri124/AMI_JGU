@@ -67,12 +67,10 @@
             <div class="container">
             <thead>
                     <tr>
-                        <th scope="col" width="20px">No</th>
-                        <th scope="col">Title</th>
-                        <th scope="col" width="50px">Weight</th>
-                        <th scope="col" width="50px">Status</th>
-                        <th scope="col" width="50px">Category</th>
-                        <th scope="col" width="65px">Action</th>
+                        <th><b>No</b></th>
+                        <th><b>Category</b></th>
+                        <th><b>Title</b></th>
+                        <th><b>Action</b></th>
                     </tr>
                 </thead>
             </table>
@@ -93,11 +91,11 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
+<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 <script>
     "use strict";
@@ -124,7 +122,7 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.criteria') }}",
+                url: "{{ route('standard_criteria.data') }}",
                 data: function (d) {
                     d.category = $('#Select_1').val(),
                     d.status = $('#Select_2').val(),
@@ -141,53 +139,30 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.title;
+                        var x = row.category.description;
                         return x;
                     },
-                },
-
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.weight;
-                        return x;
-                    },
-                    className: "text-center"
-                },
-                {
-                    render: function(data, type, row, meta) {
-                        var html =
-                            `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
-                        return html;
-                    }
                 },
                 {
                     render: function (data, type, row, meta) {
-                        if(row.standard_category_id != null){
-                            var x = '<code title="'+ row.category['title'] +'">' + row.criteria_category_id + '</code>';
-                        } else {
-                            var x = "";
-                        }
+                        var x = row.standard.name;
                         return x;
                     },
-                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="btn btn-success btn-sm px-2" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
-                            row.link +
-                            `') }}"><i class="fa fa-pencil-square-o"></i></a> <a class="btn btn-danger btn-sm px-2" title="Delete" onclick="DeleteId(` +
-                            x + `)" ><i class="fa fa-trash"></i></a>`;
+                            `<a class="text-warning" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
+                            row.link + `') }}"><i class="bx bx-pencil"></i></a> 
+                            <a class="text-primary" title="Delete" onclick="DeleteId(` +
+                            x + `)" ><i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     orderable: false,
                     className: "text-end"
                 }
             ]
-        });
-        $('#Select_1').change(function () {
-            table.draw();
         });
         $('#Select_2').change(function () {
             table.draw();

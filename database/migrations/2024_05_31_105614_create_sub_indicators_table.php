@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audit_doc_list_names', function (Blueprint $table) {
+        Schema::create('sub_indicators', function (Blueprint $table) {
             $table->id('id');
-            $table->string('name');
-            $table->unsignedBigInteger('sub_indicator_id');
-            $table->foreign('sub_indicator_id')->references('id')->on('sub_indicators');
+            $table->text('name');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('audit_doc_list_names');
+        Schema::dropIfExists('sub_indicators');
     }
 };

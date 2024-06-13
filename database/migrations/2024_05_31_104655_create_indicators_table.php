@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('indicators', function (Blueprint $table) {
             $table->id('id');
-            $table->string('name');
-            $table->unsignedBigInteger('standard_criterias_id');
-            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias');
+            $table->text('name');
             $table->timestamps();
         });
     }
