@@ -11,7 +11,7 @@ class StandardCategory extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'title', 'description', 'is_required','status_id'
+        'id', 'title', 'description', 'is_required','audit_status_id'
     ];
 
     public function criterias()
@@ -21,6 +21,6 @@ class StandardCategory extends Model
 
     public function status()
     {
-        return $this->belongsTo(AuditStatus::class, 'status_id');
+        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
 }

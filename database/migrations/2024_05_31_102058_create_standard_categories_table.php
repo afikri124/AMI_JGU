@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('standard_categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('is_required')->default(false);
         });
     }

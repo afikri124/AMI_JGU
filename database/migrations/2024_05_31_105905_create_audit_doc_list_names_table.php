@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('audit_doc_list_names', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
-            $table->unsignedBigInteger('sub_indicator_id');
-            $table->foreign('sub_indicator_id')->references('id')->on('sub_indicators');
             $table->timestamps();
         });
     }

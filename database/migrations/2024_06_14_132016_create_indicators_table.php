@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('indicators', function (Blueprint $table) {
-            $table->id('id');
-            $table->text('name');
+            $table->id();
+            $table->string('name')->nullable();
+            $table->uuid('standard_criterias_id')->nullable();
+            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
+            $table->text('sub_indicator')->nullable();
+            $table->text('review_document')->nullable();
             $table->timestamps();
         });
     }

@@ -112,7 +112,6 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
         //route criteria
         Route::group(['prefix' => 'criteria'], function () {
             Route::any('/', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
-            Route::any('/criteria_add', [StandardCriteriaController::class, 'criteria_add'])->name('standard_criteria.criteria_add');
             Route::get('data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');
         });
     });

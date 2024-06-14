@@ -12,6 +12,9 @@ class Indicator extends Model
     public $incrementing = false;
     protected $fillable = [
         'id',
-        'name'
+        'name',
+        'standard_categories_id',
+        'sub_indicator',
+        'review_document'
     ];
 }
