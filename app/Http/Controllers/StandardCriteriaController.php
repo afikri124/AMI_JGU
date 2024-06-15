@@ -76,13 +76,13 @@ class StandardCriteriaController extends Controller
             'indicators.*.review_document' => 'required|string',
         ]);
 
-      
+
 
         $standard_criterias_id = $request->standard_criterias_id;
 
-       
+
         foreach ($request->indicators as $indicatorData) {
-         
+
 
             Indicator::create([
                 'standard_criterias_id' => $standard_criterias_id,

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Indicator extends Model
 {
     use HasFactory;
+    protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [

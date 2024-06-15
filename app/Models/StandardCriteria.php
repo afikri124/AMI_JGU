@@ -12,7 +12,7 @@ class StandardCriteria extends Model
 
     // Define $timestamps as true since you have timestamps in your table
     public $timestamps = true;
-
+    protected $keyType = 'string';
     protected $fillable = [
         'standard_categories_id',
         'title'
@@ -33,5 +33,10 @@ class StandardCriteria extends Model
     public function category()
     {
         return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+    }
+
+    public function getKeyType()
+    {
+        return 'string';
     }
 }

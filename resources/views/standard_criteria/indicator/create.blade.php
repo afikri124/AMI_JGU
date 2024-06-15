@@ -68,7 +68,8 @@
     document.getElementById('numForms').addEventListener('input', function() {
         var numForms = this.value;
         var container = document.getElementById('dynamic-form-container');
-        container.innerHTML = ''; 
+        container.innerHTML = ''; // Clear existing forms
+
         for (var i = 0; i < numForms; i++) {
             var row = `
                 <div class="row mb-3">
