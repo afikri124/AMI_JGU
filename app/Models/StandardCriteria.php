@@ -4,44 +4,39 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class StandardCriteria extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+
+    // Define $timestamps as true since you have timestamps in your table
+    public $timestamps = true;
+    protected $keyType = 'string';
     protected $fillable = [
-        'id', 
-        'standard_id',
-        'sub_indicator_id',
-        'audit_status_id',
-        'standard_category_id',
-        'remark',
-        'required',
-        'indicator_id'
+        'standard_categories_id',
+        'title'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Automatically generate a UUID for the 'id' field
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 
     public function category()
     {
-        return $this->belongsTo(StandardCategory::class, 'standard_category_id');
+        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
     }
 
-    public function sub_indicator()
+    public function getKeyType()
     {
-        return $this->belongsTo(SubIndicator::class, 'sub_indicator_id');
-    }
-
-    public function audit_status()
-    {
-        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
-    }
-
-    public function indicator()
-    {
-        return $this->belongsTo(Indicator::class, 'indicator_id');
-    }
-
-    public function standard()
-    {
-        return $this->belongsTo(Standard::class, 'standard_id');
+        return 'string';
     }
 }

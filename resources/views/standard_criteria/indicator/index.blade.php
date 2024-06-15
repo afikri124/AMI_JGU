@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Standard Criterias')
+@section('title', 'Indicator')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -45,10 +45,10 @@
 @section('content')
     <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
-        <li class="nav-item"><a class="nav-link active" href="../standard_criteria"><i
+        <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>    
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
         </ul>
@@ -68,69 +68,12 @@
                                     <option value="F">Female</option>
                                 </select>
                             </div>
-                            <div class="offset-md-8 col-md text-md-end text-center pt-3 pt-md-0">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
-                                    aria-controls="DataTables_Table_0" type="button"><span><i
-                                            class="bx bx-plus me-sm-2"></i>
-                                        <span>Add</span></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="offcanvas offcanvas-end @if($errors->all()) show @endif" tabindex="-1" id="newrecord"
-                aria-labelledby="offcanvasEndLabel">
-                <div class="offcanvas-header">
-                    <h5 id="offcanvasEndLabel" class="offcanvas-title">Add Criteria</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body my-auto mx-0 flex-grow-1">
-                    <form class="add-new-record pt-0 row g-2 fv-plugins-bootstrap5 fv-plugins-framework"
-                        id="form-add-new-record" method="POST" action="">
-                        @csrf
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Title</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                    name="title" placeholder="Input The New Criteria" value="{{ old('title') }}">
-                                @error('title')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Category</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <select class="form-select @error('standard_categories_id') is-invalid @enderror select2-modal"
-                                    name="standard_categories_id" id="standard_categories_id" data-placeholder=" -- Select --">
-                                    @foreach($category as $p)
-                                    <option value="{{ $p->id }}"
-                                        {{ ($p->id==old('standard_category_id') ? "selected": "") }}>
-                                        {{ $p->id }} - {{ $p->description }}</option>
-                                    @endforeach
-                                </select>
-                                @error('standard_categories_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-12 mt-4">
-                            <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
-                            <button type="reset" class="btn btn-outline-secondary"
-                                data-bs-dismiss="offcanvas">Cancel</button>
-                        </div>
-                        <div></div><input type="hidden">
-                    </form>
-                </div>
-            </div>
-        </div>
+                {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                        href="">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
+                </div> --}}
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
@@ -184,10 +127,17 @@
                         d.search = $('input[type="search"]').val()
                 },
             },
-            columns: [ 
+            columns: [{
+                    render: function (data, type, row, meta) {
+                        var no = (meta.row + meta.settings._iDisplayStart + 1);
+                        return no;
+                    },
+                    orderable: false,
+                    className: "text-center"
+                },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.category.id;
+                        var x = row.category.description;
                         return x;
                     },
                 },
@@ -199,16 +149,11 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.category.description;
-                        return x;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/${row.id}"><i class='bx bx-list-plus'></i></a> 
-                            
+                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a> 
+                            <a class="text-warning" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
+                            row.link + `') }}"><i class="bx bx-pencil"></i></a> 
                             <a class="text-primary" title="Delete" onclick="DeleteId(` +
                             x + `)" ><i class="bx bx-trash"></i></a>`;
                         return html;

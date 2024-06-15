@@ -697,7 +697,10 @@ class ComposerStaticInit7b1ef9b8c9bb04a20e3b271997afc63b
         'App\\Models\\Indicator' => __DIR__ . '/../..' . '/app/Models/Indicator.php',
         'App\\Models\\Location' => __DIR__ . '/../..' . '/app/Models/Location.php',
         'App\\Models\\Observation' => __DIR__ . '/../..' . '/app/Models/Observation.php',
+<<<<<<< HEAD
         'App\\Models\\Standard' => __DIR__ . '/../..' . '/app/Models/Standard.php',
+=======
+>>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
         'App\\Models\\StandardCategory' => __DIR__ . '/../..' . '/app/Models/StandardCategory.php',
         'App\\Models\\StandardCriteria' => __DIR__ . '/../..' . '/app/Models/StandardCriteria.php',
         'App\\Models\\SubIndicator' => __DIR__ . '/../..' . '/app/Models/SubIndicator.php',

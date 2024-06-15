@@ -28,7 +28,7 @@ class StandardCategoryController extends Controller
             StandardCategory::create([
                 'id'=> $request->id,
                 'title'=> $request->title,
-                'status_id'=> '10',
+                'audit_status_id'=> '10',
                 'description'=> $request->description,
                 'is_required' => $is_required,
             ]);
@@ -85,7 +85,7 @@ class StandardCategoryController extends Controller
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('Select_2'))) {
                     $instance->whereHas('status', function($q) use($request){
-                        $q->where('status_id', $request->get('Select_2'));
+                        $q->where('audit_status_id', $request->get('Select_2'));
                     });
                 }
             })->make(true);

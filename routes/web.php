@@ -31,7 +31,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('index');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -40,28 +40,28 @@ Route::get('/dashboard', function () {
 
 //Audit Plan
 Route::group(['prefix' => 'audit_plan'], function () {
-    Route::any('/',[AuditPlanController::class, 'index'])->name('audit_plan.index');
-    Route::get('/data',[AuditPlanController::class, 'data'])->name('audit_plan.data');
+    Route::any('/', [AuditPlanController::class, 'index'])->name('audit_plan.index');
+    Route::get('/data', [AuditPlanController::class, 'data'])->name('audit_plan.data');
     Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
-    Route::any('/add',[AuditPlanController::class, 'add'])->name('audit_plan.add');
+    Route::any('/add', [AuditPlanController::class, 'add'])->name('audit_plan.add');
 });
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
 Route::group(['prefix' => 'observations'], function () {
-    Route::get('/',[ObservationController::class, 'index'])->name('observations.index');
-    Route::get('/data',[ObservationController::class, 'data'])->name('observations.data');
-    Route::get('/make/{id}',[ObservationController::class, 'make'])->name('observations.make');
+    Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
+    Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
+    Route::get('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
     Route::delete('/delete', [ObservationController::class, 'delete'])->name('audit_doc.delete');
 });
 // Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 // Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 
 Route::group(['prefix' => 'my_audit'], function () {
-    Route::get('/',[MyAuditController::class, 'index'])->name('my_audit.index');
-    Route::get('/data',[MyAuditController::class, 'data'])->name('my_audit.data');
+    Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
+    Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
     Route::delete('/delete', [MyAuditController::class, 'delete'])->name('my_audit.delete');
-    Route::get('/add/{id}',[MyAuditController::class, 'add'])->name('my_audit.add');
+    Route::get('/add/{id}', [MyAuditController::class, 'add'])->name('my_audit.add');
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
     Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
 });
@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);
 
-Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
+Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'manage_account'], function () {
         Route::group(['prefix' => 'users'], function () { //route to manage users
             Route::any('/', [UserController::class, 'index'])->name('users.index');
@@ -112,8 +112,14 @@ Route::group(['prefix' => 'setting','middleware' => ['auth']],function () {
         //route criteria
         Route::group(['prefix' => 'criteria'], function () {
             Route::any('/', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
-            Route::any('/criteria_add', [StandardCriteriaController::class, 'criteria_add'])->name('standard_criteria.criteria_add');
-            Route::get('data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');
+            Route::delete('/{id}', [StandardCriteriaController::class, 'criteria'])->name('delete.standart_criteria');
+            Route::get('/add/indicator/{id}', [StandardCriteriaController::class, 'create'])->name('add.indicator');
+            Route::get('/show/indicator/{id}', [StandardCriteriaController::class, 'show'])->name('show.indicator');
+
+            Route::post('/add/indicator', [StandardCriteriaController::class, 'store'])->name('store.indicator');
+            Route::get('/data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');
+            Route::get('/indicator', [StandardCriteriaController::class, 'indicator'])->name('standard_criteria.indicator');
+            Route::get('/data/indicator/{id}', [StandardCriteriaController::class, 'data_indicator'])->name('data.indicator');
         });
     });
 });

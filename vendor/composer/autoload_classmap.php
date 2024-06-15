@@ -60,7 +60,10 @@ return array(
     'App\\Models\\Indicator' => $baseDir . '/app/Models/Indicator.php',
     'App\\Models\\Location' => $baseDir . '/app/Models/Location.php',
     'App\\Models\\Observation' => $baseDir . '/app/Models/Observation.php',
+<<<<<<< HEAD
     'App\\Models\\Standard' => $baseDir . '/app/Models/Standard.php',
+=======
+>>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
     'App\\Models\\StandardCategory' => $baseDir . '/app/Models/StandardCategory.php',
     'App\\Models\\StandardCriteria' => $baseDir . '/app/Models/StandardCriteria.php',
     'App\\Models\\SubIndicator' => $baseDir . '/app/Models/SubIndicator.php',

@@ -46,8 +46,10 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the snippet of code near the error.
+     *
+     * @return void
      */
-    public function setSnippet(string $snippet): void
+    public function setSnippet(string $snippet)
     {
         $this->snippet = $snippet;
 
@@ -66,8 +68,10 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the filename where the error occurred.
+     *
+     * @return void
      */
-    public function setParsedFile(string $parsedFile): void
+    public function setParsedFile(string $parsedFile)
     {
         $this->parsedFile = $parsedFile;
 
@@ -84,8 +88,10 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the line where the error occurred.
+     *
+     * @return void
      */
-    public function setParsedLine(int $parsedLine): void
+    public function setParsedLine(int $parsedLine)
     {
         $this->parsedLine = $parsedLine;
 

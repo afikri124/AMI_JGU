@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Indicator;
+use App\Models\StandardCategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,9 +28,6 @@ class DatabaseSeeder extends Seeder
             AuditStatusSeeder::class,
             DepartmentSeeder::class,
             LocationSeeder::class,
-            StandardSeeder::class,
-            IndicatorSeeder::class,
-            SubIndicatorSeeder::class
         ]);
     }
 }

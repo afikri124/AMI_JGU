@@ -49,7 +49,7 @@ final class WrappedListener
             $r = new \ReflectionFunction($listener);
             if ($r->isAnonymous()) {
                 $this->pretty = $this->name = 'closure';
-            } elseif ($class = $r->getClosureCalledClass()) {
+            } elseif ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
                 $this->name = $class->name;
                 $this->pretty = $this->name.'::'.$r->name;
             } else {
