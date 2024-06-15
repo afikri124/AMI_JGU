@@ -74,13 +74,12 @@
                         <i data-feather="plus"></i>+ Add
                     </a>
                 </div> --}}
-        <table class="table table-hover table-sm" id="datatable" width="100%">
+        <table class="table table-hover table-sm" id="indicator-table" width="100%">
             <thead>
                 <tr>
-                    <th width="20px">Code Id</th>
-                    <th width="40px">Criteria</th>
-                    <th width="40px">Category</th>
-                    <th width="40px">Action</th>
+                    <th width="40px">Indicator</th>
+                    <th width="40px">Sub Indicator</th>
+                    <th width="40px">Review Document</th>
                 </tr>
             </thead>
         </table>
@@ -108,100 +107,22 @@
     }, 350);
 </script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var table = $('#datatable').DataTable({
-            responsive: true,
+    $(document).ready(function() {
+        $('#indicator-table').DataTable({
             processing: true,
             serverSide: true,
-            ordering: false,
-            language: {
-                searchPlaceholder: 'Search...',
-                sSearch: '_INPUT_ &nbsp;',
-                lengthMenu: '<span>Show:</span> _MENU_',
-            },
             ajax: {
-                url: "{{ route('standard_criteria.data') }}",
-                data: function (d) {
-                    d.category = $('#Select_1').val(),
-                    d.status = $('#Select_2').val(),
-                        d.search = $('input[type="search"]').val()
-                },
+                url: '{{ route("data.indicator", $criteria->id) }}',
+                type: 'GET'
             },
-            columns: [{
-                    render: function (data, type, row, meta) {
-                        var no = (meta.row + meta.settings._iDisplayStart + 1);
-                        return no;
-                    },
-                    orderable: false,
-                    className: "text-center"
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.category.description;
-                        return x;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.title;
-                        return x;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.id;
-                        var html =
-                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a> 
-                            <a class="text-warning" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
-                            row.link + `') }}"><i class="bx bx-pencil"></i></a> 
-                            <a class="text-primary" title="Delete" onclick="DeleteId(` +
-                            x + `)" ><i class="bx bx-trash"></i></a>`;
-                        return html;
-                    },
-                    orderable: false,
-                    className: "text-end"
-                }
+            columns: [
+                { data: 'name', name: 'name' },
+                { data: 'sub_indicator', name: 'sub_indicator' },
+                { data: 'review_document', name: 'review_document' },
             ]
         });
-        $('#Select_2').change(function () {
-            table.draw();
-        });
     });
-
-    function DeleteId(id) {
-        swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    $.ajax({
-                        url: "",
-                        type: "DELETE",
-                        data: {
-                            "id": id,
-                            "_token": $("meta[name='csrf-token']").attr("content"),
-                        },
-                        success: function (data) {
-                            if (data['success']) {
-                                swal(data['message'], {
-                                    icon: "success",
-                                });
-                                $('#datatable').DataTable().ajax.reload();
-                            } else {
-                                swal(data['message'], {
-                                    icon: "error",
-                                });
-                            }
-                        }
-                    })
-
-                }
-            })
-    }
-
 </script>
+
+   
 @endsection

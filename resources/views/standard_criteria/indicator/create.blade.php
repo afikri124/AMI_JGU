@@ -27,14 +27,21 @@
                 <form id="form-add-new-record" method="POST" action="{{ route('store.indicator') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
-                        <label for="standardCriterias">Choose Standard Criteria</label>
+                        <label for="standard_criterias_id" class="form-label">Select Standard Criteria</label>
                         <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
-                                    name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
-                                    <option value="" selected disabled>Select Standard Criteria</option>
-                            @foreach ($data as $criteria)
-                                <option value="{{ $criteria->id }}">{{ $criteria->title }}</option>
+                                name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
+                            <option value="" selected disabled>Select Standard Criteria</option>
+                            @foreach ($allCriteria as $criteriaItem)
+                                <option value="{{ $criteriaItem->id }}" {{ $criteriaItem->id == $criteria->id ? 'selected' : '' }}>
+                                    {{ $criteriaItem->title }}
+                                </option>
                             @endforeach
                         </select>
+                        @error('standard_criterias_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 
 

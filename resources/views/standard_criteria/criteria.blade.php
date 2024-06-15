@@ -207,7 +207,8 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/"><i class="bx bx-pencil"></i></a> 
+                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/${row.id}"><i class='bx bx-list-plus'></i></a> 
+                            
                             <a class="text-primary" title="Delete" onclick="DeleteId(` +
                             x + `)" ><i class="bx bx-trash"></i></a>`;
                         return html;

@@ -59,10 +59,19 @@ class StandardCriteriaController extends Controller
         return view('standard_criteria.indicator.index', compact('data', 'category', 'indicator'));
     }
 
-    public function create()
+    public function create($id)
     {
-        $data = StandardCriteria::all();
-        return view('standard_criteria.indicator.create', compact('data'));
+        // Retrieve the specific Standard Criteria by ID
+        $criteria = StandardCriteria::find($id);
+
+        if (!$criteria) {
+            return redirect()->back()->with('error', 'Standard Criteria not found.');
+        }
+
+        // Retrieve all Standard Criteria for the dropdown
+        $allCriteria = StandardCriteria::all();
+
+        return view('standard_criteria.indicator.create', compact('criteria', 'allCriteria'));
     }
 
     public function store(Request $request)
@@ -90,6 +99,33 @@ class StandardCriteriaController extends Controller
 
         return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicators added successfully.');
     }
+
+    public function show($id)
+{
+    $criteria = StandardCriteria::find($id);
+    
+    if (!$criteria) {
+        return redirect()->back()->with('error', 'Standard Criteria not found.');
+    }
+
+    return view('standard_criteria.indicator.show', compact('criteria'));
+}
+
+public function data_indicator($id)
+{
+    $data = Indicator::where('standard_criterias_id', $id)->get();
+
+    return DataTables::of($data)
+        ->addColumn('action', function ($row) {
+            return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a> 
+                    <a class="text-primary" title="Delete" onclick="DeleteId('.$row->id.')"><i class="bx bx-trash"></i></a>';
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+}
+
+
+
 
     // public function data_indicator(Request $request){
     //     $data = Indicator::with(['criteria' => function ($query) {
