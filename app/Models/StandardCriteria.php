@@ -4,16 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class StandardCriteria extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+
+    // Define $timestamps as true since you have timestamps in your table
+    public $timestamps = true;
+
     protected $fillable = [
-        'id', 
         'standard_categories_id',
         'title'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Automatically generate a UUID for the 'id' field
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 
     public function category()
     {

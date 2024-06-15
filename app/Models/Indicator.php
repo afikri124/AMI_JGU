@@ -11,10 +11,14 @@ class Indicator extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id',
         'name',
-        'standard_categories_id',
+        'standard_criterias_id',
         'sub_indicator',
         'review_document'
     ];
+
+    public function getKeyType()
+    {
+        return 'string';
+    }
 }

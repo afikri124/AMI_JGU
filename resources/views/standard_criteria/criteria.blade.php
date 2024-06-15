@@ -48,7 +48,7 @@
         <li class="nav-item"><a class="nav-link active" href="../standard_criteria"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>    
-        <li class="nav-item"><a class="nav-link" href="../indicator"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
             <li class="nav-item"><a class="nav-link" href="../sub_indicator"><i class="bx bx-chart me-1"></i>
@@ -188,13 +188,11 @@
                         d.search = $('input[type="search"]').val()
                 },
             },
-            columns: [{
+            columns: [ {
                     render: function (data, type, row, meta) {
-                        var no = (meta.row + meta.settings._iDisplayStart + 1);
-                        return no;
+                        var x = row.category.id;
+                        return x;
                     },
-                    orderable: false,
-                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -214,6 +212,7 @@
                         var html =
                             `<a class="text-warning" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
                             row.link + `') }}"><i class="bx bx-pencil"></i></a> 
+                            <a class="text-primary" title="Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/"><i class="bx bx-pencil"></i></a> 
                             <a class="text-primary" title="Delete" onclick="DeleteId(` +
                             x + `)" ><i class="bx bx-trash"></i></a>`;
                         return html;
