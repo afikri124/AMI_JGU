@@ -51,10 +51,6 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
-            <li class="nav-item"><a class="nav-link" href="../sub_indicator"><i class="bx bx-chart me-1"></i>
-                    Sub Indicator</a></li>
-            <li class="nav-item"><a class="nav-link" href="../review_document"><i class="bx bx-chart me-1"></i>
-                    Riview Document</a></li>
         </ul>
     </div>
 
@@ -188,15 +184,10 @@
                         d.search = $('input[type="search"]').val()
                 },
             },
-            columns: [ {
-                    render: function (data, type, row, meta) {
-                        var x = row.category.id;
-                        return x;
-                    },
-                },
+            columns: [ 
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.category.description;
+                        var x = row.category.id;
                         return x;
                     },
                 },
@@ -208,11 +199,15 @@
                 },
                 {
                     render: function (data, type, row, meta) {
+                        var x = row.category.description;
+                        return x;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
-                            row.link + `') }}"><i class="bx bx-pencil"></i></a> 
-                            <a class="text-primary" title="Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/"><i class="bx bx-pencil"></i></a> 
+                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/"><i class="bx bx-pencil"></i></a> 
                             <a class="text-primary" title="Delete" onclick="DeleteId(` +
                             x + `)" ><i class="bx bx-trash"></i></a>`;
                         return html;

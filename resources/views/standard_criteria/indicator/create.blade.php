@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Indicator')
+@section('title', 'Add Indicator')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -28,8 +28,9 @@
                     @csrf
                     <div class="form-group col-md-4">
                         <label for="standardCriterias">Choose Standard Criteria</label>
-                        <select class="form-control" id="standardCriterias" name="standard_criterias_id">
-                            <option value="">-- Select --</option>
+                        <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
+                                    name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
+                                    <option value="" selected disabled>Select Standard Criteria</option>
                             @foreach ($data as $criteria)
                                 <option value="{{ $criteria->id }}">{{ $criteria->title }}</option>
                             @endforeach

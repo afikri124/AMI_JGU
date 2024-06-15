@@ -55,8 +55,8 @@ class StandardCriteriaController extends Controller
     {
         $category = StandardCategory::orderBy('description')->get();
         $data = StandardCriteria::all();
-
-        return view('standard_criteria.indicator.index', compact('data', 'category'));
+        $indicator = Indicator::all();
+        return view('standard_criteria.indicator.index', compact('data', 'category', 'indicator'));
     }
 
     public function create()
@@ -76,17 +76,12 @@ class StandardCriteriaController extends Controller
             'indicators.*.review_document' => 'required|string',
         ]);
 
-
-
         $standard_criterias_id = $request->standard_criterias_id;
 
-
         foreach ($request->indicators as $indicatorData) {
-
-
             Indicator::create([
-                'standard_criterias_id' => $standard_criterias_id,
                 'name' => $indicatorData['name'],
+                'standard_criterias_id' => $standard_criterias_id,
                 'sub_indicator' => $indicatorData['sub_indicator'],
                 'review_document' => $indicatorData['review_document'],
             ]);
@@ -95,4 +90,11 @@ class StandardCriteriaController extends Controller
 
         return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicators added successfully.');
     }
+
+    // public function data_indicator(Request $request){
+    //     $data = Indicator::with(['criteria' => function ($query) {
+    //         $query->select('id', 'title');
+    //     }])->select('*')->orderBy("id");
+    //     return view('standard_criteria.indicator', compact('data'));
+    // }
 }

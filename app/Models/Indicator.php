@@ -22,4 +22,10 @@ class Indicator extends Model
     {
         return 'string';
     }
+
+    public function criteria()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    }
+
 }

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Standard Criterias')
+@section('title', 'Indicator')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -51,10 +51,6 @@
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
-            <li class="nav-item"><a class="nav-link" href="../sub_indicator"><i class="bx bx-chart me-1"></i>
-                    Sub Indicator</a></li>
-            <li class="nav-item"><a class="nav-link" href="../review_document"><i class="bx bx-chart me-1"></i>
-                    Riview Document</a></li>
         </ul>
     </div>
 
@@ -72,69 +68,12 @@
                                     <option value="F">Female</option>
                                 </select>
                             </div>
-                            <div class="offset-md-8 col-md text-md-end text-center pt-3 pt-md-0">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
-                                    aria-controls="DataTables_Table_0" type="button"><span><i
-                                            class="bx bx-plus me-sm-2"></i>
-                                        <span>Add</span></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                        href="{{ route('add.indicator')}}">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
                 </div>
-            </div>
-            <div class="offcanvas offcanvas-end @if($errors->all()) show @endif" tabindex="-1" id="newrecord"
-                aria-labelledby="offcanvasEndLabel">
-                <div class="offcanvas-header">
-                    <h5 id="offcanvasEndLabel" class="offcanvas-title">Add Criteria</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body my-auto mx-0 flex-grow-1">
-                    <form class="add-new-record pt-0 row g-2 fv-plugins-bootstrap5 fv-plugins-framework"
-                        id="form-add-new-record" method="POST" action="">
-                        @csrf
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Title</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                    name="title" placeholder="Input The New Criteria" value="{{ old('title') }}">
-                                @error('title')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Category</label>
-                            <div class="input-group input-group-merge has-validation">
-                                <select class="form-select @error('standard_categories_id') is-invalid @enderror select2-modal"
-                                    name="standard_categories_id" id="standard_categories_id" data-placeholder=" -- Select --">
-                                    @foreach($category as $p)
-                                    <option value="{{ $p->id }}"
-                                        {{ ($p->id==old('standard_category_id') ? "selected": "") }}>
-                                        {{ $p->id }} - {{ $p->description }}</option>
-                                    @endforeach
-                                </select>
-                                @error('standard_categories_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-12 mt-4">
-                            <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
-                            <button type="reset" class="btn btn-outline-secondary"
-                                data-bs-dismiss="offcanvas">Cancel</button>
-                        </div>
-                        <div></div><input type="hidden">
-                    </form>
-                </div>
-            </div>
-        </div>
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
