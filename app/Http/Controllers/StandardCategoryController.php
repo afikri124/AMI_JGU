@@ -33,7 +33,7 @@ class StandardCategoryController extends Controller
                 'description'=> $request->description,
                 'is_required' => $is_required,
             ]);
-            return redirect()->route('standard_category.category');
+            return redirect()->route('standard_category.category')->with('msg', 'Data ('.$request->description.') berhasil di tambahkan');
         }
         return view('standard_category.category_add');
     }
@@ -58,7 +58,7 @@ class StandardCategoryController extends Controller
             'description'=> $request->description,
             'is_required'=> $is_required,
         ]);
-        return redirect()->route('standard_category.category')->with('Success', 'Category berhasil diperbarui.');
+        return redirect()->route('standard_category.category')->with('msg', 'Standard Category berhasil diperbarui.');
     }
 
     public function delete(Request $request){

@@ -36,7 +36,6 @@
                                 <th><b>Date Start</b></th>
                                 <th><b>Date End</b></th>
                                 <th><b>Status</b></th>
-                                <th><b>Category</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -109,14 +108,16 @@
                     }
                 },
                 {
-                    render: function (data, type, row, meta) {
-                            return row.category.description;
-                    },
-                },
-                {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="bx bx-info bx-sm px-2" title="Observation" href="{{ url('observations/make/') }}/${row.id}"><i class="bx bx-plus"></i></a>`
+                                `<a class="text-dark bx-sm px-1" title="Observation style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
+                                <i class="bx bx-plus"></i></a>
+
+                                <a class="text-warning bx-sm px-1" title="Acc By Auditor style="cursor:pointer" onclick="approveId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
+                                <i class="bx bx-check"></i></a>
+
+                                <a class="text-primary bx-sm px-1" title="Revised style="cursor:pointer" onclick="revisedId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
+                                <i class="bx bx-x"></i></a>`
                             return html;
                         },
                         "orderable": false,
@@ -126,19 +127,63 @@
         });
     });
 
-    function DeleteId(id, data) {
+    function approveId(id, data) {
         swal({
-                title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                title: "Cek kembali document!",
+                text: "Apakah document ("+data+") sudah sesuai?!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
-                if (willDelete) {
+            .then((willApprove) => {
+                if (willApprove) {
                     $.ajax({
-                        url: "",
-                        type: "DELETE",
+                        url: "{{ route('audit_plan.approve') }}",
+                        type: "POST",
+                        data: {
+                            "id": id,
+                            "_token": $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                swal({
+                                    icon: 'success',
+                                    title: 'Acc!',
+                                    text: 'Document ('+data+') berhasil di Acc',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                });
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                swal({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: data.error,
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    }
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+    }
+
+    function revisedId(id, data) {
+        swal({
+                title: "Apa kamu yakin?",
+                text: "Periksa kembali, apakah data ("+data+") kurang sesuai?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willRevised) => {
+                if (willRevised) {
+                    $.ajax({
+                        url: "{{ route('audit_plan.revised') }}",
+                        type: "POST",
                         data: {
                             "id": id,
                             "_token": $("meta[name='csrf-token']").attr("content"),

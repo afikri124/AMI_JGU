@@ -154,7 +154,7 @@
                         var html =
                             `<a class="text-warning" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" >
+                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture.name + `\')" >
                             <i class="bx bx-trash"></i></a>`;
                         return html;
                     },

@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="assets/vendor/libs/bs-stepper/bs-stepper.css" />
 <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 @endsection
 @section('style')
@@ -24,15 +25,17 @@
 @endsection
 
 @section('content')
-<div class="bs-stepper wizard-numbered mt-2">
+
+<div class="bs-stepper wizard-icons wizard-icons-example">
 <div class="bs-stepper-header">
   <div class="step" data-target="#account-details">
     <button type="button" class="step-trigger">
-      <span class="bs-stepper-circle">1</span>
-      <span class="bs-stepper-label mt-1">
-        <span class="bs-stepper-title">Account Details</span>
-        <span class="bs-stepper-subtitle">Setup Account Details</span>
+      <span class="bs-stepper-icon">
+        <svg viewBox="0 0 54 54">
+          <use xlink:href='assets/svg/icons/form-wizard-account.svg#wizardAccount'></use>
+        </svg>
       </span>
+      <span class="bs-stepper-label">Account Details</span>
     </button>
   </div>
   <div class="line">
@@ -40,11 +43,25 @@
   </div>
   <div class="step" data-target="#personal-info">
     <button type="button" class="step-trigger">
-      <span class="bs-stepper-circle">2</span>
-      <span class="bs-stepper-label mt-1">
-        <span class="bs-stepper-title">Personal Info</span>
-        <span class="bs-stepper-subtitle">Add personal info</span>
+      <span class="bs-stepper-icon">
+        <svg viewBox="0 0 58 54">
+          <use xlink:href='assets/svg/icons/form-wizard-personal.svg#wizardPersonal'></use>
+        </svg>
       </span>
+      <span class="bs-stepper-label">Personal Info</span>
+    </button>
+  </div>
+  <div class="line">
+    <i class="bx bx-chevron-right"></i>
+  </div>
+  <div class="step" data-target="#address">
+    <button type="button" class="step-trigger">
+      <span class="bs-stepper-icon">
+        <svg viewBox="0 0 54 54">
+          <use xlink:href='assets/svg/icons/form-wizard-address.svg#wizardAddress'></use>
+        </svg>
+      </span>
+      <span class="bs-stepper-label">Address</span>
     </button>
   </div>
   <div class="line">
@@ -52,11 +69,25 @@
   </div>
   <div class="step" data-target="#social-links">
     <button type="button" class="step-trigger">
-      <span class="bs-stepper-circle">3</span>
-      <span class="bs-stepper-label mt-1">
-        <span class="bs-stepper-title">Social Links</span>
-        <span class="bs-stepper-subtitle">Add social links</span>
+      <span class="bs-stepper-icon">
+        <svg viewBox="0 0 54 54">
+          <use xlink:href='assets/svg/icons/form-wizard-social-link.svg#wizardSocialLink'></use>
+        </svg>
       </span>
+      <span class="bs-stepper-label">Social Links</span>
+    </button>
+  </div>
+  <div class="line">
+    <i class="bx bx-chevron-right"></i>
+  </div>
+  <div class="step" data-target="#review-submit">
+    <button type="button" class="step-trigger">
+      <span class="bs-stepper-icon">
+        <svg viewBox="0 0 54 54">
+          <use xlink:href='assets/svg/icons/form-wizard-submit.svg#wizardSubmit'></use>
+        </svg>
+      </span>
+      <span class="bs-stepper-label">Review & Submit</span>
     </button>
   </div>
 </div>
@@ -70,36 +101,32 @@
       </div>
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label" for="username">Username</label>
-          <input type="text" id="username" class="form-control" placeholder="johndoe" />
+          <label class="form-label" for="username-icons">Username</label>
+          <input type="text" id="username-icons" class="form-control" placeholder="johndoe" />
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="email">Email</label>
-          <input type="email" id="email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+          <label class="form-label" for="email-icons">Email</label>
+          <input type="email" id="email-icons" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
         </div>
         <div class="col-md-6 form-password-toggle">
-          <label class="form-label" for="password">Password</label>
+          <label class="form-label" for="password-icons">Password</label>
           <div class="input-group input-group-merge">
-            <input type="password" id="password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password2" />
+            <input type="password" id="password-icons" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password2" />
             <span class="input-group-text cursor-pointer" id="password2"><i class="bx bx-hide"></i></span>
           </div>
         </div>
         <div class="col-md-6 form-password-toggle">
-          <label class="form-label" for="confirm-password">Confirm Password</label>
+          <label class="form-label" for="confirm-password-icon">Confirm Password</label>
           <div class="input-group input-group-merge">
-            <input type="password" id="confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="confirm-password2" />
-            <span class="input-group-text cursor-pointer" id="confirm-password2"><i class="bx bx-hide"></i></span>
+            <input type="password" id="confirm-password-icon" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="confirm-password2-icon" />
+            <span class="input-group-text cursor-pointer" id="confirm-password2-icon"><i class="bx bx-hide"></i></span>
           </div>
         </div>
         <div class="col-12 d-flex justify-content-between">
-          <button class="btn btn-label-secondary btn-prev" disabled>
-            <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+          <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
             <span class="align-middle d-sm-inline-block d-none">Previous</span>
           </button>
-          <button class="btn btn-primary btn-next">
-            <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span>
-            <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-          </button>
+          <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
         </div>
       </div>
     </div>
@@ -111,16 +138,16 @@
       </div>
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label" for="first-name">First Name</label>
-          <input type="text" id="first-name" class="form-control" placeholder="John" />
+          <label class="form-label" for="first-name-icons">First Name</label>
+          <input type="text" id="first-name-icons" class="form-control" placeholder="John" />
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="last-name">Last Name</label>
-          <input type="text" id="last-name" class="form-control" placeholder="Doe" />
+          <label class="form-label" for="last-name-icons">Last Name</label>
+          <input type="text" id="last-name-icons" class="form-control" placeholder="Doe" />
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="country">Country</label>
-          <select class="select2" id="country">
+          <label class="form-label" for="country-icons">Country</label>
+          <select class="select2" id="country-icons">
             <option label=" "></option>
             <option>UK</option>
             <option>USA</option>
@@ -131,8 +158,8 @@
           </select>
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="language">Language</label>
-          <select class="selectpicker w-auto" id="language" data-style="btn-transparent" data-icon-base="bx" data-tick-icon="bx-check text-white" multiple>
+          <label class="form-label" for="language-icons">Language</label>
+          <select class="selectpicker w-auto" id="language-icons" data-style="btn-transparent" data-icon-base="bx" data-tick-icon="bx-check text-white" multiple>
             <option>English</option>
             <option>French</option>
             <option>Spanish</option>
@@ -142,7 +169,38 @@
           <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
             <span class="align-middle d-sm-inline-block d-none">Previous</span>
           </button>
-          <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+          <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+        </div>
+      </div>
+    </div>
+    <!-- Address -->
+    <div id="address" class="content">
+      <div class="content-header mb-3">
+        <h6 class="mb-0">Address</h6>
+        <small>Enter Your Address.</small>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="address">Address</label>
+          <input type="text" class="form-control" id="address" placeholder="98  Borough bridge Road, Birmingham">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="landmark">Landmark</label>
+          <input type="text" class="form-control" id="landmark" placeholder="Borough bridge">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="pincode">Pincode</label>
+          <input type="text" class="form-control" id="pincode" placeholder="658921">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="city">City</label>
+          <input type="text" class="form-control" id="city" placeholder="Birmingham">
+        </div>
+        <div class="col-12 d-flex justify-content-between">
+          <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+          </button>
+          <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
         </div>
       </div>
     </div>
@@ -154,32 +212,72 @@
       </div>
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label" for="twitter">Twitter</label>
-          <input type="text" id="twitter" class="form-control" placeholder="https://twitter.com/abc" />
+          <label class="form-label" for="twitter-icons">Twitter</label>
+          <input type="text" id="twitter-icons" class="form-control" placeholder="https://twitter.com/abc" />
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="facebook">Facebook</label>
-          <input type="text" id="facebook" class="form-control" placeholder="https://facebook.com/abc" />
+          <label class="form-label" for="facebook-icons">Facebook</label>
+          <input type="text" id="facebook-icons" class="form-control" placeholder="https://facebook.com/abc" />
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="google">Google+</label>
-          <input type="text" id="google" class="form-control" placeholder="https://plus.google.com/abc" />
+          <label class="form-label" for="google-icons">Google+</label>
+          <input type="text" id="google-icons" class="form-control" placeholder="https://plus.google.com/abc" />
         </div>
         <div class="col-md-6">
-          <label class="form-label" for="linkedin">LinkedIn</label>
-          <input type="text" id="linkedin" class="form-control" placeholder="https://linkedin.com/abc" />
+          <label class="form-label" for="linkedin-icons">LinkedIn</label>
+          <input type="text" id="linkedin-icons" class="form-control" placeholder="https://linkedin.com/abc" />
         </div>
         <div class="col-12 d-flex justify-content-between">
           <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
             <span class="align-middle d-sm-inline-block d-none">Previous</span>
           </button>
-          <button class="btn btn-success btn-submit">Submit</button>
+          <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
         </div>
+      </div>
+    </div>
+    <!-- Review -->
+    <div id="review-submit" class="content">
+
+      <p class="fw-medium mb-2">Account</p>
+      <ul class="list-unstyled">
+        <li>Username</li>
+        <li>exampl@email.com</li>
+      </ul>
+      <hr>
+      <p class="fw-medium mb-2">Personal Info</p>
+      <ul class="list-unstyled">
+        <li>First Name</li>
+        <li>Last Name</li>
+        <li>Country</li>
+        <li>Language</li>
+      </ul>
+      <hr>
+      <p class="fw-medium mb-2">Address</p>
+      <ul class="list-unstyled">
+        <li>Address</li>
+        <li>Landmark</li>
+        <li>Pincode</li>
+        <li>City</li>
+      </ul>
+      <hr>
+      <p class="fw-medium mb-2">Social Links</p>
+      <ul class="list-unstyled">
+        <li>https://twitter.com/abc</li>
+        <li>https://facebook.com/abc</li>
+        <li>https://plus.google.com/abc</li>
+        <li>https://linkedin.com/abc</li>
+      </ul>
+      <div class="col-12 d-flex justify-content-between">
+        <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+          <span class="align-middle d-sm-inline-block d-none">Previous</span>
+        </button>
+        <button class="btn btn-success btn-submit">Submit</button>
       </div>
     </div>
   </form>
 </div>
 </div>
+
 @endsection
 
 @section('script')
@@ -193,8 +291,40 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
-<script type="text/javascript">
+<script src="assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
+<script>
+const wizardIcons = document.querySelector('.wizard-icons-example');
 
+if (typeof wizardIcons !== undefined && wizardIcons !== null) {
+  const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
+    wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
+    wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
+
+  const iconsStepper = new Stepper(wizardIcons, {
+    linear: false
+  });
+  if (wizardIconsBtnNextList) {
+    wizardIconsBtnNextList.forEach(wizardIconsBtnNext => {
+      wizardIconsBtnNext.addEventListener('click', event => {
+        iconsStepper.next();
+      });
+    });
+  }
+  if (wizardIconsBtnPrevList) {
+    wizardIconsBtnPrevList.forEach(wizardIconsBtnPrev => {
+      wizardIconsBtnPrev.addEventListener('click', event => {
+        iconsStepper.previous();
+      });
+    });
+  }
+  if (wizardIconsBtnSubmit) {
+    wizardIconsBtnSubmit.addEventListener('click', event => {
+      alert('Submitted..!!');
+    });
+  }
+}
+</script>
+<script type="text/javascript">
     "use strict";
     setTimeout(function () {
         (function ($) {

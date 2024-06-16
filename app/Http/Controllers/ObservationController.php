@@ -58,7 +58,7 @@ class ObservationController extends Controller{
             'total_students'=> $request->total_students,
         ]);
         if($data){
-            return redirect()->route('observations.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
+            return redirect()->route('observations.index')->with('msg','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date.' BERHASIL ditambahkan!!');
             }
         }
             $audit_plan =AuditPlan::with('auditStatus')->get();
@@ -75,7 +75,6 @@ class ObservationController extends Controller{
             $data = AuditPlan::all();
             return view("observations.make", compact("lecture", "locations", "departments", "audit_plan"));
        }
-
        public function data(Request $request){
         $data = AuditPlan::
         with([

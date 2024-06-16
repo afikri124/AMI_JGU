@@ -29,11 +29,11 @@ class AuditStatusSeeder extends Seeder
             "color" => "warning"],
 
             ["id" => "4",
-            "title" => "Approved by auditor",
+            "title" => "Approved by Auditor",
             "color" => "secondary"],
 
             ["id" => "5",
-            "title" => "Revised",
+            "title" => "Revised by Auditor",
             "color" => "primary"],
 
             ["id" => "6",

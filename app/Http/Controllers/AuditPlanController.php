@@ -32,7 +32,8 @@ class AuditPlanController extends Controller{
             'date_end'      => ['required'],
             'location_id'   => ['required'],
             'auditor_id'    => ['required'],
-            'standard_categories_id'    => ['required'],
+            'standard_categories_id'=> ['string'],
+            'link'=> ['string'],
         ]);
         $data = AuditPlan::create([
             'lecture_id'                => $request->lecture_id,
@@ -47,7 +48,7 @@ class AuditPlanController extends Controller{
             'standard_categories_id'    => $request->standard_categories_id,
         ]);
         if($data){
-            return redirect()->route('audit_plan.index')->with('message','Data Auditee ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
+            return redirect()->route('audit_plan.index')->with('msg','Data ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
             }
         }
         $audit_plan =AuditPlan::with('auditstatus')->get();
@@ -99,10 +100,11 @@ class AuditPlanController extends Controller{
         $data->update([
             'date_start'=> $request->date_start,
             'date_end'=> $request->date_end,
+            'audit_status_id'=> '2',
             'auditor_id'=> $request->auditor_id,
             'location_id'=> $request->location_id,
         ]);
-        return redirect()->route('audit_plan.index')->with('Success', 'Audit Plan berhasil diperbarui.');
+        return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
     }
 
     public function delete(Request $request){
@@ -117,6 +119,41 @@ class AuditPlanController extends Controller{
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal dihapus!'
+            ]);
+        }
+    }
+
+    public function approve(Request $request)
+    {
+        $data = AuditPlan::find($request->id);
+        if ($data) {
+            $data->audit_status_id = "4";
+            $data->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Status berhasil diubah!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengubah status!'
+            ]);
+        }
+    }
+
+    public function revised(Request $request){
+        $data = AuditPlan::find($request->id);
+        if($data){
+            $data->audit_status_id ="5";
+            $data->save();
+            return response()->json([
+                'success' => true,
+                'message' => ' Status berhasil diubah!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengubah status!'
             ]);
         }
     }

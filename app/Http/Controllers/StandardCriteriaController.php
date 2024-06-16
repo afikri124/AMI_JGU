@@ -25,7 +25,7 @@ class StandardCriteriaController extends Controller
             ]);
 
             if ($data) {
-                return redirect()->route('standard_criteria.criteria');
+                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') berhasil di tambahkan');
             }
         }
 
