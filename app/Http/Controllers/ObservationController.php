@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditPlan;
-use App\Models\AuditStatus;
 use App\Models\Department;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Observation;
+use App\Models\StandardCategory;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
 class ObservationController extends Controller{
     public function index(Request $request){
         $data = AuditPlan::all();
+        $category = StandardCategory::orderBy('description')->get();
         $lecture = User::with(['roles' => function ($query) {
             $query->select( 'id','name' );
         }])
@@ -21,7 +22,7 @@ class ObservationController extends Controller{
             $q->where('name', 'lecture');
         })
         ->orderBy('name')->get();
-        return view('observations.index', compact('data', 'lecture'));
+        return view('observations.index', compact('data', 'lecture', 'category'));
     }
 
     public function make(Request $request){
@@ -48,7 +49,6 @@ class ObservationController extends Controller{
             'department_id'=> $request->department_id,
             'audit_status_id'   => '3',
             'standard_id'=> $request->standard_id,
-            'standard_criterias_id'=> $request->standard_criterias_id,
             'indicator_id'=> $request->indicator_id,
             'remark'=> $request->remark,
             'file_path'=> $request->file_path,
@@ -87,6 +87,9 @@ class ObservationController extends Controller{
             },
             'auditor' => function ($query) {
                 $query->select('id', 'name');
+            },
+            'category' => function ($query) {
+                $query->select('id', 'description');
             },
         ])
         ->leftJoin('locations', 'locations.id' , '=', 'location_id')

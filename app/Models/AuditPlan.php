@@ -22,7 +22,8 @@ class AuditPlan extends Model
         'department_id',
         'auditor_id',
         'doc_path',
-        'link'
+        'link',
+        'standard_categories_id'
         ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -54,4 +55,8 @@ class AuditPlan extends Model
         return $this->belongsTo(Location::class, "location_id", 'id');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+    }
 }

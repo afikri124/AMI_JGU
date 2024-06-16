@@ -47,7 +47,6 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
-    Route::delete('/delete', [ObservationController::class, 'delete'])->name('audit_doc.delete');
 });
 // Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 // Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
@@ -110,6 +109,11 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::delete('/{id}', [StandardCriteriaController::class, 'criteria'])->name('delete.standart_criteria');
             Route::get('/add/indicator/{id}', [StandardCriteriaController::class, 'create'])->name('add.indicator');
             Route::get('/show/indicator/{id}', [StandardCriteriaController::class, 'show'])->name('show.indicator');
+            Route::get('/edit/indicator/{id}', [StandardCriteriaController::class, 'edit'])->name('edit.indicator');
+            Route::put('/update/indicator/{id}', [StandardCriteriaController::class, 'update'])->name('update.indicator');
+
+            Route::delete('/delete/indicator/{id}', [StandardCriteriaController::class, 'delete'])->name('delete.indicator');
+            Route::delete('/delete', [StandardCriteriaController::class, 'delete'])->name('standard_criteria.delete');
 
             Route::post('/add/indicator', [StandardCriteriaController::class, 'store'])->name('store.indicator');
             Route::get('/data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');

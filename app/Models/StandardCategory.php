@@ -19,6 +19,15 @@ class StandardCategory extends Model
         return $this->hasMany(StandardCriteria::class, 'id');
     }
 
+    public function auditplan()
+    {
+        return $this->hasMany(AuditPlan::class, 'id');
+    }
+    
+    public function observations()
+    {
+        return $this->hasMany(Observation::class, 'id');
+    }
     public function status()
     {
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');

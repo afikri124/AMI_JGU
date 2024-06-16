@@ -47,7 +47,7 @@
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link active" href="../standard_criteria"><i
                         class="bx bx-add-to-queue me-1"></i>
-                    Data Standard</a></li>    
+                    Data Standard</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
@@ -68,7 +68,7 @@
                                     <option value="F">Female</option>
                                 </select>
                             </div>
-                            <div class="offset-md-8 col-md text-md-end text-center pt-3 pt-md-0">
+                            <div class="offset-md col-md text-md-end text-center pt-3 pt-md-0">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
                                     aria-controls="DataTables_Table_0" type="button"><span><i
@@ -151,7 +151,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 <script>
     "use strict";
     setTimeout(function () {
@@ -184,7 +183,7 @@
                         d.search = $('input[type="search"]').val()
                 },
             },
-            columns: [ 
+            columns: [
                 {
                     render: function (data, type, row, meta) {
                         var x = row.category.id;
@@ -207,10 +206,9 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/${row.id}"><i class='bx bx-list-plus'></i></a> 
-                            
-                            <a class="text-primary" title="Delete" onclick="DeleteId(` +
-                            x + `)" ><i class="bx bx-trash"></i></a>`;
+                            `<a class="text-warning" title="Add Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/${row.id}"><i class='bx bx-list-plus'></i></a>
+
+                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     orderable: false,
@@ -223,10 +221,10 @@
         });
     });
 
-    function DeleteId(id) {
+    function DeleteId(id, data) {
         swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this!",
+                title: "Apa kamu yakin?",
+                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -234,7 +232,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "",
+                        url: "{{ route('standard_criteria.delete') }}",
                         type: "DELETE",
                         data: {
                             "id": id,
@@ -253,7 +251,6 @@
                             }
                         }
                     })
-
                 }
             })
     }

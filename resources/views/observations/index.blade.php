@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 
 @endsection
 
@@ -37,7 +36,7 @@
                                 <th><b>Date Start</b></th>
                                 <th><b>Date End</b></th>
                                 <th><b>Status</b></th>
-                                <th><b>Doc</b></th>
+                                <th><b>Category</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -55,7 +54,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -112,13 +110,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = "";
-                        if (row.file_path != null) {
-                            x =
-                                '<span><img class="chat-user-img img-30" src="' + "{{ asset('') }}" +
-                                row.file_path + '"></span>';
-                        }
-                        return x;
+                            return row.category.description;
                     },
                 },
                 {

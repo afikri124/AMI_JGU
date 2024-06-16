@@ -123,6 +123,35 @@
                             </select>
                             </div>
                         </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                            <label for="standard_categories_id" class="form-label"><b>Category</b></label>
+                            <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
+                                <option value="">Select Category</option>
+                                @foreach($category as $c)
+                                    <option value="{{$c->id}}"
+                                        {{ (in_array($c->id, old('category') ?? []) ? "selected": "") }}>
+                                        {{$c->description}} (
+                                            @foreach ($c->category as $x)
+                                                {{ $x->ON}}
+                                            @endforeach
+                                        )</option>
+                                    @endforeach
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label">link<i class="text-danger">*</i></label>
+                                <input class="form-control @error('link') is-invalid @enderror" type="text" id="link"
+                                    name="link" placeholder="Input link to review document" value="{{ old('link') }}">
+                                @error('link')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-end">

@@ -76,7 +76,7 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -160,7 +160,7 @@
                 {
                     render: function(data, type, row, meta) {
                         var html =
-                            `<a class="text-warning" title="Edit" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
+                            `<a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
                             <a class="text-danger" title="Hapus" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.description + `\')" >

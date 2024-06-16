@@ -51,6 +51,22 @@ class StandardCriteriaController extends Controller
             })->make(true);
     }
 
+    public function delete(Request $request){
+        $data = StandardCriteria::find($request->id);
+        if($data){
+            $data->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal dihapus!'
+            ]);
+        }
+    }
+
     public function indicator()
     {
         $category = StandardCategory::orderBy('description')->get();
@@ -103,7 +119,7 @@ class StandardCriteriaController extends Controller
     public function show($id)
 {
     $criteria = StandardCriteria::find($id);
-    
+
     if (!$criteria) {
         return redirect()->back()->with('error', 'Standard Criteria not found.');
     }
@@ -111,26 +127,23 @@ class StandardCriteriaController extends Controller
     return view('standard_criteria.indicator.show', compact('criteria'));
 }
 
+    public function edit($id){
+        $allCriteria = StandardCriteria::all();
+        $criteria = StandardCriteria::find($id);
+        //dd($data);
+        return view('standard_criteria.indicator.edit', compact('criteria','allCriteria'));
+    }
+
 public function data_indicator($id)
 {
     $data = Indicator::where('standard_criterias_id', $id)->get();
 
     return DataTables::of($data)
         ->addColumn('action', function ($row) {
-            return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a> 
+            return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a>
                     <a class="text-primary" title="Delete" onclick="DeleteId('.$row->id.')"><i class="bx bx-trash"></i></a>';
         })
         ->rawColumns(['action'])
         ->make(true);
-}
-
-
-
-
-    // public function data_indicator(Request $request){
-    //     $data = Indicator::with(['criteria' => function ($query) {
-    //         $query->select('id', 'title');
-    //     }])->select('*')->orderBy("id");
-    //     return view('standard_criteria.indicator', compact('data'));
-    // }
+    }
 }

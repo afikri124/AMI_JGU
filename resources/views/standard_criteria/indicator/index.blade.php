@@ -47,7 +47,7 @@
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
-                    Data Standard</a></li>    
+                    Data Standard</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
@@ -151,11 +151,11 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Add Indicator" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a> 
-                            <a class="text-warning" title="Edit" href="{{ url('standard_criteria/criteria_edit/` +
-                            row.link + `') }}"><i class="bx bx-pencil"></i></a> 
-                            <a class="text-primary" title="Delete" onclick="DeleteId(` +
-                            x + `)" ><i class="bx bx-trash"></i></a>`;
+                            `<a class="text-warning" title="Add Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>
+                            <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            <a class="text-danger" title="Hapus" style="cursor:pointer"
+                            onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" >
+                            <i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     orderable: false,
@@ -168,10 +168,10 @@
         });
     });
 
-    function DeleteId(id) {
+    function DeleteId(id, data) {
         swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this!",
+                title: "Apa kamu yakin?",
+                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -179,7 +179,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "",
+                        url: "{{url('delete.indicator')}}",
                         type: "DELETE",
                         data: {
                             "id": id,

@@ -13,7 +13,8 @@ class StandardCategoryController extends Controller
 {
     public function category(Request $request) {
         $data = StandardCategory::all();
-        return view('standard_category.category', compact('data'));
+        $status = AuditStatus::get();
+        return view('standard_category.category', compact('data', 'status'));
     }
 
     public function category_add(Request $request) {
@@ -23,7 +24,7 @@ class StandardCategoryController extends Controller
                 'id'=> ['required', 'string', 'max:191', Rule::unique('standard_categories')],
                 'title'=> ['required', 'string', 'max:191'],
                 'description'=> ['required', 'string', 'max:191'],
-                'is_required'=> ['boolean'],    
+                'is_required'=> ['boolean'],
             ]);
             StandardCategory::create([
                 'id'=> $request->id,
@@ -39,7 +40,7 @@ class StandardCategoryController extends Controller
 
     public function category_edit($id){
         $data = StandardCategory::findOrFail($id);
-        $status = AuditStatus::orderBy('title')->get();
+        $status = AuditStatus::get();
         //dd($data);
         return view('standard_category.category_edit', compact('data', 'status'));
     }
@@ -47,13 +48,13 @@ class StandardCategoryController extends Controller
     public function category_update(Request $request, $id){
         $is_required = $request->has('is_required') ? $request->is_required : false;
         $request->validate([
-            'description'    => 'required', 'string', 'max:191',
+            'description'    => 'string', 'max:191',
             'is_required' => 'boolean',
         ]);
 
         $data = StandardCategory::findOrFail($id);
         $data->update([
-            'status_id'=> '11',
+            'audit_status_id'=> '11',
             'description'=> $request->description,
             'is_required'=> $is_required,
         ]);
