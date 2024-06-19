@@ -84,19 +84,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="inputField${i + 1}_1">Indikator</label>
-                            <input type="text" class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]">
+                            <input type="text-danger" class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="inputField${i + 1}_2">Sub Indikator</label>
-                            <input type="text" class="form-control" id="inputField${i + 1}_2" name="indicators[${i}][sub_indicator]">
+                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_2" name="indicators[${i}][sub_indicator]"></textarea>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="inputField${i + 1}_3">Review Document</label>
-                            <input type="text" class="form-control" id="inputField${i + 1}_3" name="indicators[${i}][review_document]">
+                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_3" name="indicators[${i}][review_document]"></textarea>
                         </div>
                     </div>
                 </div>

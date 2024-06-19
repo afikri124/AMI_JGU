@@ -45,6 +45,7 @@
                                 <th><b>Lecture</b></th>
                                 <th><b>Date Start</b></th>
                                 <th><b>Date End</b></th>
+                                <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
                             </tr>
@@ -123,6 +124,13 @@
 
                             return row.date_end;
                     },
+                },
+                {
+                    render: function(data, type, row, meta) {
+                        var html =
+                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
+                        return html;
+                    }
                 },
                 {
                     render: function (data, type, row, meta) {
