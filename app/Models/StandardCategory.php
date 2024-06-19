@@ -14,6 +14,11 @@ class StandardCategory extends Model
         'id', 'title', 'description', 'is_required','audit_status_id'
     ];
 
+    public function category()
+    {
+        return $this->hasMany(StandardCategory::class);
+    }
+
     public function criterias()
     {
         return $this->hasMany(StandardCriteria::class, 'id');

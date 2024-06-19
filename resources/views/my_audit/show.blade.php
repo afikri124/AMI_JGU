@@ -103,7 +103,7 @@
                 </div>
                 <div class="card-body row g-3">
                     <p>
-                        @if ($data->documents->isNotEmpty() && $documentUrl)
+                        @if ($data->isNotEmpty() && $documentUrl)
                             <iframe src="{{ $documentUrl }}" style="height: 350px; width: 100%; border: none;"
                                 onerror="this.onerror=null; this.outerHTML='Cannot load PDF.';"></iframe><br>
                             <a class="btn btn-primary" href="{{ $documentUrl }}" target="_blank">

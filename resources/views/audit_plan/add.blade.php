@@ -123,21 +123,17 @@
                             </select>
                             </div>
                         </div>
-                        <!-- <div class="col-lg-6 col-md-12">
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label for="standard_categories_id" class="form-label"><b>Category</b></label>
-                            <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
-                                <option value="">Select Category</option>
-                                @foreach($category as $c)
-                                    <option value="{{$c->id}}"
-                                        {{ (in_array($c->id, old('category') ?? []) ? "selected": "") }}>
-                                        {{$c->description}} (
-                                            @foreach ($c->category as $x)
-                                                {{ $x->ON}}
-                                            @endforeach
-                                        )</option>
+                                <label for="standard_categories_id" class="form-label"><b>Category</b></label>
+                                <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
+                                    <option value="">Select Category</option>
+                                    @foreach($category as $c)
+                                        <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
+                                            {{ $c->description }}
+                                        </option>
                                     @endforeach
-                            </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
@@ -153,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="card-footer text-end">
                     <button class="btn btn-primary" type="submit">Create</button>
                     <a href="{{ url()->previous() }}">

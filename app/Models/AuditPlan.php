@@ -34,7 +34,7 @@ class AuditPlan extends Model
     }
 
     // Contoh relasi ke model AuditPlanStatus
-    public function auditstatus()
+    public function auditStatus()
     {
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
@@ -57,6 +57,6 @@ class AuditPlan extends Model
 
     public function category()
     {
-        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+        return $this->belongsTo(StandardCategory::class, 'description', 'audit_status_id');
     }
 }

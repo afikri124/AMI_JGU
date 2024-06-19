@@ -110,13 +110,13 @@
                 {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-dark bx-sm px-1" title="Observation style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
+                                `<a class="text-dark bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
                                 <i class="bx bx-plus"></i></a>
 
-                                <a class="text-warning bx-sm px-1" title="Acc By Auditor style="cursor:pointer" onclick="approveId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
+                                <a class="text-warning bx-sm px-1" title="Acc By Auditor" style="cursor:pointer" onclick="approveId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
                                 <i class="bx bx-check"></i></a>
 
-                                <a class="text-primary bx-sm px-1" title="Revised style="cursor:pointer" onclick="revisedId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
+                                <a class="text-primary bx-sm px-1" title="Revised By Auditor" style="cursor:pointer" onclick="revisedId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
                                 <i class="bx bx-x"></i></a>`
                             return html;
                         },

@@ -17,12 +17,18 @@ class MyAuditController extends Controller{
     }
 
     public function show($id)
-    {
-        $data = AuditPlan::findOrFail($id);
-        $documentPath = $data->documents->first()->doc_path;
+{
+    $data = AuditPlan::findOrFail($id);
+    
+    $documentUrl = null;
+    if ($data && $data->isNotEmpty()) {
+        $documentPath = $data->first->doc_path;
         $documentUrl = url($documentPath);
-        return view('my_audit.show', compact('data', 'documentUrl'));
     }
+
+    return view('my_audit.show', compact('data', 'documentUrl'));
+}
+
 
     public function add($id)
     {
@@ -57,7 +63,7 @@ public function update(Request $request, $id){
     'doc_path'          => $fileName,
     'link'              => $request->link,
 ]);
-    return redirect()->route('my_audit.index')->with('Success', 'Audit Plan berhasil diperbarui.');
+    return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Upload.');
 }
     public function delete(Request $request){
         $data = AuditPlan::find($request->id);

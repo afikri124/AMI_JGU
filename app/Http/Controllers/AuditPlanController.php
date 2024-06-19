@@ -27,13 +27,13 @@ class AuditPlanController extends Controller{
     public function add(Request $request) {
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-            'lecture_id'    => ['required'],
-            'date_start'    => ['required'],
-            'date_end'      => ['required'],
-            'location_id'   => ['required'],
-            'auditor_id'    => ['required'],
+            'lecture_id'            => ['required'],
+            'date_start'            => ['required'],
+            'date_end'              => ['required'],
+            'location_id'           => ['required'],
+            'auditor_id'            => ['required'],
             'standard_categories_id'=> ['string'],
-            'link'=> ['string'],
+            'link'                  => ['string'],
         ]);
         $data = AuditPlan::create([
             'lecture_id'                => $request->lecture_id,
@@ -54,8 +54,8 @@ class AuditPlanController extends Controller{
         $audit_plan =AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
         $departments = Department::orderBy('name')->get();
-        $auditstatus = AuditStatus::get();
-        $category = StandardCategory::orderBy('description');
+        $auditStatus = AuditStatus::get();
+        $category = StandardCategory::orderBy('description')->get();
         $lecture = User::with(['roles' => function ($query) {
             $query->select( 'id','name' );
         }])
@@ -72,7 +72,7 @@ class AuditPlanController extends Controller{
         ->orderBy('name')->get();
         // dd($users);
         $data = AuditPlan::all();
-        return view("audit_plan.add", compact("data", "category", "lecture", "auditor", "locations", "auditstatus", "departments", "audit_plan"));
+        return view("audit_plan.add", compact("data", "category", "lecture", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
     }
 
     public function edit(Request $request, $id){

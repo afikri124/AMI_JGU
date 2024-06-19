@@ -12,6 +12,7 @@ class StandardCriteria extends Model
 
     // Define $timestamps as true since you have timestamps in your table
     public $timestamps = true;
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
         'standard_categories_id',
