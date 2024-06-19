@@ -46,12 +46,12 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top"><img alt="AMI-JGU" /></a>
+                <a class="navbar-brand" href="#page-top"><img src="assets-landing/img/logo_small.png" height="40" width="100" /></a>
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#features">App Features</a></li>
+          <li><a class="nav-link scrollto active"  href="#hero"><strong>HOME</strong></a></li>
+          <li><a class="nav-link scrollto" href="#features"><strong>FEATURE</strong></a></li>
           <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
           <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
           <li><a class="nav-link scrollto" href="#faq">F.A.Q</a></li>
@@ -73,7 +73,9 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="auth/">Log in</a></li>
+          <li><a class="getstarted scrollto" href="">Login</a></li>
+          <div class="dropup-content dropdown-content">
+
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -88,13 +90,12 @@
       <div class="row">
         <div class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1" data-aos="fade-up">
           <div>
-            <h1>Audit Mutu Internal</h1>
-            <a href="#" class="download-btn"><i class="bx bxl-play-store"></i> Google Play</a>
-            <a href="#" class="download-btn"><i class="bx bxl-apple"></i> App Store</a>
+            <img src="assets-landing/img/logo ami-jgu.png">
+
           </div>
         </div>
         <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img" data-aos="fade-up">
-          <img src="assets/img/AMIX.png" class="img-fluid" alt="">
+          <img src="assets-landing/img/jgu.jpg" class="img-fluid" alt="">
         </div>
       </div>
     </div>

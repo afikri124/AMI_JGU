@@ -11,7 +11,7 @@
 --------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
-  color: #585a61;
+  color: #a4b0dc;
 }
 
 a {
@@ -20,7 +20,7 @@ a {
 }
 
 a:hover {
-  color: #7b94c9;
+  color: #2d4069;
   text-decoration: none;
 }
 
@@ -83,7 +83,7 @@ h6 {
   z-index: 997;
   transition: all 0.5s;
   padding: 15px 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(30, 47, 104, 0.95);
 }
 
 #header.header-transparent {

@@ -82,7 +82,10 @@
     //swall message notification
     $(document).ready(function () {
         swal(`{!! session('msg') !!}`, {
-            icon: "info",
+            icon: 'success',
+            customClass: {
+                confirmButton: 'btn btn-success'
+            }
         });
     });
 

@@ -290,40 +290,9 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
-<script src="assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
-<script>
-const wizardIcons = document.querySelector('.wizard-icons-example');
+<script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
 
-if (typeof wizardIcons !== undefined && wizardIcons !== null) {
-  const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
-    wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
-    wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
-
-  const iconsStepper = new Stepper(wizardIcons, {
-    linear: false
-  });
-  if (wizardIconsBtnNextList) {
-    wizardIconsBtnNextList.forEach(wizardIconsBtnNext => {
-      wizardIconsBtnNext.addEventListener('click', event => {
-        iconsStepper.next();
-      });
-    });
-  }
-  if (wizardIconsBtnPrevList) {
-    wizardIconsBtnPrevList.forEach(wizardIconsBtnPrev => {
-      wizardIconsBtnPrev.addEventListener('click', event => {
-        iconsStepper.previous();
-      });
-    });
-  }
-  if (wizardIconsBtnSubmit) {
-    wizardIconsBtnSubmit.addEventListener('click', event => {
-      alert('Submitted..!!');
-    });
-  }
-}
-</script>
 <script type="text/javascript">
     "use strict";
     setTimeout(function () {

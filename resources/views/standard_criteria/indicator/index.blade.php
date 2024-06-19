@@ -95,6 +95,21 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
+@if(session('msg'))
+<script type="text/javascript">
+    //swall message notification
+    $(document).ready(function () {
+        swal(`{!! session('msg') !!}`, {
+            icon: 'success',
+            customClass: {
+                confirmButton: 'btn btn-success'
+            }
+        });
+    });
+
+</script>
+@endif
+
 <script>
     "use strict";
     setTimeout(function () {

@@ -23,8 +23,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('index');
+
+Route::get('/home', function () {
+    return redirect()->route('dashboard');
+})->name('home');
 
 require __DIR__ . '/auth.php';
 
