@@ -53,6 +53,20 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+@if(session('msg'))
+<script type="text/javascript">
+    //swall message notification
+    $(document).ready(function () {
+        swal(`{!! session('msg') !!}`, {
+            icon: 'success',
+            customClass: {
+                confirmButton: 'btn btn-success'
+            }
+        });
+    });
+
+</script>
+@endif
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -110,9 +124,9 @@
                 {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-dark bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
+                                `<a class="text-danger bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
                                 <i class="bx bx-plus"></i></a>
-                                <a class="text-warning" title="Show" href="{{ url('my_audit/show/${row.id}') }}">
+                                <a class="text-body" title="Show" href="{{ url('observations/show/${row.id}') }}">
                                 <i class="bx bx-show"></i></a>`
                             return html;
                         },

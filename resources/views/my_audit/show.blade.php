@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Upload Documents')
+@section('title', 'Review Documents')
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
@@ -94,19 +94,18 @@
         </div>
     @endif
 
-
-    <div class="row mb-4 g-4">
-        <div class="col-12 col-xl-8">
+    <div class="row">
+    <div class="col-md-12">
             <div class="card h-100">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="card-title m-0 me-2">Audit Document</h5>
+                    <h5 class="card-title m-0 me-2">Review Audit Document</h5>
                 </div>
                 <div class="card-body row g-3">
                     <p>
-                        @if ($data->isNotEmpty() && $documentUrl)
-                            <iframe src="{{ $documentUrl }}" style="height: 350px; width: 100%; border: none;"
+                        @if ($data->first())
+                            <iframe src={{asset($data->first()->doc_path)}} style="height: 350px; width: 100%; border: none;"
                                 onerror="this.onerror=null; this.outerHTML='Cannot load PDF.';"></iframe><br>
-                            <a class="btn btn-primary" href="{{ $documentUrl }}" target="_blank">
+                            <a class="btn btn-primary" href={{asset($data->first()->doc_path)   }} target="_blank">
                                 <i class="bx bx-import align-middle me-2" style="cursor:pointer"></i>
                                 <span>Download</span>
                             </a>
@@ -114,125 +113,6 @@
                             <p>Tidak ada dokumen yang tersedia.</p>
                         @endif
                     </p>
-                    <div class="row g-2">
-                        <div class="col-sm">
-                            <span for="inputAddress2" class="form-label"> JENIS PENELITIAN</span>
-                            <input type="text" class="form-control" value="{{ $data->lecture_id }}"
-                                readonly>
-                        </div>
-                        <div class="col-sm">
-                            <span for="inputAddress2" class="form-label">TOTAL DANA</span>
-                            <input type="text" class="form-control" value="{{ $data->date_start }}"
-                                readonly>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <label for="inputAddress2" class="form-label"> KETEGORI PENELITIAN</label>
-                        <input type="text" class="form-control"
-                            value="{{ $data->date_end }}" readonly>
-                    </div>
-                    <div class="col-12">
-                        <label for="inputAddress2" class="form-label">TEMA PENELITIAN</label>
-                        <input type="text" class="form-control"
-                            value=" {{ $data->location_id }}" readonly>
-                    </div>
-                    <div class="col-12">
-                        <label for="inputAddress2" class="form-label">JUDUL PENELITIAN</label>
-                        <input type="text" class="form-control" value=" {{ $data->department_id }}" readonly>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-sm">
-                            <span for="inputAddress2" class="form-label">TARGET UTAMA RISET</span>
-                            <input type="text" class="form-control" value=" {{ $data->auditor_id }}"
-                                readonly>
-                        </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-xl-4 col-md-6">
-            <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <div class="card-title mb-0">
-                        <h5 class="m-0 me-2">Popular Instructors</h5>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-borderless border-top">
-                        <thead class="border-bottom">
-                            <tr>
-                                <th>Instructors</th>
-                                <th class="text-end">courses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-center mt-lg-4">
-                                        <div class="avatar me-3">
-                                            <img src="../../assets/img/avatars/1.png" alt="Avatar"
-                                                class="rounded-circle">
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-truncate">Nama peneliti/</h6>
-                                            <small class="text-truncate text-muted">Business Intelligence</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="user-progress mt-lg-4">
-                                        <h6 class="mb-0">33</h6>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> <br>
-                <!--  -->
-                <div class="table-responsive">
-                    <table class="table table-borderless border-top">
-                        <thead class="border-bottom">
-                            <tr>
-                                <th>Instructors</th>
-                                <th class="text-end">courses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex justify-content-start align-items-center mt-lg-4">
-                                        <div class="avatar me-3">
-                                            <img src="../../assets/img/avatars/1.png" alt="Avatar"
-                                                class="rounded-circle">
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-truncate">Nama peneliti/</h6>
-                                            <small class="text-truncate text-muted">Business Intelligence</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="user-progress mt-lg-4">
-                                        <h6 class="mb-0">33</h6>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--  -->
-        </div>
-    </div>
-    </div>
-
-    <!--  -->
-
-
-    <!--  -->
-
-
-
 @endsection
 
 @section('script')

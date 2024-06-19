@@ -17,16 +17,12 @@ class Observation extends Model
         'auditor_id',
         'location_id',
         'department_id',
-        'indicator_id',
         'lecture_id',
-        'standard_criterias_id',
-        'standard_id',
+        'standard_categories_id',
         'remark',
         'doc_path',
-        'required',
-        'topic',
-        'class_type',
-        'total_students'
+        'total_students',
+        'link'
     ];
 
     public function lecture()

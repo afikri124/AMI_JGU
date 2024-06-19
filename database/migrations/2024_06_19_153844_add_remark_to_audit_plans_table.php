@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('standard_criterias', function (Blueprint $table) {
-            //
+        Schema::table('audit_plans', function (Blueprint $table) {
+            $table->string('remark')->nullable();
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('standard_criterias', function (Blueprint $table) {
-            $table->unsignedBigInteger('audit_status_id');
-            $table->foreign('audit_status_id')->references('id')->on('audit_statuses')->nullable();
+        Schema::table('audit_plans', function (Blueprint $table) {
+            //
         });
     }
 };

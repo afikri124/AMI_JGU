@@ -24,9 +24,8 @@
 @endsection
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xl-12">
+<div class="row">
+    <div class="col-md-12">
             <form class="card" method="POST" action="">
                 @csrf
                 <div class="card-header">
@@ -63,6 +62,7 @@
                                     </div>
                             </div>
                         </div>
+                        <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label for="lecture_id" class="form-label"><b>Lecture</b></label>
@@ -97,6 +97,7 @@
                             </select>
                             </div>
                         </div>
+                        <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
@@ -123,6 +124,7 @@
                             </select>
                             </div>
                         </div>
+                        <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="standard_categories_id" class="form-label"><b>Category</b></label>

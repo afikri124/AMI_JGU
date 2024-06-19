@@ -33,7 +33,7 @@ class AuditPlanController extends Controller{
             'location_id'           => ['required'],
             'auditor_id'            => ['required'],
             'standard_categories_id'=> ['string'],
-            'link'                  => ['string'],
+            'link'                  => [''],
         ]);
         $data = AuditPlan::create([
             'lecture_id'                => $request->lecture_id,
@@ -45,6 +45,7 @@ class AuditPlanController extends Controller{
             'auditor_id'                => $request->auditor_id,
             'doc_path'                  => $request->doc_path,
             'link'                      => $request->link,
+            'remark'                    => $request->remark,
             'standard_categories_id'    => $request->standard_categories_id,
         ]);
         if($data){

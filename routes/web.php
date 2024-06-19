@@ -53,7 +53,9 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
-    });
+    Route::any('/show/{id}', [ObservationController::class, 'show'])->name('observations.show');
+    Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
+});
 // Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
 // Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 

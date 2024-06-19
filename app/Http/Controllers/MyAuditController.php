@@ -19,14 +19,9 @@ class MyAuditController extends Controller{
     public function show($id)
 {
     $data = AuditPlan::findOrFail($id);
-    
-    $documentUrl = null;
-    if ($data && $data->isNotEmpty()) {
-        $documentPath = $data->first->doc_path;
-        $documentUrl = url($documentPath);
-    }
+    $data->doc_path;
 
-    return view('my_audit.show', compact('data', 'documentUrl'));
+    return view('my_audit.show', compact('data'));
 }
 
 

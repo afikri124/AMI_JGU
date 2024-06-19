@@ -75,6 +75,28 @@ class ObservationController extends Controller{
             $data = AuditPlan::all();
             return view("observations.make", compact("lecture", "locations", "departments", "audit_plan"));
        }
+
+       public function show($id)
+        {
+            $data = AuditPlan::findOrFail($id);
+            $data->doc_path;
+            $data->link;
+            return view('observations.show', compact('data'));
+        }
+
+        public function update(Request $request, $id){
+            $request->validate([
+                'remark'    => '',
+            ]);
+
+            $data = AuditPlan::findOrFail($id);
+            $data->update([
+                'remark'=> $request->remark,
+                'audit_status_id'=> '3',
+            ]);
+            return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+        }
+
        public function data(Request $request){
         $data = AuditPlan::
         with([

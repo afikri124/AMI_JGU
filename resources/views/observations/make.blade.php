@@ -31,7 +31,7 @@
     <div class="step" data-target="#account-details">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
         </span>
         <span class="bs-stepper-label">Account Details</span>
       </button>
@@ -42,9 +42,7 @@
     <div class="step" data-target="#personal-info">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-          <svg viewBox="0 0 58 54">
-            <use xlink:href='assets/svg/icons/form-wizard-personal.svg#wizardPersonal'></use>
-          </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
         </span>
         <span class="bs-stepper-label">Personal Info</span>
       </button>
@@ -99,13 +97,11 @@
         </div>
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label" for="username-icons">Username</label>
-            <input type="text" id="username-icons" class="form-control" placeholder="johndoe" />
+            <label>Lecture</label>
+            <input class="form-control" type="text" value="{{$lecture->name}}" disabled>
           </div>
           <div class="col-md-6">
-            <label class="form-label" for="email-icons">Email</label>
-            <input type="email" id="email-icons" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
-          </div>
+        </div>
           <div class="col-md-6 form-password-toggle">
             <label class="form-label" for="password-icons">Password</label>
             <div class="input-group input-group-merge">
@@ -235,7 +231,7 @@
       </div>
       <!-- Review -->
       <div id="review-submit" class="content">
-  
+
         <p class="fw-medium mb-2">Account</p>
         <ul class="list-unstyled">
           <li>Username</li>
@@ -305,7 +301,7 @@
 
 </script>
 <script>
- 
+
 const wizardIcons = document.querySelector('.wizard-icons-example');
 
 if (typeof wizardIcons !== undefined && wizardIcons !== null) {

@@ -81,7 +81,20 @@
 @endif
 
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+@if(session('msg'))
+<script type="text/javascript">
+    //swall message notification
+    $(document).ready(function () {
+        swal(`{!! session('msg') !!}`, {
+            icon: 'success',
+            customClass: {
+                confirmButton: 'btn btn-success'
+            }
+        });
+    });
 
+</script>
+@endif
 <script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
