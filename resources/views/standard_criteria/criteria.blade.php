@@ -136,7 +136,9 @@
                 <tr>
                     <th width="20px">Code Id</th>
                     <th width="40px">Criteria</th>
+                    <th width="40px">Title</th>
                     <th width="40px">Category</th>
+                    <!-- <th width="40px">Status</th> -->
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -199,12 +201,12 @@
                         d.search = $('input[type="search"]').val()
                 },
             },
-            columns: [
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.category.id;
-                        return x;
+            columns: [{
+                render: function (data, type, row, meta) {
+                        var no = (meta.row + meta.settings._iDisplayStart + 1);
+                        return no;
                     },
+                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -214,10 +216,24 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.category.description;
+                        var x = row.category.title;
                         return x;
                     },
                 },
+                {
+                    render: function (data, type, row, meta) {
+                        var html = `<a class="text-primary" title="` + row.category.id +
+                            `" href="">` + row.category.id + `</a>`;
+                        return html;
+                    },
+                },
+                // {
+                //     render: function(data, type, row, meta) {
+                //         var html =
+                //             `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
+                //         return html;
+                //     }
+                // },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;

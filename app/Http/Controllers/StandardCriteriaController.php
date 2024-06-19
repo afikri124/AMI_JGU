@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditStatus;
 use App\Models\Indicator;
 use App\Models\Standard;
 use App\Models\StandardCategory;
@@ -28,19 +29,21 @@ class StandardCriteriaController extends Controller
                 return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') berhasil di tambahkan');
             }
         }
-
-        $category = StandardCategory::orderBy('description')->get();
+        $category = StandardCategory::all();
         $data = StandardCriteria::all();
-
-        return view('standard_criteria.criteria', compact('data', 'category'));
+        $status = AuditStatus::get();
+        return view('standard_criteria.criteria', compact('data', 'category', 'status'));
     }
 
     public function data(Request $request)
     {
-        $data = StandardCriteria::with(['category' => function ($query) {
-            $query->select('id', 'description');
+        $data = StandardCriteria::
+        with(['category' => function ($query) {
+            $query->select('id','title','description');
+        }])->
+        with(['status' => function ($query) {
+            $query->select('id','title','color');
         }])->select('*')->orderBy("id");
-
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('Select_2'))) {
@@ -132,6 +135,22 @@ class StandardCriteriaController extends Controller
         $criteria = StandardCriteria::find($id);
         //dd($data);
         return view('standard_criteria.indicator.edit', compact('criteria','allCriteria'));
+    }
+
+    public function delete_indikator(Request $request){
+        $data = Indicator::find($request->id);
+        if($data){
+            $data->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil dihapus!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal dihapus!'
+            ]);
+        }
     }
 
 public function data_indicator($id)

@@ -112,13 +112,12 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
         //route criteria
         Route::group(['prefix' => 'criteria'], function () {
             Route::any('/', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
-            Route::delete('/{id}', [StandardCriteriaController::class, 'criteria'])->name('delete.standart_criteria');
             Route::get('/add/indicator/{id}', [StandardCriteriaController::class, 'create'])->name('add.indicator');
             Route::get('/show/indicator/{id}', [StandardCriteriaController::class, 'show'])->name('show.indicator');
             Route::get('/edit/indicator/{id}', [StandardCriteriaController::class, 'edit'])->name('edit.indicator');
             Route::put('/update/indicator/{id}', [StandardCriteriaController::class, 'update'])->name('update.indicator');
 
-            Route::delete('/delete/indicator/{id}', [StandardCriteriaController::class, 'delete'])->name('delete.indicator');
+            Route::delete('/delete_indicator/indicator/{id}', [StandardCriteriaController::class, 'delete_indicator'])->name('delete_indicator.indicator');
             Route::delete('/delete', [StandardCriteriaController::class, 'delete'])->name('standard_criteria.delete');
 
             Route::post('/add/indicator', [StandardCriteriaController::class, 'store'])->name('store.indicator');

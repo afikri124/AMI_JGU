@@ -194,7 +194,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{url('delete.indicator')}}",
+                        url: "{{url('delete_indicator.indicator')}}",
                         type: "DELETE",
                         data: {
                             "id": id,

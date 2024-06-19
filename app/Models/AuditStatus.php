@@ -40,4 +40,8 @@ class AuditStatus extends Model
     public function standard_category(){
         return $this->hasMany(StandardCategory::class, 'id');
     }
+
+    public function standard_criteria(){
+        return $this->hasMany(StandardCriteria::class, 'id');
+    }
 }

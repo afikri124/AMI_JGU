@@ -73,7 +73,7 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="">Login</a></li>
+          <li><a class="getstarted scrollto" href="login">Login</a></li>
           <div class="dropup-content dropdown-content">
 
         </ul>

@@ -1,3 +1,4 @@
+
 const wizardIcons = document.querySelector('.wizard-icons-example');
 
 if (typeof wizardIcons !== undefined && wizardIcons !== null) {

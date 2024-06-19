@@ -112,16 +112,8 @@
                             var html =
                                 `<a class="text-dark bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
                                 <i class="bx bx-plus"></i></a>
-
-                                <a class="text-warning bx-sm px-1" title="Acc By Auditor" style="cursor:pointer" onclick="approveId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
-                                <i class="bx bx-check"></i></a>
-
-<<<<<<< HEAD
-                                <a class="text-primary bx-sm px-1" title="Revised" style="cursor:pointer" onclick="revisedId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
-=======
-                                <a class="text-primary bx-sm px-1" title="Revised By Auditor" style="cursor:pointer" onclick="revisedId(\'` + row.id + `\',\'` + row.lecture.name + `\')">
->>>>>>> c4665854743763c48a562026984f47b4ecf3a96f
-                                <i class="bx bx-x"></i></a>`
+                                <a class="text-warning" title="Show" href="{{ url('my_audit/show/${row.id}') }}">
+                                <i class="bx bx-show"></i></a>`
                             return html;
                         },
                         "orderable": false,
