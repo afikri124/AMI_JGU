@@ -57,7 +57,7 @@
             <use xlink:href='assets/svg/icons/form-wizard-address.svg#wizardAddress'></use>
           </svg>
         </span>
-        <span class="bs-stepper-label">Address</span>
+        <span class="bs-stepper-label">Assesment</span>
       </button>
     </div>
     <div class="line">
@@ -97,26 +97,56 @@
         </div>
         <div class="row g-3">
           <div class="col-md-6">
-            <label>Lecture</label>
-            <input class="form-control" type="text" value="{{$lecture->name}}" disabled>
+            <label class="form-label" for="user-icons"><b>Lecture</b><i class="text-danger">*</i></label>
+            <input class="form-control" type="text" value="" disabled>
           </div>
           <div class="col-md-6">
+            <label class="form-label" for="user-icons"><b>Auditor</b><i class="text-danger">*</i></label>
+            <input class="form-control" type="text" value="" disabled>
         </div>
-          <div class="col-md-6 form-password-toggle">
-            <label class="form-label" for="password-icons">Password</label>
-            <div class="input-group input-group-merge">
-              <input type="password" id="password-icons" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password2" />
-              <span class="input-group-text cursor-pointer" id="password2"><i class="bx bx-hide"></i></span>
+          <div class="col-md-6">
+            <div class="form-group">
+            <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
+            <select name="location_id" id="location_id" class="form-select" required>
+            <option value="">Select Location</option>
+            @foreach($locations as $d)
+                <option value="{{$d->id}}"
+                    {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
+                    {{$d->title}}</option>
+            @endforeach
+            </select>
             </div>
-          </div>
-          <div class="col-md-6 form-password-toggle">
-            <label class="form-label" for="confirm-password-icon">Confirm Password</label>
-            <div class="input-group input-group-merge">
-              <input type="password" id="confirm-password-icon" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="confirm-password2-icon" />
-              <span class="input-group-text cursor-pointer" id="confirm-password2-icon"><i class="bx bx-hide"></i></span>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
+            <select name="department_id" id="department_id" class="form-select" required>
+                <option value="">Select Department</option>
+                @foreach($departments as $d)
+                    <option value="{{$d->id}}"
+                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                        {{$d->name}}</option>
+                    @endforeach
+            </select>
             </div>
-          </div>
-          <div class="col-12 d-flex justify-content-between">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="user-icons"><b>Class Type</b><i class="text-danger">*</i></label>
+            <input class="form-control" type="text" placeholder="Input Class Type">
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label">Total Student<i class="text-danger">*</i></label>
+                <input class="form-control @error('total_students') is-invalid @enderror" id="total_students"
+                    name="total_students" value="{{ old('total_students') }}" type=number placeholder="Input Total Students">
+                @error('total_students')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
@@ -131,34 +161,43 @@
           <small>Enter Your Personal Info.</small>
         </div>
         <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label" for="first-name-icons">First Name</label>
-            <input type="text" id="first-name-icons" class="form-control" placeholder="John" />
+          <div class="form-group">
+              <label for="standard_categories_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
+                  <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
+                      <option value="">Select Category</option>
+                      @foreach($category as $c)
+                          <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
+                              {{ $c->description }}
+                          </option>
+                      @endforeach
+                  </select>
+              </div>
           </div>
-          <div class="col-md-6">
-            <label class="form-label" for="last-name-icons">Last Name</label>
-            <input type="text" id="last-name-icons" class="form-control" placeholder="Doe" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="country-icons">Country</label>
-            <select class="select2" id="country-icons">
-              <option label=" "></option>
-              <option>UK</option>
-              <option>USA</option>
-              <option>Spain</option>
-              <option>France</option>
-              <option>Italy</option>
-              <option>Australia</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="language-icons">Language</label>
-            <select class="selectpicker w-auto" id="language-icons" data-style="btn-transparent" data-icon-base="bx" data-tick-icon="bx-check text-white" multiple>
-              <option>English</option>
-              <option>French</option>
-              <option>Spanish</option>
-            </select>
-          </div>
+          <p></p>
+          <div class="form-group">
+            <label class="form-label">Upload Images<i class="text-danger">*</i></label>
+              <div class="input-group mb-3">
+                <input class="form-control @error('doc_path') is-invalid @enderror"
+                  name="doc_path" type="file" accept=".pdf" title="PDF">
+                    @error('doc_path')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                  </div>
+                </div>
+                <p></p>
+                <div class="form-group">
+                    <label class="form-label">Link<i class="text-danger">*</i></label>
+                    <div class="input-group mb-3">
+                    <input class="form-control @error('link') is-invalid @enderror" type="text" id="link"
+                        name="link" placeholder="Input link document" value="{{ old('link') }}">
+                    @error('link')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
@@ -170,26 +209,59 @@
       <!-- Address -->
       <div id="address" class="content">
         <div class="content-header mb-3">
-          <h6 class="mb-0">Address</h6>
-          <small>Enter Your Address.</small>
+        <small>Category Standard</small>
+          <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
+          @foreach($category as $c)
+            <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
+                {{ $c->description }}
+            </option>
+          @endforeach
+          </h6>
+          <p></p>
+          <small>Criteria Standard</small>
+          <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
+          @foreach($criterias as $c)
+            <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
+                {{ $c->title }}
+            </option>
+          @endforeach
         </div>
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label" for="address">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="98  Borough bridge Road, Birmingham">
+        <!-- <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+        <div class="card-datatable table-responsive">
+            <div class="card-header flex-column flaex-md-row pb-0">
+                <div class="row">
+                    <div class="col-12 pt-3 pt-md-0">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        <div class="container">
+        <table class="table table-hover table-sm" id="datatable" width="100%">
+          <thead>
+            <tr>
+              <th>Indicator</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <h6 class="mb-0" name="indicator_id" id="indicator_id">
+            @foreach($indicator as $c)
+            <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
+                {{ $c->name }}
+            </option>
+          @endforeach
           </div>
-          <div class="col-md-6">
-            <label class="form-label" for="landmark">Landmark</label>
-            <input type="text" class="form-control" id="landmark" placeholder="Borough bridge">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="pincode">Pincode</label>
-            <input type="text" class="form-control" id="pincode" placeholder="658921">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="city">City</label>
-            <input type="text" class="form-control" id="city" placeholder="Birmingham">
-          </div>
+          <small>Sub Indicator</small>
+          @foreach($indicator as $c)
+            <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
+                {{ $c->sub_indicator }}
+            </option>
+          @endforeach
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>

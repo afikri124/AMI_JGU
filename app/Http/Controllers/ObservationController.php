@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditPlan;
 use App\Models\Department;
+use App\Models\Indicator;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Observation;
 use App\Models\StandardCategory;
+use App\Models\StandardCriteria;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -25,20 +27,17 @@ class ObservationController extends Controller{
         return view('observations.index', compact('data', 'lecture', 'category'));
     }
 
-    public function make(Request $request){
+    public function make(Request $request, $id){
         if ($request->isMethod('POST')) {
             $this->validate($request, [
             'audit_plan_id'    => ['required'],
             'auditor_id'    => ['string'],
             'location_id'    => ['required'],
             'department_id'   => ['required'],
-            'standard_id'    => ['required'],
-            'indicator_id'    => ['required'],
-            'standard_criterias_id'    => ['required'],
+            'standard_categories_id'    => ['required'],
             'remark'    => ['required'],
-            'file_path'    => ['required'],
-            'required'   => ['required'],
-            'topic'    => ['required'],
+            'doc_path'    => ['required'],
+            'link'   => ['required'],
             'class_type'    => ['required'],
             'total_students'    => ['required'],
             ]);
@@ -47,13 +46,12 @@ class ObservationController extends Controller{
             'auditor_id'=> $request->auditor_id,
             'location_id'=> $request->location_id,
             'department_id'=> $request->department_id,
-            'audit_status_id'   => '3',
-            'standard_id'=> $request->standard_id,
-            'indicator_id'=> $request->indicator_id,
+            'audit_status_id'   => '4',
+            'standard_categories_id'=> $request->standard_categories_id,
+            'standard_criterias_id'=> $request->standard_criterias_id,
             'remark'=> $request->remark,
-            'file_path'=> $request->file_path,
-            'required'=> $request->required,
-            'topic'=> $request->topic,
+            'doc_path'=> $request->doc_path,
+            'link'=> $request->link,
             'class_type'=> $request->class_type,
             'total_students'=> $request->total_students,
         ]);
@@ -64,16 +62,16 @@ class ObservationController extends Controller{
             $audit_plan =AuditPlan::with('auditStatus')->get();
             $locations = Location::orderBy('title')->get();
             $departments = Department::orderBy('name')->get();
+            $category = StandardCategory::orderBy('description')->get();
+            $criterias = StandardCriteria::orderBy('title')->get();
+            $indicator = Indicator::all();
             $lecture = User::with(['roles' => function ($query) {
-            $query->select( 'id','name' );
-            }])
-            ->whereHas('roles', function($q) use($request){
-                $q->where('name', 'lecture');
-            })
-            ->orderBy('name')->get();
+                $query->select( 'id','name' );
+            }])->orderBy('name');
+                        $auditor = User::orderBy('name')->get();
             // dd($lecture);
-            $data = AuditPlan::all();
-            return view("observations.make", compact("lecture", "locations", "departments", "audit_plan"));
+            $data = AuditPlan::findOrFail($id);
+            return view("observations.make", compact("data","lecture", "auditor","locations", "departments", "category", "criterias", "indicator", "audit_plan"));
        }
 
        public function show($id)

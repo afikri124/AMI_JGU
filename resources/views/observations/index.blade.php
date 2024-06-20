@@ -124,10 +124,10 @@
                 {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-danger bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
-                                <i class="bx bx-plus"></i></a>
-                                <a class="text-body" title="Show" href="{{ url('observations/show/${row.id}') }}">
-                                <i class="bx bx-show"></i></a>`
+                                `<a class="text-body" title="Show" href="{{ url('observations/show/${row.id}') }}">
+                                <i class="bx bx-show"></i></a>
+                                <a class="text-danger bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
+                                <i class="bx bx-plus"></i></a>`
                             return html;
                         },
                         "orderable": false,

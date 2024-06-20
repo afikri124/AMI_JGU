@@ -138,7 +138,6 @@
                     <th width="40px">Criteria</th>
                     <th width="40px">Title</th>
                     <th width="40px">Category</th>
-                    <!-- <th width="40px">Status</th> -->
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -187,7 +186,7 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ordering: false,
+            ordering: true,
             language: {
                 searchPlaceholder: 'Search...',
                 sSearch: '_INPUT_ &nbsp;',
@@ -227,13 +226,6 @@
                         return html;
                     },
                 },
-                // {
-                //     render: function(data, type, row, meta) {
-                //         var html =
-                //             `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
-                //         return html;
-                //     }
-                // },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;

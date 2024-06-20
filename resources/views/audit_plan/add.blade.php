@@ -138,20 +138,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label class="col-form-label">Link<i class="text-danger">*</i></label>
-                                <input class="form-control @error('link') is-invalid @enderror" type="text" id="link"
-                                    name="link" placeholder="Input link to review document" value="{{ old('link') }}">
-                                @error('link')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-footer text-end">
                     <button class="btn btn-primary" type="submit">Create</button>
                     <a href="{{ url()->previous() }}">

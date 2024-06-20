@@ -18,6 +18,7 @@ class Observation extends Model
         'location_id',
         'department_id',
         'lecture_id',
+        'standard_criterias_id',
         'standard_categories_id',
         'remark',
         'doc_path',
@@ -35,8 +36,19 @@ class Observation extends Model
     {
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
+
     public function category()
     {
         return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+    }
+
+    public function criterias()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    }
+
+    public function indicator()
+    {
+        return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 }

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreign('auditor_id')->references('id')->on('users');
             $table->string('doc_path')->nullable();
             $table->string('link')->nullable();
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }
