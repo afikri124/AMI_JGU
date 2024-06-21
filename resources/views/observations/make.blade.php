@@ -17,7 +17,45 @@
     .input-validation-error~.select2 .select2-selection {
         border: 1px solid red;
     }
-
+    .form-container {
+        width: 600px;
+        margin: 50px auto;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 2px 2px 8px #aaa;
+        border-radius: 5px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+      }
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+      }
+      .checkbox-group input {
+        margin-right: 5px;
+      }
+      .comment {
+        width: 100%;
+        height: 50px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
 </style>
 @endsection
 
@@ -228,42 +266,53 @@
             </option>
           @endforeach
         </div>
-        <!-- <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-        <div class="card">
-        <div class="card-datatable table-responsive">
-            <div class="card-header flex-column flaex-md-row pb-0">
-                <div class="row">
-                    <div class="col-12 pt-3 pt-md-0">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        <div class="container">
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-          <thead>
-            <tr>
-              <th>Indicator</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <h6 class="mb-0" name="indicator_id" id="indicator_id">
-            @foreach($indicator as $c)
-            <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
-                {{ $c->name }}
-            </option>
-          @endforeach
-          </div>
-          <small>Sub Indicator</small>
-          @foreach($indicator as $c)
-            <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
-                {{ $c->sub_indicator }}
-            </option>
-          @endforeach
+
+        @foreach ($indicator as $ind)
+            <table>
+              <tr>
+                <th colspan="2">Indikator:</th>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {{ $ind->name }}
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 80%">
+                  <strong>Sub Indikator:</strong>
+                  {{-- <ol>
+                    <li>Terdapat pedoman perumusan capaian pembelajaran</li>
+                    <li>Rancangan kurikulum OBE di program studi</li>
+                  </ol> --}}
+                  <p> {!! $ind->sub_indicator !!}</p>
+                </td>
+                <td>
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="ks" name="ks" />
+                    <label for="ks">KS</label>
+                  </div>
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="kts" name="kts" />
+                    <label for="kts">KTS</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="comment">Komentar:</label>
+                  <textarea
+                    id="comment"
+                    name="comment"
+                    class="comment"
+                    maxlength="100"
+                    placeholder="MAX 100 karakter..."
+                  ></textarea>
+                </td>
+              </tr>
+            </table>
+            @endforeach
+       
+        
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
