@@ -267,33 +267,39 @@
           @endforeach
         </div>
 
-        @foreach ($indicator as $ind)
+        @foreach ($sub_indicator as $sub)
             <table>
               <tr>
-                <th colspan="2">Indikator:</th>
+                <th colspan="2">Indicator:</th>
               </tr>
               <tr>
                 <td colspan="2">
-                  {{ $ind->name }}
+                  {{ $sub->indicator->name }}
                 </td>
               </tr>
               <tr>
+
                 <td style="width: 80%">
-                  <strong>Sub Indikator:</strong>
-                  {{-- <ol>
-                    <li>Terdapat pedoman perumusan capaian pembelajaran</li>
-                    <li>Rancangan kurikulum OBE di program studi</li>
-                  </ol> --}}
-                  <p> {!! $ind->sub_indicator !!}</p>
+                  <strong>Sub Indicator:</strong>
+
+                  <p> {!! $sub->name !!}</p>
                 </td>
                 <td>
                   <div class="checkbox-group">
-                    <input type="checkbox" id="ks" name="ks" />
+                    <input type="checkbox" id="ks" name="title_ass" />
                     <label for="ks">KS</label>
                   </div>
                   <div class="checkbox-group">
-                    <input type="checkbox" id="kts" name="kts" />
-                    <label for="kts">KTS</label>
+                    <input type="checkbox" id="obs" name="title_ass" />
+                    <label for="obs">OBS</label>
+                  </div>
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="kts" name="title_ass" />
+                    <label for="kts">KTS Minor</label>
+                  </div>
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="kts" name="title_ass" />
+                    <label for="kts">KTS Mayor</label>
                   </div>
                 </td>
               </tr>

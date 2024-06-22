@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuditPlanController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -26,15 +27,10 @@ Route::get('/', function () {
     return view('home');
 })->name('index');
 
-Route::get('/home', function () {
-    return redirect()->route('dashboard');
-})->name('home');
 
 require __DIR__ . '/auth.php';
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 
 //Audit Plan
@@ -56,8 +52,6 @@ Route::group(['prefix' => 'observations'], function () {
     Route::any('/show/{id}', [ObservationController::class, 'show'])->name('observations.show');
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });
-// Route::get('/edit_doc/{id}', [AuditDocController::class, 'edit'])->name('edit_doc');
-// Route::put('/update_doc/{id}', [AuditDocController::class, 'update'])->name('update_doc');
 
 Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
@@ -124,8 +118,14 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
 
             Route::post('/add/indicator', [StandardCriteriaController::class, 'store'])->name('store.indicator');
             Route::get('/data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');
+            Route::get('/data_sub', [StandardCriteriaController::class, 'data_sub'])->name('standard_criteria.data_sub');
             Route::get('/indicator', [StandardCriteriaController::class, 'indicator'])->name('standard_criteria.indicator');
+            Route::get('/sub_indicator', [StandardCriteriaController::class, 'sub_indicator'])->name('standard_criteria.sub_indicator');
             Route::get('/data/indicator/{id}', [StandardCriteriaController::class, 'data_indicator'])->name('data.indicator');
+
+            Route::get('/add/sub_indicator/{id}', [StandardCriteriaController::class, 'create_sub'])->name('add.sub_indicator');
+            Route::post('/add/sub_indicator', [StandardCriteriaController::class, 'store_sub'])->name('store_sub.sub_indicator');
+
         });
     });
 });

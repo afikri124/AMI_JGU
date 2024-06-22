@@ -77,9 +77,8 @@
         <table class="table table-hover table-sm" id="indicator-table" width="100%">
             <thead>
                 <tr>
-                    <th width="40px">Indicator</th>
-                    <th width="40px">Sub Indicator</th>
-                    <th width="40px">Review Document</th>
+                    <th width="10px">Criteria</th>
+                    <th>Indicator</th>
                 </tr>
             </thead>
         </table>
@@ -116,9 +115,9 @@
                 type: 'GET'
             },
             columns: [
+                { data: 'standard_criterias_id', name: 'standard_criterias_id' },
                 { data: 'name', name: 'name' },
-                { data: 'sub_indicator', name: 'sub_indicator' },
-                { data: 'review_document', name: 'review_document' },
+                
             ]
         });
     });

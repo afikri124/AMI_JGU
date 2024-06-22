@@ -7,6 +7,7 @@ use App\Models\Indicator;
 use App\Models\Standard;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
+use App\Models\SubIndicator;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -41,9 +42,7 @@ class StandardCriteriaController extends Controller
         with(['category' => function ($query) {
             $query->select('id','title','description');
         }])->
-        with(['status' => function ($query) {
-            $query->select('id','title','color');
-        }])->select('*')->orderBy("id");
+        select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('Select_2'))) {
@@ -100,8 +99,6 @@ class StandardCriteriaController extends Controller
             'numForms' => 'required|integer|min:1',
             'indicators' => 'required|array|min:1',
             'indicators.*.name' => 'required|string',
-            'indicators.*.sub_indicator' => 'required|string',
-            'indicators.*.review_document' => 'required|string',
         ]);
 
         $standard_criterias_id = $request->standard_criterias_id;
@@ -110,8 +107,6 @@ class StandardCriteriaController extends Controller
             Indicator::create([
                 'name' => $indicatorData['name'],
                 'standard_criterias_id' => $standard_criterias_id,
-                'sub_indicator' => $indicatorData['sub_indicator'],
-                'review_document' => $indicatorData['review_document'],
             ]);
         }
 
@@ -131,10 +126,9 @@ class StandardCriteriaController extends Controller
 }
 
     public function edit($id){
-        $allCriteria = StandardCriteria::all();
         $criteria = StandardCriteria::find($id);
         //dd($data);
-        return view('standard_criteria.indicator.edit', compact('criteria','allCriteria'));
+        return view('standard_criteria.indicator.edit', compact('criteria'));
     }
 
     public function delete_indikator(Request $request){
@@ -156,7 +150,6 @@ class StandardCriteriaController extends Controller
 public function data_indicator($id)
 {
     $data = Indicator::where('standard_criterias_id', $id)->get();
-
     return DataTables::of($data)
         ->addColumn('action', function ($row) {
             return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a>
@@ -164,5 +157,60 @@ public function data_indicator($id)
         })
         ->rawColumns(['action'])
         ->make(true);
+    }
+
+    //sub indicator
+    public function sub_indicator()
+    {
+        $criteria = StandardCriteria::orderBy('title')->get();
+        $indicator = Indicator::orderBy('name')->get();
+        return view('standard_criteria.sub_indicator.index', compact('criteria', 'indicator'));
+    }
+
+    public function create_sub($id)
+    {
+        // Retrieve the specific Standard Criteria by ID
+        $criteria = StandardCriteria::findOrFail($id);
+        $indicator = Indicator::where('standard_criterias_id', $id)->get();
+        return view('standard_criteria.sub_indicator.create', compact('criteria', 'indicator'));
+    }
+
+    public function store_sub(Request $request){
+        $validatedData = $request->validate([
+            'indicator_id' => 'required|exists:indicators,id',
+            'numForms' => 'required|integer|min:1',
+            'sub_indicators' => 'required|array|min:1',
+            'sub_indicators.*.name' => 'required|string',
+        ]);
+
+        $indicator_id = $request->indicator_id;
+
+        foreach ($request->sub_indicators as $sub_indicatorData) {
+            SubIndicator::create([
+                'name' => $sub_indicatorData['name'],
+                'indicator_id' => $indicator_id,
+            ]);
+        }
+        return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicators added successfully.');
+    }
+
+    public function data_sub(Request $request)
+    {
+        $data = SubIndicator::
+        with(['indicator' => function ($query) {
+            $query->select('id','name');
+        },
+        'criteria' => function ($query) {
+            $query->select('id','title');
+        }])->
+        select('*')->orderBy("id");
+        return DataTables::of($data)
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('Select_2'))) {
+                    $instance->whereHas('status', function ($q) use ($request) {
+                        $q->where('status_id', $request->get('Select_2'));
+                    });
+                }
+            })->make(true);
     }
 }

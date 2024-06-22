@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Observation;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
+use App\Models\SubIndicator;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -43,6 +44,7 @@ class ObservationController extends Controller
                 'link' => ['required'],
                 'class_type' => ['required'],
                 'total_students' => ['required'],
+                'title_ass' => ['required'],
             ]);
 
             $data = Observation::create([
@@ -58,6 +60,7 @@ class ObservationController extends Controller
                 'link' => $request->link,
                 'class_type' => $request->class_type,
                 'total_students' => $request->total_students,
+                'title_ass' => $request->title_ass,
             ]);
 
             if ($data) {
@@ -70,7 +73,7 @@ class ObservationController extends Controller
         $departments = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
         $criterias = StandardCriteria::orderBy('title')->get();
-        $indicator = Indicator::all();
+        $sub_indicator = SubIndicator::all();
 
         // Fetch lecturers and auditors
         $lecture = User::whereHas('roles', function ($query) {
@@ -83,7 +86,7 @@ class ObservationController extends Controller
 
         $data = AuditPlan::findOrFail($id);
 
-        return view("observations.make", compact("data", "lecture", "auditor", "locations", "departments", "category", "criterias", "indicator", "audit_plan"));
+        return view("observations.make", compact("sub_indicator","data", "lecture", "auditor", "locations", "departments", "category", "criterias","audit_plan"));
     }
 
 

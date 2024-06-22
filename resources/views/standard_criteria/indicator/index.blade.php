@@ -43,14 +43,17 @@
 
 
 @section('content')
-    <div class="col-md-12">
+<div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
-        <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.criteria') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
+                        class="bx bx-bar-chart-alt-2 me-1"></i>
+                    Sub Indicator</a></li>
         </ul>
     </div>
 
@@ -152,25 +155,24 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.category.description;
-                        return x;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
                         var x = row.title;
                         return x;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
+                        var html = `<a class="text-primary" title="` + row.category.id +
+                            `" href="">` + row.category.id + `</a>`;
+                        return html;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Add Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>
+                            `<a class="text-warning" title="Show Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>
                             <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-danger" title="Hapus" style="cursor:pointer"
-                            onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                            <a class="text-warning" title="Add Sub Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/add/sub_indicator/') }}/${row.id}"><i class='bx bxs-plus-square'></i></a>`;
                         return html;
                     },
                     orderable: false,
@@ -183,40 +185,40 @@
         });
     });
 
-    function DeleteId(id, data) {
-        swal({
-                title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    $.ajax({
-                        url: "{{url('delete_indicator.indicator')}}",
-                        type: "DELETE",
-                        data: {
-                            "id": id,
-                            "_token": $("meta[name='csrf-token']").attr("content"),
-                        },
-                        success: function (data) {
-                            if (data['success']) {
-                                swal(data['message'], {
-                                    icon: "success",
-                                });
-                                $('#datatable').DataTable().ajax.reload();
-                            } else {
-                                swal(data['message'], {
-                                    icon: "error",
-                                });
-                            }
-                        }
-                    })
+    // function DeleteId(id, data) {
+    //     swal({
+    //             title: "Apa kamu yakin?",
+    //             text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+    //             icon: "warning",
+    //             buttons: true,
+    //             dangerMode: true,
+    //         })
+    //         .then((willDelete) => {
+    //             if (willDelete) {
+    //                 $.ajax({
+    //                     url: "",
+    //                     type: "DELETE",
+    //                     data: {
+    //                         "id": id,
+    //                         "_token": $("meta[name='csrf-token']").attr("content"),
+    //                     },
+    //                     success: function (data) {
+    //                         if (data['success']) {
+    //                             swal(data['message'], {
+    //                                 icon: "success",
+    //                             });
+    //                             $('#datatable').DataTable().ajax.reload();
+    //                         } else {
+    //                             swal(data['message'], {
+    //                                 icon: "error",
+    //                             });
+    //                         }
+    //                     }
+    //                 })
 
-                }
-            })
-    }
+    //             }
+    //         })
+    // }
 
 </script>
 @endsection

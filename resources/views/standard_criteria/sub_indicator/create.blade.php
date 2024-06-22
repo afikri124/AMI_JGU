@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Add Indicator')
+@section('title', 'Add Sub Indicator')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -22,22 +22,22 @@
         @endif
         <div class="card mb-4">
             <hr class="my-0">
-            <div class="card-header">Indicator</div>
+            <div class="card-header">Sub Indicator</div>
             <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('store.indicator') }}" enctype="multipart/form-data">
+                <form id="form-add-new-record" method="POST" action="{{ route('store_sub.sub_indicator') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group col-md-4">
-                        <label for="standard_criterias_id" class="form-label">Select Standard Criteria</label>
-                        <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
-                                name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
-                            <option value="" selected disabled>Select Standard Criteria</option>
-                            @foreach ($allCriteria as $criteriaItem)
-                                <option value="{{ $criteriaItem->id }}" {{ $criteriaItem->id == $criteria->id ? 'selected' : '' }}>
-                                    {{ $criteriaItem->title }}
+                    <div class="form-group">
+                        <label for="indicator_id" class="form-label">Select Indicator</label>
+                        <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
+                                name="indicator_id" id="indicator_id" data-placeholder="Select">
+                            <option value="" selected disabled>Select Indicator</option>
+                            @foreach($indicator as $c)
+                                <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
+                                    {{ $c->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('standard_criterias_id')
+                        @error('indicator_id')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -45,7 +45,7 @@
                     </div>
                 
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group">
                         <label for="numForms">Number of Forms</label>
                         <input type="number" class="form-control" id="numForms" name="numForms" min="1">
                     </div>
@@ -82,8 +82,8 @@
             var row = `
                 <div class="row mb-3">
                         <div class="form-group">
-                            <label for="inputField${i + 1}_1">Indikator</label>
-                            <input type="text-danger" class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]">
+                            <label for="inputField${i + 1}_1">Sub Indicator</label>
+                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_1" name="sub_indicators[${i}][name]"></textarea>
                         </div>
                     </div>
                 </div>

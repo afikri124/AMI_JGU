@@ -37,9 +37,9 @@ class StandardCriteria extends Model
         return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
     }
 
-    public function status()
+    public function indicator()
     {
-        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
+        return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 
     public function getKeyType()

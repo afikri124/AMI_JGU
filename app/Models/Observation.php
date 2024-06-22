@@ -20,10 +20,13 @@ class Observation extends Model
         'lecture_id',
         'standard_criterias_id',
         'standard_categories_id',
+        'indicator_id',
+        'sub_indicator_id',
         'remark',
         'doc_path',
         'total_students',
-        'link'
+        'link',
+        'title_ass'
     ];
 
     public function lecture()

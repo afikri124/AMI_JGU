@@ -28,26 +28,20 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group col-md-4">
-                        <label for="standard_criterias_id" class="form-label">Select Standard Criteria</label>
-                        <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
-                                name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
+                        <label for="indicator_id" class="form-label">Select Standard Criteria</label>
+                        <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
+                                name="indicator_id" id="indicator_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Standard Criteria</option>
-                            @foreach ($allCriteria as $criteriaItem)
-                                <option value="{{ $criteriaItem->id }}" {{ $criteriaItem->id == $criteria->id ? 'selected' : '' }}>
-                                    {{ $criteriaItem->title }}
-                                </option>
-                            @endforeach
+                            @foreach($criteria as $role)
+                                <option value="{{$role->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
+                                    {{$role->name}}</option>
+                                @endforeach
                         </select>
-                        @error('standard_criterias_id')
+                        @error('indicator_id')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="numForms">Number of Forms</label>
-                        <input type="number" class="form-control" id="numForms" name="numForms" min="1"
-                        value="{{$criteria->numForms}}">
                     </div>
 
                     <div id="dynamic-form-container"></div>
