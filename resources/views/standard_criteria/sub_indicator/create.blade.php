@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
 
 <div class="row">
@@ -71,6 +72,7 @@
 <script src="{{ asset('assets/vendor/libs/datatables/buttons.bootstrap5.js') }}"></script>
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script>
    document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('numForms').addEventListener('input', function() {
@@ -83,7 +85,8 @@
                 <div class="row mb-3">
                         <div class="form-group">
                             <label for="inputField${i + 1}_1">Sub Indicator</label>
-                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_1" name="sub_indicators[${i}][name]"></textarea>
+                            <input type="hidden" class="form-control" id="inputField${i + 1}_1" name="sub_indicators[${i}][name]"></input>
+                            <trix-editor input="inputField${i + 1}_1"></trix-editor>
                         </div>
                     </div>
                 </div>

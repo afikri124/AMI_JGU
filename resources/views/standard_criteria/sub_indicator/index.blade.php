@@ -135,37 +135,42 @@
                 data: function (d) {
                     d.category = $('#Select_1').val(),
                     d.status = $('#Select_2').val(),
-                        d.search = $('input[type="search"]').val()
+                    d.search = $('input[type="search"]').val()
                 },
             },
             columns: [
                 {
-                    render: function (data, type, row, meta) {
-                        var x = row.indicator.name;
-                        return x;
-                    },
+                    data: 'indicator.name',
+                    render: function(data, type, row, meta) {
+                        return data;
+                    }
                 },
                 {
-                    render: function (data, type, row, meta) {
-                        var x = row.name;
-                        return x;
-                    },
+                    data: 'name',
+                    render: function(data, type, row, meta) {
+                        return data;
+                    }
                 },
                 {
-                    render: function (data, type, row, meta) {
-                        var x = row.id;
-                        var html =
-                            `<a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-danger" title="Hapus" style="cursor:pointer"
-                            onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                    data: 'id',
+                    render: function(data, type, row, meta) {
+                        var html = `
+                            <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${data}"><i class="bx bx-pencil"></i></a>
+                            <a class="text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId('${data}', '${row.title}')"><i class="bx bx-trash"></i></a>`;
                         return html;
                     },
                     orderable: false,
                     className: "text-end"
                 }
-            ]
+            ],
+            createdRow: function(row, data, dataIndex) {
+                // Use this function to interpret HTML tags in your WYSIWYG content
+                $('td', row).each(function() {
+                    $(this).html($(this).text());
+                });
+            }
         });
+
         $('#Select_2').change(function () {
             table.draw();
         });
@@ -174,7 +179,7 @@
     function DeleteId(id, data) {
         swal({
                 title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                text: "Setelah dihapus, data (" + data + ") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -205,6 +210,6 @@
                 }
             })
     }
-
 </script>
+
 @endsection
