@@ -138,6 +138,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="standard_criterias_id" class="form-label"><b>Criterias</b></label>
+                                <select name="standard_criterias_id" id="standard_criterias_id" class="form-select" required>
+                                    <option value="">Select Criterias</option>
+                                    @foreach($criterias as $c)
+                                        <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
+                                            {{ $c->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                 <div class="card-footer text-end">
                     <button class="btn btn-primary" type="submit">Create</button>
                     <a href="{{ url()->previous() }}">
@@ -174,5 +187,61 @@
         })(jQuery);
     }, 350);
 
+    setTimeout(function() {
+            (function($) {
+                "use strict";
+                $(".select2-modal").select2({
+                    dropdownParent: $('#newrecord'),
+                    allowClear: true,
+                    minimumResultsForSearch: 5
+                });
+            })(jQuery);
+        }, 350);
+
+        $(document).ready(function() {
+            // ketika category dirubah, theme di isi
+            $('#standard_categories').change(function() {
+                var categoryId = this.value;
+                $("#standard_criterias").html('');
+                $.ajax({
+                    url: "{{ route('DOC.get_standard_categories_by_id') }}",
+                    type: "GET",
+                    data: {
+                        id: categoryId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#standard_categories').html('<option value="">Select Category</option>');
+                        $.each(result, function(key, value) {
+                            $("#standard_categories").append('<option value="' + value.id +
+                                '">' + value.description + '</option>');
+                        });
+                    }
+                });
+            });
+            // ketika tema dirubah, topic di isi
+            $('#standard_criterias').change(function() {
+                var themeId = this.value;
+                $("#standard_criterias").html('');
+                $.ajax({
+                    url: "{{ route('DOC.get_standard_criterias_by_id') }}",
+                    type: "GET",
+                    data: {
+                        id: themeId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#standard_criterias').html('<option value="">Select Criteria</option>');
+                        $.each(result, function(key, value) {
+                            $("#standard_criterias").append('<option value="' + value.id +
+                                '">' + value.title + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </script>
 @endsection

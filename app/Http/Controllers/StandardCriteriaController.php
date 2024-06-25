@@ -45,9 +45,9 @@ class StandardCriteriaController extends Controller
         select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('Select_2'))) {
-                    $instance->whereHas('status', function ($q) use ($request) {
-                        $q->where('status_id', $request->get('Select_2'));
+                if (!empty($request->get('Select_category'))) {
+                    $instance->whereHas('category', function ($q) use ($request) {
+                        $q->where('standard_categories_id', $request->get('Select_category'));
                     });
                 }
             })->make(true);
@@ -126,10 +126,29 @@ class StandardCriteriaController extends Controller
 }
 
     public function edit($id){
-        $criteria = StandardCriteria::find($id);
-        //dd($data);
-        return view('standard_criteria.indicator.edit', compact('criteria'));
+        $data = StandardCriteria::find($id);
+
+        // Fetch all criteria
+        $criteria = StandardCriteria::all();
+        return view('standard_criteria.indicator.edit', compact('data', 'criteria'));
     }
+
+    public function update(Request $request, $id){
+    // Validate the request
+    $request->validate([
+        'indicator_id' => 'required',
+    ]);
+
+    // Find the indicator data
+    $data = Indicator::find($id);
+
+    // Update the indicator data
+    $data->indicator_id = $request->indicator_id;
+    $data->save();
+
+    // Redirect back with a success message
+    return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicator updated successfully.');
+}
 
     public function delete_indikator(Request $request){
         $data = Indicator::find($request->id);

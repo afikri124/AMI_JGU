@@ -42,6 +42,7 @@ class StandardCriteria extends Model
         return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 
+
     public function getKeyType()
     {
         return 'string';

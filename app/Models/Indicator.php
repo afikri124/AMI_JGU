@@ -26,4 +26,5 @@ class Indicator extends Model
         return $this->hasMany(StandardCriteria::class, 'id');
     }
 
+
 }

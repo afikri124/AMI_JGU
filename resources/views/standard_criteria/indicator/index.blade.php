@@ -64,19 +64,13 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                         <div class="row">
-                            <div class=" col-md-3">
-                                <select id="select_gender" class="select2 form-select" data-placeholder="Gender">
-                                    <option value="">Gender</option>
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
-                                </select>
-                            </div>
-                {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
+                            
+                <!-- {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
                     <a class="btn btn-primary btn-block btn-mail" title="Add new"
                         href="">
                         <i data-feather="plus"></i>+ Add
                     </a>
-                </div> --}}
+                </div> --}} -->
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
@@ -140,9 +134,8 @@
             ajax: {
                 url: "{{ route('standard_criteria.data') }}",
                 data: function (d) {
-                    d.category = $('#Select_1').val(),
-                    d.status = $('#Select_2').val(),
-                        d.search = $('input[type="search"]').val()
+                    d.search = $('input[type="search"]').val(),
+                    d.Select_criteria = $('#Select_criteria').val()
                 },
             },
             columns: [{
@@ -180,7 +173,7 @@
                 }
             ]
         });
-        $('#Select_2').change(function () {
+        $('#Select_criteria').change(function () {
             table.draw();
         });
     });
