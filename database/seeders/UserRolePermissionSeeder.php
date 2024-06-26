@@ -31,13 +31,13 @@ class UserRolePermissionSeeder extends Seeder
                 'username' => 'admin',
             ], $default_user_value));
             $lecture = User::create(array_merge([
-                'email' => 'lecture@example',
+                'email' => 'zidanazzahra916@gmail.com',
                 'name' => 'Ziddan Azzahra',
                 'username' => 'lecture',
                 'gender' => 'M',
             ], $default_user_value));
             $auditor = User::create(array_merge([
-                'email' => 'auditor@example',
+                'email' => 'rofiqabdul983@gmail.com',
                 'name' => 'Muhammad Abdul Rofiq',
                 'username' => 'auditor',
                 'gender' => 'M',

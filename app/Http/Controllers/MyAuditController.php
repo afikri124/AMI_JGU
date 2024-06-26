@@ -20,7 +20,6 @@ class MyAuditController extends Controller{
 {
     $data = AuditPlan::findOrFail($id);
     $data->doc_path;
-
     return view('my_audit.show', compact('data'));
 }
 

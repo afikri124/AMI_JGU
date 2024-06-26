@@ -105,7 +105,7 @@
                         @if ($data->first())
                             <iframe src={{asset($data->first()->doc_path)}} style="height: 350px; width: 100%; border: none;"
                                 onerror="this.onerror=null; this.outerHTML='Cannot load PDF.';"></iframe><br>
-                            <a class="btn btn-primary" href={{asset($data->first()->doc_path)   }} target="_blank">
+                            <a class="btn btn-primary" href={{asset($data->first()->doc_path)}} target="_blank">
                                 <i class="bx bx-import align-middle me-2" style="cursor:pointer"></i>
                                 <span>Download</span>
                             </a>

@@ -15,6 +15,8 @@ class AuditPlan extends Model
     // Menentukan kolom-kolom yang dapat diisi
     protected $fillable = [
         'lecture_id',
+        'email',
+        'no_phone',
         'date_start',
         'date_end',
         'audit_status_id',
@@ -65,5 +67,14 @@ class AuditPlan extends Model
     public function criterias()
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    }
+
+    public function email()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function no_phone()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

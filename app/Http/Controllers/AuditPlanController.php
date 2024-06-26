@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\sendEmail;
 use App\Models\AuditPlan;
 use App\Models\AuditStatus;
 use App\Models\Department;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Models\Location;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
+use Illuminate\Support\Facades\Mail;
 
 class AuditPlanController extends Controller{
     public function index(Request $request){
@@ -27,11 +29,9 @@ class AuditPlanController extends Controller{
 
     public function getStandardCategoriesById(Request $request)
     {
-        $category = StandardCategory::where('standard_category_id', $request->id)->get();
+        $category = StandardCategory::where('standard_categories_id', $request->id)->get();
         return response()->json($category);
     }
-
-
 
     public function getStandardCriteriasById(Request $request)
     {
@@ -45,15 +45,20 @@ class AuditPlanController extends Controller{
             'lecture_id'            => ['required'],
             'date_start'            => ['required'],
             'date_end'              => ['required'],
+            'email'              => ['required'],
+            'no_phone'              => ['required'],
             'location_id'           => ['required'],
             'auditor_id'            => ['required'],
-            'standard_criterias_id'=> ['string'],
-            'link'                  => [''],
+            'standard_criterias_id'=>  ['required'],
+            'standard_categories_id'=> ['required'],
+            'link'                  => ['string'],
         ]);
         $data = AuditPlan::create([
             'lecture_id'                => $request->lecture_id,
             'date_start'                => $request->date_start,
             'date_end'                  => $request->date_end,
+            'email'                  => $request->email,
+            'no_phone'                  => $request->no_phone,
             'audit_status_id'           => '1',
             'location_id'               => $request->location_id,
             'department_id'             => $request->department_id,
@@ -65,6 +70,29 @@ class AuditPlanController extends Controller{
             'standard_criterias_id'    => $request->standard_criterias_id,
         ]);
         if($data){
+            $email = $request->email;
+            $lecture = User::find($request->lecture_id);
+            $auditor = User::find($request->auditor_id);
+            $location = Location::find($request->location_id);
+            $department = Department::find($request->department_id);
+            $category = StandardCategory::find($request->standard_categories_id);
+            $criterias = StandardCriteria::find($request->standard_criterias_id);
+
+            $emailData = [
+                'lecture_id'                => $lecture ? $lecture->name : null,
+                'email'                => $request->email,
+                'no_phone'                => $request->no_phone,
+                'date_start'                => $request->date_start,
+                'date_end'                  => $request->date_end,
+                'location_id'               => $location ? $location->title : null,
+                'department_id'             => $department ? $department->name : null,
+                'auditor_id'                => $auditor ? $auditor->name : null,
+                'link'                      => $request->link,
+                'standard_categories_id'    => $category ? $category->description : null,
+                'standard_criterias_id'    => $criterias ? $criterias->title : null,
+            ];
+            Mail::to($email)->send(new sendEmail($emailData));
+
             return redirect()->route('audit_plan.index')->with('msg','Data ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
             }
         }

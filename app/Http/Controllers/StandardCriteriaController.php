@@ -45,9 +45,9 @@ class StandardCriteriaController extends Controller
         select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('Select_category'))) {
+                if (!empty($request->get('select_category'))) {
                     $instance->whereHas('category', function ($q) use ($request) {
-                        $q->where('standard_categories_id', $request->get('Select_category'));
+                        $q->where('standard_categories_id', $request->get('select_category'));
                     });
                 }
             })->make(true);
@@ -114,8 +114,7 @@ class StandardCriteriaController extends Controller
         return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicators added successfully.');
     }
 
-    public function show($id)
-{
+    public function show($id){
     $criteria = StandardCriteria::find($id);
 
     if (!$criteria) {
@@ -123,7 +122,7 @@ class StandardCriteriaController extends Controller
     }
 
     return view('standard_criteria.indicator.show', compact('criteria'));
-}
+    }
 
     public function edit($id){
         $data = StandardCriteria::find($id);
@@ -211,6 +210,17 @@ public function data_indicator($id)
             ]);
         }
         return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicators added successfully.');
+    }
+
+    public function show_sub($id){
+        $criteria = StandardCriteria::find($id);
+        $indicator = Indicator::orderBy('name')->get();
+
+        if (!$criteria) {
+            return redirect()->back()->with('error', 'Standard Criteria not found.');
+        }
+    
+        return view('standard_criteria.sub_indicator.show', compact('criteria', 'indicator'));
     }
 
     public function data_sub(Request $request)

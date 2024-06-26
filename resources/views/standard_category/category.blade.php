@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <select id="Select_2" class="select form-select" data-placeholder="Status">
+                                <select id="Select_2" class="form-control input-sm select2" data-placeholder="Status">
                                     <option value="">Status</option>
                                     <option value='true'>ON</option>
                                     <option value='false'>OFF</option>

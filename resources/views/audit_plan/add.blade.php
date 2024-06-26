@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
 @section('style')
 <style>
@@ -36,6 +37,30 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Email<i class="text-danger">*</i></label>
+                                <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email"
+                                    name="email" value="{{ old('email') }}">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">No Telepon<i class="text-danger">*</i></label>
+                            <input class="form-control @error('no_phone') is-invalid @enderror" id="no_phone"
+                                name="no_phone" type="text" placeholder="Input No Telepon">
+                            @error('no_phone')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label class="form-label" for="basicDate"><b>Date Start</b></label>
@@ -151,6 +176,13 @@
                                 </select>
                             </div>
                         </div>
+                        <p></p>
+                        <div class="form-group">
+                            <label for="link" class="form-label"><b>Link Document</b></label>
+                            <input type="text" class="form-control" id="link" name="link" placeholder="Input Link Document"></input>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-footer text-end">
                     <button class="btn btn-primary" type="submit">Create</button>
                     <a href="{{ url()->previous() }}">
@@ -174,6 +206,7 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script type="text/javascript">
 
     "use strict";

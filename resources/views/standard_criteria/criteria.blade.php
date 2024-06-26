@@ -64,13 +64,14 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                         <div class="row">
-                            <div class=" col-md-3">
-                                <select id="select_gender" class="select2 form-select" data-placeholder="Gender">
-                                    <option value="">Gender</option>
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
-                                </select>
-                            </div>
+                        <div class="col-md-3">
+                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Categories">
+                                <option value="">Select Category</option>
+                                @foreach($category as $d)
+                                <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                             <div class="offset-md col-md text-md-end text-center pt-3 pt-md-0">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
@@ -198,9 +199,9 @@
             ajax: {
                 url: "{{ route('standard_criteria.data') }}",
                 data: function (d) {
-                    d.category = $('#Select_1').val(),
-                    d.status = $('#Select_2').val(),
-                        d.search = $('input[type="search"]').val()
+                    d.search = $('input[type="search"]').val(),
+                    d.select2 = $('#select2').val(),
+                    d.select_category = $('#select_category').val()
                 },
             },
             columns: [{
@@ -243,7 +244,10 @@
                 }
             ]
         });
-        $('#Select_2').change(function () {
+        $('#select_category').change(function () {
+            table.draw();
+        });
+        $('#select2').change(function () {
             table.draw();
         });
     });
