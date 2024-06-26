@@ -10,6 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Location;
 use App\Models\StandardCategory;
+use App\Models\StandardCriteria;
 
 class AuditPlanController extends Controller{
     public function index(Request $request){
@@ -24,6 +25,20 @@ class AuditPlanController extends Controller{
         return view('audit_plan.index', compact('data', 'lecture'));
     }
 
+    public function getStandardCategoriesById(Request $request)
+    {
+        $category = StandardCategory::where('standard_category_id', $request->id)->get();
+        return response()->json($category);
+    }
+
+
+
+    public function getStandardCriteriasById(Request $request)
+    {
+        $criterias = StandardCriteria::where('standard_criterias_id', $request->id)->get();
+        return response()->json($criterias);
+    }
+
     public function add(Request $request) {
         if ($request->isMethod('POST')) {
             $this->validate($request, [
@@ -32,7 +47,7 @@ class AuditPlanController extends Controller{
             'date_end'              => ['required'],
             'location_id'           => ['required'],
             'auditor_id'            => ['required'],
-            'standard_categories_id'=> ['string'],
+            'standard_criterias_id'=> ['string'],
             'link'                  => [''],
         ]);
         $data = AuditPlan::create([
@@ -47,6 +62,7 @@ class AuditPlanController extends Controller{
             'link'                      => $request->link,
             'remark'                    => $request->remark,
             'standard_categories_id'    => $request->standard_categories_id,
+            'standard_criterias_id'    => $request->standard_criterias_id,
         ]);
         if($data){
             return redirect()->route('audit_plan.index')->with('msg','Data ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
@@ -57,6 +73,7 @@ class AuditPlanController extends Controller{
         $departments = Department::orderBy('name')->get();
         $auditStatus = AuditStatus::get();
         $category = StandardCategory::orderBy('description')->get();
+        $criterias = StandardCriteria::orderBy('title')->get();
         $lecture = User::with(['roles' => function ($query) {
             $query->select( 'id','name' );
         }])
@@ -73,7 +90,7 @@ class AuditPlanController extends Controller{
         ->orderBy('name')->get();
         // dd($users);
         $data = AuditPlan::all();
-        return view("audit_plan.add", compact("data", "category", "lecture", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
+        return view("audit_plan.add", compact("data", "category", "criterias", "lecture", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
     }
 
     public function edit(Request $request, $id){

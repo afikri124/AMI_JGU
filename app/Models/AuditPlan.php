@@ -24,7 +24,8 @@ class AuditPlan extends Model
         'doc_path',
         'link',
         'remark',
-        'standard_categories_id'
+        'standard_categories_id',
+        'standard_criterias_id'
         ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -59,5 +60,10 @@ class AuditPlan extends Model
     public function category()
     {
         return $this->belongsTo(StandardCategory::class, 'description', 'audit_status_id');
+    }
+
+    public function criterias()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
 }

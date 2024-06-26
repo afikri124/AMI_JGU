@@ -27,21 +27,21 @@
                         </div>
                     </div>
                 </div>
-        <div class="col-md-3">
-            <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
-                <option value="">Select Lecture</option>
-                @foreach($lecture as $d)
-                    <option value="{{ $d->id }}">{{ $d->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="container">
-            <table class="table" id="datatable">
-                <div class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                        href="{{ route('audit_plan.add')}}">
-                        <i data-feather="plus"></i>+ Add
-                    </a>
+                <div class="col-md-3">
+                    <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
+                        <option value="">Select Lecture</option>
+                        @foreach($lecture as $d)
+                        <option value="{{ $d->id }}">{{ $d->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="container">
+                    <table class="table" id="datatable">
+                        <div class="col-md d-flex justify-content-center justify-content-md-end">
+                            <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                                href="{{ route('audit_plan.add')}}">
+                                <i data-feather="plus"></i>+ Add
+                            </a>
                 </div>
     <div class="container">
         <thead>

@@ -40,7 +40,7 @@ class StandardCategoryController extends Controller
 
     public function category_edit($id){
         $data = StandardCategory::findOrFail($id);
-        $status = AuditStatus::get();
+        $status = AuditStatus::whereIn('id', [10, 11])->get(); 
         //dd($data);
         return view('standard_category.category_edit', compact('data', 'status'));
     }
@@ -50,11 +50,12 @@ class StandardCategoryController extends Controller
         $request->validate([
             'description'    => 'string', 'max:191',
             'is_required' => 'boolean',
+            'audit_status_id' => 'string'
         ]);
 
         $data = StandardCategory::findOrFail($id);
         $data->update([
-            'audit_status_id'=> '11',
+            'audit_status_id'=> $request->audit_status_id,
             'description'=> $request->description,
             'is_required'=> $is_required,
         ]);
@@ -81,7 +82,7 @@ class StandardCategoryController extends Controller
         $data = StandardCategory::
         with(['status' => function ($query) {
             $query->select('id','title','color');
-        }])->select('*')->orderBy("id");
+        }])->select('*')->orderBy("id")->get();
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('Select_2'))) {

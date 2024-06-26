@@ -65,10 +65,11 @@
                     <div class="col-12">
                         <div class="row">
                             <div class=" col-md-3">
-                                <select id="select_gender" class="select2 form-select" data-placeholder="Gender">
-                                    <option value="">Gender</option>
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
+                                <select id="Select_2" class="form-control input-sm select2" data-placeholder="Date Start">
+                                    <option value="">Indicator</option>
+                                    @foreach($indicator as $d)
+                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
         <table class="table table-hover table-sm" id="datatable" width="100%">
