@@ -1,1 +1,1 @@
-<img src="{{asset('assets/img/CIS.png')}}" height="44px" style="height: 44px">
+<img src="{{asset('assets-landing/img/ami-jgu.png')}}" height="80px" style="height: 80px">
