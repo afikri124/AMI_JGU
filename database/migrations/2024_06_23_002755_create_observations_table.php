@@ -36,7 +36,7 @@ return new class extends Migration
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
             $table->string('total_student')->nullable();
-            $table->string('remark')->nullable();
+            $table->string('remark_ass')->nullable();
             $table->string('title_ass')->nullable();
             $table->timestamps();
         });

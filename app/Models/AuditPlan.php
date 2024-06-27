@@ -25,7 +25,7 @@ class AuditPlan extends Model
         'auditor_id',
         'doc_path',
         'link',
-        'remark',
+        'remark_docs',
         'standard_categories_id',
         'standard_criterias_id'
         ];

@@ -65,12 +65,12 @@
                     <div class="col-12">
                         <div class="row">
                             
-                <!-- {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
                     <a class="btn btn-primary btn-block btn-mail" title="Add new"
                         href="">
                         <i data-feather="plus"></i>+ Add
                     </a>
-                </div> --}} -->
+                </div> 
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>

@@ -37,30 +37,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label class="col-form-label">Email<i class="text-danger">*</i></label>
-                                <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email"
-                                    name="email" value="{{ old('email') }}">
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">No Telepon<i class="text-danger">*</i></label>
-                            <input class="form-control @error('no_phone') is-invalid @enderror" id="no_phone"
-                                name="no_phone" type="text" placeholder="Input No Telepon">
-                            @error('no_phone')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label class="form-label" for="basicDate"><b>Date Start</b></label>
@@ -123,6 +99,31 @@
                             </div>
                         </div>
                         <p></p>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label class="form-label"><b>Email</b><i class="text-danger">*</i></label>
+                                <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email"
+                                    name="email" value="{{ old('email') }}">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label"><b>No Telepon</b><i class="text-danger">*</i></label>
+                            <input class="form-control @error('no_phone') is-invalid @enderror" id="no_phone"
+                                name="no_phone" type="text" placeholder="Input No Telepon">
+                            @error('no_phone')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>

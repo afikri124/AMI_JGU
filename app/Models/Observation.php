@@ -22,7 +22,7 @@ class Observation extends Model
         'standard_categories_id',
         'indicator_id',
         'sub_indicator_id',
-        'remark',
+        'remark_ass',
         'doc_path',
         'total_students',
         'link',

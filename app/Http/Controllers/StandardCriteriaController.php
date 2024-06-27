@@ -39,8 +39,12 @@ class StandardCriteriaController extends Controller
     public function data(Request $request)
     {
         $data = StandardCriteria::
-        with(['category' => function ($query) {
+        with([
+        'category' => function ($query) {
             $query->select('id','title','description');
+        },
+        'indicator' => function ($query) {
+            $query->select('id','name');
         }])->
         select('*')->orderBy("id");
         return DataTables::of($data)
@@ -165,17 +169,17 @@ class StandardCriteriaController extends Controller
         }
     }
 
-public function data_indicator($id)
-{
-    $data = Indicator::where('standard_criterias_id', $id)->get();
-    return DataTables::of($data)
-        ->addColumn('action', function ($row) {
-            return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a>
-                    <a class="text-primary" title="Delete" onclick="DeleteId('.$row->id.')"><i class="bx bx-trash"></i></a>';
-        })
-        ->rawColumns(['action'])
-        ->make(true);
-    }
+    public function data_indicator($id)
+    {
+        $data = Indicator::where('standard_criterias_id', $id)->get();
+        return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a>
+                        <a class="text-primary" title="Delete" onclick="DeleteId('.$row->id.')"><i class="bx bx-trash"></i></a>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
 
     //sub indicator
     public function sub_indicator()

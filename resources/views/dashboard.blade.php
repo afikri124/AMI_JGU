@@ -74,7 +74,7 @@ h3{
 <div class="app-calendar-wrapper">
     <div class="row">
         <div class="col-xl-6 col-lg-12 xl-50 morning-sec box-col-12">
-            <div class="card profile-greeting bg-card">
+            <div class="card profile-greeting bg-black">
                 <div class="card-body pb-0">
                     <div class="media">
                         <div class="media-body">
@@ -84,10 +84,9 @@ h3{
                                     <h4><span id="txt"></span></h4>
                                 </div>
                                 <h3>{{ Auth::user()->name }}</h3>
-                                <i class="emaill">{{ Auth::user()->email }}</i>
+                                <i class="email text-danger">{{ Auth::user()->email }}</i>
                             </div>
                         </div>
-                     
                     </div>
                     <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/img/bg.jpg')}}"
                             style="max-width: 90%;" alt="">
@@ -95,15 +94,7 @@ h3{
                 </div>
             </div>
         </div>
-        <div class="col-xl-6 col-lg-12 xl-60 calendar-sec box-col-6">
-            <div class="card gradient-primary o-hidden">
-                <div class="card-body">
-                    <div class="default-datepicker">
-                        <div class="datepicker-here" data-language="en"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 
