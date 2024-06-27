@@ -39,7 +39,7 @@
                     <div class="row">
                     <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label class="col-form-label">Email<i class="text-danger">*</i></label>
+                                <label class="form-label"><b>Email</b><i class="text-danger">*</i></label>
                                 <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email"
                                     name="email" value="{{ old('email') }}">
                                 @error('email')
@@ -49,9 +49,9 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label class="form-label">No Telepon<i class="text-danger">*</i></label>
+                            <label class="form-label"><b>No Telepon</b><i class="text-danger">*</i></label>
                             <input class="form-control @error('no_phone') is-invalid @enderror" id="no_phone"
                                 name="no_phone" type="text" placeholder="Input No Telepon">
                             @error('no_phone')
@@ -61,9 +61,10 @@
                             @enderror
                         </div>
                     </div>
+                    <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label class="form-label" for="basicDate"><b>Date Start</b></label>
+                            <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
                                     placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_start') }}">
@@ -76,7 +77,7 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label class="form-label" for="basicDate"><b>Date End</b></label>
+                            <label class="form-label" for="basicDate"><b>Date End</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
                                     placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_end') }}">
@@ -90,7 +91,7 @@
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label for="lecture_id" class="form-label"><b>Lecture</b></label>
+                            <label for="lecture_id" class="form-label"><b>Lecture</b><i class="text-danger">*</i></label>
                             <select name="lecture_id" id="lecture_id" class="form-select" required>
                                 <option value="">Select Lecture</option>
                                 @foreach($lecture as $role)
@@ -107,7 +108,7 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label for="auditor_id" class="form-label"><b>Auditor</b></label>
+                            <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
                             <select name="auditor_id" id="auditor_id" class="form-select" required>
                                 <option value="">Select Auditor</option>
                                 @foreach($auditor as $role)
@@ -125,7 +126,7 @@
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label for="location_id" class="form-label"><b>Location</b></label>
+                            <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
                             <select name="location_id" id="location_id" class="form-select" required>
                             <option value="">Select Location</option>
                             @foreach($locations as $d)
@@ -138,7 +139,7 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label for="department_id" class="form-label"><b>Department</b></label>
+                            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
                             <select name="department_id" id="department_id" class="form-select" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
@@ -152,7 +153,7 @@
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="standard_categories_id" class="form-label"><b>Category</b></label>
+                                <label for="standard_categories_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
                                 <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
                                     <option value="">Select Category</option>
                                     @foreach($category as $c)
@@ -165,7 +166,7 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="standard_criterias_id" class="form-label"><b>Criterias</b></label>
+                                <label for="standard_criterias_id" class="form-label"><b>Criterias</b><i class="text-danger">*</i></label>
                                 <select name="standard_criterias_id" id="standard_criterias_id" class="form-select" required>
                                     <option value="">Select Criterias</option>
                                     @foreach($criterias as $c)
@@ -177,8 +178,9 @@
                             </div>
                         </div>
                         <p></p>
+                        <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="link" class="form-label"><b>Link Document</b></label>
+                            <label for="link" class="form-label"><b>Link Document</b><i class="text-danger">*</i></label>
                             <input type="text" class="form-control" id="link" name="link" placeholder="Input Link Document"></input>
                         </div>
                     </div>
