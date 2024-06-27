@@ -163,9 +163,7 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Show Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/sub_indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>
-                            <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-warning" title="Add Sub Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/add/sub_indicator/') }}/${row.id}"><i class='bx bxs-plus-square'></i></a>`;
+                            `<a class="text-warning" title="Show Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/sub_indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>`;
                         return html;
                     },
                     orderable: false,

@@ -65,7 +65,7 @@ class AuditPlanController extends Controller{
             'auditor_id'                => $request->auditor_id,
             'doc_path'                  => $request->doc_path,
             'link'                      => $request->link,
-            'remark'                    => $request->remark,
+            'remark_docs'                    => $request->remark_docs,
             'standard_categories_id'    => $request->standard_categories_id,
             'standard_criterias_id'    => $request->standard_criterias_id,
         ]);

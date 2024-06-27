@@ -152,9 +152,10 @@
                     render: function (data, type, row, meta) {
                         var x = "";
                         if (row.doc_path != null) {
-                            x =
-                                '<span><img class="chat-user-img img-30" src="' + "{{ asset('') }}" +
-                                row.doc_path + '"></span>';
+                            x += `<a class="text-success" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file-blank"></i></a> `;
+                        }
+                        if (row.link != null) {
+                            x += `<a class="text-success" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-link"></i></a>`;
                         }
                         return x;
                     },

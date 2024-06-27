@@ -106,10 +106,10 @@
                         @method('PUT')
                 <div class="card-body row g-3">
                     <p>
-                        @if ($data->first())
-                            <iframe src={{asset($data->first()->doc_path)}} style="height: 350px; width: 100%; border: none;"
+                        @if ($data)
+                            <iframe src={{asset($data->doc_path)}} style="height: 350px; width: 100%; border: none;"
                                 onerror="this.onerror=null; this.outerHTML='Cannot load PDF.';"></iframe><br>
-                            <a class="btn btn-primary" href={{asset($data->first()->doc_path)   }} target="_blank">
+                            <a class="btn btn-primary" href={{$data->doc_path}} target="_blank">
                                 <i class="bx bx-import align-middle me-2" style="cursor:pointer"></i>
                                 <span>Download</span>
                             </a>
@@ -124,9 +124,9 @@
                     <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Remark Document Review</label></label>
                             <div class="input-group input-group-merge has-validation">
-                                <textarea type="text" class="form-control @error('remark') is-invalid @enderror" name="remark"
-                                value="{{ old('remark') }}"> </textarea>
-                                @error('remark')
+                                <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror" name="remark_docs"
+                                value="{{ old('remark_docs') }}"> </textarea>
+                                @error('remark_docs')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

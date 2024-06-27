@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Add Data Audit')
+@section('title', 'Observations')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -200,20 +200,6 @@
           <h6 class="mb-0">Personal Info</h6>
           <small>Enter Your Personal Info.</small>
         </div>
-        <div class="row g-3">
-          <div class="form-group">
-              <label for="standard_categories_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
-                  <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
-                      <option value="">Select Category</option>
-                      @foreach($category as $c)
-                          <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
-                              {{ $c->description }}
-                          </option>
-                      @endforeach
-                  </select>
-              </div>
-          </div>
-          <p></p>
           <div class="form-group">
             <label class="form-label">Upload Images<i class="text-danger">*</i></label>
               <div class="input-group mb-3">
@@ -226,7 +212,6 @@
                     @enderror
                   </div>
                 </div>
-                <p></p>
                 <div class="form-group">
                     <label class="form-label">Link<i class="text-danger">*</i></label>
                     <div class="input-group mb-3">
@@ -305,14 +290,13 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <label for="comment">Komentar:</label>
+                  <label for="remark_docs">Komentar:</label>
                   <textarea
-                    id="comment"
-                    name="comment"
+                    id="remark_docs"
+                    name="remark_docs"
                     class="comment"
                     maxlength="100"
-                    placeholder="MAX 100 karakter..."
-                  ></textarea>
+                    placeholder="MAX 100 karakter..."></textarea>
                 </td>
               </tr>
             </table>

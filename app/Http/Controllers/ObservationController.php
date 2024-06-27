@@ -39,7 +39,7 @@ class ObservationController extends Controller
                 'location_id' => ['required'],
                 'department_id' => ['required'],
                 'standard_categories_id' => ['required'],
-                'remark' => ['required'],
+                'remark_ass' => ['required'],
                 'doc_path' => ['required'],
                 'link' => ['required'],
                 'class_type' => ['required'],
@@ -55,7 +55,7 @@ class ObservationController extends Controller
                 'audit_status_id' => '4',
                 'standard_categories_id' => $request->standard_categories_id,
                 'standard_criterias_id' => $request->standard_criterias_id,
-                'remark' => $request->remark,
+                'remark_ass' => $request->remark_ass,
                 'doc_path' => $request->doc_path,
                 'link' => $request->link,
                 'class_type' => $request->class_type,
@@ -101,14 +101,15 @@ class ObservationController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'remark'    => '',
+            'remark_ass'    => '',
         ]);
 
         $data = AuditPlan::findOrFail($id);
         $data->update([
-            'remark' => $request->remark,
+            'remark_ass' => $request->remark_ass,
             'audit_status_id' => '3',
         ]);
+        //PR kirim email/wa ke auditee
         return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
     }
 

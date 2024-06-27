@@ -32,7 +32,7 @@ class MyAuditController extends Controller{
 
 public function update(Request $request, $id){
     $request->validate([
-        'doc_path' => 'mimes:pdf|max:10000',
+        'doc_path' => 'mimes:pdf|max:10000', //tambah required_without:link
     ]);
     $fileName = "";
     if ($request->hasFile('doc_path')) {

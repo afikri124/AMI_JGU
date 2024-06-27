@@ -64,20 +64,11 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                         <div class="row">
-                            <div class=" col-md-3">
-                                <select id="Select_2" class="form-control input-sm select2" data-placeholder="Date Start">
-                                    <option value="">Indicator</option>
-                                    @foreach($indicator as $d)
-                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
                     <th width="40px">Indicator</th>
                     <th width="">Sub Indicator</th>
-                    <th width="40px">Action</th>
                 </tr>
             </thead>
         </table>
@@ -152,17 +143,6 @@
                         return data;
                     }
                 },
-                {
-                    data: 'id',
-                    render: function(data, type, row, meta) {
-                        var html = `
-                            <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${data}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId('${data}', '${row.title}')"><i class="bx bx-trash"></i></a>`;
-                        return html;
-                    },
-                    orderable: false,
-                    className: "text-end"
-                }
             ],
             createdRow: function(row, data, dataIndex) {
                 // Use this function to interpret HTML tags in your WYSIWYG content

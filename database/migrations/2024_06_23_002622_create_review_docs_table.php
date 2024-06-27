@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('review_docs', function (Blueprint $table) {
-            $table->id('id');
+            $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('remark_docs');
             $table->uuid('standard_criterias_id')->nullable();
             $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('indicator_id')->nullable();
