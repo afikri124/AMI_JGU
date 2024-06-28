@@ -64,13 +64,21 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                         <div class="row">
-                            
-                <!-- {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                        href="">
-                        <i data-feather="plus"></i>+ Add
-                    </a>
-                </div> --}} -->
+                        <div class="col-md-3">
+                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Indicator">
+                                <option value="">Select Category</option>
+                                @foreach($indicator as $d)
+                                <option value="{{ $d->id }}">{{$d->id}} - {{ $d->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md d-flex justify-content-center justify-content-md-end">
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Sub Indicator"
+                                href="{{ route('standard_criteria.sub_indicator.create')}}">
+                                <i data-feather="plus"></i>+ Add
+                            </a>
+                        </div>
+
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>

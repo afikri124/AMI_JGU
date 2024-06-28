@@ -73,14 +73,14 @@
                             </select>
                         </div>
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Indicator"
                                 href="{{ route('standard_criteria.indicator.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
                         </div>
-<!-- href="{{ url('setting/manage_standard/criteria/add/indicator/') }} -->
-                        
+
+
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>

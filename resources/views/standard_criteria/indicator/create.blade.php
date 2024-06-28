@@ -24,19 +24,24 @@
             <hr class="my-0">
             <div class="card-header">Indicator</div>
             <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('store.indicator') }}" enctype="multipart/form-data">
+                <form id="form-add-new-record" method="POST" action="{{ route('create.indicator') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
                         <label for="standard-criteria_id" class="form-label">Select Criteria</label>
                         <div class="form-group">
-                               
+
                                 <select name="standard_criterias_id" id="standard_criterias_id" class="form-select" required>
                                     <option value="">Select Criterias</option>
-                                    
+                                    @foreach($criterias as $c)
+                                        <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
+                                            {{ $c->title }}
+                                        </option>
+                                        @endforeach
+
                                 </select>
                             </div>
                     </div>
-                
+
 
                     <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>

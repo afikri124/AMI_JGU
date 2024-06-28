@@ -112,8 +112,10 @@ class StandardCriteriaController extends Controller
 
     // Retrieve all Standard Criteria for the dropdown
     $allCriteria = StandardCriteria::all();
+    $criterias = StandardCriteria::orderBy('title')->get();
 
-    return view('standard_criteria.indicator.create', compact('allCriteria'));
+
+    return view('standard_criteria.indicator.create', compact('allCriteria','criterias'));
 }
 
     public function show($id){
@@ -221,7 +223,7 @@ class StandardCriteriaController extends Controller
         if (!$criteria) {
             return redirect()->back()->with('error', 'Standard Criteria not found.');
         }
-    
+
         return view('standard_criteria.sub_indicator.show', compact('criteria', 'indicator'));
     }
 
