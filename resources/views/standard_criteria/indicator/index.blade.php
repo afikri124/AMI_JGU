@@ -63,14 +63,24 @@
             <div class="row">
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
-                        <div class="row">
-                            
-                <div class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                        href="">
-                        <i data-feather="plus"></i>+ Add
-                    </a>
-                </div> 
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Categories">
+                                <option value="">Select Category</option>
+                                @foreach($category as $d)
+                                <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md d-flex justify-content-center justify-content-md-end">
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
+                                href="{{ route('standard_criteria.indicator.create')}}">
+                                <i data-feather="plus"></i>+ Add
+                            </a>
+                        </div>
+                        </div>
+<!-- href="{{ url('setting/manage_standard/criteria/add/indicator/') }} -->
+                        
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>

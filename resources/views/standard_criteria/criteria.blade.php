@@ -75,7 +75,7 @@
                             <div class="offset-md col-md text-md-end text-center pt-3 pt-md-0">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
-                                    aria-controls="DataTables_Table_0" type="button"><span><i
+                                    aria-controls="DataTables_Table_0" title="Add Standard Criteria" type="button"><span><i
                                             class="bx bx-plus me-sm-2"></i>
                                         <span>Add</span></span>
                                 </button>

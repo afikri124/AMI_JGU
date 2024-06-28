@@ -38,11 +38,11 @@
                 <div class="container">
                     <table class="table" id="datatable">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add new"
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
                                 href="{{ route('audit_plan.add')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
-                </div>
+                        </div>
     <div class="container">
         <thead>
             <tr>

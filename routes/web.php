@@ -110,8 +110,8 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
 
         //route criteria
         Route::group(['prefix' => 'criteria'], function () {
-            Route::any('/', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
-            Route::get('/add/indicator/{id}', [StandardCriteriaController::class, 'create'])->name('add.indicator');
+            Route::any('/create', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
+            Route::get('/', [StandardCriteriaController::class, 'create'])->name('standard_criteria.indicator.create');
             Route::get('/show/indicator/{id}', [StandardCriteriaController::class, 'show'])->name('show.indicator');
             Route::get('/edit/indicator/{id}', [StandardCriteriaController::class, 'edit'])->name('edit.indicator');
             Route::put('/update/indicator/{id}', [StandardCriteriaController::class, 'update'])->name('update.indicator');

@@ -81,42 +81,40 @@ class StandardCriteriaController extends Controller
         return view('standard_criteria.indicator.index', compact('data', 'category', 'indicator'));
     }
 
-    public function create($id)
+    public function create(Request $request)
     {
+    if ($request->isMethod('POST')) {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'standard_criterias_id' => ['required', 'uuid'],
+            'numForms' => ['required', 'integer', 'min:1'],
+            'indicators' => ['required', 'array', 'min:1'],
+            'indicators.*.name' => ['required', 'string'],
+        ]);
+
         // Retrieve the specific Standard Criteria by ID
-        $criteria = StandardCriteria::find($id);
+        $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
 
         if (!$criteria) {
             return redirect()->back()->with('error', 'Standard Criteria not found.');
         }
 
-        // Retrieve all Standard Criteria for the dropdown
-        $allCriteria = StandardCriteria::all();
-
-        return view('standard_criteria.indicator.create', compact('criteria', 'allCriteria'));
-    }
-
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'standard_criterias_id' => 'required|uuid|exists:standard_criterias,id',
-            'numForms' => 'required|integer|min:1',
-            'indicators' => 'required|array|min:1',
-            'indicators.*.name' => 'required|string',
-        ]);
-
-        $standard_criterias_id = $request->standard_criterias_id;
-
-        foreach ($request->indicators as $indicatorData) {
+        // Create the indicators
+        foreach ($validatedData['indicators'] as $indicatorData) {
             Indicator::create([
                 'name' => $indicatorData['name'],
-                'standard_criterias_id' => $standard_criterias_id,
+                'standard_criterias_id' => $validatedData['standard_criterias_id'],
             ]);
         }
 
-
         return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicators added successfully.');
     }
+
+    // Retrieve all Standard Criteria for the dropdown
+    $allCriteria = StandardCriteria::all();
+
+    return view('standard_criteria.indicator.create', compact('allCriteria'));
+}
 
     public function show($id){
     $criteria = StandardCriteria::find($id);
