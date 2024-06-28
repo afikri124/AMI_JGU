@@ -9,7 +9,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets-landing/img/mi_logo.pict.png" rel="icon">
+  <link href="assets/img/favicon.ico" rel="icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -55,7 +55,7 @@
             <li><a href="#about"><b>ABOUT</b></a></li>
             <li><a href="#visi&misi"><b>VISI & MISI</b></a></li>
             <li><a href="#contact"><b>CONTACT</b></a></li>
-            <li><a href="login"><button type="button" class="btn btn-danger">Get Started </button></a></li>
+            <li><a href="login"><button type="button" class="btn btn-danger">Login </button></a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

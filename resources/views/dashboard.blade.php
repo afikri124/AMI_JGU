@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/date-picker.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
 <style>
-    
+
     .default-datepicker .datepicker-inline .datepicker {
     width: auto;
     background: #fff;
@@ -42,7 +42,7 @@
 }
 
 h3{
-    color: #fff; 
+    color: #fff;
 }
 
 #greeting{
@@ -63,7 +63,7 @@ h3{
 
 .profile-greeting .card-body {
     padding: 40px 20px
-}   
+}
 
 
 </style>
@@ -87,6 +87,10 @@ h3{
                                 <i class="email text-danger">{{ Auth::user()->email }}</i>
                             </div>
                         </div>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 1f2f41a42dcfbca6e1c7b417d61e914bb0121d82
                     </div>
                     <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/img/bg.jpg')}}"
                             style="max-width: 90%;" alt="">
@@ -210,7 +214,7 @@ h3{
     } else {
         document.getElementById("greeting").innerHTML = 'Good Evening!';
     }
-    // time 
+    // time
     function startTime() {
         var today = new Date();
         var h = today.getHours();
