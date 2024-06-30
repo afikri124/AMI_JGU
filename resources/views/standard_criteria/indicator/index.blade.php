@@ -80,14 +80,14 @@
                         </div>
                         </div>
 
-
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="20px">Code Id</th>
-                    <th width="40px">Criteria</th>
-                    <th width="40px">Category</th>
-                    <th width="40px">Action</th>
+                    <th><b>No</b></th>
+                    <th><b>Indicator</b></th>
+                    <th><b>Criteria</b></th>
+                    <th><b>Category</b></th>
+                    <th><b>Action</b></th>
                 </tr>
             </thead>
         </table>
@@ -142,7 +142,7 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.data') }}",
+                url: "{{ route('standard_criteria.indicator.data_indicator')}}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.Select_criteria = $('#Select_criteria').val()
@@ -153,12 +153,17 @@
                         var no = (meta.row + meta.settings._iDisplayStart + 1);
                         return no;
                     },
-                    orderable: false,
-                    className: "text-center"
+
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.title;
+                        var x = row.name;
+                        return x;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var x = row.criteria.title;
                         return x;
                     },
                 },
@@ -168,6 +173,7 @@
                             `" href="">` + row.category.id + `</a>`;
                         return html;
                     },
+                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {

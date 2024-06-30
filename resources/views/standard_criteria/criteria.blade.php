@@ -126,7 +126,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 mt-4">
-                            <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
+                            <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
                             <button type="reset" class="btn btn-outline-secondary"
                                 data-bs-dismiss="offcanvas">Cancel</button>
                         </div>
@@ -138,7 +138,7 @@
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="20px">Code Id</th>
+                    <th width="20px">No</th>
                     <th width="40px">Criteria</th>
                     <th width="40px">Title</th>
                     <th width="40px">Category</th>
@@ -209,7 +209,7 @@
                         var no = (meta.row + meta.settings._iDisplayStart + 1);
                         return no;
                     },
-                    className: "text-center"
+
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -229,13 +229,13 @@
                             `" href="">` + row.category.id + `</a>`;
                         return html;
                     },
+                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Add Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/add/indicator/') }}/${row.id}"><i class='bx bx-list-plus'></i></a>
-
+                            `<a class="text-warning" title="Edit Criteria" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/create') }}/${row.id}"><i class='bx bx-pencil'></i></a>
                             <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash"></i></a>`;
                         return html;
                     },

@@ -23,7 +23,7 @@ class Indicator extends Model
 
     public function criteria()
     {
-        return $this->hasMany(StandardCriteria::class, 'id');
+        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
 
 

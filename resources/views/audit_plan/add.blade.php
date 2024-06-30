@@ -63,8 +63,7 @@
                         </div>
                     </div>
                     <p></p>
-=======
->>>>>>> 1f2f41a42dcfbca6e1c7b417d61e914bb0121d82
+
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
@@ -129,9 +128,9 @@
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-<<<<<<< HEAD
+
                             <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-=======
+
                                 <label class="form-label"><b>Email</b><i class="text-danger">*</i></label>
                                 <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email"
                                     name="email" value="{{ old('email') }}">
@@ -158,7 +157,6 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
->>>>>>> 1f2f41a42dcfbca6e1c7b417d61e914bb0121d82
                             <select name="location_id" id="location_id" class="form-select" required>
                             <option value="">Select Location</option>
                             @foreach($locations as $d)

@@ -23,7 +23,7 @@
             <!-- Account -->
             <hr class="my-0">
             <div class="card-body">
-                <form action="{{ route('update.indicator', $criteria->id) }}" method="POST">
+                <form action="" method="POST">
                     <div class="row">
                         @csrf
                         @method('PUT')

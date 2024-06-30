@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Add Indicator')
+@section('title', 'Create Indicator')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -37,11 +37,9 @@
                                             {{ $c->title }}
                                         </option>
                                         @endforeach
-
                                 </select>
                             </div>
                     </div>
-
 
                     <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>
@@ -51,7 +49,10 @@
                     <div id="dynamic-form-container"></div>
 
                     <div class="col-sm-12 mt-4">
-                        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
+                        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
+                        <a href="{{ url()->previous() }}">
+                        <span class="btn btn-outline-secondary">Back</span>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -81,10 +82,8 @@
                 <div class="row mb-3">
                         <div class="form-group">
                             <label for="inputField${i + 1}_1">Indikator</label>
-                            <input type="text-danger" class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]">
-                        </div>
-                    </div>
-                </div>
+                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]">
+
             `;
             container.insertAdjacentHTML('beforeend', row);
         }

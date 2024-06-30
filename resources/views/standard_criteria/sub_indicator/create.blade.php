@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Add Sub Indicator')
+@section('title', 'Create Sub Indicator')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -27,12 +27,12 @@
             <div class="card-body">
                 <form id="form-add-new-record" method="POST" action="{{ route('store_sub.sub_indicator') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group">
+                    <div class="form-group col-md-4">
                         <label for="indicator_id" class="form-label">Select Indicator</label>
                         <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
                                 name="indicator_id" id="indicator_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Indicator</option>
-                            @foreach($indicator as $c)
+                            @foreach($indicators as $c)
                                 <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
                                     {{ $c->name }}
                                 </option>
@@ -46,7 +46,7 @@
                     </div>
                 
 
-                    <div class="form-group">
+                    <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>
                         <input type="number" class="form-control" id="numForms" name="numForms" min="1">
                     </div>
@@ -54,7 +54,10 @@
                     <div id="dynamic-form-container"></div>
 
                     <div class="col-sm-12 mt-4">
-                        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
+                        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
+                        <a href="{{ url()->previous() }}">
+                        <span class="btn btn-outline-secondary">Back</span>
+                        </a>
                     </div>
                 </form>
             </div>

@@ -17,6 +17,7 @@ class StandardCriteria extends Model
     protected $fillable = [
         'standard_categories_id',
         'title',
+        'name',
         'audit_status_id'
     ];
 
@@ -39,9 +40,8 @@ class StandardCriteria extends Model
 
     public function indicator()
     {
-        return $this->belongsTo(Indicator::class, 'indicator_id');
+        return $this->hasMany(Indicator::class, 'standard_criterias_id');
     }
-
 
     public function getKeyType()
     {
