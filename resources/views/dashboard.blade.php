@@ -4,7 +4,6 @@
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/date-picker.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
 <style>
 

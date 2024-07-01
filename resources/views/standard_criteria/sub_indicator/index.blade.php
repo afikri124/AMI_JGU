@@ -82,8 +82,8 @@
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="20px">Code Id</th>
-                    <th width="40px">Criteria</th>
+                    <th width="20px">No</th>
+                    <th width="40px">Sub Indicator</th>
                     <th width="40px">Indicator</th>
                     <th width="40px">Action</th>
                 </tr>
@@ -140,7 +140,7 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.data') }}",
+                url: "{{ route('standard_criteria.data_sub') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.Select_criteria = $('#Select_criteria').val()
@@ -152,19 +152,18 @@
                         return no;
                     },
                     orderable: false,
-                    className: "text-center"
+
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.title;
+                        var x = row.name;
                         return x;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.category.id +
-                            `" href="">` + row.category.id + `</a>`;
-                        return html;
+                        var x = row.indicator.name;
+                        return x;
                     },
                 },
                 {

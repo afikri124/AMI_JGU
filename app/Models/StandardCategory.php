@@ -33,6 +33,7 @@ class StandardCategory extends Model
     {
         return $this->hasMany(Observation::class, 'id');
     }
+    
     public function status()
     {
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');

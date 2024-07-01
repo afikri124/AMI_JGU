@@ -29,7 +29,7 @@ class SubIndicator extends Model
 
     public function indicator()
     {
-        return $this->belongsTo(Indicator::class, 'indicator_id','name');
+        return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 
 }

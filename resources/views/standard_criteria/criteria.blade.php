@@ -140,7 +140,7 @@
                 <tr>
                     <th width="20px">No</th>
                     <th width="40px">Criteria</th>
-                    <th width="40px">Title</th>
+                    <th width="40px">Status</th>
                     <th width="40px">Category</th>
                     <th width="40px">Action</th>
                 </tr>
@@ -218,10 +218,11 @@
                     },
                 },
                 {
-                    render: function (data, type, row, meta) {
-                        var x = row.category.title;
-                        return x;
-                    },
+                    render: function(data, type, row, meta) {
+                        var html =
+                            `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
+                        return html;
+                    }
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -235,7 +236,7 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit Criteria" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/create') }}/${row.id}"><i class='bx bx-pencil'></i></a>
+                            `<a class="text-warning" title="Edit Criteria" style="cursor:pointer" <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/criteria_edit/') }}/${row.id}"><i class='bx bx-pencil'></i></a>
                             <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash"></i></a>`;
                         return html;
                     },

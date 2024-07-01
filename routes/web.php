@@ -111,32 +111,31 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
         //route criteria
         Route::group(['prefix' => 'criteria'], function () {
             Route::any('/create', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
-            Route::get('/edit_criteria', [StandardCriteriaController::class, 'edit_criteria'])->name('standard_criteria.criteria_edit');
+            Route::get('/criteria_edit/{id}', [StandardCriteriaController::class, 'criteria_edit'])->name('standard_criteria.criteria_edit');
+            Route::put('/criteria_update/{id}', [StandardCriteriaController::class, 'criteria_update'])->name('standard_criteria.criteria_update');
             Route::delete('/delete', [StandardCriteriaController::class, 'delete'])->name('standard_criteria.delete');
             
             // Route Indicator
             Route::get('/indicator', [StandardCriteriaController::class, 'indicator'])->name('standard_criteria.indicator');
             Route::get('/standard_criteria.indicator.create', [StandardCriteriaController::class, 'create'])->name('standard_criteria.indicator.create');
             Route::get('/data_indicator', [StandardCriteriaController::class, 'data_indicator'])->name('standard_criteria.indicator.data_indicator');
-
-            
             Route::get('/show/indicator/{id}', [StandardCriteriaController::class, 'show'])->name('show.indicator');
             Route::get('/edit/indicator/{id}', [StandardCriteriaController::class, 'edit'])->name('edit.indicator');
-            Route::put('/update/indicator/{id}', [StandardCriteriaController::class, 'update'])->name('update.indicator');
-
+            Route::put('/update_indicator/indicator/{id}', [StandardCriteriaController::class, 'update_indicator'])->name('update_indicator.indicator');
             Route::delete('/delete_indicator/indicator/{id}', [StandardCriteriaController::class, 'delete_indicator'])->name('delete_indicator.indicator');
 
-            Route::post('/add/indicator', [StandardCriteriaController::class, 'create'])->name('create.indicator');
-            Route::get('/data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');
+            //Route Sub Indicator
             Route::get('/sub_indicator', [StandardCriteriaController::class, 'sub_indicator'])->name('standard_criteria.sub_indicator');
-            Route::get('/data/indicator/{id}', [StandardCriteriaController::class, 'data_indicator'])->name('data.indicator');
-
             Route::get('/data_sub', [StandardCriteriaController::class, 'data_sub'])->name('standard_criteria.data_sub');
             Route::get('/show/sub_indicator/{id}', [StandardCriteriaController::class, 'show_sub'])->name('show.sub_indicator');
             Route::any('/create', [StandardCriteriaController::class, 'criteria'])->name('standard_criteria.criteria');
             Route::get('/standard_criteria.sub_indicator.create', [StandardCriteriaController::class, 'create_sub'])->name('standard_criteria.sub_indicator.create');
             Route::post('/add/sub_indicator', [StandardCriteriaController::class, 'store_sub'])->name('store_sub.sub_indicator');
 
+            // Route::post('/add/indicator', [StandardCriteriaController::class, 'create'])->name('create.indicator');
+            // Route::get('/data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');
+            // Route::get('/sub_indicator', [StandardCriteriaController::class, 'sub_indicator'])->name('standard_criteria.sub_indicator');
+            // Route::get('/data/indicator/{id}', [StandardCriteriaController::class, 'data_indicator'])->name('data.indicator');
         });
     });
 });

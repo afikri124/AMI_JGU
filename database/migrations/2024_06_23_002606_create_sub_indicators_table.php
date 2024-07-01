@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sub_indicators', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
-            $table->uuid('standard_criterias_id')->nullable();
+            $table->unsignedBigInteger('standard_criterias_id')->nullable();
             $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('indicator_id')->nullable();
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');

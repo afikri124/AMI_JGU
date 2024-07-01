@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
             $table->string('standard_categories_id')->nullable();
             $table->foreign('standard_categories_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
-            $table->uuid('standard_criterias_id')->nullable();
+            $table->unsignedBigInteger('standard_criterias_id')->nullable();
             $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');

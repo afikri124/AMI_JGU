@@ -13,25 +13,23 @@ class StandardCriteria extends Model
     // Define $timestamps as true since you have timestamps in your table
     public $timestamps = true;
     public $incrementing = false;
-    protected $keyType = 'string';
     protected $fillable = [
         'standard_categories_id',
         'title',
-        'name',
         'audit_status_id'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        // Automatically generate a UUID for the 'id' field
-        static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
+    //     // Automatically generate a UUID for the 'id' field
+    //     static::creating(function ($model) {
+    //         if (empty($model->{$model->getKeyName()})) {
+    //             $model->{$model->getKeyName()} = (string) Str::uuid();
+    //         }
+    //     });
+    // }
 
     public function category()
     {
@@ -43,8 +41,12 @@ class StandardCriteria extends Model
         return $this->hasMany(Indicator::class, 'standard_criterias_id');
     }
 
-    public function getKeyType()
+    public function status()
     {
-        return 'string';
+        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
+    // public function getKeyType()
+    // {
+    //     return 'string';
+    // }
 }

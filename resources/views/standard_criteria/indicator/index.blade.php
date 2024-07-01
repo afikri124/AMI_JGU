@@ -65,10 +65,10 @@
                     <div class="col-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Categories">
-                                <option value="">Select Category</option>
-                                @foreach($category as $d)
-                                <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
+                            <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
+                                <option value="">Select criteria</option>
+                                @foreach($criteria as $d)
+                                <option value="{{ $d->id }}">{{ $d->title }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -85,8 +85,6 @@
                 <tr>
                     <th><b>No</b></th>
                     <th><b>Indicator</b></th>
-                    <th><b>Criteria</b></th>
-                    <th><b>Category</b></th>
                     <th><b>Action</b></th>
                 </tr>
             </thead>
@@ -160,20 +158,6 @@
                         var x = row.name;
                         return x;
                     },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.criteria.title;
-                        return x;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.category.id +
-                            `" href="">` + row.category.id + `</a>`;
-                        return html;
-                    },
-                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {

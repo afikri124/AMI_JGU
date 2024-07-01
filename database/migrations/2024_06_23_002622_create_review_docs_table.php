@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('remark_docs');
-            $table->uuid('standard_criterias_id')->nullable();
+            $table->unsignedBigInteger('standard_criterias_id')->nullable();
             $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('indicator_id')->nullable();
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');

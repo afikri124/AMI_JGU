@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditStatus;
 use App\Models\Indicator;
-use App\Models\Standard;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
@@ -24,6 +23,7 @@ class StandardCriteriaController extends Controller
             $data = StandardCriteria::create([
                 'standard_categories_id' => $request->standard_categories_id,
                 'title' => $request->title,
+                'audit_status_id' => '10',
             ]);
 
             if ($data) {
@@ -43,8 +43,8 @@ class StandardCriteriaController extends Controller
         'category' => function ($query) {
             $query->select('id','title','description');
         },
-        'indicator' => function ($query) {
-            $query->select('id','name');
+        'status' => function ($query) {
+            $query->select('id','title', 'color');
         }])->
         select('*')->orderBy("id");
         return DataTables::of($data)
@@ -58,44 +58,29 @@ class StandardCriteriaController extends Controller
     }
 
     // logic untuk edit
-    public function edit_criteria(Request $request, $id)
-{
+    public function criteria_edit($id){
     // Find the existing StandardCriteria by ID
-    $criteria = StandardCriteria::find($id);
-
-    // If criteria not found, return with error message
-    if (!$criteria) {
-        return redirect()->route('standard_criteria.criteria')->with('error', 'Data tidak ditemukan');
-    }
-
-    // If request method is POST, process the update
-    if ($request->isMethod('POST')) {
-        // Validate the incoming request
-        $this->validate($request, [
-            'standard_categories_id' => ['required'],
-            'title' => ['required', 'string'],
-        ]);
-
-        // Update the criteria with new data
-        $criteria->standard_categories_id = $request->standard_categories_id;
-        $criteria->title = $request->title;
-        $criteria->save();
-
-        // If update is successful, redirect with success message
-        if ($criteria) {
-            return redirect()->route('standard_criteria.criteria')->with('msg', 'Data (' . $request->title . ') berhasil di update');
-        }
-    }
-
-    // Fetch necessary data for the view
-    $category = StandardCategory::all();
-    $data = StandardCriteria::all();
-    $status = AuditStatus::get();
+    $data = StandardCriteria::findOrFail($id);
+    $status = AuditStatus::whereIn('id', [10, 11])->get(); 
+    //dd($data);
 
     // Return the edit view with the current criteria data
-    return view('standard_criteria.criteria_edit', compact('criteria', 'category', 'status'));
+    return view('standard_criteria.criteria_edit', compact('data', 'status'));
 }
 
+    public function criteria_update(Request $request, $id){
+        $request->validate([
+            'title'    => 'string', 'max:191',
+            'audit_status_id' => 'string'
+        ]);
+
+        $data = StandardCriteria::findOrFail($id);
+        $data->update([
+            'audit_status_id'=> $request->audit_status_id,
+            'title'=> $request->title,
+        ]);
+        return redirect()->route('standard_criteria.criteria')->with('msg', 'Standard Criteria berhasil diperbarui.');
+    }
 
     public function delete(Request $request){
         $data = StandardCriteria::find($request->id);
@@ -113,20 +98,17 @@ class StandardCriteriaController extends Controller
         }
     }
 
-    public function indicator()
-    {
-        $category = StandardCategory::orderBy('description')->get();
-        $data = StandardCriteria::all();
-        $indicator = Indicator::all();
-        return view('standard_criteria.indicator.index', compact('data', 'category', 'indicator'));
+    public function indicator(){
+        $criteria = StandardCriteria::all();
+        $data = Indicator::all();
+        return view('standard_criteria.indicator.index', compact('data', 'criteria'));
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request){
     if ($request->isMethod('POST')) {
         // Validate the request data
         $validatedData = $request->validate([
-            'standard_criterias_id' => ['required', 'uuid'],
+            'standard_criterias_id' => ['required'],
             'numForms' => ['required', 'integer', 'min:1'],
             'indicators' => ['required', 'array', 'min:1'],
             'indicators.*.name' => ['required', 'string'],
@@ -154,7 +136,6 @@ class StandardCriteriaController extends Controller
     $allCriteria = StandardCriteria::all();
     $criterias = StandardCriteria::orderBy('title')->get();
 
-
     return view('standard_criteria.indicator.create', compact('allCriteria','criterias'));
 }
 
@@ -169,25 +150,27 @@ class StandardCriteriaController extends Controller
     }
 
     public function edit($id){
-        $data = StandardCriteria::find($id);
+        $data = Indicator::find($id);
 
         // Fetch all criteria
         $criteria = StandardCriteria::all();
         return view('standard_criteria.indicator.edit', compact('data', 'criteria'));
     }
 
-    public function update(Request $request, $id){
+    public function update_indicator(Request $request, $id){
     // Validate the request
     $request->validate([
-        'indicator_id' => 'required',
+        'standard_criterias_id' => ['required', 'string'],
+        'name' => ['required','string','max:512'],
     ]);
 
     // Find the indicator data
-    $data = Indicator::find($id);
+    $data = Indicator::findOrFail($id);
 
-    // Update the indicator data
-    $data->indicator_id = $request->indicator_id;
-    $data->save();
+    $data->update([
+        'standard_criterias_id'=> $request->standard_criterias_id,
+        'name'=> $request->name,
+    ]);
 
     // Redirect back with a success message
     return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicator updated successfully.');
@@ -210,47 +193,32 @@ class StandardCriteriaController extends Controller
     }
 
     // function untuk menampilakan data indicator
-    public function data_indicator(Request $request)
-{
+    public function data_indicator(Request $request){
     $data = Indicator::with([
-        'standardCriteria' => function ($query) {
-            $query->select('id', 'title', 'description');
+        'criteria' => function ($query) {
+            $query->select('id', 'title');
         }
     ])->select('*')->orderBy("id");
 
     return DataTables::of($data)
         ->filter(function ($instance) use ($request) {
-            if (!empty($request->get('select_category'))) {
-                $instance->whereHas('standardCriteria', function ($q) use ($request) {
-                    $q->where('standard_categories_id', $request->get('select_category'));
+            if (!empty($request->get('select_criteria'))) {
+                $instance->whereHas('criteria', function ($q) use ($request) {
+                    $q->where('standard_criterias_id', $request->get('select_criteria'));
                 });
             }
         })->make(true);
 }
 
-    // public function data_indicator($id)
-    // {
-    //     $data = Indicator::where('standard_criterias_id', $id)->get();
-    //     return DataTables::of($data)
-    //         ->addColumn('action', function ($row) {
-    //             return '<a class="text-warning" title="Edit" href="'.url('indicator/edit/'.$row->id).'"><i class="bx bx-pencil"></i></a>
-    //                     <a class="text-primary" title="Delete" onclick="DeleteId('.$row->id.')"><i class="bx bx-trash"></i></a>';
-    //         })
-    //         ->rawColumns(['action'])
-    //         ->make(true);
-    //     }
-
     //sub indicator
-    public function sub_indicator()
-    {
-        $criteria = StandardCriteria::orderBy('title')->get();
+    public function sub_indicator(){
+        $data = SubIndicator::all();
         $indicator = Indicator::orderBy('name')->get();
-        return view('standard_criteria.sub_indicator.index', compact('criteria', 'indicator'));
+        return view('standard_criteria.sub_indicator.index', compact('data', 'indicator'));
     }
 
     // perubahan logic add sub_indicator    
-    public function create_sub(Request $request)
-{
+    public function create_sub(Request $request){
     if ($request->isMethod('POST')) {
         // Validate the request data
         $validatedData = $request->validate([
@@ -278,8 +246,7 @@ class StandardCriteriaController extends Controller
     return view('standard_criteria.sub_indicator.create', compact('allCriteria', 'criterias','indicators'));
 }
 
-public function store_sub(Request $request)
-{
+    public function store_sub(Request $request){
     $validatedData = $request->validate([
         'indicator_id' => 'required|exists:indicators,id',
         'numForms' => 'required|integer|min:1',
@@ -312,14 +279,10 @@ public function store_sub(Request $request)
         return view('standard_criteria.sub_indicator.show', compact('criteria', 'indicator'));
     }
 
-    public function data_sub(Request $request)
-    {
+    public function data_sub(Request $request){
         $data = SubIndicator::
         with(['indicator' => function ($query) {
             $query->select('id','name');
-        },
-        'criteria' => function ($query) {
-            $query->select('id','title');
         }])->
         select('*')->orderBy("id");
         return DataTables::of($data)
