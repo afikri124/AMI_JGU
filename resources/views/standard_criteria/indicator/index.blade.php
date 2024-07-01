@@ -64,7 +64,7 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
                                 <option value="">Select criteria</option>
                                 @foreach($criteria as $d)
@@ -83,7 +83,7 @@
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th><b>No</b></th>
+                    <th width="40px"><b>No</b></th>
                     <th><b>Indicator</b></th>
                     <th><b>Action</b></th>
                 </tr>
@@ -143,7 +143,7 @@
                 url: "{{ route('standard_criteria.indicator.data_indicator')}}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.Select_criteria = $('#Select_criteria').val()
+                    d.select_criteria = $('#select_criteria').val()
                 },
             },
             columns: [{
@@ -163,9 +163,10 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Show Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>
-                            <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-warning" title="Add Sub Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/add/sub_indicator/') }}/${row.id}"><i class='bx bxs-plus-square'></i></a>`;
+                            `<a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            <a class="text-primary" title="Add Sub Indicator" style="cursor:pointer"
+                            onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
+                            <i class='bx bxs-trash'></i></a>`;
                         return html;
                     },
                     orderable: false,
@@ -173,45 +174,45 @@
                 }
             ]
         });
-        $('#Select_criteria').change(function () {
+        $('#select_criteria').change(function () {
             table.draw();
         });
     });
 
-    // function DeleteId(id, data) {
-    //     swal({
-    //             title: "Apa kamu yakin?",
-    //             text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
-    //             icon: "warning",
-    //             buttons: true,
-    //             dangerMode: true,
-    //         })
-    //         .then((willDelete) => {
-    //             if (willDelete) {
-    //                 $.ajax({
-    //                     url: "",
-    //                     type: "DELETE",
-    //                     data: {
-    //                         "id": id,
-    //                         "_token": $("meta[name='csrf-token']").attr("content"),
-    //                     },
-    //                     success: function (data) {
-    //                         if (data['success']) {
-    //                             swal(data['message'], {
-    //                                 icon: "success",
-    //                             });
-    //                             $('#datatable').DataTable().ajax.reload();
-    //                         } else {
-    //                             swal(data['message'], {
-    //                                 icon: "error",
-    //                             });
-    //                         }
-    //                     }
-    //                 })
+    function DeleteId(id, data) {
+        swal({
+                title: "Apa kamu yakin?",
+                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('delete_indicator.indicator') }}",
+                        type: "DELETE",
+                        data: {
+                            "id": id,
+                            "_token": $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function (data) {
+                            if (data['success']) {
+                                swal(data['message'], {
+                                    icon: "success",
+                                });
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                swal(data['message'], {
+                                    icon: "error",
+                                });
+                            }
+                        }
+                    })
 
-    //             }
-    //         })
-    // }
+                }
+            })
+    }
 
 </script>
 @endsection

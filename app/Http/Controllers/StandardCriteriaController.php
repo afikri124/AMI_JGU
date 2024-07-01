@@ -61,7 +61,7 @@ class StandardCriteriaController extends Controller
     public function criteria_edit($id){
     // Find the existing StandardCriteria by ID
     $data = StandardCriteria::findOrFail($id);
-    $status = AuditStatus::whereIn('id', [10, 11])->get(); 
+    $status = AuditStatus::whereIn('id', [10, 11])->get();
     //dd($data);
 
     // Return the edit view with the current criteria data
@@ -98,6 +98,7 @@ class StandardCriteriaController extends Controller
         }
     }
 
+    //INDICATOR
     public function indicator(){
         $criteria = StandardCriteria::all();
         $data = Indicator::all();
@@ -139,16 +140,6 @@ class StandardCriteriaController extends Controller
     return view('standard_criteria.indicator.create', compact('allCriteria','criterias'));
 }
 
-    public function show($id){
-    $criteria = StandardCriteria::find($id);
-
-    if (!$criteria) {
-        return redirect()->back()->with('error', 'Standard Criteria not found.');
-    }
-
-    return view('standard_criteria.indicator.show', compact('criteria'));
-    }
-
     public function edit($id){
         $data = Indicator::find($id);
 
@@ -176,7 +167,7 @@ class StandardCriteriaController extends Controller
     return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicator updated successfully.');
 }
 
-    public function delete_indikator(Request $request){
+    public function delete_indicator(Request $request){
         $data = Indicator::find($request->id);
         if($data){
             $data->delete();
@@ -217,7 +208,7 @@ class StandardCriteriaController extends Controller
         return view('standard_criteria.sub_indicator.index', compact('data', 'indicator'));
     }
 
-    // perubahan logic add sub_indicator    
+    // perubahan logic add sub_indicator
     public function create_sub(Request $request){
     if ($request->isMethod('POST')) {
         // Validate the request data
@@ -255,7 +246,7 @@ class StandardCriteriaController extends Controller
     ]);
 
     $indicator_id = $request->indicator_id;
-    
+
     //Create the Sub_indicators
     foreach ($request->sub_indicators as $sub_indicatorData) {
         SubIndicator::create([
@@ -267,17 +258,48 @@ class StandardCriteriaController extends Controller
     return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicators added successfully.');
 }
 
+        public function edit_sub($id){
+            $data = SubIndicator::findOrFail($id);
 
-    public function show_sub($id){
-        $criteria = StandardCriteria::find($id);
-        $indicator = Indicator::orderBy('name')->get();
-
-        if (!$criteria) {
-            return redirect()->back()->with('error', 'Standard Criteria not found.');
+            // Fetch all criteria
+            $criteria = StandardCriteria::all();
+            return view('standard_criteria.sub_indicator.edit', compact('data', 'criteria'));
         }
 
-        return view('standard_criteria.sub_indicator.show', compact('criteria', 'indicator'));
-    }
+        public function update_sub(Request $request, $id){
+        // Validate the request
+        $request->validate([
+            'standard_criterias_id' => ['required', 'string'],
+            'name' => ['required','string','max:512'],
+        ]);
+
+        // Find the indicator data
+        $data = SubIndicator::findOrFail($id);
+
+        $data->update([
+            'standard_criterias_id'=> $request->standard_criterias_id,
+            'name'=> $request->name,
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicator updated successfully.');
+        }
+
+        public function delete_sub(Request $request){
+            $data = SubIndicator::find($request->id);
+            if($data){
+                $data->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Berhasil dihapus!'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal dihapus!'
+                ]);
+            }
+        }
 
     public function data_sub(Request $request){
         $data = SubIndicator::
@@ -287,9 +309,9 @@ class StandardCriteriaController extends Controller
         select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('Select_2'))) {
-                    $instance->whereHas('status', function ($q) use ($request) {
-                        $q->where('status_id', $request->get('Select_2'));
+                if (!empty($request->get('select_indicator'))) {
+                    $instance->whereHas('indicator', function ($q) use ($request) {
+                        $q->where('indicator_id', $request->get('select_indicator'));
                     });
                 }
             })->make(true);

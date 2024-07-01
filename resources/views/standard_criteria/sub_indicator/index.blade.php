@@ -43,7 +43,7 @@
 
 
 @section('content')
-<div class="col-md-12">
+    <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
@@ -60,15 +60,15 @@
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
+                    <div class="col-12"> -->
                         <div class="row">
-                        <div class="col-md-3">
-                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Indicator">
-                                <option value="">Select Category</option>
+                        <div class="col-md-5">
+                            <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
+                                <option value="">Select Indicator</option>
                                 @foreach($indicator as $d)
-                                <option value="{{ $d->id }}">{{$d->id}} - {{ $d->name }}</option>
+                                <option value="{{ $d->id }}">{{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -83,8 +83,7 @@
             <thead>
                 <tr>
                     <th width="20px">No</th>
-                    <th width="40px">Sub Indicator</th>
-                    <th width="40px">Indicator</th>
+                    <th>Sub Indicator</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -143,7 +142,7 @@
                 url: "{{ route('standard_criteria.data_sub') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.Select_criteria = $('#Select_criteria').val()
+                    d.select_indicator = $('#select_indicator').val()
                 },
             },
             columns: [{
@@ -162,15 +161,15 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.indicator.name;
-                        return x;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Show Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/show/sub_indicator/') }}/${row.id}"><i class='bx bxs-show'></i></a>`;
+                            `<a class="text-warning" title="Edit Sub Indicator" style="cursor:pointer"
+                            href="{{ url('setting/manage_standard/criteria/edit/sub_indicator/') }}/${row.id}">
+                            <i class="bx bx-pencil"></i></a>
+
+                            <a class="text-primary" title="Delete Sub Indicator" style="cursor:pointer"
+                            onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
+                            <i class='bx bxs-trash'></i></a>`;
                         return html;
                     },
                     orderable: false,
@@ -178,45 +177,45 @@
                 }
             ]
         });
-        $('#Select_criteria').change(function () {
+        $('#select_indicator').change(function () {
             table.draw();
         });
     });
 
-    // function DeleteId(id, data) {
-    //     swal({
-    //             title: "Apa kamu yakin?",
-    //             text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
-    //             icon: "warning",
-    //             buttons: true,
-    //             dangerMode: true,
-    //         })
-    //         .then((willDelete) => {
-    //             if (willDelete) {
-    //                 $.ajax({
-    //                     url: "",
-    //                     type: "DELETE",
-    //                     data: {
-    //                         "id": id,
-    //                         "_token": $("meta[name='csrf-token']").attr("content"),
-    //                     },
-    //                     success: function (data) {
-    //                         if (data['success']) {
-    //                             swal(data['message'], {
-    //                                 icon: "success",
-    //                             });
-    //                             $('#datatable').DataTable().ajax.reload();
-    //                         } else {
-    //                             swal(data['message'], {
-    //                                 icon: "error",
-    //                             });
-    //                         }
-    //                     }
-    //                 })
+    function DeleteId(id, data) {
+        swal({
+                title: "Apa kamu yakin?",
+                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "{{ route('delete_sub.sub_indicator') }}",
+                        type: "DELETE",
+                        data: {
+                            "id": id,
+                            "_token": $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function (data) {
+                            if (data['success']) {
+                                swal(data['message'], {
+                                    icon: "success",
+                                });
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                swal(data['message'], {
+                                    icon: "error",
+                                });
+                            }
+                        }
+                    })
 
-    //             }
-    //         })
-    // }
+                }
+            })
+    }
 
 </script>
 @endsection

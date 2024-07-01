@@ -64,7 +64,7 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                         <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <select id="select_category" class="form-control input-sm select2" data-placeholder="Categories">
                                 <option value="">Select Category</option>
                                 @foreach($category as $d)

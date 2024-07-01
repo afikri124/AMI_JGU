@@ -4,11 +4,6 @@
 @section('title', 'Create Indicator')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 @endsection
 
@@ -22,9 +17,8 @@
         @endif
         <div class="card mb-4">
             <hr class="my-0">
-            <div class="card-header">Indicator</div>
             <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('create.indicator') }}" enctype="multipart/form-data">
+                <form id="form-add-new-record" method="POST" action="{{ route('standard_criteria.indicator.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
                         <label for="standard-criteria_id" class="form-label">Select Criteria</label>
@@ -61,14 +55,6 @@
 </div>
 
 @section('script')
-<script src="{{ asset('assets/vendor/libs/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables-bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables.responsive.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/responsive.bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables.checkboxes.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables-buttons.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/buttons.bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
 <script>
    document.addEventListener('DOMContentLoaded', function() {

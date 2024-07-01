@@ -86,10 +86,6 @@ h3{
                                 <i class="email text-danger">{{ Auth::user()->email }}</i>
                             </div>
                         </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 1f2f41a42dcfbca6e1c7b417d61e914bb0121d82
                     </div>
                     <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/img/bg.jpg')}}"
                             style="max-width: 90%;" alt="">
@@ -97,7 +93,7 @@ h3{
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 

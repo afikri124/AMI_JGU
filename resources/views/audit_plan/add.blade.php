@@ -2,11 +2,6 @@
 @section('title', 'Add Audit Plan')
 
 @section('css')
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
@@ -31,13 +26,13 @@
                 @csrf
                 <div class="card-header">
                     <div class="card-options"><a class="card-options-collapse" href="#"
-                            data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a
-                            class="card-options-remove" href="#" data-bs-toggle="card-remove"><i
-                                class="fe fe-x"></i></a></div>
+                        data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a
+                        class="card-options-remove" href="#" data-bs-toggle="card-remove"><i
+                        class="fe fe-x"></i></a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-<<<<<<< HEAD
                     <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label class="form-label"><b>Email</b><i class="text-danger">*</i></label>
@@ -128,34 +123,6 @@
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-
-                            <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-
-                                <label class="form-label"><b>Email</b><i class="text-danger">*</i></label>
-                                <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email"
-                                    name="email" value="{{ old('email') }}">
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label class="form-label"><b>No Telepon</b><i class="text-danger">*</i></label>
-                            <input class="form-control @error('no_phone') is-invalid @enderror" id="no_phone"
-                                name="no_phone" type="text" placeholder="Input No Telepon">
-                            @error('no_phone')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <p></p>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
                             <select name="location_id" id="location_id" class="form-select" required>
                             <option value="">Select Location</option>
@@ -228,14 +195,6 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-bootstrap5.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.responsive.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/responsive.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>

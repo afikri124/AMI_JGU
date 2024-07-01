@@ -4,11 +4,6 @@
 @section('title', 'Create Sub Indicator')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
@@ -44,7 +39,7 @@
                             </span>
                         @enderror
                     </div>
-                
+
 
                     <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>
@@ -66,14 +61,6 @@
 </div>
 
 @section('script')
-<script src="{{ asset('assets/vendor/libs/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables-bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables.responsive.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/responsive.bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables.checkboxes.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/datatables-buttons.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables/buttons.bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script>
@@ -92,7 +79,6 @@
                             <trix-editor input="inputField${i + 1}_1"></trix-editor>
                         </div>
                     </div>
-                </div>
             `;
             container.insertAdjacentHTML('beforeend', row);
         }

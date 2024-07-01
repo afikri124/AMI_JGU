@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 @endsection
 
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
@@ -27,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
                         <option value="">Select Lecture</option>
                         @foreach($lecture as $d)
@@ -71,7 +70,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
