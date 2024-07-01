@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CommentDocs;
+use App\Mail\sendEmail;
 use App\Models\AuditPlan;
 use App\Models\Department;
 use App\Models\Indicator;
@@ -12,6 +14,7 @@ use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class ObservationController extends Controller
@@ -81,7 +84,6 @@ class ObservationController extends Controller
         return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criterias", "audit_plan"));
     }
 
-
     public function show($id)
     {
         $data = AuditPlan::findOrFail($id);
@@ -101,8 +103,21 @@ class ObservationController extends Controller
             'remark_ass' => $request->remark_ass,
             'audit_status_id' => '3',
         ]);
-        //PR kirim email/wa ke auditee
-        return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+        if($data){
+            $email = $request->email;
+            $lecture = User::find($request->lecture_id);
+            $department = Department::find($request->department_id);
+            $emailData = [
+                'lecture_id'    => $lecture ? $lecture->name : null,
+                'remark_docs'   => $request->remark_docs,
+                'date_start'    => $request->date_start,
+                'date_end'      => $request->date_end,
+                'department_id' => $department ? $department->name : null,
+            ];
+            Mail::to($email)->send(new CommentDocs($emailData));
+            //PR kirim email/wa ke auditee
+            return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+        }
     }
 
     public function data(Request $request)

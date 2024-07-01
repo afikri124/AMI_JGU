@@ -68,13 +68,4 @@ class AuditPlan extends Model
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
-
-    public function email()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-    public function no_phone()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

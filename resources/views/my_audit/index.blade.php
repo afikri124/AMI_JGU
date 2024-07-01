@@ -152,10 +152,10 @@
                     render: function (data, type, row, meta) {
                         var x = "";
                         if (row.doc_path != null) {
-                            x += `<a class="text-success" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file-blank"></i></a> `;
+                            x += `<a class="text-warning" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
                         }
                         if (row.link != null) {
-                            x += `<a class="text-success" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-link"></i></a>`;
+                            x += `<a class="text-success" target="_blank" href="{{ url('` + row.link + `') }}"><i class="bx bx-link"></i></a>`;
                         }
                         return x;
                     },
@@ -163,8 +163,8 @@
                 {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-success" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
-                                <a class="text-warning" title="Show" href="{{ url('my_audit/show/${row.id}') }}"><i class="bx bx-show"></i></a>
+                                `<a class="text-success" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                                <a class="text-warning" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
                                 <a class="text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
                             return html;
                         },

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Email</title>
+    <title>Comment Document</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,26 +44,18 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Audit Plan Notification</h1>
+            <h1>Comment Document</h1>
+            <h1>Audit Review</h1>
+            <h2>By Auditor</h2>
         </div>
         <div class="content">
-            <p>Hello,</p>
+            <p>Hello, {{$data['lecture_id']}}</p>
             <p>
-                You have been assigned a new audit plan. Here are the details:
-            </p>
-            <p>
-                <strong>Lecture:</strong> {{ $data['lecture_id'] }}<br>
-                <strong>Date Start:</strong> {{ $data['date_start'] }}<br>
-                <strong>Date End:</strong> {{ $data['date_end'] }}<br>
-                <strong>Department:</strong> {{ $data['department_id'] }}<br>
-                <strong>Location:</strong> {{ $data['location_id'] }}<br>
-                <strong>Auditor:</strong> {{ $data['auditor_id'] }}<br>
-                <strong>Standard Category:</strong> {{ $data['standard_category_id'] }}<br>
-                <strong>Standard Criteria:</strong> {{ $data['standard_criterias_id'] }}<br>
-                <strong>Link:</strong> <a href="{{ $data['link'] }}">{{ $data['link'] }}</a><br>
-            </p>
-            <p>
-                Please review the details and contact us if you have any questions.
+                <strong>Lecture             : </strong>{{ $data['lecture_id'] }}<br>
+                <strong>Date Start          : </strong> {{ $data['date_start'] }}<br>
+                <strong>Date End            : </strong> {{ $data['date_end'] }}<br>
+                <strong>Department          : </strong> {{ $data['department_id'] }}<br>
+                <strong>Remark By Auditor   : </strong> {{ $data['remark_docs'] }}<br>
             </p>
             <p>Best regards,<br>Audit Mutu Internal</p>
         </div>

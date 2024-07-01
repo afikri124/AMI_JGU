@@ -2,15 +2,7 @@
 @section('title', 'Review Documents')
 
 @section('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2.css') }}">
 @endsection
 
 @section('style')
@@ -118,14 +110,12 @@
                         @endif
                     </p>
                     <div class="card mb-4">
-            <!-- Account -->
-            <div class="card-header">REMARK BY AUDITOR</div>
+            <div class="card-header"><b>REMARK BY AUDITOR</b></div>
                 <div class="card-body">
                     <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Remark Document Review</label></label>
+                            <label class="form-label" for="basicDate">Remark Document Review<i class="text-danger">*</i></label></label>
                             <div class="input-group input-group-merge has-validation">
-                                <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror" name="remark_docs"
-                                value="{{ old('remark_docs') }}"> </textarea>
+                                <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror" name="remark_docs"></textarea>
                                 @error('remark_docs')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -133,14 +123,12 @@
                                 @enderror
                             </div>
                         </div>
-                        <p><b>*Tambahkan note, jika Document Auditee belum lengkap!!!</b></p>
+                        <i class="text-danger">* <b>Tambahkan note, jika Document Auditee belum lengkap!!!</b></i>
             <div class="card-footer text-end">
                 <button class="btn btn-primary" type="submit">Submit</button>
                 <a href="{{ url()->previous() }}">
                     <span class="btn btn-secondary">Back</span>
                 </a>
             </div>
-
-
 @endsection
 

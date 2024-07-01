@@ -62,7 +62,8 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::delete('/delete', [MyAuditController::class, 'delete'])->name('my_audit.delete');
     Route::get('/add/{id}', [MyAuditController::class, 'add'])->name('my_audit.add');
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
-    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
+    Route::get('/edit/{id}', [MyAuditController::class, 'edit'])->name('my_audit.edit');
+    Route::put('/update_doc/{id}', [MyAuditController::class, 'update_doc'])->name('my_audit.update_doc');
 });
 
 Route::middleware('auth')->group(function () {

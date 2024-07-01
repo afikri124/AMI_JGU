@@ -2,11 +2,6 @@
 @section('title', 'Observations')
 
 @section('css')
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 {{-- <link rel="stylesheet" href="{{asset('assets/vendor/libs/wizard.css')}}" /> --}}
 {{-- <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" /> --}}
@@ -56,6 +51,22 @@
         border-radius: 4px;
         font-size: 14px;
       }
+      table.dataTable tbody td {
+        vertical-align: middle;
+        }
+
+        table.dataTable td:nth-child(2) {
+            max-width: 120px;
+        }
+
+        table.dataTable td:nth-child(3) {
+            max-width: 100px;
+        }
+      table.dataTable td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 </style>
 @endsection
 
@@ -137,12 +148,12 @@
           <div class="col-md-6">
             <label class="form-label" for="lecture"><b>Lecture</b><i class="text-danger">*</i></label>
             <input class="form-control" type="text" value="{{ $data->lecture->name}}" disabled>
-          
+
           </div>
           <div class="col-md-6">
             <label class="form-label" for="auditor"><b>Auditor</b><i class="text-danger">*</i></label>
             <input class="form-control" type="text" value="{{ $data->auditor->name}}" disabled>
-           
+
         </div>
           <div class="col-md-6">
             <div class="form-group">
@@ -301,8 +312,8 @@
               </tr>
             </table>
             @endforeach
-       
-        
+
+
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
@@ -388,14 +399,6 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-bootstrap5.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.responsive.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/responsive.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 {{-- <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script> --}}
 <script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
