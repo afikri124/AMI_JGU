@@ -75,18 +75,10 @@ class ObservationController extends Controller
         $criterias = StandardCriteria::orderBy('title')->get();
         $sub_indicator = SubIndicator::all();
 
-        // Fetch lecturers and auditors
-        $lecture = User::whereHas('roles', function ($query) {
-            $query->where('name', 'lecture');
-        })->orderBy('name')->get();
-
-        $auditor = User::whereHas('roles', function ($query) {
-            $query->where('name', 'auditor');
-        })->orderBy('name')->get();
 
         $data = AuditPlan::findOrFail($id);
 
-        return view("observations.make", compact("sub_indicator","data", "lecture", "auditor", "locations", "departments", "category", "criterias","audit_plan"));
+        return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criterias", "audit_plan"));
     }
 
 

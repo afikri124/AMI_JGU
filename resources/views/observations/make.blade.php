@@ -136,13 +136,13 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label" for="lecture"><b>Lecture</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" value="{{ $lecture->pluck('name')->join(', ') }}" disabled>
-            <input type="hidden" name="lecture_id" value="{{ $lecture->pluck('id')->join(', ') }}">
+            <input class="form-control" type="text" value="{{ $data->lecture->name}}" disabled>
+          
           </div>
           <div class="col-md-6">
             <label class="form-label" for="auditor"><b>Auditor</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" value="{{ $auditor->pluck('name')->join(', ') }}" disabled>
-            <input type="hidden" name="auditor_id" value="{{ $auditor->pluck('id')->join(', ') }}">
+            <input class="form-control" type="text" value="{{ $data->auditor->name}}" disabled>
+           
         </div>
           <div class="col-md-6">
             <div class="form-group">
