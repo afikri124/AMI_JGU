@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Document Status')
+@section('title', 'My Audit')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -155,7 +155,7 @@
                             x += `<a class="text-warning" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
                         }
                         if (row.link != null) {
-                            x += `<a class="text-success" target="_blank" href="{{ url('` + row.link + `') }}"><i class="bx bx-link"></i></a>`;
+                            x += `<a class="text-primary" target="_blank" href="{{ url('` + row.link + `') }}"><i class="bx bx-link"></i></a>`;
                         }
                         return x;
                     },

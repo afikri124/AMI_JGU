@@ -58,7 +58,7 @@
                 <strong>Department:</strong> {{ $data['department_id'] }}<br>
                 <strong>Location:</strong> {{ $data['location_id'] }}<br>
                 <strong>Auditor:</strong> {{ $data['auditor_id'] }}<br>
-                <strong>Standard Category:</strong> {{ $data['standard_category_id'] }}<br>
+                <strong>Standard Category:</strong> {{ $data['standard_categories_id'] }}<br>
                 <strong>Standard Criteria:</strong> {{ $data['standard_criterias_id'] }}<br>
                 <strong>Link:</strong> <a href="{{ $data['link'] }}">{{ $data['link'] }}</a><br>
             </p>

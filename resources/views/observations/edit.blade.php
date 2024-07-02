@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Review Documents')
+@section('title', 'Remark Documents')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
@@ -89,28 +89,12 @@
     <div class="row">
     <div class="col-md-12">
             <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="card-title m-0 me-2">Review Audit Document</h5>
-                </div>
                 <form id="form-add-new-record" method="POST" action="{{ route('observations.update', $data->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                 <div class="card-body row g-3">
-                    <p>
-                        @if ($data)
-                            <iframe src={{asset($data->doc_path)}} style="height: 350px; width: 100%; border: none;"
-                                onerror="this.onerror=null; this.outerHTML='Cannot load PDF.';"></iframe><br>
-                            <a class="btn btn-primary" href={{$data->doc_path}} target="_blank">
-                                <i class="bx bx-import align-middle me-2" style="cursor:pointer"></i>
-                                <span>Download</span>
-                            </a>
-                        @else
-                            <p>Tidak ada dokumen yang tersedia.</p>
-                        @endif
-                    </p>
-                    <div class="card mb-4">
-            <div class="card-header"><b>REMARK BY AUDITOR</b></div>
+                <h3><b>REMARK BY AUDITOR</b></h3>
                 <div class="card-body">
                     <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Remark Document Review<i class="text-danger">*</i></label></label>
