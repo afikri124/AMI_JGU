@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('standard_criterias', function (Blueprint $table) {
             $table->id('id');
             $table->string('title');
-            $table->unsignedBigInteger('audit_status_id');
-            $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
+            $table->boolean('status')->nullable();
             $table->uuid('standard_categories_id')->nullable();
             $table->foreign('standard_categories_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
             $table->timestamps();

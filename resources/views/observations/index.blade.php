@@ -131,7 +131,7 @@
                             x += `<a class="text-warning" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
                         }
                         if (row.link != null) {
-                            x += `<a class="text-primary" title="Link Drive" target="_blank" href="{{ url('` + row.link + `') }}"><i class="bx bx-link"></i></a>`;
+                            x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
                         }
                         return x;
                     },

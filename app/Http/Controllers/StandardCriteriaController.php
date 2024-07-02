@@ -23,7 +23,7 @@ class StandardCriteriaController extends Controller
             $data = StandardCriteria::create([
                 'standard_categories_id' => $request->standard_categories_id,
                 'title' => $request->title,
-                'audit_status_id' => '10',
+                'status' => $request->status,
             ]);
 
             if ($data) {
@@ -32,57 +32,25 @@ class StandardCriteriaController extends Controller
         }
         $category = StandardCategory::all();
         $data = StandardCriteria::all();
-        $status = AuditStatus::get();
-        return view('standard_criteria.criteria', compact('data', 'category', 'status'));
+        return view('standard_criteria.criteria', compact('data', 'category'));
     }
 
-    public function data(Request $request)
-    {
-        $data = StandardCriteria::
-        with([
-        'category' => function ($query) {
-            $query->select('id','title','description');
-        },
-        'status' => function ($query) {
-            $query->select('id','title', 'color');
-        }])->
-        select('*')->orderBy("id");
-        return DataTables::of($data)
-            ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('select_category'))) {
-                    $instance->whereHas('category', function ($q) use ($request) {
-                        $q->where('standard_categories_id', $request->get('select_category'));
-                    });
-                }
-                if (!empty($request->get('search'))) {
-                    $instance->where(function($w) use($request){
-                        $search = $request->get('search');
-                            $w->orWhere('title', 'LIKE', "%$search%");
-                    });
-                }
-            })->make(true);
-    }
-
-    // logic untuk edit
     public function criteria_edit($id){
     // Find the existing StandardCriteria by ID
     $data = StandardCriteria::findOrFail($id);
-    $status = AuditStatus::whereIn('id', [10, 11])->get();
-    //dd($data);
-
     // Return the edit view with the current criteria data
-    return view('standard_criteria.criteria_edit', compact('data', 'status'));
+    return view('standard_criteria.criteria_edit', compact('data'));
 }
 
     public function criteria_update(Request $request, $id){
         $request->validate([
             'title'    => 'string', 'max:191',
-            'audit_status_id' => 'string'
+            'status' => 'string'
         ]);
 
         $data = StandardCriteria::findOrFail($id);
         $data->update([
-            'audit_status_id'=> $request->audit_status_id,
+            'status'=> $request->status,
             'title'=> $request->title,
         ]);
         return redirect()->route('standard_criteria.criteria')->with('msg', 'Standard Criteria berhasil diperbarui.');
@@ -102,6 +70,34 @@ class StandardCriteriaController extends Controller
                 'message' => 'Gagal dihapus!'
             ]);
         }
+    }
+
+    public function data(Request $request)
+    {
+        $data = StandardCriteria::
+        with([
+        'category' => function ($query) {
+            $query->select('id','title','description');
+        }])->
+        select('*')->orderBy("id");
+        return DataTables::of($data)
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('select_category'))) {
+                    $instance->whereHas('category', function ($q) use ($request) {
+                        $q->where('standard_categories_id', $request->get('select_category'));
+                    });
+                }
+                if (!empty($request->get('status'))) {
+                    $bools = $request->get('status') === 'true'? true: false;
+                    $instance->where('status', $bools);
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('title', 'LIKE', "%$search%");
+                    });
+                }
+            })->make(true);
     }
 
     //INDICATOR

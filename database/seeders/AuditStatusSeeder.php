@@ -53,14 +53,6 @@ class AuditStatusSeeder extends Seeder
             "color" => "primary"],
 
             ["id" => "10",
-            "title" => "ON",
-            "color" => "success"],
-
-            ["id" => "11",
-            "title" => "OFF",
-            "color" => "primary"],
-
-            ["id" => "12",
             "title" => "Uploaded",
             "color" => "dark"],
         ];

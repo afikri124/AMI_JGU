@@ -141,11 +141,15 @@
                     },
                 },
                 {
-                    render: function(data, type, row, meta) {
-                        var html =
-                            `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
-                        return html;
-                    }
+                    render: function (data, type, row, meta) {
+                        if(row.status == 1){
+                            var x = '<span class="badge rounded-pill bg-success">ON</span>';
+                        } else {
+                            var x = '<span class="badge rounded-pill bg-danger">OFF</span>';
+                        }
+                        return x;
+                    },
+                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {

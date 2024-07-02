@@ -28,17 +28,15 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                        <div class="col-md-3 fv-plugins-icon-container">
-                            <label for="audit_status_id" class="form-label" >Status<i class="text-danger">*</i></label>
-                            <select name="audit_status_id" id="audit_status_id" class="form-select" required>
-                                <option value="">Select Status</option>
-                                @foreach($status as $x)
-                                    <option value="{{ $x->id }}" {{ old('audit_status_id', $data->audit_status_id) == $x->id ? 'selected' : '' }}>
-                                        {{ $x->title }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Status<i class="text-danger">*</i></label>
+                                <select name="status" class="form-select input-sm select2 @error('status') is-invalid @enderror" data-placeholder="Status">
+                                    <option value='1' {{ (1==$data->status ? "selected": "") }}>ON</option>
+                                    <option value='0' {{ (0==$data->status ? "selected": "") }}>OFF</option>
+                                </select>
                             </div>
+                        </div>
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
                                     <label for="title" class="col-form-label">Title<i class="text-danger">*</i></label>

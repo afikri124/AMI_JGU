@@ -16,7 +16,7 @@ class StandardCriteria extends Model
     protected $fillable = [
         'standard_categories_id',
         'title',
-        'audit_status_id'
+        'status'
     ];
 
     // protected static function boot()

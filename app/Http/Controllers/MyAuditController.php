@@ -91,7 +91,7 @@ class MyAuditController extends Controller{
     $data->update([
         'doc_path' => $fileName,
         'link' => $request->link,
-        'audit_status_id' => '12',
+        'audit_status_id' => '10',
     ]);
 
     return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Ubah.');

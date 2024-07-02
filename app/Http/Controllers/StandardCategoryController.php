@@ -14,8 +14,7 @@ class StandardCategoryController extends Controller
 {
     public function category(Request $request) {
         $data = StandardCategory::all();
-        $status = AuditStatus::get();
-        return view('standard_category.category', compact('data', 'status'));
+        return view('standard_category.category', compact('data'));
     }
 
     public function category_add(Request $request) {
@@ -30,7 +29,6 @@ class StandardCategoryController extends Controller
             StandardCategory::create([
                 'id'=> $request->id,
                 'title'=> $request->title,
-                'audit_status_id'=> '10',
                 'description'=> $request->description,
                 'is_required' => $is_required,
             ]);
@@ -41,9 +39,8 @@ class StandardCategoryController extends Controller
 
     public function category_edit($id){
         $data = StandardCategory::findOrFail($id);
-        $status = AuditStatus::whereIn('id', [10, 11])->get(); 
         //dd($data);
-        return view('standard_category.category_edit', compact('data', 'status'));
+        return view('standard_category.category_edit', compact('data'));
     }
 
     public function category_update(Request $request, $id){
@@ -51,12 +48,12 @@ class StandardCategoryController extends Controller
         $request->validate([
             'description'    => 'string', 'max:191',
             'is_required' => 'boolean',
-            'audit_status_id' => 'string'
+            'status' => 'boolean'
         ]);
 
         $data = StandardCategory::findOrFail($id);
         $data->update([
-            'audit_status_id'=> $request->audit_status_id,
+            'status'=> $request->status,
             'description'=> $request->description,
             'is_required'=> $is_required,
         ]);
@@ -81,16 +78,22 @@ class StandardCategoryController extends Controller
 
     public function data(Request $request){
         $data = StandardCategory::
-        with(['status' => function ($query) {
-            $query->select('id','title','color');
-        }])->select('*')->orderBy("id")->get();
-            return DataTables::of($data)
-            ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('Select_2'))) {
-                    $instance->whereHas('status', function($q) use($request){
-                        $q->where('audit_status_id', $request->get('Select_2'));
-                    });
-                }
-            })->make(true);
+        select('*');
+            return Datatables::of($data)
+                    ->filter(function ($instance) use ($request) {
+                        if (!empty($request->get('status'))) {
+                            $bools = $request->get('status') === 'true'? true: false;
+                            $instance->where('status', $bools);
+                        }
+                        if (!empty($request->get('search'))) {
+                             $instance->where(function($w) use($request){
+                                $search = $request->get('search');
+                                    $w->orWhere('id', 'LIKE', "%$search%")
+                                    ->orWhere('title', 'LIKE', "%$search%")
+                                    ->orWhere('description', 'LIKE', "%$search%");
+                            });
+                        }
+                    })
+                    ->make(true);
     }
 }

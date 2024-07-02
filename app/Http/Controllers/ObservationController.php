@@ -78,11 +78,7 @@ class ObservationController extends Controller
         $sub_indicator = SubIndicator::all();
         $data = AuditPlan::findOrFail($id);
 
-<<<<<<< HEAD
         return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criteria", "audit_plan"));
-=======
-        return view("observations.make", compact("sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
->>>>>>> 943e7eb768aef9ffe3bf1c333c14c721f709e04d
     }
 
     public function edit($id)
@@ -132,7 +128,6 @@ class ObservationController extends Controller
         // Redirect dengan pesan error jika data tidak berhasil diupdate
         return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
     }
-
         return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
 
 }

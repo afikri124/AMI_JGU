@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
 @section('style')
@@ -64,12 +63,19 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                         <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <select id="select_category" class="form-control input-sm  select2" data-placeholder="Categories">
                                 <option value="">Select Category</option>
                                 @foreach($category as $d)
                                 <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class=" col-md-3">
+                            <select id="select2" class="form-control input-sm select2" data-placeholder="Status">
+                                <option value="">Status</option>
+                                <option value='true'>ON</option>
+                                <option value='false'>OFF</option>
                             </select>
                         </div>
                             <div class="offset-md col-md text-md-end text-center pt-3 pt-md-0">
@@ -111,7 +117,7 @@
                             <label class="form-label" for="basicDate">Category<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <select  class="form-select @error('standard_categories_id') is-invalid @enderror  input-sm select2-modal "
-                                    name="standard_categories_id" id="standard_categories_id" data-placeholder=" -- Select --">
+                                    name="standard_categories_id" id="standard_categories_id">
                                     @foreach($category as $p)
                                     <option value="{{ $p->id }}"
                                         {{ ($p->id==old('standard_category_id') ? "selected": "") }}>
@@ -140,8 +146,8 @@
                 <tr>
                     <th width="20px">No</th>
                     <th width="40px">Criteria</th>
-                    <th width="40px">Status</th>
                     <th width="40px">Category</th>
+                    <th width="40px">Status</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -200,7 +206,7 @@
                 url: "{{ route('standard_criteria.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select2 = $('#select2').val(),
+                    d.status = $('#select2').val(),
                     d.select_category = $('#select_category').val()
                 },
             },
@@ -218,17 +224,21 @@
                     },
                 },
                 {
-                    render: function(data, type, row, meta) {
-                        var html =
-                            `<span class="badge bg-${row.status.color}">${row.status.title}</span>`;
-                        return html;
-                    }
-                },
-                {
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.category.id +
                             `" href="">` + row.category.id + `</a>`;
                         return html;
+                    },
+                    className: "text-center"
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        if(row.status == 1){
+                            var x = '<span class="badge rounded-pill bg-success">ON</span>';
+                        } else {
+                            var x = '<span class="badge rounded-pill bg-danger">OFF</span>';
+                        }
+                        return x;
                     },
                     className: "text-center"
                 },
