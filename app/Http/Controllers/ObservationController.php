@@ -73,15 +73,15 @@ class ObservationController extends Controller
 
         $audit_plan = AuditPlan::with('auditStatus')->get();
         $locations = Location::orderBy('title')->get();
-        $departments = Department::orderBy('name')->get();
+        $department = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
-        $criterias = StandardCriteria::orderBy('title')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
         $sub_indicator = SubIndicator::all();
 
 
         $data = AuditPlan::findOrFail($id);
 
-        return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criterias", "audit_plan"));
+        return view("observations.make", compact("sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
     }
 
     public function edit($id)
@@ -92,8 +92,7 @@ class ObservationController extends Controller
         return view('observations.edit', compact('data'));
     }
 
-    public function update(Request $request, $id)
-{
+    public function update(Request $request, $id){
     $request->validate([
         'remark_docs'    => '',
     ]);

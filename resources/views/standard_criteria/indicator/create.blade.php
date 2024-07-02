@@ -5,6 +5,9 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 @endsection
 
 <div class="row">
@@ -21,10 +24,10 @@
                 <form id="form-add-new-record" method="POST" action="{{ route('standard_criteria.indicator.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
-                        <label for="standard-criteria_id" class="form-label">Select Criteria</label>
+                        <label for="standard-criteria_id" class="form-label  input-sm select2">Select Criteria</label>
                         <div class="form-group">
 
-                                <select name="standard_criterias_id" id="standard_criterias_id" class="form-select" required>
+                                <select name="standard_criterias_id" id="standard_criterias_id" class="form-select input-sm select2" required>
                                     <option value="">Select Criterias</option>
                                     @foreach($criterias as $c)
                                         <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
@@ -56,6 +59,9 @@
 
 @section('script')
 <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 <script>
    document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('numForms').addEventListener('input', function() {
@@ -65,10 +71,11 @@
 
         for (var i = 0; i < numForms; i++) {
             var row = `
+            <p></p>
                 <div class="row mb-3">
                         <div class="form-group">
-                            <label for="inputField${i + 1}_1">Indikator</label>
-                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]">
+                            <label for="inputField${i + 1}_1">Indikator (Max. 250 char)<i class="text-danger">*</i></label>
+                            <textarea type="text-danger" class="form-control" maxlength="250"  placeholder="Note: Maximum 191 char." id="inputField${i + 1}_1" name="indicators[${i}][name]">
 
             `;
             container.insertAdjacentHTML('beforeend', row);

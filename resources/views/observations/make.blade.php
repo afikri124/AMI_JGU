@@ -173,9 +173,9 @@
             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
             <select name="department_id" id="department_id" class="form-select" required>
                 <option value="">Select Department</option>
-                @foreach($departments as $d)
+                @foreach($department as $d)
                     <option value="{{$d->id}}"
-                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                        {{ (in_array($d->id, old('department') ?? []) ? "selected": "") }}>
                         {{$d->name}}</option>
                     @endforeach
             </select>
@@ -256,7 +256,7 @@
           <p></p>
           <small>Criteria Standard</small>
           <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
-          @foreach($criterias as $c)
+          @foreach($criteria as $c)
             <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
                 {{ $c->title }}
             </option>

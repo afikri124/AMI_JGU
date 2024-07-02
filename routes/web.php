@@ -32,6 +32,7 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
 
 //Audit Plan
 Route::group(['prefix' => 'audit_plan'], function () {

@@ -24,7 +24,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group col-md-4">
-                        <label for="standard_criterias_id" class="form-label">Select Standard Criteria</label>
+                        <label for="standard_criterias_id" class="form-label">Select Standard Criteria<i class="text-danger">*</i></label>
                         <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
                                 name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Standard Criteria</option>
@@ -41,8 +41,8 @@
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Indicator</label>
-                            <textarea class="form-control" rows="2" name="name" id="name">{{ $data->name }}</textarea>
+                            <label for="name" class="col-form-label">Indicator<i class="text-danger">*</i></label>
+                            <textarea class="form-control" maxlength="250" placeholder="Note: Maximum 250 char...." rows="2" name="name" id="name">{{ $data->name }}</textarea>
                         </div>
                     </div>
                     <br>
