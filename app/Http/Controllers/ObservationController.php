@@ -72,13 +72,17 @@ class ObservationController extends Controller
 
         $audit_plan = AuditPlan::with('auditStatus')->get();
         $locations = Location::orderBy('title')->get();
-        $departments = Department::orderBy('name')->get();
+        $department = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
         $sub_indicator = SubIndicator::all();
         $data = AuditPlan::findOrFail($id);
 
+<<<<<<< HEAD
         return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criteria", "audit_plan"));
+=======
+        return view("observations.make", compact("sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
+>>>>>>> 943e7eb768aef9ffe3bf1c333c14c721f709e04d
     }
 
     public function edit($id)

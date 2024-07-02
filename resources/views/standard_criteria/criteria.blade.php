@@ -65,7 +65,7 @@
                     <div class="col-12">
                         <div class="row">
                         <div class="col-md-5">
-                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Categories">
+                            <select id="select_category" class="form-control input-sm  select2" data-placeholder="Categories">
                                 <option value="">Select Category</option>
                                 @foreach($category as $d)
                                 <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
@@ -96,9 +96,9 @@
                         id="form-add-new-record" method="POST" action="">
                         @csrf
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Title</label>
+                            <label class="form-label" for="basicDate">Title<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                <input type="text" class="form-control @error('title')  is-invalid @enderror" maxlength="150"
                                     name="title" placeholder="Input The New Criteria" value="{{ old('title') }}">
                                 @error('title')
                                 <span class="invalid-feedback" role="alert">
@@ -108,9 +108,9 @@
                             </div>
                         </div>
                         <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Category</label>
+                            <label class="form-label" for="basicDate">Category<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <select class="form-select @error('standard_categories_id') is-invalid @enderror select2-modal"
+                                <select  class="form-select @error('standard_categories_id') is-invalid @enderror  input-sm select2-modal "
                                     name="standard_categories_id" id="standard_categories_id" data-placeholder=" -- Select --">
                                     @foreach($category as $p)
                                     <option value="{{ $p->id }}"

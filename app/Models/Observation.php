@@ -40,6 +40,11 @@ class Observation extends Model
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(StandardCategory::class, 'standard_categories_id');

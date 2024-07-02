@@ -108,5 +108,11 @@
         </li>
         @endcan
     </ul>
+    <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
+            <a href="{{route('documentation')}}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Documentation">Documentation</div>
+            </a>
+        </li>
 </aside>
 <!-- / Menu -->

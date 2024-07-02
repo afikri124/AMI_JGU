@@ -23,7 +23,7 @@
                 <form id="form-add-new-record" method="POST" action="{{ route('store_sub.sub_indicator') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
-                        <label for="indicator_id" class="form-label">Select Indicator</label>
+                        <label for="indicator_id" class="form-label">Select Indicator<i class="text-danger">*</i></label>
                         <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
                                 name="indicator_id" id="indicator_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Indicator</option>
@@ -72,10 +72,11 @@
 
         for (var i = 0; i < numForms; i++) {
             var row = `
+            <p></p>
                 <div class="row mb-3">
                         <div class="form-group">
-                            <label for="inputField${i + 1}_1">Sub Indicator</label>
-                            <input type="hidden" class="form-control" id="inputField${i + 1}_1" name="sub_indicators[${i}][name]"></input>
+                            <label for="inputField${i + 1}_1">Sub Indicator<i class="text-danger">*</i></label>
+                            <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="sub_indicators[${i}][name]"></input>
                             <trix-editor input="inputField${i + 1}_1"></trix-editor>
                         </div>
                     </div>

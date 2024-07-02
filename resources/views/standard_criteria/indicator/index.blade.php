@@ -68,7 +68,7 @@
                             <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
                                 <option value="">Select criteria</option>
                                 @foreach($criteria as $d)
-                                <option value="{{ $d->id }}">{{ $d->title }}</option>
+                                <option value="{{ $d->id }}">{{ $d->id }} - {{ $d->title }}</option>
                                 @endforeach
                             </select>
                         </div>

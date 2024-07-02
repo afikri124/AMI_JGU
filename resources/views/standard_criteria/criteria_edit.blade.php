@@ -28,8 +28,8 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                        <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="audit_status_id" class="form-label" >Status</label>
+                        <div class="col-md-3 fv-plugins-icon-container">
+                            <label for="audit_status_id" class="form-label" >Status<i class="text-danger">*</i></label>
                             <select name="audit_status_id" id="audit_status_id" class="form-select" required>
                                 <option value="">Select Status</option>
                                 @foreach($status as $x)
@@ -41,8 +41,8 @@
                             </div>
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
-                                    <label for="title" class="col-form-label">Title</label>
-                                    <textarea class="form-control" rows="2" name="title" id="title">{{ $data->title }}</textarea>
+                                    <label for="title" class="col-form-label">Title<i class="text-danger">*</i></label>
+                                    <textarea class="form-control"  maxlength="175" placeholder="Note: Maximum 175 char...." rows="2" name="title" id="title">{{ $data->title }}</textarea>
                                 </div>
                             </div>
                             <br>
