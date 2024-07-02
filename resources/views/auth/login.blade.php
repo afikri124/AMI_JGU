@@ -31,7 +31,7 @@ body{
 form{
     height: 500px;
     width: 400px;
-    background-color: rgba(255,0,0.3);
+    background-color: rgba(178,34,34);
     position: absolute;
     transform: translate(-50%,-50%);
     top: 50%;

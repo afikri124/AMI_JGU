@@ -1,16 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Review Documents')
+@section('title', 'Remark Documents')
 
 @section('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2.css') }}">
 @endsection
 
 @section('style')
@@ -97,35 +89,17 @@
     <div class="row">
     <div class="col-md-12">
             <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="card-title m-0 me-2">Review Audit Document</h5>
-                </div>
                 <form id="form-add-new-record" method="POST" action="{{ route('observations.update', $data->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                 <div class="card-body row g-3">
-                    <p>
-                        @if ($data)
-                            <iframe src={{asset($data->doc_path)}} style="height: 350px; width: 100%; border: none;"
-                                onerror="this.onerror=null; this.outerHTML='Cannot load PDF.';"></iframe><br>
-                            <a class="btn btn-primary" href={{$data->doc_path}} target="_blank">
-                                <i class="bx bx-import align-middle me-2" style="cursor:pointer"></i>
-                                <span>Download</span>
-                            </a>
-                        @else
-                            <p>Tidak ada dokumen yang tersedia.</p>
-                        @endif
-                    </p>
-                    <div class="card mb-4">
-            <!-- Account -->
-            <div class="card-header">REMARK BY AUDITOR</div>
+                <h3><b>REMARK BY AUDITOR</b></h3>
                 <div class="card-body">
                     <div class="col-sm-12 fv-plugins-icon-container">
-                            <label class="form-label" for="basicDate">Remark Document Review</label></label>
+                            <label class="form-label" for="basicDate">Remark Document Review<i class="text-danger">*</i></label></label>
                             <div class="input-group input-group-merge has-validation">
-                                <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror" name="remark_docs"
-                                value="{{ old('remark_docs') }}"> </textarea>
+                                <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror" name="remark_docs"></textarea>
                                 @error('remark_docs')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -133,14 +107,12 @@
                                 @enderror
                             </div>
                         </div>
-                        <p><b>*Tambahkan note, jika Document Auditee belum lengkap!!!</b></p>
+                        <i class="text-danger">* <b>Tambahkan note, jika Document Auditee belum lengkap!!!</b></i>
             <div class="card-footer text-end">
                 <button class="btn btn-primary" type="submit">Submit</button>
                 <a href="{{ url()->previous() }}">
                     <span class="btn btn-secondary">Back</span>
                 </a>
             </div>
-
-
 @endsection
 

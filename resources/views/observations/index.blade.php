@@ -36,6 +36,7 @@
                                 <th><b>Date Start</b></th>
                                 <th><b>Date End</b></th>
                                 <th><b>Status</b></th>
+                                <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -122,10 +123,22 @@
                     }
                 },
                 {
+                    render: function (data, type, row, meta) {
+                        var x = "";
+                        if (row.doc_path != null) {
+                            x += `<a class="text-warning" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                        }
+                        if (row.link != null) {
+                            x += `<a class="text-primary" target="_blank" href="{{ url('` + row.link + `') }}"><i class="bx bx-link"></i></a>`;
+                        }
+                        return x;
+                    },
+                },
+                {
                         render: function(data, type, row, meta) {
                             var html =
-                                `<a class="text-body" title="Show" href="{{ url('observations/show/${row.id}') }}">
-                                <i class="bx bx-show"></i></a>
+                                `<a class="text-warning" title="Remark Doc" href="{{ url('observations/edit/${row.id}') }}">
+                                <i class="bx bx-pencil"></i></a>
                                 <a class="text-danger bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
                                 <i class="bx bx-plus"></i></a>`
                             return html;

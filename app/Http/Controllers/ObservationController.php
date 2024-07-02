@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CommentDocs;
+use App\Mail\sendEmail;
 use App\Models\AuditPlan;
 use App\Models\Department;
 use App\Models\Indicator;
@@ -12,6 +14,7 @@ use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class ObservationController extends Controller
@@ -81,29 +84,56 @@ class ObservationController extends Controller
         return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criterias", "audit_plan"));
     }
 
-
-    public function show($id)
+    public function edit($id)
     {
         $data = AuditPlan::findOrFail($id);
         $data->doc_path;
         $data->link;
-        return view('observations.show', compact('data'));
+        return view('observations.edit', compact('data'));
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'remark_ass'    => '',
-        ]);
+{
+    $request->validate([
+        'remark_docs'    => '',
+    ]);
 
-        $data = AuditPlan::findOrFail($id);
-        $data->update([
-            'remark_ass' => $request->remark_ass,
-            'audit_status_id' => '3',
-        ]);
-        //PR kirim email/wa ke auditee
-        return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+    $data = AuditPlan::findOrFail($id);
+    $data->update([
+        'remark_docs' => $request->remark_docs,
+        'audit_status_id' => '3',
+    ]);
+
+    if ($data) {
+        // Cari pengguna dan departemen berdasarkan ID yang ada dalam request
+        $lecture = User::find($request->lecture_id);
+        $department = Department::find($request->department_id);
+
+        if ($lecture) {
+            // Data untuk email
+            $emailData = [
+                'lecture_id'    => $lecture->name,
+                'remark_docs'   => $request->remark_docs,
+                'date_start'    => $request->date_start,
+                'date_end'      => $request->date_end,
+                'department_id' => $department ? $department->name : null,
+            ];
+
+            // Kirim email ke pengguna yang ditemukan
+            Mail::to($lecture->email)->send(new CommentDocs($emailData));
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+        } else {
+            // Redirect dengan pesan error jika pengguna tidak ditemukan
+            return redirect()->route('observations.index')->with('msg', 'Pengguna tidak ditemukan');
+        }
+    } else {
+        // Redirect dengan pesan error jika data tidak berhasil diupdate
+        return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
     }
+}
+
 
     public function data(Request $request)
     {

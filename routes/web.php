@@ -52,7 +52,7 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
-    Route::any('/show/{id}', [ObservationController::class, 'show'])->name('observations.show');
+    Route::any('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });
 
@@ -62,7 +62,8 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::delete('/delete', [MyAuditController::class, 'delete'])->name('my_audit.delete');
     Route::get('/add/{id}', [MyAuditController::class, 'add'])->name('my_audit.add');
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
-    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
+    Route::get('/edit/{id}', [MyAuditController::class, 'edit'])->name('my_audit.edit');
+    Route::put('/update_doc/{id}', [MyAuditController::class, 'update_doc'])->name('my_audit.update_doc');
 });
 
 Route::middleware('auth')->group(function () {
