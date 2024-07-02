@@ -31,15 +31,14 @@ body{
 form{
     height: 500px;
     width: 400px;
-    background-color: rgba(178,34,34);
+    background-color: rgba(245, 245, 245, 1);
     position: absolute;
     transform: translate(-50%,-50%);
     top: 50%;
     left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    border-style:groove;
     padding: 50px 35px;
 }
 form *{
@@ -58,16 +57,17 @@ form h2{
 
 label{
     display:block;
-    margin-top: 25px;
+    margin-top: 10px;
     font-size: 15px;
     font-weight: 450;
     font-style:normal;
+    color: #080710;
 }
 input{
     display: block;
     height: 45px;
     width: 100%;
-    background-color:rgba(255,255,255,0.13);
+    background-color:rgba(255,0,0,0.13);
     border-radius: 10px;
     padding: 0 10px;
     margin-top: 8px;
@@ -80,8 +80,8 @@ input{
 button{
     margin-top: 20px;
     width: 30%;
-    background-color:aliceblue;
-    color: #080710;
+    background-color:red;
+    color:aliceblue;
     padding: 5px 10px;
     font-size: 18px;
     font-weight: 500;
@@ -91,18 +91,17 @@ button{
 .parent {
       display: grid;
       place-items: center;
-      padding: 50px 10px;
+      padding: 10px 10px;
   	}
-
 </style>
 </head>
 <body>
     <div class="background">
     </div>
-    <form method="POST" action="{{ route('login') }}"><h2>LOGIN</h2>
-    <br>
+    <form method="POST" action="{{ route('login') }}"><h2><img src="assets-landing/img/ami-jgu.png" width="330" height="111"></h2>
         @csrf
          <!-- Email Address or Username-->
+        <label>login here!</label>
         <label for="login_account">Username or Email</label>
         <input type="text" placeholder="Username or Email" id="login_account"  name="login_account" :value="old('login_account')" autocomplete="username" />
         <x-input-error :messages="$errors->get('email')" class="mt-2"/>

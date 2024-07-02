@@ -32,7 +32,12 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-
+//Profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 //Audit Plan
 Route::group(['prefix' => 'audit_plan'], function () {
     Route::any('/', [AuditPlanController::class, 'index'])->name('audit_plan.index');

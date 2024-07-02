@@ -40,42 +40,38 @@
               </li>
             </ul>
           </li>
+
           <!-- / Style Switcher-->
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                        <img src="" alt class="w-40 h-40 rounded-circle"
-                            style="object-fit: cover;">
+                <div class="media profile-media">
+                        <img class="rounded-circle" src="{{Auth::user()->image()}}" style="width: 40px;height: 40px; object-fit: cover;" alt="">
+                        <div class="media-body">
+                        @php
+                         $first_name = explode(" ", ucfirst(Auth::user()->name));
+                         if(strlen(Auth::user()->name) < 15){
+                            $first_name[0] = Auth::user()->name;
+                         }
+                        @endphp
+                            <span>{{ $first_name[0] }}</span>
+                            <p class="mb-0 font-roboto">{{ Auth::user()->username }} <i
+                                    class="middle fa fa-angle-down"></i></p>
+                        </div>
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <div class="avatar avatar-online">
-                                        <img src="" class="w-40 h-40 rounded-circle"
-                                            style="object-fit: cover;">
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block"></span>
-                                    <small class="text-muted"></small>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
+
                     <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
-                            href="{{ route('profile.index') }}">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.edit' ? 'active' : '' }}"
+                            href="{{ route('profile.edit') }}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
                     </li>
                     <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.edit' ? 'active' : '' }}"
-                            href="{{ route('profile.edit') }}">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
+                            href="{{ route('profile.index') }}">
                             <i class="bx bx-cog  me-2"></i>
                             <span class="align-middle">Settings</span>
                         </a>

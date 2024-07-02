@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Edit Profil')
+@section('title', 'Edit Profile')
 @section('breadcrumb-items')
-    <span class="text-muted fw-light">Akun / </span>
+    <span class="text-muted fw-light"></span>
 @endsection
 
 @section('content')
@@ -22,10 +22,10 @@
                         </div>
                     @endif
                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <img src="../../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100"
+                        <img src="../assets/img/avatars/user-f.png" alt="user-avatar" class="d-block rounded" height="100"
                             width="100" id="uploadedAvatar">
                         <div class="button-wrapper">
-                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <label for="upload" class="btn btn-info me-2 mb-4" tabindex="0">
                                 <span class="d-none d-sm-block">Upload new photo</span>
                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                 <input type="file" id="upload" class="account-file-input" hidden=""
@@ -119,47 +119,10 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label">Program Studi</label>
-                                <select
-                                    class="select2 form-select col-sm-12 @error('study_programs_id') is-invalid @enderror"
-                                    name="study_programs_id">
-                                    <option value="" {{ Auth::user()->study_programs_id == null ? 'selected' : '' }}
-                                        disabled>
-                                        Select</option>
-                                    @foreach ($studiprogram as $g)
-                                        <option {{ Auth::user()->study_programs_id == $g['id'] ? 'selected' : '' }}>
-                                            {{ $g['name_program'] }}</option>
-                                    @endforeach
-                                </select>
-                                @error('study_programs_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label">Department</label>
-                                <select
-                                    class="select2 form-select col-sm-12 @error('departements_id') is-invalid @enderror"
-                                    name="departments_id">
-                                    <option value="" {{ Auth::user()->departments_id == null ? 'selected' : '' }}
-                                        disabled>
-                                        Select</option>
-                                    @foreach ($dept as $g)
-                                        <option {{ Auth::user()->departments_id == $g['id'] ? 'selected' : '' }}>
-                                            {{ $g['name_dept'] }}</option>
-                                    @endforeach
-                                </select>
-                                @error('departements_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mt-2">
-                            <button type="submit" class="btn btn-primary me-2">Save changes</button>
+
+
+                            <div class="card-footer text-end">
+                            <button class="btn btn-success" type="submit">Save Changes</button>
                             <a class="btn btn-outline-secondary" href="{{ route('dashboard') }}">Back</a>
                         </div>
                         <input type="hidden">
