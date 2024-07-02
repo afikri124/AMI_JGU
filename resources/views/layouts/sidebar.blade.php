@@ -40,12 +40,12 @@
                 <div data-i18n="Dashboards">My Audit</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
             <a href="" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clipboard"></i>
                 <div data-i18n="Dashboards">History</div>
             </a>
-        </li>
+        </li> --}}
 
         @can('control panel.read')
         <li class="menu-header small text-uppercase">

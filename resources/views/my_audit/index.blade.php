@@ -65,6 +65,8 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> <!-- Memuat lokal Indonesia untuk moment.js -->
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -131,14 +133,14 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.date_start;
+                        // Menggunakan moment.js untuk memformat tanggal
+                        return moment(row.date_start).format('DD MMMM YYYY, HH:mm'); // Misalnya, "01 Januari 2024, 14:30"
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.date_end;
+                        // Menggunakan moment.js untuk memformat tanggal
+                        return moment(row.date_end).format('DD MMMM YYYY, HH:mm'); // Misalnya, "05 Januari 2024, 09:45"
                     },
                 },
                 {
@@ -151,11 +153,11 @@
                 {
                     render: function (data, type, row, meta) {
                         var x = "";
-                        if (row.doc_path != null) {
-                            x += `<a class="text-warning" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                        if (row.doc_path != null && row.doc_path != "") {
+                            x += `<a class="text-warning" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
                         }
                         if (row.link != null) {
-                            x += `<a class="text-primary" target="_blank" href="{{ url('` + row.link + `') }}"><i class="bx bx-link"></i></a>`;
+                            x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
                         }
                         return x;
                     },
@@ -165,7 +167,7 @@
                             var html =
                                 `<a class="text-success" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
                                 <a class="text-warning" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                                <a class="text-danger" title="Hapus" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture_id + `\')" ><i class="bx bx-trash"></i></a>`;
+                                <a class="text-secondary" title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
                             return html;
                         },
                         "orderable": false,

@@ -45,7 +45,7 @@ class Observation extends Model
         return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
     }
 
-    public function criterias()
+    public function criteria()
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }

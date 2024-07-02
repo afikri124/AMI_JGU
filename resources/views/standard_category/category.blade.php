@@ -119,8 +119,8 @@
             ajax: {
                 url: "{{ route('standard_category.data') }}",
                 data: function (d) {
-                    d.status = $('#Select_2').val(),
-                    d.search = $('input[type="search"]').val()
+                    d.search = $('input[type="search"]').val(),
+                    d.status = $('#Select_2').val()
                 },
             },
             columns: [{

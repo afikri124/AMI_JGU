@@ -64,6 +64,7 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
     Route::get('/edit/{id}', [MyAuditController::class, 'edit'])->name('my_audit.edit');
     Route::put('/update_doc/{id}', [MyAuditController::class, 'update_doc'])->name('my_audit.update_doc');
+    Route::get('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
 });
 
 Route::middleware('auth')->group(function () {

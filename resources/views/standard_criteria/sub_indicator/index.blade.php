@@ -155,9 +155,16 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.name;
-                        return x;
+                        data = "";
+                        // if (row.name != null) {
+                        //     data = "<span class='badge bg-label-danger'>" + row.data.date + "</span> <strong title='" + row.data.title + "'>" + row.data.title +
+                        //         "</strong><br>";
+                        // }                       
+                        return data + $("<textarea/>").html(row.name).text();
                     },
+                    // render: function (data, type, row, meta) {
+                    //     return $('<code>' + row.name + '</code>');
+                    // },
                 },
                 {
                     render: function (data, type, row, meta) {

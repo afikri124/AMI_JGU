@@ -7,6 +7,7 @@ use App\Models\StandardCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Yajra\DataTables\DataTables as DataTablesDataTables;
 use Yajra\DataTables\Facades\DataTables;
 
 class StandardCategoryController extends Controller

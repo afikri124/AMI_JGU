@@ -231,6 +231,13 @@ class AuditPlanController extends Controller{
                             $q->where('lecture_id', $request->get('select_lecture'));
                         });
                     }
+                    if (!empty($request->get('search'))) {
+                        $instance->where(function($w) use($request){
+                            $search = $request->get('search');
+                                $w->orWhere('date_start', 'LIKE', "%$search%")
+                                ->orWhere('date_end', 'LIKE', "%$search%");
+                        });
+                    }
                     })->make(true);
     }
 

@@ -27,7 +27,7 @@ class MyAuditController extends Controller{
             'doc_path' => 'mimes:pdf|max:10000|required_without:link',
             'link' => 'required_without:doc_path'
         ]);
-        $fileName = "";
+        $fileName = null;
         if ($request->hasFile('doc_path')) {
             $ext = $request->doc_path->extension();
             $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
@@ -41,7 +41,7 @@ class MyAuditController extends Controller{
             if ($upload) {
                 $fileName = $folderName . "/" . $fileName;
             } else {
-                $fileName = "";
+                $fileName = null;
             }
         }
         //document upload
@@ -97,6 +97,12 @@ class MyAuditController extends Controller{
     return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Ubah.');
 }
 
+    public function show($id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        return view('my_audit.show', compact('data'));
+    }
+
     public function delete(Request $request){
         $data = AuditPlan::find($request->id);
         if($data){
@@ -134,6 +140,13 @@ class MyAuditController extends Controller{
                 if (!empty($request->get('search'))) {
                     $search = $request->get('search');
                     $instance->where('lecture_id', 'LIKE', "%$search%");
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('date_start', 'LIKE', "%$search%")
+                            ->orWhere('date_end', 'LIKE', "%$search%");
+                    });
                 }
             })->make(true);
     }

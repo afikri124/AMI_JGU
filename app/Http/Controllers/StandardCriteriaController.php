@@ -54,6 +54,12 @@ class StandardCriteriaController extends Controller
                         $q->where('standard_categories_id', $request->get('select_category'));
                     });
                 }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('title', 'LIKE', "%$search%");
+                    });
+                }
             })->make(true);
     }
 
@@ -198,6 +204,12 @@ class StandardCriteriaController extends Controller
                     $q->where('standard_criterias_id', $request->get('select_criteria'));
                 });
             }
+            if (!empty($request->get('search'))) {
+                $instance->where(function($w) use($request){
+                    $search = $request->get('search');
+                        $w->orWhere('name', 'LIKE', "%$search%");
+                });
+            }
         })->make(true);
 }
 
@@ -312,6 +324,12 @@ class StandardCriteriaController extends Controller
                 if (!empty($request->get('select_indicator'))) {
                     $instance->whereHas('indicator', function ($q) use ($request) {
                         $q->where('indicator_id', $request->get('select_indicator'));
+                    });
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('name', 'LIKE', "%$search%");
                     });
                 }
             })->make(true);
