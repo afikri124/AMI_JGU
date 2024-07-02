@@ -173,9 +173,9 @@
             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
             <select name="department_id" id="department_id" class="form-select" required>
                 <option value="">Select Department</option>
-                @foreach($departments as $d)
+                @foreach($department as $d)
                     <option value="{{$d->id}}"
-                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                        {{ (in_array($d->id, old('department') ?? []) ? "selected": "") }}>
                         {{$d->name}}</option>
                     @endforeach
             </select>
@@ -183,13 +183,13 @@
         </div>
         <div class="col-md-6">
             <label class="form-label" for="user-icons"><b>Class Type</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" placeholder="Input Class Type">
+            <input class="form-control" type="text" placeholder="Input Class Type" required>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label">Total Student<i class="text-danger">*</i></label>
                 <input class="form-control @error('total_students') is-invalid @enderror" id="total_students"
-                    name="total_students" value="{{ old('total_students') }}" type=number placeholder="Input Total Students">
+                    name="total_students" value="{{ old('total_students') }}" type=number placeholder="Input Total Students" required>
                 @error('total_students')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -201,7 +201,33 @@
             <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
-            <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+            
+            {{-- <!-- Tombol Next dengan JavaScript Validasi -->
+            <button id="btnNext" class="btn btn-primary btn-next" disabled>
+              <span class="align-middle d-sm-inline-block d-none">Next</span>
+              <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+            </button>
+
+            <script>
+              // Menyimpan referensi ke tombol Next
+              const btnNext = document.getElementById('btnNext');
+
+              // Event listener untuk mengecek validasi sebelum mengaktifkan tombol Next
+              document.addEventListener('DOMContentLoaded', function() {
+                  // Menambahkan event listener ke setiap input yang diperlukan
+                  const inputsRequired = document.querySelectorAll('input[required], select[required], textarea[required]');
+
+                  inputsRequired.forEach(input => {
+                      input.addEventListener('input', function() {
+                          // Memeriksa apakah semua input yang diperlukan sudah diisi
+                          const allInputsFilled = Array.from(inputsRequired).every(input => input.value.trim() !== '');
+                          btnNext.disabled = !allInputsFilled;
+                      });
+                  });
+              });
+            </script> --}}
+
+            <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
           </div>
         </div>
       </div>
@@ -256,7 +282,7 @@
           <p></p>
           <small>Criteria Standard</small>
           <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
-          @foreach($criterias as $c)
+          @foreach($criteria as $c)
             <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
                 {{ $c->title }}
             </option>

@@ -28,9 +28,9 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                        <div class="col-sm-12 fv-plugins-icon-container">
+                        <div class="col-md-3 fv-plugins-icon-container">
                             <label for="audit_status_id" class="form-label" >Status</label>
-                            <select name="audit_status_id" id="audit_status_id" class="form-select" required>
+                            <select name="audit_status_id" id="audit_status_id" class="form-select select2" required>
                                 <option value="">Select Status</option>
                                 @foreach($status as $x)
                                     <option value="{{ $x->id }}" {{ old('audit_status_id', $data->audit_status_id) == $x->id ? 'selected' : '' }}>

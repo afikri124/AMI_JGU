@@ -22,7 +22,6 @@ class ObservationController extends Controller
     public function index(Request $request)
     {
         $data = AuditPlan::all();
-        $category = StandardCategory::orderBy('description')->get();
         $lecture = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
@@ -30,7 +29,7 @@ class ObservationController extends Controller
                 $q->where('name', 'lecture');
             })
             ->orderBy('name')->get();
-        return view('observations.index', compact('data', 'lecture', 'category'));
+        return view('observations.index', compact('data', 'lecture'));
     }
 
     public function make(Request $request, $id)
@@ -73,15 +72,17 @@ class ObservationController extends Controller
 
         $audit_plan = AuditPlan::with('auditStatus')->get();
         $locations = Location::orderBy('title')->get();
-        $departments = Department::orderBy('name')->get();
+        $department = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
-        $criterias = StandardCriteria::orderBy('title')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
         $sub_indicator = SubIndicator::all();
-
-
         $data = AuditPlan::findOrFail($id);
 
-        return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criterias", "audit_plan"));
+<<<<<<< HEAD
+        return view("observations.make", compact("sub_indicator", "data", "locations", "departments", "category", "criteria", "audit_plan"));
+=======
+        return view("observations.make", compact("sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
+>>>>>>> 943e7eb768aef9ffe3bf1c333c14c721f709e04d
     }
 
     public function edit($id)
@@ -92,8 +93,7 @@ class ObservationController extends Controller
         return view('observations.edit', compact('data'));
     }
 
-    public function update(Request $request, $id)
-{
+    public function update(Request $request, $id){
     $request->validate([
         'remark_docs'    => '',
     ]);
@@ -132,6 +132,9 @@ class ObservationController extends Controller
         // Redirect dengan pesan error jika data tidak berhasil diupdate
         return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
     }
+
+        return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+
 }
 
 
@@ -162,6 +165,13 @@ class ObservationController extends Controller
                 if (!empty($request->get('select_lecture'))) {
                     $instance->whereHas('lecture', function ($q) use ($request) {
                         $q->where('lecture_id', $request->get('select_lecture'));
+                    });
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('date_start', 'LIKE', "%$search%")
+                            ->orWhere('date_end', 'LIKE', "%$search%");
                     });
                 }
             })->make(true);

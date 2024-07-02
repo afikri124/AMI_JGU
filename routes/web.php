@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
+
 //Audit Plan
 Route::group(['prefix' => 'audit_plan'], function () {
     Route::any('/', [AuditPlanController::class, 'index'])->name('audit_plan.index');
@@ -69,6 +71,7 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
     Route::get('/edit/{id}', [MyAuditController::class, 'edit'])->name('my_audit.edit');
     Route::put('/update_doc/{id}', [MyAuditController::class, 'update_doc'])->name('my_audit.update_doc');
+    Route::get('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
 });
 
 Route::middleware('auth')->group(function () {
