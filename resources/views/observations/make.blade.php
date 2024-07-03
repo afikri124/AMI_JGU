@@ -201,7 +201,7 @@
             <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
-            
+
             {{-- <!-- Tombol Next dengan JavaScript Validasi -->
             <button id="btnNext" class="btn btn-primary btn-next" disabled>
               <span class="align-middle d-sm-inline-block d-none">Next</span>
@@ -332,8 +332,8 @@
                     id="remark_docs"
                     name="remark_docs"
                     class="comment"
-                    maxlength="100"
-                    placeholder="MAX 100 karakter..."></textarea>
+                    maxlength="250"
+                    placeholder="MAX 250 karakter..."></textarea>
                 </td>
               </tr>
             </table>

@@ -4,10 +4,7 @@
 @section('title', 'Create Indicator')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css') }}" />
 @endsection
 
 <div class="row">
@@ -58,10 +55,7 @@
 </div>
 
 @section('script')
-<script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 <script>
    document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('numForms').addEventListener('input', function() {
@@ -75,7 +69,7 @@
                 <div class="row mb-3">
                         <div class="form-group">
                             <label for="inputField${i + 1}_1">Indikator (Max. 250 char)<i class="text-danger">*</i></label>
-                            <textarea type="text-danger" class="form-control" maxlength="250"  placeholder="Note: Maximum 191 char." id="inputField${i + 1}_1" name="indicators[${i}][name]">
+                            <textarea type="text-danger" class="form-control" maxlength="250" id="inputField${i + 1}_1" name="indicators[${i}][name]">
 
             `;
             container.insertAdjacentHTML('beforeend', row);

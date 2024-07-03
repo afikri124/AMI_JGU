@@ -21,8 +21,8 @@
                         </ul>
                         <div class="tab-content" id="icon-tabContent">
                               <div class="tab-pane fade active show text-center pt-0" id="icon-home" role="tabpanel" aria-labelledby="icon-home-tab">
-                                    <a href="{{asset('assets/dg-po2.png')}}" target="_blank">
-                                    <img class="img-fluid" style="max-height: 450px;" src="{{asset('assets/dg-po2.png')}}">
+                                    <a href="{{asset('assets/img/AMI Diagram.jpg')}}" target="_blank">
+                                    <img class="img-fluid" style="max-height: 450px;" src="{{asset('assets/img/AMI Diagram.jpg')}}">
                                     </a>
                               </div>
                         </div>

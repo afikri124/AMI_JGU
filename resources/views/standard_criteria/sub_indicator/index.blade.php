@@ -64,7 +64,7 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12"> -->
                         <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
                                 <option value="">Select Indicator</option>
                                 @foreach($indicator as $d)
@@ -159,7 +159,7 @@
                         // if (row.name != null) {
                         //     data = "<span class='badge bg-label-danger'>" + row.data.date + "</span> <strong title='" + row.data.title + "'>" + row.data.title +
                         //         "</strong><br>";
-                        // }                       
+                        // }
                         return data + $("<textarea/>").html(row.name).text();
                     },
                     // render: function (data, type, row, meta) {

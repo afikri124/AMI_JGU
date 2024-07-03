@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="layout-navbar container-xl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme no-print"
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme no-print"
     id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0   d-xl-none ">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -47,21 +47,18 @@
                 <a class="nav-link dropdown-toggle hide-arrow" href="" data-bs-toggle="dropdown">
                 <div class="media profile-media">
                         <img class="rounded-circle" src="{{Auth::user()->image()}}" style="width: 40px;height: 40px; object-fit: cover;" alt="">
-                        <div class="media-body">
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                <div class="media-body">
                         @php
                          $first_name = explode(" ", ucfirst(Auth::user()->name));
                          if(strlen(Auth::user()->name) < 15){
                             $first_name[0] = Auth::user()->name;
                          }
                         @endphp
-                            <span>{{ $first_name[0] }}</span>
-                            <p class="mb-0 font-roboto">{{ Auth::user()->username }} <i
-                                    class="middle fa fa-angle-down"></i></p>
+                            <p class="mb-0 font-roboto"><span>{{ $first_name[0] }}</span></p>
                         </div>
-                    </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-
                     <li class="">
                         <a class="dropdown-item {{ Route::currentRouteName() == 'profile.edit' ? 'active' : '' }}"
                             href="{{ route('profile.edit') }}">

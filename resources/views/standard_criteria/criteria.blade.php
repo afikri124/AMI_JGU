@@ -71,7 +71,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class=" col-md-3">
+                        <div class="col-md-3">
                             <select id="select2" class="form-control input-sm select2" data-placeholder="Status">
                                 <option value="">Status</option>
                                 <option value='true'>ON</option>
@@ -229,7 +229,6 @@
                             `" href="">` + row.category.id + `</a>`;
                         return html;
                     },
-                    className: "text-center"
                 },
                 {
                     render: function (data, type, row, meta) {

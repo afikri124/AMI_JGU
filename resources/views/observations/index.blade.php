@@ -128,7 +128,7 @@
                     render: function (data, type, row, meta) {
                         var x = "";
                         if (row.doc_path != null) {
-                            x += `<a class="text-warning" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                            x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
                         }
                         if (row.link != null) {
                             x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
@@ -137,17 +137,24 @@
                     },
                 },
                 {
-                        render: function(data, type, row, meta) {
-                            var html =
-                                `<a class="text-warning" title="Remark Doc" href="{{ url('observations/edit/${row.id}') }}">
-                                <i class="bx bx-pencil"></i></a>
-                                <a class="text-danger bx-sm px-1" title="Observation" style="cursor:pointer" href="{{ url('observations/make/') }}/${row.id}">
-                                <i class="bx bx-plus"></i></a>`
-                            return html;
-                        },
-                        "orderable": false,
-                        className: "text-md-center"
-                    }
+                    render: function(data, type, row, meta) {
+                        var x = '';
+
+                        // Check if auditstatus is '1' or '2'
+                        if (row.auditstatus.id === 10 ) {
+                            x = `<a class="text-warning" title="Observations" href="{{ url('observations/edit/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a>`;
+                        }
+                        // Check if auditstatus is '10'
+                        else if (row.auditstatus.id === 3) {
+                            x = `<a class="text-warning" title="Observations" href="{{ url('observations/make/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a>`;
+                        }
+                        return x;
+                    },
+                    "orderable": false,
+                    className: "text-md-center"
+                }
             ]
         });
     });

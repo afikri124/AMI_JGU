@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <!-- Design by foolishdeveloper.com -->
-    <title>LOGIN-AMI</title>
+    <title>Login - AMI JGU</title>
 <!-- Favicons -->
 <link href="assets/img/favicon.ico" rel="icon">
 
@@ -101,7 +101,7 @@ button{
     <form method="POST" action="{{ route('login') }}"><h2><img src="assets-landing/img/ami-jgu.png" width="330" height="111"></h2>
         @csrf
          <!-- Email Address or Username-->
-        <label>login here!</label>
+        <label>Login to Audit Mutu Internal!</label>
         <label for="login_account">Username or Email</label>
         <input type="text" placeholder="Username or Email" id="login_account"  name="login_account" :value="old('login_account')" autocomplete="username" />
         <x-input-error :messages="$errors->get('email')" class="mt-2"/>

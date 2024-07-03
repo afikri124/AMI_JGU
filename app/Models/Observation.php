@@ -29,6 +29,11 @@ class Observation extends Model
         'title_ass'
     ];
 
+    public function auditPlan()
+    {
+        return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
+    }
+
     public function lecture()
     {
         return $this->belongsTo(User::class, 'lecture_id');

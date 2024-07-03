@@ -154,7 +154,7 @@
                     render: function (data, type, row, meta) {
                         var x = "";
                         if (row.doc_path != null && row.doc_path != "") {
-                            x += `<a class="text-warning" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                            x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
                         }
                         if (row.link != null) {
                             x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
@@ -163,16 +163,16 @@
                     },
                 },
                 {
-                        render: function(data, type, row, meta) {
-                            var html =
-                                `<a class="text-success" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
-                                <a class="text-warning" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                                <a class="text-secondary" title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
-                            return html;
-                        },
-                        "orderable": false,
-                        className: "text-md-center"
-                    }
+                    render: function(data, type, row, meta) {
+                        var html =
+                            `<a class="text-success" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                            <a class="text-warning" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            <a class="text-secondary" title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
+                        return html;
+                    },
+                    "orderable": false,
+                    className: "text-md-center"
+                }
             ]
         });
     });

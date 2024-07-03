@@ -45,6 +45,11 @@ class StandardCriteria extends Model
     {
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
+
+    public function auditPlan()
+    {
+        return $this->hasMany(AuditPlan::class, 'id');
+    }
     // public function getKeyType()
     // {
     //     return 'string';

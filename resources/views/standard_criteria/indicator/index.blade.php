@@ -64,9 +64,9 @@
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
-                                <option value="">Select criteria</option>
+                                <option value="">Select Criteria</option>
                                 @foreach($criteria as $d)
                                 <option value="{{ $d->id }}">{{ $d->id }} - {{ $d->title }}</option>
                                 @endforeach

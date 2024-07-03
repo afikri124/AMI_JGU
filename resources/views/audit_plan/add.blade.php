@@ -155,7 +155,7 @@
                                     <option value="">Select Category</option>
                                     @foreach($category as $c)
                                         <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
-                                            {{ $c->description }}
+                                            {{ $c->id }} - {{ $c->description }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -168,7 +168,7 @@
                                     <option value="">Select Criterias</option>
                                     @foreach($criterias as $c)
                                         <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
-                                            {{ $c->title }}
+                                            {{ $c->id }} - {{ $c->title }}
                                         </option>
                                     @endforeach
                                 </select>
