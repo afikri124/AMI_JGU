@@ -25,11 +25,8 @@
             <form class="card" method="POST" action="">
                 @csrf
                 <div class="card-header">
-                    <div class="card-options"><a class="card-options-collapse" href="#"
-                        data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a
-                        class="card-options-remove" href="#" data-bs-toggle="card-remove"><i
-                        class="fe fe-x"></i></a>
-                    </div>
+                    <h3 class="card-header"><b>Create Audit Plan</b></h3>
+                    <hr class="my-0">
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -155,7 +152,7 @@
                                     <option value="">Select Category</option>
                                     @foreach($category as $c)
                                         <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
-                                            {{ $c->id }} - {{ $c->description }}
+                                                                                {{ $c->id }} - {{ $c->description }}
                                         </option>
                                     @endforeach
                                 </select>

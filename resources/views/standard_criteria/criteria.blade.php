@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Standard Criterias')
+@section('title', 'Standard Criteria')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />

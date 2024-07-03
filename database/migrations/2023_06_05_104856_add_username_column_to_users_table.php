@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('no_phone')->nullable();
             $table->string('google_id')->unique()->nullable();
             $table->char('gender')->nullable();
-            $table->string('photo')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('front_title')->nullable();
+            $table->string('back_title')->nullable();
         });
     }
 

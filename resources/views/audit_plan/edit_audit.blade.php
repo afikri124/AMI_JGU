@@ -16,6 +16,10 @@
         </div>
         @endif
         <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-header"><b>Update Audit Plan</b></h3>
+                <hr class="my-0">
+            </div>
             <!-- Account -->
             <hr class="my-0">
             <div class="card-body">

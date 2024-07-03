@@ -46,9 +46,9 @@
                         <div class="row">
                             @csrf
                             <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                                <label class="form-label">Nama</label>
+                                <label class="form-label"><b>Nama</b></label><i class="text-danger">*</i>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" value="{{ Auth::user()->name }}" placeholder="Nama Lengkap" autofocus />
+                                    name="name" value="{{ Auth::user()->name }}" placeholder="Nama Lengkap" autofocus/>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                                <label class="form-label">Username</label>
+                                <label class="form-label"><b>Username</b></label><i class="text-danger">*</i>
                                 <input type="text" class="form-control @error('username') is-invalid @enderror"
                                     name="username" value="{{ Auth::user()->username }}" placeholder="NIK/NIM"
                                     @if (Auth::user()->username != null) readonly title="Silahkan hubungi Admin" @endif />
@@ -78,27 +78,7 @@
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label class="form-label">Gelar Depan</label>
-                                <input type="text" class="form-control @error('front_title') is-invalid @enderror"
-                                    name="front_title" value="{{ Auth::user()->front_title }}" />
-                                @error('front_title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label">Gelar Belakang</label>
-                                <input type="text" class="form-control @error('back_title') is-invalid @enderror"
-                                    name="back_title" value="{{ Auth::user()->back_title }}" />
-                                @error('back_title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label"><b>Email</b></label><i class="text-danger">*</i>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email"
                                     value="{{ old('email') == null ? Auth::user()->email : old('email') }}" />
@@ -109,9 +89,9 @@
                                 @enderror
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label for="nidn" class="form-label">NIDN</label>
-                                <input type="nidn" class="form-control @error('nidn') is-invalid @enderror"
-                                    id="nidn" name="nidn"
+                                <label for="nidn" class="form-label"><b>NIDN</b></label><i class="text-danger">*</i>
+                                <input type="number" class="form-control @error('nidn') is-invalid @enderror"
+                                    id="nidn" name="nidn" placeholder="Input your NIDN"
                                     value="{{ old('nidn') == null ? Auth::user()->nidn : old('nidn') }}" />
                                 @error('nidn')
                                     <span class="invalid-feedback" role="alert">
@@ -119,10 +99,68 @@
                                     </span>
                                 @enderror
                             </div>
-
-
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label"><b>Front Title</b></label><i class="text-danger">*</i>
+                                <input type="text" class="form-control @error('front_title') is-invalid @enderror"
+                                    name="front_title" placeholder="Input your Front Title" value="{{ Auth::user()->front_title }}" />
+                                @error('front_title')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label"><b>Back Title</b></label><i class="text-danger">*</i>
+                                <input type="text" class="form-control @error('back_title') is-invalid @enderror"
+                                    name="back_title" placeholder="Input your Back Title" value="{{ Auth::user()->back_title }}" />
+                                @error('back_title')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="no_phone" class="form-label"><b>Phone Number</b></label><i class="text-danger">*</i>
+                                <input type="number" class="form-control @error('no_phone') is-invalid @enderror"
+                                    id="no_phone" name="no_phone" placeholder="Input your Phone Number"
+                                    value="{{ old('no_phone') == null ? Auth::user()->no_phone : old('no_phone') }}" />
+                                @error('no_phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3 col-md-6">
+                            <label class="form-label" for="basicDate"><b>Gender</b></label><i class="text-danger">*</i>
+                            <div class="input-group input-group-merge has-validation">
+                                <select class="form-select @error('gender') is-invalid @enderror select2-modal"
+                                    name="gender" data-placeholder="-- Select --">
+                                    <option value="">-- Select --</option>
+                                    <option value="M" {{ ("M"==old('gender') ? "selected": "") }}>Male</option>
+                                    <option value="F" {{ ("F"==old('gender') ? "selected": "") }}>Female</option>
+                                </select>
+                                @error('gender')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                            <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
+                            <select name="department_id" id="department_id" class="form-select" required>
+                                <option value="">Select Department</option>
+                                @foreach($departments as $d)
+                                    <option value="{{$d->id}}"
+                                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                                        {{$d->name}}</option>
+                                    @endforeach
+                            </select>
+                            </div>
+                        </div>
                             <div class="card-footer text-end">
-                            <button class="btn btn-success" type="submit">Save Changes</button>
+                            <button class="btn btn-danger" type="submit">Save</button>
                             <a class="btn btn-outline-secondary" href="{{ route('dashboard') }}">Back</a>
                         </div>
                         <input type="hidden">

@@ -74,7 +74,7 @@ h3{
     <div class="row">
         <div class="col-xl-6 col-lg-12 xl-50 morning-sec box-col-12">
             <div class="card profile-greeting bg-black">
-                <div class="card-body pb-0">
+                <div class="card-body">
                     <div class="media">
                         <div class="media-body">
                             <div class="greeting-user m-0">
