@@ -104,7 +104,7 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Title<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('title')  is-invalid @enderror" maxlength="150"
+                                <input type="text" class="form-control @error('title')  is-invalid @enderror" maxlength="120"
                                     name="title" placeholder="Input The New Criteria" value="{{ old('title') }}">
                                 @error('title')
                                 <span class="invalid-feedback" role="alert">

@@ -28,9 +28,9 @@
                         <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
                                 name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Standard Criteria</option>
-                            @foreach($criteria as $role)
-                                <option value="{{$role->id}}" {{ $data->standard_criterias_id ? 'selected' : '' }}>
-                                    {{$role->title}}</option>
+                            @foreach($criteria as $f)
+                                <option value="{{$f->id}}" {{ $data->standard_criterias_id ? 'selected' : '' }}>
+                                {{ $f->id }} - {{$f->title}}</option>
                                 @endforeach
                         </select>
                         @error('standard_criterias_id')
