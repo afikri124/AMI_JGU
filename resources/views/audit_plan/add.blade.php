@@ -27,7 +27,6 @@
                 <div class="card-header">
                     <h3 class="card-header"><b>Create Audit Plan</b></h3>
                     <hr class="my-0">
-                </div>
                 <div class="card-body">
                     <div class="row">
                     <div class="col-lg-6 col-md-12">
@@ -218,38 +217,15 @@
                 });
             })(jQuery);
         }, 350);
-
-        $(document).ready(function() {
-            // ketika category dirubah, theme di isi
+            // ketika tema dirubah, topic di isi
             $('#standard_categories').change(function() {
                 var categoryId = this.value;
-                $("#standard_criterias").html('');
-                $.ajax({
-                    url: "{{ route('DOC.get_standard_categories_by_id') }}",
-                    type: "GET",
-                    data: {
-                        id: categoryId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#standard_categories').html('<option value="">Select Category</option>');
-                        $.each(result, function(key, value) {
-                            $("#standard_categories").append('<option value="' + value.id +
-                                '">' + value.description + '</option>');
-                        });
-                    }
-                });
-            });
-            // ketika tema dirubah, topic di isi
-            $('#standard_criterias').change(function() {
-                var themeId = this.value;
                 $("#standard_criterias").html('');
                 $.ajax({
                     url: "{{ route('DOC.get_standard_criterias_by_id') }}",
                     type: "GET",
                     data: {
-                        id: themeId,
+                        id: categoryId,
                         _token: '{{ csrf_token() }}'
                     },
                     dataType: 'json',
@@ -262,7 +238,6 @@
                     }
                 });
             });
-        });
     </script>
 </script>
 @endsection

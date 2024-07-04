@@ -14,6 +14,7 @@ use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -147,7 +148,15 @@ class ObservationController extends Controller
             'category' => function ($query) {
                 $query->select('id', 'description');
             },
-        ])->orderBy("id");
+            'departments' => function ($query) {
+                $query->select('id', 'name');
+            },
+        ])->leftJoin('locations', 'locations.id' , '=', 'location_id')
+        ->select('audit_plans.*',
+        'locations.title as location'
+        )
+        // ->where('auditor_id', Auth::user()->id)
+        ->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 //jika pengguna memfilter berdasarkan roles

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
 
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
@@ -33,8 +33,9 @@
                             <tr>
                                 <th><b>No</b></th>
                                 <th><b>Lecture</b></th>
-                                <th><b>Date Start</b></th>
-                                <th><b>Date End</b></th>
+                                <th><b>Schedule</b></th>
+                                <th><b>Department</b></th>
+                                <th><b>Location</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
@@ -101,20 +102,36 @@
                 {
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.lecture.name +
-                            `" href="">` + row.lecture.name + `</a>`;
+                            `" href="{{ url('setting/manage_account/users/edit/` +
+                            row.idd + `') }}">` + row.lecture.name + `</a>`;
+                        
+                        if (row.no_phone) {
+                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        }
+                        
                         return html;
                     },
                 },
                 {
+                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
                     render: function (data, type, row, meta) {
                         // Menggunakan moment.js untuk memformat tanggal
-                        return moment(row.date_start).format('DD MMMM YYYY, HH:mm'); // Misalnya, "01 Januari 2024, 14:30"
+                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        return formattedStartDate + ' - ' + formattedEndDate;
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.departments.name;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        return moment(row.date_end).format('DD MMMM YYYY, HH:mm'); // Misalnya, "05 Januari 2024, 09:45"
+
+                            return row.location;
                     },
                 },
                 {

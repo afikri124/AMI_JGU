@@ -126,12 +126,15 @@ class MyAuditController extends Controller{
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'location' => function ($query) {
-                $query->select('id', 'title');
-            }
-            ])
-            ->where('lecture_id', Auth::user()->id)
-            ->select('*')->orderBy("id");
+            'auditor' => function ($query) {
+                $query->select('id', 'name');
+            },
+            ])->leftJoin('locations', 'locations.id' , '=', 'location_id')
+            ->select('audit_plans.*',
+            'locations.title as location'
+            )
+            // ->where('lecture_id', Auth::user()->id)
+            ->orderBy("id");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('lecture_id'))) {

@@ -35,18 +35,21 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Ziddan Azzahra',
                 'username' => 'lecture',
                 'gender' => 'M',
+                'no_phone' => '081384810569'
             ], $default_user_value));
             $auditor = User::create(array_merge([
                 'email' => 'rofiqabdul983@gmail.com',
                 'name' => 'Muhammad Abdul Rofiq',
                 'username' => 'auditor',
                 'gender' => 'M',
+                'no_phone' => '082258485039'
             ], $default_user_value));
             $lpm = User::create(array_merge([
                 'email' => 'lpm@example',
                 'name' => 'Feni Dwi Lestari',
                 'username' => 'lpm',
                 'gender' => 'L',
+                'no_phone' => '089602928926'
             ], $default_user_value));
             $approver = User::create(array_merge([
                 'email' => 'approver@example',

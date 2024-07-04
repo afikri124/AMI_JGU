@@ -52,7 +52,7 @@ Route::group(['prefix' => 'audit_plan'], function () {
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
-Route::get('/get_standard_categories_id', [AuditPlanController::class, 'geStandardCategoriesById'])->name('DOC.get_standard_categories_by_id');
+Route::get('/get_standard_categories_id', [AuditPlanController::class, 'getStandardCategoriesById'])->name('DOC.get_standard_categories_by_id');
 Route::get('/get_standard_criterias_by_id', [AuditPlanController::class, 'getStandardCriteriasById'])->name('DOC.get_standard_criterias_by_id');
 
 Route::group(['prefix' => 'observations'], function () {

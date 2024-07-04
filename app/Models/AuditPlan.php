@@ -44,7 +44,7 @@ class AuditPlan extends Model
     }
 
     // // Contoh relasi ke model Department
-    public function department()
+    public function departments()
     {
         return $this->belongsTo(Department::class, 'department_id');
     }

@@ -20,9 +20,8 @@
         </div>
         @endif
         <div class="card mb-4">
-            <!-- Account -->
+            <h4 class="card-header"><b>Upload Document Audit</b></h4>
             <hr class="my-0">
-            <div class="card-header">Upload Document Audit</div>
             <div class="card-body">
                 <form id="form-add-new-record" method="POST" action="{{ route('my_audit.update', $data->id) }}"
                         enctype="multipart/form-data">

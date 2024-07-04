@@ -29,13 +29,13 @@ class AuditPlanController extends Controller{
 
     public function getStandardCategoriesById(Request $request)
     {
-        $category = StandardCategory::where('standard_categories_id', $request->id)->get();
+        $category = StandardCategory::where('id', $request->id)->get();
         return response()->json($category);
     }
 
     public function getStandardCriteriasById(Request $request)
     {
-        $criterias = StandardCriteria::where('standard_criterias_id', $request->id)->get();
+        $criterias = StandardCriteria::where('standard_categories_id', $request->id)->get();
         return response()->json($criterias);
     }
 
@@ -206,18 +206,21 @@ class AuditPlanController extends Controller{
             'criterias' => function ($query) {
                 $query->select('id', 'title', 'status');
             },
+            'departments' => function ($query) {
+                $query->select('id', 'name');
+            },
         ])
         ->leftJoin('locations', 'locations.id' , '=', 'location_id')
         ->select('audit_plans.*',
         'locations.title as location'
         )->orderBy("id");
-            return DataTables::of($data)
-                ->filter(function ($instance) use ($request) {
-                    //jika pengguna memfilter berdasarkan roles
-                    if (!empty($request->get('select_lecture'))) {
-                        $instance->whereHas('lecture', function($q) use($request){
-                            $q->where('lecture_id', $request->get('select_lecture'));
-                        });
+                return DataTables::of($data)
+                    ->filter(function ($instance) use ($request) {
+                        //jika pengguna memfilter berdasarkan roles
+                        if (!empty($request->get('select_lecture'))) {
+                            $instance->whereHas('lecture', function($q) use($request){
+                                $q->where('lecture_id', $request->get('select_lecture'));
+                            });
                     }
                     if (!empty($request->get('search'))) {
                         $instance->where(function($w) use($request){
@@ -228,6 +231,8 @@ class AuditPlanController extends Controller{
                     }
                     })->make(true);
     }
+
+    
 
 //Json
     public function getData(){

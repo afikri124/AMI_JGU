@@ -9,23 +9,18 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
 
-        <div class="card">
-            <div class="card-datatable table-responsive">
-                <div class="card-header flex-column flaex-md-row pb-0">
-                    <div class="row">
-                        <div class="col-12 pt-3 pt-md-0">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <div class="card-header flex-column flex-md-row pb-0">
+            <div class="row">
+                <div class="col-12 pt-3 pt-md-0">
+                    <div class="col-12">
+                        <div class="row">
+                <div class="row">
+                <div class="col-md-3">
                     <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
                         <option value="">Select Lecture</option>
                         @foreach($lecture as $d)
@@ -40,16 +35,20 @@
                                 href="{{ route('audit_plan.add')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </div>
     <div class="container">
         <thead>
             <tr>
                 <th><b>No</b></th>
                 <th><b>Lecture</b></th>
-                <th><b>Date Start</b></th>
-                <th><b>Date End</b></th>
+                <th><b>Schedule</b></th>
                 <th><b>Status</b></th>
                 <th><b>Auditor</b></th>
+                <th><b>Department</b></th>
                 <th><b>Location</b></th>
                 <th><b>Action</b></th>
             </tr>
@@ -117,21 +116,25 @@
                 {
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.lecture.name +
-                            `" href="">` + row.lecture.name + `</a>`;
+                            `" href="{{ url('setting/manage_account/users/edit/` +
+                            row.idd + `') }}">` + row.lecture.name + `</a>`;
+                        
+                        if (row.no_phone) {
+                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        }
+                        
                         return html;
                     },
                 },
                 {
+                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
                     render: function (data, type, row, meta) {
                         // Menggunakan moment.js untuk memformat tanggal
-                        return moment(row.date_start).format('DD MMMM YYYY, HH:mm'); // Misalnya, "01 Januari 2024, 14:30"
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        return moment(row.date_end).format('DD MMMM YYYY, HH:mm'); // Misalnya, "05 Januari 2024, 09:45"
-                    },
+                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        return formattedStartDate + ' - ' + formattedEndDate;
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {
@@ -140,11 +143,25 @@
                         return html;
                     }
                 },
+                
                 {
                     render: function (data, type, row, meta) {
-                        var html = "<code><span title='" + row.auditor.name + "'>" + row.auditor.name +
-                            "</span></code>";
+                        var html = `<code><span title=` + row.auditor.name + `" href="{{ url('setting/manage_account/users/edit/`
+                            + row.idd + `') }}">` + row.auditor.name +
+                            `</span></code>`;
+                        
+                        if (row.no_phone) {
+                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        }
+                        
                         return html;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.departments.name;
                     },
                 },
                 {
