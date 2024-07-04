@@ -68,7 +68,7 @@
                             <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
                                 <option value="">Select Indicator</option>
                                 @foreach($indicator as $d)
-                                <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -171,7 +171,7 @@
                         var x = row.id;
                         var html =
                             `<a class="text-warning" title="Edit Sub Indicator" style="cursor:pointer"
-                            href="{{ url('setting/manage_standard/criteria/edit/sub_indicator/') }}/${row.id}">
+                            href="{{ url('setting/manage_standard/criteria/edit_sub/sub_indicator/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
 
                             <a class="text-primary" title="Delete Sub Indicator" style="cursor:pointer"

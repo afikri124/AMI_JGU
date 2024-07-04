@@ -28,7 +28,7 @@
                                     <option value="">Select Criterias</option>
                                     @foreach($criterias as $c)
                                         <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
-                                            {{ $c->title }}
+                                        {{ $c->id }} -  {{ $c->title }}
                                         </option>
                                         @endforeach
                                 </select>

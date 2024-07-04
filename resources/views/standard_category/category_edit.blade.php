@@ -34,8 +34,8 @@
                         </div>
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
-                                    <label for="description" class="col-form-label">Description</label>
-                                    <textarea class="form-control" rows="2" name="description" id="description">{{ $data->description }}</textarea>
+                                    <label for="description" class="col-form-label">Description<i class="text-danger">*</i></label>
+                                    <textarea class="form-control" maxlength="100" rows="2" name="description" id="description">{{ $data->description }}</textarea>
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12">
