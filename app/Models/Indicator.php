@@ -21,10 +21,17 @@ class Indicator extends Model
         return 'string';
     }
 
+    // public function criteria()
+    // {
+    //     return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    // }
     public function criteria()
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
 
-
+    public function subIndicators()
+    {
+        return $this->hasMany(SubIndicator::class, 'indicator_id');
+    }
 }
