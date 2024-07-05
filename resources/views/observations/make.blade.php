@@ -272,20 +272,13 @@
         <div class="content-header mb-3">
         <small>Category Standard</small>
           <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
-          @foreach($category as $c)
-            <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
-                {{ $c->description }}
-            </option>
-          @endforeach
+            {{ $data->categoryid->title  }}
           </h6>
           <p></p>
           <small>Criteria Standard</small>
           <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
-          @foreach($criteria as $c)
-            <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
-                {{ $c->title }}
-            </option>
-          @endforeach
+            {{ $data->criterias->title  }}
+          </h6>
         </div>
 
         @foreach ($sub_indicator as $sub)

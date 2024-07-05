@@ -63,6 +63,10 @@ class AuditPlan extends Model
     {
         return $this->belongsTo(StandardCategory::class, 'description', 'audit_status_id');
     }
+    public function categoryid()
+    {
+        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+    }
 
     public function criterias()
     {

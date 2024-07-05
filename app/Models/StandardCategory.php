@@ -11,7 +11,7 @@ class StandardCategory extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'title', 'description', 'is_required','status'
+        'id', 'title', 'description', 'is_required', 'status'
     ];
 
     public function category()
@@ -33,5 +33,4 @@ class StandardCategory extends Model
     {
         return $this->hasMany(Observation::class, 'id');
     }
-
 }
