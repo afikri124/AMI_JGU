@@ -12,6 +12,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
 
+<style>
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.5em;
+    }
+
+    .icon-white {
+        color: #ffffff; /* Warna putih */
+    }
+</style>
+
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
@@ -173,10 +186,10 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="text-warning" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
+                            `<a class="badge bg-warning badge-icon" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture.name + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture.name + `\')" >
+                            <i class="bx bx-trash icon-white"></i></a>`;
                         return html;
                     },
                     "orderable": false,
