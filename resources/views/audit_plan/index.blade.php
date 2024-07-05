@@ -12,18 +12,40 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
 
+@section('style')
 <style>
+    table.dataTable tbody td {
+        vertical-align: middle;
+    }
+
+    table.dataTable td:nth-child(2) {
+        max-width: 120px;
+    }
+
+    table.dataTable td:nth-child(3) {
+        max-width: 100px;
+    }
+
+    table.dataTable td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
     .badge-icon {
         display: inline-block;
         font-size: 1em;
         padding: 0.4em;
-        margin-right: 0.5em;
+        margin-right: 0.1em;
     }
 
-    .icon-white {
-        color: #ffffff; /* Warna putih */
+    .icon-white
+    {
+        color: white;
     }
+
 </style>
+@endsection
 
 <div class="card">
     <div class="card-datatable table-responsive">
@@ -53,21 +75,20 @@
                     </div>
                 </div>
             </div>
-    <div class="container">
-        <thead>
-            <tr>
-                <th><b>No</b></th>
-                <th><b>Lecture</b></th>
-                <th><b>Schedule</b></th>
-                <th><b>Status</b></th>
-                <th><b>Auditor</b></th>
-                <th><b>Department</b></th>
-                <th><b>Location</b></th>
-                <th><b>Action</b></th>
-            </tr>
-        </thead>
-    </table>
-</div>
+            <div class="container">
+                    <thead>
+                        <tr>
+                            <th width="5%"><b>No</b></th>
+                            <th width="15%"><b>Auditee</b></th>
+                            <th width="35%"><b>Schedule</b></th>
+                            <th width="10%"><b>Status</b></th>
+                            <th width="15%"><b>Auditor</b></th>
+                            <th width="20%"><b>Location</b></th>
+                            <th width="15%"><b>Action</b></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
 
 @endsection
 
@@ -173,13 +194,6 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-
-                            return row.departments.name;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-
                             return row.location;
                     },
                 },

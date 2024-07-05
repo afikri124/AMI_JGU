@@ -145,7 +145,7 @@
         </div>
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label" for="lecture"><b>Lecture</b><i class="text-danger">*</i></label>
+            <label class="form-label" for="lecture"><b>Auditee</b><i class="text-danger">*</i></label>
             <input class="form-control" type="text" value="{{ $data->lecture->name}}" disabled>
 
           </div>
@@ -170,30 +170,13 @@
         <div class="col-md-6">
             <div class="form-group">
             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-            <select name="department_id" id="department_id" class="form-select" required>
-                <option value="">Select Department</option>
+            <select name="department_id" id="department_id" class="form-select" disabled>
                 @foreach($department as $d)
                     <option value="{{$d->id}}"
                         {{ (in_array($d->id, old('department') ?? []) ? "selected": "") }}>
                         {{$d->name}}</option>
                     @endforeach
             </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="user-icons"><b>Class Type</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" placeholder="Input class type (Example = Regular)" required>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label">Total Student<i class="text-danger">*</i></label>
-                <input class="form-control @error('total_students') is-invalid @enderror" id="total_students"
-                    name="total_students" value="{{ old('total_students') }}" type=number placeholder="Input Total Student" required>
-                @error('total_students')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
             </div>
         </div>
         <div class="col-12 d-flex justify-content-between">
@@ -237,7 +220,7 @@
           <small>Enter Your Personal Info.</small>
         </div>
           <div class="form-group">
-            <label class="form-label">Upload Document<i class="text-danger">*</i></label>
+            <label class="form-label">Upload Document</label>
               <div class="input-group mb-3">
                 <input class="form-control @error('doc_path') is-invalid @enderror"
                   name="doc_path" type="file" accept=".pdf" title="PDF">
@@ -249,16 +232,15 @@
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Link<i class="text-danger">*</i></label>
-                    <div class="input-group mb-3">
-                    <input class="form-control @error('link') is-invalid @enderror" type="text" id="link"
-                        name="link" placeholder="Input link document" value="{{ old('link') }}">
-                    @error('link')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
+                  <label class="form-label">Link Document</label>
+                  <div class="input-group mb-3">
+                      <a href="{{ $data->link }}" target="_blank">( {{ $data->link }} )</a>
+                      @error('link')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                  </div>        
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
@@ -272,7 +254,7 @@
         <div class="content-header mb-3">
         <small>Category Standard</small>
           <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
-            {{ $data->categoryid->title  }}
+            {{ $data->categoryid->description  }}
           </h6>
           <p></p>
           <small>Criteria Standard</small>

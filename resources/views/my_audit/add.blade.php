@@ -28,7 +28,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label class="form-label">Upload Images<i class="text-danger">*</i></label>
+                            <label class="form-label">Upload Images</label>
                             <div class="input-group mb-3">
                                 <input class="form-control @error('doc_path') is-invalid @enderror"
                                     name="doc_path" type="file" accept=".pdf"

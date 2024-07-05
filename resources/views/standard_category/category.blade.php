@@ -19,6 +19,10 @@
     padding: 0.4em;
     margin-right: 0.1em;
 }
+
+.icon-white {
+        color: #ffffff; /* Warna putih */
+    }
 </style>
 @endsection
 
@@ -178,9 +182,9 @@
                         var html =
                             `<a class="badge bg-warning badge-icon" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-primary badge-icon" title="Hapus" style="cursor:pointer"
+                            <a class="badge bg-primary" title="Hapus" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.description + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                            <i class="bx bx-trash icon-white"></i></a>`;
                         return html;
                     },
                     "orderable": false,

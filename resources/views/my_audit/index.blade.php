@@ -52,7 +52,7 @@
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th><b>Lecture</b></th>
+                                <th><b>Auditee</b></th>
                                 <th><b>Schedule</b></th>
                                 <th><b>Location</b></th>
                                 <th><b>Auditor</b></th>

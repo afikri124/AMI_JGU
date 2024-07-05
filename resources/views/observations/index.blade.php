@@ -158,12 +158,12 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 10 || row.auditstatus.id === 11) {
+                        if (row.auditstatus.id === 10 ) {
                             x = `<a class="badge bg-warning" title="Remark Document" href="{{ url('observations/edit/${row.id}') }}">
                                         <i class="bx bx-pencil"></i></a>`;
                         }
                         // Check if auditstatus is '10'
-                        else if (row.auditstatus.id === 3) {
+                        else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
                             x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/make/${row.id}') }}">
                                         <i class="bx bx-pencil"></i></a>`;
                         }

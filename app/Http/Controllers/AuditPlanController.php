@@ -27,17 +27,17 @@ class AuditPlanController extends Controller{
         return view('audit_plan.index', compact('data', 'lecture'));
     }
 
-    public function getStandardCategoriesById(Request $request)
-    {
-        $category = StandardCategory::where('id', $request->id)->get();
-        return response()->json($category);
-    }
+    // public function getStandardCategoriesById(Request $request)
+    // {
+    //     $category = StandardCategory::where('id', $request->id)->get();
+    //     return response()->json($category);
+    // }
 
-    public function getStandardCriteriasById(Request $request)
-    {
-        $criterias = StandardCriteria::where('standard_categories_id', $request->id)->get();
-        return response()->json($criterias);
-    }
+    // public function getStandardCriteriasById(Request $request)
+    // {
+    //     $criterias = StandardCriteria::where('standard_categories_id', $request->id)->get();
+    //     return response()->json($criterias);
+    // }
 
     public function add(Request $request) {
         if ($request->isMethod('POST')) {
@@ -78,8 +78,6 @@ class AuditPlanController extends Controller{
         $locations = Location::orderBy('title')->get();
         $departments = Department::orderBy('name')->get();
         $auditStatus = AuditStatus::get();
-
-        // Memperbaiki pengambilan data category dan criterias
         $category = StandardCategory::where('status', true)->get();
         $criterias = StandardCriteria::where('status', true)->get();
 
