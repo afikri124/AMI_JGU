@@ -80,7 +80,8 @@
     <div class="step" data-target="#account-details">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
         </span>
         <span class="bs-stepper-label">Account Details</span>
       </button>
@@ -91,7 +92,8 @@
     <div class="step" data-target="#personal-info">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(36, 34, 34);transform: ;msFilter:;"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z"></path></svg>
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
         </span>
         <span class="bs-stepper-label">Personal Info</span>
       </button>
@@ -103,7 +105,8 @@
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
           <svg viewBox="0 0 54 54">
-            <use xlink:href='assets/svg/icons/form-wizard-address.svg#wizardAddress'></use>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+              <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
           </svg>
         </span>
         <span class="bs-stepper-label">Assesment</span>
@@ -183,13 +186,13 @@
         </div>
         <div class="col-md-6">
             <label class="form-label" for="user-icons"><b>Class Type</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" placeholder="Input Class Type" required>
+            <input class="form-control" type="text" placeholder="Input class type (Example = Regular)" required>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label">Total Student<i class="text-danger">*</i></label>
                 <input class="form-control @error('total_students') is-invalid @enderror" id="total_students"
-                    name="total_students" value="{{ old('total_students') }}" type=number placeholder="Input Total Students" required>
+                    name="total_students" value="{{ old('total_students') }}" type=number placeholder="Input Total Student" required>
                 @error('total_students')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -238,7 +241,7 @@
           <small>Enter Your Personal Info.</small>
         </div>
           <div class="form-group">
-            <label class="form-label">Upload Images<i class="text-danger">*</i></label>
+            <label class="form-label">Upload Document<i class="text-danger">*</i></label>
               <div class="input-group mb-3">
                 <input class="form-control @error('doc_path') is-invalid @enderror"
                   name="doc_path" type="file" accept=".pdf" title="PDF">

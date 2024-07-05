@@ -158,7 +158,7 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 10 ) {
+                        if (row.auditstatus.id === 10 || row.auditstatus.id === 11) {
                             x = `<a class="text-warning" title="Observations" href="{{ url('observations/edit/${row.id}') }}">
                                         <i class="bx bx-pencil"></i></a>`;
                         }

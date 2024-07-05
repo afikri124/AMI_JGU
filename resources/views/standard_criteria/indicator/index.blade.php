@@ -85,6 +85,7 @@
                 <tr>
                     <th width="40px"><b>No</b></th>
                     <th><b>Indicator</b></th>
+                    <th><b>Criteria</b></th>
                     <th><b>Action</b></th>
                 </tr>
             </thead>
@@ -156,6 +157,12 @@
                 {
                     render: function (data, type, row, meta) {
                         var x = row.name;
+                        return x;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var x = row.criteria.title;
                         return x;
                     },
                 },

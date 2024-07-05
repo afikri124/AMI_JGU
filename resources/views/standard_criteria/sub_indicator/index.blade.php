@@ -84,6 +84,7 @@
                 <tr>
                     <th width="20px">No</th>
                     <th>Sub Indicator</th>
+                    <th>Indicator</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -165,6 +166,12 @@
                     // render: function (data, type, row, meta) {
                     //     return $('<code>' + row.name + '</code>');
                     // },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var x = row.indicator.name;
+                        return x;
+                    },
                 },
                 {
                     render: function (data, type, row, meta) {

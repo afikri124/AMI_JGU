@@ -100,6 +100,12 @@ class StandardCriteriaController extends Controller
             })->make(true);
     }
 
+
+
+
+
+    
+
     //INDICATOR
     public function indicator(){
         $criteria = StandardCriteria::all();
@@ -209,7 +215,12 @@ class StandardCriteriaController extends Controller
         })->make(true);
 }
 
-    //sub indicator
+
+
+
+
+
+    //Sub Indicator
     public function sub_indicator(){
         $data = SubIndicator::all();
         $indicator = Indicator::orderBy('name')->get();
