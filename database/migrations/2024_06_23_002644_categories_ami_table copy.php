@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('standard_ami', function (Blueprint $table) {
+        Schema::create('categories_ami', function (Blueprint $table) {
             $table->id('id');
             $table->string('standard_categories_id')->nullable();
             $table->foreign('standard_categories_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('standard_ami');
+        Schema::dropIfExists('categories_ami');
     }
 };

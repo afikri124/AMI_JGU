@@ -31,10 +31,12 @@ return new class extends Migration
             $table->string('link')->nullable();
             $table->string('remark_docs')->nullable();
             $table->string('periode')->nullable();
-            $table->unsignedBigInteger('standard_categories_id')->nullable();
-            $table->foreign('standard_categories_id')->references('id')->on('standard_ami')->nullable()->onDelete('cascade');
+            $table->unsignedBigInteger('categories_ami_id')->nullable();
+            $table->foreign('categories_ami_id')->references('id')->on('categories_ami')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('auditor_id')->nullable();
             $table->foreign('auditor_id')->references('id')->on('user_standard')->nullable()->onDelete('cascade');
+            $table->unsignedBigInteger('criterias_ami_id')->nullable();
+            $table->foreign('criterias_ami_id')->references('id')->on('criterias_ami')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
     }
