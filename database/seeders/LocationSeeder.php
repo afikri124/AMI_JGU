@@ -259,6 +259,14 @@ class LocationSeeder extends Seeder
                 [
                  "id"=> "1.3.12",
                  "title"=> "Work System Design & Ergonomics Laboratory"
+                ],
+                [
+                "id"=> "5.1.27",
+                "title"=> "Faculty Room"
+                ],
+                [
+                "id"=> "5.1.28",
+                "title"=> "Lecturer Room"
                 ]
         ];
 

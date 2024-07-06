@@ -35,7 +35,7 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label class="col-form-label">Code ID<i class="text-danger">*</i></label>
-                                <input id="id" type="text" class="form-control @error('id') is-invalid @enderror"
+                                <input id="id" type="text" class="form-control @error('id') is-invalid @enderror" maxlength="5"
                                     name="id" value="{{ old('id') }}" autofocus>
                                 @error('id')
                                 <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label class="col-form-label">Title<i class="text-danger">*</i></label>
-                                <input class="form-control @error('title') is-invalid @enderror" type="text" id="title"
+                                <input class="form-control @error('title') is-invalid @enderror" maxlength="20" type="text" id="title"
                                     name="title" value="{{ old('title') }}">
                                 @error('title')
                                 <span class="invalid-feedback" role="alert">
@@ -59,7 +59,7 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label class="col-form-label">Description<i class="text-danger">*</i></label>
-                                <input class="form-control @error('description') is-invalid @enderror" type="text" id="description"
+                                <input class="form-control @error('description') is-invalid @enderror" maxlength="100" type="text" id="description"
                                     name="description" value="{{ old('description') }}">
                                 @error('description')
                                 <span class="invalid-feedback" role="alert">

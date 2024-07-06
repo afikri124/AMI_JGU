@@ -54,4 +54,9 @@ class StandardCriteria extends Model
     // {
     //     return 'string';
     // }
+
+    public function indicators()
+    {
+        return $this->hasMany(Indicator::class, 'standard_criterias_id');
+    }
 }

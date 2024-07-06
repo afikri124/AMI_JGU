@@ -30,6 +30,18 @@
         overflow: hidden;
     }
 
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.1em;
+    }
+
+    .icon-white
+    {
+        color: white;
+    }
+
 </style>
 @endsection
 
@@ -53,6 +65,9 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
+        <li class="nav-item"><a class="nav-link" href=""><i
+                        class="bx bx-folder-open me-1"></i>
+                    Document</a></li>
         </ul>
     </div>
 
@@ -104,7 +119,7 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Title<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="text" class="form-control @error('title')  is-invalid @enderror" maxlength="150"
+                                <input type="text" class="form-control @error('title')  is-invalid @enderror" maxlength="120"
                                     name="title" placeholder="Input The New Criteria" value="{{ old('title') }}">
                                 @error('title')
                                 <span class="invalid-feedback" role="alert">
@@ -145,10 +160,10 @@
             <thead>
                 <tr>
                     <th width="20px">No</th>
-                    <th width="40px">Criteria</th>
+                    <th width="">Criteria</th>
                     <th width="40px">Category</th>
-                    <th width="40px">Status</th>
-                    <th width="40px">Action</th>
+                    <th width="20px">Status</th>
+                    <th width="10px">Action</th>
                 </tr>
             </thead>
         </table>
@@ -245,11 +260,11 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit Criteria" style="cursor:pointer" <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/criteria_edit/') }}/${row.id}"><i class='bx bx-pencil'></i></a>
-                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash"></i></a>`;
+                            `<a class="badge bg-warning badge-icon" title="Edit Criteria" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/criteria_edit/') }}/${row.id}"><i class='bx bx-pencil'></i></href=>
+                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash icon-white"></i></a>`;
                         return html;
                     },
-                    orderable: false,
+                    orderable: true,
                     className: "text-end"
                 }
             ]

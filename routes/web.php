@@ -52,7 +52,7 @@ Route::group(['prefix' => 'audit_plan'], function () {
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
-Route::get('/get_standard_categories_id', [AuditPlanController::class, 'geStandardCategoriesById'])->name('DOC.get_standard_categories_by_id');
+Route::get('/get_standard_categories_id', [AuditPlanController::class, 'getStandardCategoriesById'])->name('DOC.get_standard_categories_by_id');
 Route::get('/get_standard_criterias_by_id', [AuditPlanController::class, 'getStandardCriteriasById'])->name('DOC.get_standard_criterias_by_id');
 
 Route::group(['prefix' => 'observations'], function () {
@@ -139,7 +139,7 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::get('/data_sub', [StandardCriteriaController::class, 'data_sub'])->name('standard_criteria.data_sub');
             Route::get('/standard_criteria.sub_indicator.create', [StandardCriteriaController::class, 'create_sub'])->name('standard_criteria.sub_indicator.create');
             Route::post('/add/sub_indicator', [StandardCriteriaController::class, 'store_sub'])->name('store_sub.sub_indicator');
-            Route::get('/edit/sub_indicator/{id}', [StandardCriteriaController::class, 'edit'])->name('edit.sub_indicator');
+            Route::get('/edit_sub/sub_indicator/{id}', [StandardCriteriaController::class, 'edit_sub'])->name('edit_sub.sub_indicator');
             Route::put('/update_sub/sub_indicator/{id}', [StandardCriteriaController::class, 'update_sub'])->name('update_sub.sub_indicator');
             Route::delete('/delete_sub', [StandardCriteriaController::class, 'delete_sub'])->name('delete_sub.sub_indicator');
 

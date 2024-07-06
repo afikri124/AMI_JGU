@@ -10,8 +10,18 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
+
+<style>
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.1em;
+    }
+</style>
+
 
         <!-- <div class=" col-md-3">
             <select id="select_lecture" class="select2 form-select" data-placeholder="lecture">
@@ -42,9 +52,10 @@
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th><b>Lecture</b></th>
-                                <th><b>Date Start</b></th>
-                                <th><b>Date End</b></th>
+                                <th><b>Auditee</b></th>
+                                <th><b>Schedule</b></th>
+                                <th><b>Location</b></th>
+                                <th><b>Auditor</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
@@ -127,20 +138,44 @@
                 {
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.lecture.name +
-                            `" href="">` + row.lecture.name + `</a>`;
+                            `" href="{{ url('setting/manage_account/users/edit/` +
+                            row.idd + `') }}">` + row.lecture.name + `</a>`;
+                        
+                        if (row.no_phone) {
+                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        }
+                        
                         return html;
                     },
                 },
                 {
+                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
                     render: function (data, type, row, meta) {
                         // Menggunakan moment.js untuk memformat tanggal
-                        return moment(row.date_start).format('DD MMMM YYYY, HH:mm'); // Misalnya, "01 Januari 2024, 14:30"
+                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        return formattedStartDate + ' - ' + formattedEndDate;
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.location;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        return moment(row.date_end).format('DD MMMM YYYY, HH:mm'); // Misalnya, "05 Januari 2024, 09:45"
+                        var html = `<a class="text-primary" title="` + row.auditor.name +
+                            `" href="{{ url('setting/manage_account/users/edit/` +
+                            row.idd + `') }}">` + row.auditor.name + `</a>`;
+                        
+                        if (row.no_phone) {
+                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        }
+                        
+                        return html;
                     },
                 },
                 {
@@ -165,9 +200,9 @@
                 {
                     render: function(data, type, row, meta) {
                         var html =
-                            `<a class="text-success" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
-                            <a class="text-warning" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-secondary" title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
+                            `<a class="badge bg-success badge-icon" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                            <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            <a class="badge bg-dark badge-icon"title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
                         return html;
                     },
                     "orderable": false,

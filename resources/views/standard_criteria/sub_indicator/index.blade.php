@@ -54,6 +54,9 @@
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
+        <li class="nav-item"><a class="nav-link" href=""><i
+                        class="bx bx-folder-open me-1"></i>
+                    Document</a></li>            
         </ul>
     </div>
 
@@ -68,7 +71,7 @@
                             <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
                                 <option value="">Select Indicator</option>
                                 @foreach($indicator as $d)
-                                <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -84,6 +87,7 @@
                 <tr>
                     <th width="20px">No</th>
                     <th>Sub Indicator</th>
+                    <th>Indicator</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -168,10 +172,16 @@
                 },
                 {
                     render: function (data, type, row, meta) {
+                        var x = row.indicator.name;
+                        return x;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
                             `<a class="text-warning" title="Edit Sub Indicator" style="cursor:pointer"
-                            href="{{ url('setting/manage_standard/criteria/edit/sub_indicator/') }}/${row.id}">
+                            href="{{ url('setting/manage_standard/criteria/edit_sub/sub_indicator/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
 
                             <a class="text-primary" title="Delete Sub Indicator" style="cursor:pointer"

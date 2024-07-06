@@ -65,7 +65,7 @@ class MyAuditController extends Controller{
     public function update_doc(Request $request, $id){
     $request->validate([
         'doc_path' => 'mimes:pdf|max:10000|required_without:link',
-        'link' => 'required_without:doc_path'
+        'link' => 'required_without:doc_path',
     ]);
 
     $fileName = $request->input('doc_path_existing', ''); // Menyimpan nama file yang sudah ada jika tidak ada file baru yang diunggah
@@ -91,7 +91,7 @@ class MyAuditController extends Controller{
     $data->update([
         'doc_path' => $fileName,
         'link' => $request->link,
-        'audit_status_id' => '10',
+        'audit_status_id' => '11',
     ]);
 
     return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Ubah.');
@@ -126,12 +126,15 @@ class MyAuditController extends Controller{
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'location' => function ($query) {
-                $query->select('id', 'title');
-            }
-            ])
-            ->where('lecture_id', Auth::user()->id)
-            ->select('*')->orderBy("id");
+            'auditor' => function ($query) {
+                $query->select('id', 'name');
+            },
+            ])->leftJoin('locations', 'locations.id' , '=', 'location_id')
+            ->select('audit_plans.*',
+            'locations.title as location'
+            )
+            // ->where('lecture_id', Auth::user()->id)
+            ->orderBy("id");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('lecture_id'))) {

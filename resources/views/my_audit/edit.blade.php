@@ -87,13 +87,15 @@
 @endif
 
 <div class="row">
-    <div class="card">
+    <div class="card mb-4">
+            <h3 class="card-header"><b>Update Document Audit</b></h3>
+            <hr class="my-0">
         <div class="card-body">
             <form id="form-add-new-record" method="POST" action="{{ route('my_audit.update_doc', $data->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label class="form-label">Upload Document Update<i class="text-danger">*</i></label>
+                    <label class="form-label"><b>Edit Document</b><i class="text-danger">*</i></label>
                     <div class="input-group mb-3">
                         <input class="form-control @error('doc_path') is-invalid @enderror" name="doc_path" type="file" accept=".pdf" title="PDF">
                         <input type="hidden" name="doc_path_existing" value="{{ $data->doc_path }}">
@@ -105,7 +107,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 fv-plugins-icon-container">
-                    <label class="form-label" for="basicDate">Link Drive</label>
+                    <label class="form-label" for="basicDate"><b>Link Drive</b><i class="text-danger">*</i></label>
                     <div class="input-group input-group-merge has-validation">
                         <input class="form-control @error('link') is-invalid @enderror" name="link" id="link" placeholder="Input your link drive" value="{{ $data->link }}">
                         @error('link')
@@ -122,9 +124,11 @@
                     </a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('script')

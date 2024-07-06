@@ -17,11 +17,9 @@
         @endif
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-header"><b>Update Audit Plan</b></h3>
+                <h4 class="card-header"><b>Update Audit Plan</b></h4>
                 <hr class="my-0">
             </div>
-            <!-- Account -->
-            <hr class="my-0">
             <div class="card-body">
                 <form action="{{ route('update_audit', $data->id) }}" method="POST">
                     <div class="row">
@@ -29,7 +27,7 @@
                         @method('PUT')
                         <div class="form-group">
                     <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date Start</label>
+                        <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
                                     placeholder="Masukkan Date " value="{{ $data->date_start }}">
@@ -39,8 +37,9 @@
                                 @enderror
                                     </div>
                                         </div>
+                                        <p></p>
                     <div class="col-sm-12 fv-plugins-icon-container">
-                        <label class="form-label" for="basicDate">Date</label>
+                        <label class="form-label" for="basicDate"><b>Date End</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
                                     placeholder="Masukkan Date" value="{{ $data->date_end }}">
@@ -50,8 +49,9 @@
                                 @enderror
                                     </div>
                                         </div>
+                                        <p></p>
                             <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditor_id" class="form-label" >Auditor</label>
+                            <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
                             <select name="auditor_id" id="auditor_id" class="form-select" required>
                             <option value="">Select Auditor</option>
                             @foreach($auditor as $role)
@@ -60,19 +60,19 @@
                                 @endforeach
                             </select>
                             </div>
-                    <div class="col-sm-12 fv-plugins-icon-container">
-                        <label for="location_id" class="form-label" >Location</label>
-                            <select name="location_id" id="location_id" class="form-select" required>
-                                <option value="">Select Location</option>
-                                @foreach($locations as $d)
-                                <option value="{{$d->id}}" {{ $data->location_id ? 'selected' : '' }}>
-                                    {{$d->title}}</option>
-                                @endforeach
-                            </select>
-                            </select>
-                        </div>
-                    </div>
-                        <br>
+                            <p></p>
+                            <div class="col-sm-12 fv-plugins-icon-container">
+                                <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
+                                <select name="location_id" id="location_id" class="form-select" required>
+                                    <option value="">Select Location</option>
+                                    @foreach($locations as $d)
+                                        <option value="{{ $d->id }}" {{ $d->id == $data->location_id ? 'selected' : '' }}>
+                                            {{ $d->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>                            
+                    <p></p>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>

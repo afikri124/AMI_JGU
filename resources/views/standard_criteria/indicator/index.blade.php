@@ -54,6 +54,9 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
+        <li class="nav-item"><a class="nav-link" href=""><i
+                        class="bx bx-folder-open me-1"></i>
+                    Document</a></li>
         </ul>
     </div>
 
@@ -85,6 +88,7 @@
                 <tr>
                     <th width="40px"><b>No</b></th>
                     <th><b>Indicator</b></th>
+                    <th><b>Criteria</b></th>
                     <th><b>Action</b></th>
                 </tr>
             </thead>
@@ -156,6 +160,12 @@
                 {
                     render: function (data, type, row, meta) {
                         var x = row.name;
+                        return x;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var x = row.criteria.title;
                         return x;
                     },
                 },
