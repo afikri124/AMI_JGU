@@ -16,7 +16,7 @@
 .badge-icon {
     display: inline-block;
     font-size: 1em;
-    padding: 0.4em;
+    padding: 0.3em;
     margin-right: 0.1em;
 }
 
@@ -182,7 +182,7 @@
                         var html =
                             `<a class="badge bg-warning badge-icon" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-primary" title="Hapus" style="cursor:pointer"
+                            <a class="badge bg-danger badge-icon" title="Hapus" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.description + `\')" >
                             <i class="bx bx-trash icon-white"></i></a>`;
                         return html;

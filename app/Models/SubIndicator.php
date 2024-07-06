@@ -36,4 +36,9 @@ class SubIndicator extends Model
         return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 
+    public function list()
+    {
+        return $this->hasMany(ListDocument::class, 'sub_indicator_id');
+    }
+
 }

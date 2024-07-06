@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Indicator')
+@section('title', 'List Document')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -31,18 +31,6 @@
         overflow: hidden;
     }
 
-    .badge-icon {
-        display: inline-block;
-        font-size: 1em;
-        padding: 0.3em;
-        margin-right: 0.1em;
-    }
-
-    .icon-white
-    {
-        color: white;
-    }
-
 </style>
 @endsection
 
@@ -55,53 +43,52 @@
 
 
 @section('content')
-<div class="col-md-12">
+    <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
                         class="bx bx-chart me-1"></i>
                     Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
+        <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.list_document')}}"><i
+        <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.list_document')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    List Document</a></li>
+                    List Document</a></li>            
         </ul>
     </div>
 
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
-                    <div class="row">
+                    <div class="col-12"> -->
+                        <div class="row">
                         <div class="col-md-4">
-                            <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
-                                <option value="">Select Criteria</option>
-                                @foreach($criteria as $d)
-                                <option value="{{ $d->id }}">{{ $d->id }} - {{ $d->title }}</option>
+                            <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
+                                <option value="">Select Sub Indicator</option>
+                                @foreach($sub_indicator as $d)
+                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Indicator"
-                                href="{{ route('standard_criteria.indicator.create')}}">
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Sub Indicator"
+                                href="{{ route('standard_criteria.list_document.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
-                        </div>
                         </div>
 
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="40px"><b>No</b></th>
-                    <th><b>Indicator</b></th>
-                    <th><b>Criteria</b></th>
-                    <th><b>Action</b></th>
+                    <th width="20px">No</th>
+                    <th>List Document</th>
+                    <th>Sub Indicator</th>
+                    <th width="40px">Action</th>
                 </tr>
             </thead>
         </table>
@@ -156,10 +143,10 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.indicator.data_indicator')}}",
+                url: "{{ route('standard_criteria.data_list') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_criteria = $('#select_criteria').val()
+                    d.select_indicator = $('#select_indicator').val()
                 },
             },
             columns: [{
@@ -167,17 +154,25 @@
                         var no = (meta.row + meta.settings._iDisplayStart + 1);
                         return no;
                     },
+                    orderable: false,
 
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.name;
-                        return x;
+                        data = "";
+                        // if (row.name != null) {
+                        //     data = "<span class='badge bg-label-danger'>" + row.data.date + "</span> <strong title='" + row.data.title + "'>" + row.data.title +
+                        //         "</strong><br>";
+                        // }
+                        return data + $("<textarea/>").html(row.name).text();
                     },
+                    // render: function (data, type, row, meta) {
+                    //     return $('<code>' + row.name + '</code>');
+                    // },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.criteria.title;
+                        var x = row.sub_indicator.name;
                         return x;
                     },
                 },
@@ -185,10 +180,13 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="badge bg-warning badge-icon" title="Edit Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-danger badge-icon" title="Delete Indicator" style="cursor:pointer"
+                            `<a class="text-warning" title="Edit List Document" style="cursor:pointer"
+                            href="{{ url('setting/manage_standard/criteria/edit_list/list_document/') }}/${row.id}">
+                            <i class="bx bx-pencil"></i></a>
+
+                            <a class="text-primary" title="Delete List Document" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
-                            <i class='bx bxs-trash icon-white'></i></a>`;
+                            <i class='bx bxs-trash'></i></a>`;
                         return html;
                     },
                     orderable: false,
@@ -196,7 +194,7 @@
                 }
             ]
         });
-        $('#select_criteria').change(function () {
+        $('#select_indicator').change(function () {
             table.draw();
         });
     });
@@ -212,7 +210,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('delete_indicator.indicator') }}",
+                        url: "{{ route('delete_list.list_document') }}",
                         type: "DELETE",
                         data: {
                             "id": id,

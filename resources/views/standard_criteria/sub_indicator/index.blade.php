@@ -31,6 +31,18 @@
         overflow: hidden;
     }
 
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.1em;
+    }
+
+    .icon-white
+    {
+        color: white;
+    }
+
 </style>
 @endsection
 
@@ -54,9 +66,9 @@
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href=""><i
+        <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.list_document')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    Document</a></li>            
+                    List Document</a></li>            
         </ul>
     </div>
 
@@ -180,13 +192,13 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit Sub Indicator" style="cursor:pointer"
+                            `<a class="badge bg-warning badge-icon" title="Edit Sub Indicator" style="cursor:pointer"
                             href="{{ url('setting/manage_standard/criteria/edit_sub/sub_indicator/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
 
-                            <a class="text-primary" title="Delete Sub Indicator" style="cursor:pointer"
+                            <a class="badge bg-danger badge-icon" title="Delete Sub Indicator" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
-                            <i class='bx bxs-trash'></i></a>`;
+                            <i class='bx bxs-trash icon-white'></i></a>`;
                         return html;
                     },
                     orderable: false,

@@ -50,7 +50,7 @@
 
                     <div class="col-sm-12 mt-4">
                         <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
-                        <a href="{{ url()->previous() }}">
+                        <a href="{{ route('standard_criteria.sub_indicator')}}">
                         <span class="btn btn-outline-secondary">Back</span>
                         </a>
                     </div>

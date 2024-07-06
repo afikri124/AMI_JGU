@@ -7,11 +7,13 @@ use App\Models\Indicator;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
+use App\Models\ListDocument;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class StandardCriteriaController extends Controller
 {
+    // CRITERIA
     public function criteria(Request $request)
     {
         if ($request->isMethod('POST')) {
@@ -108,8 +110,8 @@ class StandardCriteriaController extends Controller
 
     //INDICATOR
     public function indicator(){
-        $criteria = StandardCriteria::all();
         $data = Indicator::all();
+        $criteria = StandardCriteria::all();
         return view('standard_criteria.indicator.index', compact('data', 'criteria'));
     }
 
@@ -220,7 +222,7 @@ class StandardCriteriaController extends Controller
 
 
 
-    //Sub Indicator
+    //SUB INDICATOR
     public function sub_indicator(){
         $data = SubIndicator::all();
         $indicator = Indicator::orderBy('name')->get();
@@ -310,12 +312,12 @@ class StandardCriteriaController extends Controller
                 $data->delete();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil dihapus!'
+                    'message' => 'Berhasil dihapus! ✅'
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal dihapus!'
+                    'message' => 'Gagal dihapus! ❌'
                 ]);
             }
         }
@@ -341,4 +343,131 @@ class StandardCriteriaController extends Controller
                 }
             })->make(true);
     }
+
+
+    // LIST DOCUMENT
+    public function list_document(){
+        $data = ListDocument::all();
+        $sub_indicator = SubIndicator::orderBy('name')->get();
+        return view('standard_criteria.list_document.index',compact('data', 'sub_indicator'));
+    }
+
+    public function create_list(Request $request){
+    if ($request->isMethod('POST')){
+        // Validate the data request
+        $validatedData = $request->validate([
+            'standard_criterias_id' => ['required', 'uuid'],
+            'numForms' => ['required', 'integer', 'min:1'],
+            'indicators' => ['required', 'array', 'min:1'],
+            'indicators.*.name' => ['required', 'string'],
+        ]);
+
+        // Relative the specific Standard Criteria by ID
+        $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
+
+        if (!$criteria) {
+            return redirect()->back()->with('error', 'Standard Criteria not found!');
+        }
+
+        return redirect()->route('standard_criteria.list_document')->with('msg', 'Indicators added successfully.');
+    }
+
+    //Retrieve all Standard Criteria, Indicator and Sub Indicator for the dropdown
+    $allCriteria = StandardCriteria::all();
+    $criterias = StandardCriteria::orderBy('title')->get();
+    $indicators = Indicator::orderBy('name')->get();
+    $sub_indicators = SubIndicator::orderBy('name')->get();
+
+    return view('standard_criteria.list_document.create', compact('allCriteria', 'criterias','indicators', 'sub_indicators'));
+    }
+
+    public function store_list(Request $request){
+        $validatedData = $request->validate([
+            'sub_indicator_id' => 'required|exists:sub_indicators,id',
+            'numForms' => 'required|integer|min:1',
+            'list_documents' => 'required|array|min:1',
+            'list_documents.*.name' => 'required|string',
+        ]);
+
+        $sub_indicator_id = $request->sub_indicator_id;
+
+        // Create the List_Document
+        foreach ($request->list_document as $list_documentData) {
+            SubIndicator::create([
+                'name' => $list_documentData['name'],
+                'indicator_id' => $sub_indicator_id,
+            ]);
+        }
+    
+        return redirect()->route('standard_criteria.list_document')->with('msg', 'List Document added successfully.');
+    }
+
+    // Edit List Document
+    public function edit_list($id){
+        $data = ListDocument::findOrFail($id);
+
+       // Fetch all criteria
+        $criteria = StandardCriteria::all();
+        return view('standard_criteria.list_document.edit', compact('data', 'criteria'));
+    }
+
+    public function update_list(Request $request, $id){
+    // Validate the request
+    $request->validate([
+        'standard_criterias_id' => ['required', 'string'],
+        'name' => ['required','string','max:512'],
+    ]);
+
+    // Find the Sub_Indicator data
+    $data = ListDocument::findOrFail($id);
+
+    $data->update([
+        'standard_criterias_id'=> $request->standard_criterias_id,
+        'name'=> $request->name,
+    ]);
+
+    // Redirect back with a success message
+    return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicator updated successfully.');
+    }
+
+    // Delete List Document
+    public function delete_list(Request $request){
+        $data = ListDocument::find($request->id);
+        if($data){
+            $data->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil dihapus ✅'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal dihapus ❌'
+            ]);
+        }
+    }
+
+    // Retrieve and filter data for Dist Document
+    public function data_list(Request $request){
+        $data = ListDocument::
+        with(['sub_indicator' => function ($query) {
+            $query->select('id','name');
+        }])->
+        select('*')->orderBy("id");
+        return DataTables::of($data)
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('select_sub_indicator'))) {
+                    $instance->whereHas('sub_indicator', function ($q) use ($request) {
+                        $q->where('sub_indicator_id', $request->get('select_sub_indicator'));
+                    });
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('name', 'LIKE', "%$search%");
+                    });
+                }
+            })->make(true);
+    }
 }
+
