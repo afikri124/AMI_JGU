@@ -32,26 +32,6 @@ class AuditPlanController extends Controller
         return view('audit_plan.index', compact('data', 'lecture'));
     }
 
-    // public function getStandardCategoriesById(Request $request)
-    // {
-
-    //     $category = StandardCategory::where('standard_categories_id', $request->id)->get();
-
-    //     $category = StandardCategory::where('id', $request->id)->get();
-
-    //     return response()->json($category);
-    // }
-
-    // public function getStandardCriteriasById(Request $request)
-    // {
-
-    //     $criterias = StandardCriteria::where('standard_criterias_id', $request->id)->get();
-
-    //     $criterias = StandardCriteria::where('standard_categories_id', $request->id)->get();
-
-    //     return response()->json($criterias);
-    // }
-
     public function add(Request $request)
     {
         if ($request->isMethod('POST')) {
@@ -102,7 +82,7 @@ class AuditPlanController extends Controller
                 foreach ($request->standard_criterias_id as $criteriasId) {
                     CriteriasAmi::create([
                         'audit_plan_id'         => $data->id,
-                        'standard_criterias_id'            => $criteriasId,
+                        'standard_criterias_id' => $criteriasId,
                     ]);
                 }
             }

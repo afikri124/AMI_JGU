@@ -26,11 +26,7 @@ class SubIndicator extends Model
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
-
-    // public function indicator()
-    // {
-    //     return $this->belongsTo(Indicator::class, 'indicator_id');
-    // }
+    
     public function indicator()
     {
         return $this->belongsTo(Indicator::class, 'indicator_id');

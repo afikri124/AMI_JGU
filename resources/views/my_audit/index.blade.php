@@ -55,7 +55,7 @@
                                 <th><b>Auditee</b></th>
                                 <th><b>Schedule</b></th>
                                 <th><b>Location</b></th>
-                                <th><b>Auditor</b></th>
+                                <!-- <th><b>Auditor</b></th> -->
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
@@ -164,36 +164,20 @@
                             return row.location;
                     },
                 },
-                {
-                render: function (data, type, row, meta) {
-                        var html = '';
+                // {
+                //     render: function (data, type, row, meta) {
+                //         var html = `<a class="text-primary" title="` + row.auditor.name +
+                //             `" href="{{ url('setting/manage_account/users/edit/` +
+                //             row.idd + `') }}">` + row.auditor.name + `</a>`;
 
-                        if (row.auditors && row.auditors.length > 0) {
-                            // Ambil dua auditor pertama
-                            var firstAuditor = row.auditors[0];
-                            var secondAuditor = row.auditors.length > 1 ? row.auditors[1] : null;
+                //         if (row.no_phone) {
+                //             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                //                     `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                //         }
 
-                            // Tampilkan nama auditor pertama
-                            html += `<code><span title="` + firstAuditor.name + `" href="{{ url('setting/manage_account/users/edit/`
-                                    + row.idd + `') }}">` + firstAuditor.name +
-                                    `</span></code><br>`;
-
-                            // Jika ada auditor kedua, tampilkan juga
-                            if (secondAuditor) {
-                                html += `<code><span title="` + secondAuditor.name + `" href="{{ url('setting/manage_account/users/edit/`
-                                        + row.idd + `') }}">` + secondAuditor.name +
-                                        `</span></code><br>`;
-                            }
-                        }
-
-                        if (row.no_phone) {
-                            html += `<a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
-                        }
-
-                        return html;
-                    },
-                },
+                //         return html;
+                //     },
+                // },
                 {
                     render: function(data, type, row, meta) {
                         var html =

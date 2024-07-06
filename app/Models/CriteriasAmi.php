@@ -17,4 +17,10 @@ class CriteriasAmi extends Model
     public function auditPlan(){
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
+
+    public function criteria()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    }
+
 }

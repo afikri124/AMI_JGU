@@ -59,14 +59,14 @@ class AuditPlan extends Model
     // {
     //     return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     // }
-    
+
     public function auditorId()
     {
         return $this->belongsTo(User::class, 'auditor_id');
     }
     public function auditor()
     {
-        return $this->belongsTo(UserStandard::class, 'auditor_id');
+        return $this->hasMany(UserStandard::class, 'audit_plan_id');
     }
 
     public function category()

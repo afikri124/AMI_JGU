@@ -147,12 +147,17 @@
           <div class="col-md-6">
             <label class="form-label" for="lecture"><b>Auditee</b><i class="text-danger">*</i></label>
             <input class="form-control" type="text" value="{{ $data->lecture->name}}" disabled>
-
           </div>
           <div class="col-md-6">
             <label class="form-label" for="auditor"><b>Auditor</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" value="{{ $auditorId->auditor->name}}" disabled>
-
+            @php
+                $auditorNames = [];
+                foreach ($data->auditor as $auditor) {
+                    $auditorNames[] = $auditor->auditor->name;
+                }
+                $auditorNamesString = implode(', ', $auditorNames);
+            @endphp
+            <input class="form-control" type="text" value="{{ $auditorNamesString }}" disabled>
         </div>
           <div class="col-md-6">
             <div class="form-group">
@@ -251,66 +256,72 @@
       </div>
       <!-- Address -->
       <div id="address" class="content">
-        <div class="content-header mb-3">
+      <div class="content-header mb-3">
         <small>Category Standard</small>
-          <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
-                {{ $categoryId->category->description}}
-          </h6>
-          <p></p>
-          <small>Criteria Standard</small>
-          <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
-          </h6>
-        </div>
+        @foreach ($categories as $category)
+            <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
+                {{ $category->category->description }}
+            </h6>
+        @endforeach
+    <p></p>
 
-        @foreach ($sub_indicator as $sub)
-            <table>
-              <tr>
+    <small>Criteria Standard</small>
+    @foreach ($criterias as $criteria)
+        <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
+            @if ($criteria->criteria)
+                {{ $criteria->criteria->title }}
+            @endif
+        </h6>
+    @endforeach
+    </div>
+
+    @foreach ($sub_indicator as $sub)
+        <table class="table table-bordered">
+            <tr>
                 <th colspan="2">Indicator:</th>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td colspan="2">
-                  {{ $sub->indicator->name }}
+                    {{ $sub->indicator->name }}
                 </td>
-              </tr>
-              <tr>
-
+            </tr>
+            <tr>
                 <td style="width: 80%">
-                  <strong>Sub Indicator:</strong>
-
-                  <p> {!! $sub->name !!}</p>
+                    <strong>Sub Indicator:</strong>
+                    <p>{!! $sub->name !!}</p>
                 </td>
                 <td>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="ks" name="title_ass" />
-                    <label for="ks">KS</label>
-                  </div>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="obs" name="title_ass" />
-                    <label for="obs">OBS</label>
-                  </div>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="kts" name="title_ass" />
-                    <label for="kts">KTS Minor</label>
-                  </div>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="kts" name="title_ass" />
-                    <label for="kts">KTS Mayor</label>
-                  </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ks" name="title_ass[]" value="KS" />
+                        <label for="ks">KS</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="obs" name="title_ass[]" value="OBS" />
+                        <label for="obs">OBS</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="kts_minor" name="title_ass[]" value="KTS Minor" />
+                        <label for="kts_minor">KTS Minor</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="kts_major" name="title_ass[]" value="KTS Major" />
+                        <label for="kts_major">KTS Major</label>
+                    </div>
                 </td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td colspan="2">
-                  <label for="remark_docs">Komentar:</label>
-                  <textarea
-                    id="remark_docs"
-                    name="remark_docs"
-                    class="comment"
-                    maxlength="250"
-                    placeholder="MAX 250 karakter..."></textarea>
+                    <label for="remark_docs_{{ $sub->id }}">Komentar:</label>
+                    <textarea
+                        id="remark_docs_{{ $sub->id }}"
+                        name="remark_docs[]"
+                        class="comment"
+                        maxlength="250"
+                        placeholder="MAX 250 karakter..."></textarea>
                 </td>
-              </tr>
-            </table>
-            @endforeach
+            </tr>
+        </table>
+    @endforeach
 
 
           <div class="col-12 d-flex justify-content-between">
