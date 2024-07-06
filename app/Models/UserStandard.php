@@ -11,11 +11,11 @@ class UserStandard extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'auditor_id'
+        'id', 'audit_plan_id', 'auditor_id'
     ];
 
-    public function auditor(){
-        return $this->belongsTo(User::class, 'auditor_id');
+    public function auditPlan(){
+        return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
 
     public function user_standard(){

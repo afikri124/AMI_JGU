@@ -26,16 +26,7 @@ class AuditPlan extends Model
         'doc_path',
         'link',
         'remark_docs',
-        'standard_categories_id',
-        'standard_criterias_id',
         'periode',
-        'user_standard',
-    ];
-
-    // Casting kolom JSON ke array
-    protected $casts = [
-        'standard_categories_id' => 'array',
-        'standard_criterias_id' => 'array',
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -66,15 +57,15 @@ class AuditPlan extends Model
 
 
     public function auditor(){
-        return $this->belongsTo(UserStandard::class, 'auditor_id');
+        return $this->hasMany(UserStandard::class, 'auditor_id');
     }
 
     public function category(){
-        return $this->belongsTo(CategoriesAmi::class, 'standard_categories_id');
+        return $this->hasMany(CategoriesAmi::class, 'standard_categories_id');
     }
 
     public function criterias(){
-        return $this->belongsTo(CriteriasAmi::class, 'standard_categories_id');
+        return $this->hasMany(CriteriasAmi::class, 'standard_categories_id');
     }
 
         public function indicator()

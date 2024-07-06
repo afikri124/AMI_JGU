@@ -11,10 +11,10 @@ class CategoriesAmi extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'standard_categories_id'
+        'id', 'audit_plan_id', 'standard_categories_id'
     ];
 
-    public function standard_ami(){
-        return $this->hasMany(AuditPlan::class, 'id');
+    public function auditPlan(){
+        return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
 }
