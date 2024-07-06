@@ -30,6 +30,18 @@
         overflow: hidden;
     }
 
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.1em;
+    }
+
+    .icon-white
+    {
+        color: white;
+    }
+
 </style>
 @endsection
 
@@ -148,10 +160,10 @@
             <thead>
                 <tr>
                     <th width="20px">No</th>
-                    <th width="40px">Criteria</th>
+                    <th width="">Criteria</th>
                     <th width="40px">Category</th>
-                    <th width="40px">Status</th>
-                    <th width="40px">Action</th>
+                    <th width="20px">Status</th>
+                    <th width="10px">Action</th>
                 </tr>
             </thead>
         </table>
@@ -248,11 +260,11 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit Criteria" style="cursor:pointer" <a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/criteria_edit/') }}/${row.id}"><i class='bx bx-pencil'></i></a>
-                            <a class="text-primary" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash"></i></a>`;
+                            `<a class="badge bg-warning badge-icon" title="Edit Criteria" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/criteria_edit/') }}/${row.id}"><i class='bx bx-pencil'></i></href=>
+                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.title + `\')" ><i class="bx bx-trash icon-white"></i></a>`;
                         return html;
                     },
-                    orderable: false,
+                    orderable: true,
                     className: "text-end"
                 }
             ]

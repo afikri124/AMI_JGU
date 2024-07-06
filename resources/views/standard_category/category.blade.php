@@ -9,8 +9,21 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-@section('style')
+@endsection
 
+@section('style')
+<style>
+.badge-icon {
+    display: inline-block;
+    font-size: 1em;
+    padding: 0.4em;
+    margin-right: 0.1em;
+}
+
+.icon-white {
+        color: #ffffff; /* Warna putih */
+    }
+</style>
 @endsection
 
 @section('breadcrumb-title')
@@ -56,9 +69,9 @@
                                     <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>
                                     <th scope="col"><b>Title</b></th>
                                     <th scope="col"><b>Description</b></th>
-                                    <th scope="col" width="50px"><b>Status</b></th>
-                                    <th scope="col" width="50px"><b>Required</b></th>
-                                    <th scope="col" width="65px"><b>Action</b></th>
+                                    <th scope="col"><b>Status</b></th>
+                                    <th scope="col"><b>Required</b></th>
+                                    <th scope="col"><b>Action</b></th>
                                 </tr>
                             </thead>
                         </table>
@@ -167,11 +180,11 @@
                 {
                     render: function(data, type, row, meta) {
                         var html =
-                            `<a class="text-warning" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
+                            `<a class="badge bg-warning badge-icon" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="text-danger" title="Hapus" style="cursor:pointer"
+                            <a class="badge bg-primary" title="Hapus" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.description + `\')" >
-                            <i class="bx bx-trash"></i></a>`;
+                            <i class="bx bx-trash icon-white"></i></a>`;
                         return html;
                     },
                     "orderable": false,

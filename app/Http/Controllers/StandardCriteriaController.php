@@ -23,13 +23,13 @@ class StandardCriteriaController extends Controller
             $data = StandardCriteria::create([
                 'standard_categories_id' => $request->standard_categories_id,
                 'title' => $request->title,
-                'status' => $request->status,
             ]);
 
             if ($data) {
-                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') berhasil di tambahkan');
+                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') berhasil ditambahkan');
             }
         }
+
         $category = StandardCategory::all();
         $data = StandardCriteria::all();
         return view('standard_criteria.criteria', compact('data', 'category'));

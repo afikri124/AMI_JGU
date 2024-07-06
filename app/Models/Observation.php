@@ -64,4 +64,9 @@ class Observation extends Model
     {
         return $this->belongsTo(Indicator::class, 'indicator_id');
     }
+
+    public function sub_indicator()
+    {
+        return $this->belongsTo(SubIndicator::class, 'sub_indicator_id');
+    }
 }

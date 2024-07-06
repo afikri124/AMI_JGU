@@ -61,18 +61,17 @@
                             </select>
                             </div>
                             <p></p>
-                    <div class="col-sm-12 fv-plugins-icon-container">
-                        <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-                            <select name="location_id" id="location_id" class="form-select" required>
-                                <option value="">Select Location</option>
-                                @foreach($locations as $d)
-                                <option value="{{$d->id}}" {{ $data->location_id ? 'selected' : '' }}>
-                                    {{$d->title}}</option>
-                                @endforeach
-                            </select>
-                            </select>
-                        </div>
-                    </div>
+                            <div class="col-sm-12 fv-plugins-icon-container">
+                                <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
+                                <select name="location_id" id="location_id" class="form-select" required>
+                                    <option value="">Select Location</option>
+                                    @foreach($locations as $d)
+                                        <option value="{{ $d->id }}" {{ $d->id == $data->location_id ? 'selected' : '' }}>
+                                            {{ $d->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>                            
                     <p></p>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-2">Submit</button>

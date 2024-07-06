@@ -13,6 +13,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
 
+<style>
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.1em;
+    }
+</style>
+
+
         <!-- <div class=" col-md-3">
             <select id="select_lecture" class="select2 form-select" data-placeholder="lecture">
                 <option value="">Select Lecture</option>
@@ -42,7 +52,7 @@
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th><b>Lecture</b></th>
+                                <th><b>Auditee</b></th>
                                 <th><b>Schedule</b></th>
                                 <th><b>Location</b></th>
                                 <th><b>Auditor</b></th>
@@ -190,9 +200,9 @@
                 {
                     render: function(data, type, row, meta) {
                         var html =
-                            `<a class="text-success" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
-                            <a class="text-warning" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="text-secondary" title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
+                            `<a class="badge bg-success badge-icon" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                            <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            <a class="badge bg-dark badge-icon"title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
                         return html;
                     },
                     "orderable": false,

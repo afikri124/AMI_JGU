@@ -84,7 +84,7 @@
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                            <label for="lecture_id" class="form-label"><b>Lecture</b><i class="text-danger">*</i></label>
+                            <label for="lecture_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
                             <select name="lecture_id" id="lecture_id" class="form-select" required>
                                 <option value="">Select Lecture</option>
                                 @foreach($lecture as $role)
@@ -102,7 +102,7 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                             <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" required>
+                            <select class="form-select" multiple="multiple" name="auditor_id[]" id="auditor_id">
                                 <option value="">Select Auditor</option>
                                 @foreach($auditor as $role)
                                     <option value="{{$role->id}}"
@@ -147,11 +147,10 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="standard_categories_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
-                                <select name="standard_categories_id" id="standard_categories_id" class="form-select" required>
-                                    <option value="">Select Category</option>
+                                <select name="standard_categories_id[]" id="standard_categories_id" class="form-select" multiple required>
                                     @foreach($category as $c)
-                                        <option value="{{ $c->id }}" {{ old('standard_categories_id') == $c->id ? 'selected' : '' }}>
-                                                                                {{ $c->id }} - {{ $c->description }}
+                                        <option value="{{ $c->id }}" {{ (is_array(old('standard_categories_id')) && in_array($c->id, old('standard_categories_id'))) ? 'selected' : '' }}>
+                                            {{ $c->id }} - {{ $c->description }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -160,16 +159,16 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="standard_criterias_id" class="form-label"><b>Criterias</b><i class="text-danger">*</i></label>
-                                <select name="standard_criterias_id" id="standard_criterias_id" class="form-select" required>
-                                    <option value="">Select Criterias</option>
+                                <select name="standard_criterias_id[]" id="standard_criterias_id" class="form-select" multiple required>
                                     @foreach($criterias as $c)
-                                        <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
+                                        <option value="{{ $c->id }}" {{ (is_array(old('standard_criterias_id')) && in_array($c->id, old('standard_criterias_id'))) ? 'selected' : '' }}>
                                             {{ $c->id }} - {{ $c->title }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+                        
                         <p></p>
                         <div class="col-lg-6 col-md-12">
                         <div class="form-group">
@@ -194,50 +193,25 @@
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-<script type="text/javascript">
+<!-- Include Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    "use strict";
-    setTimeout(function () {
-        (function ($) {
-            "use strict";
-            $(".select2").select2({
-                allowClear: true,
-                minimumResultsForSearch: 7,
-            });
-        })(jQuery);
-    }, 350);
+<script>
+    $(document).ready(function() {
+        $('#standard_categories_id').select2({
+            placeholder: "  Select Categories",
+            allowClear: true
+        });
+        
+        $('#standard_criterias_id').select2({
+            placeholder: "  Select Criterias",
+            allowClear: true
+        });
 
-    setTimeout(function() {
-            (function($) {
-                "use strict";
-                $(".select2-modal").select2({
-                    dropdownParent: $('#newrecord'),
-                    allowClear: true,
-                    minimumResultsForSearch: 5
-                });
-            })(jQuery);
-        }, 350);
-            // ketika tema dirubah, topic di isi
-            $('#standard_categories').change(function() {
-                var categoryId = this.value;
-                $("#standard_criterias").html('');
-                $.ajax({
-                    url: "{{ route('DOC.get_standard_criterias_by_id') }}",
-                    type: "GET",
-                    data: {
-                        id: categoryId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#standard_criterias').html('<option value="">Select Criteria</option>');
-                        $.each(result, function(key, value) {
-                            $("#standard_criterias").append('<option value="' + value.id +
-                                '">' + value.title + '</option>');
-                        });
-                    }
-                });
-            });
-    </script>
+        $('#auditor_id').select2({
+            placeholder: "  Select Auditor",
+            allowClear: true
+        });
+    });
 </script>
 @endsection

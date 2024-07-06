@@ -77,9 +77,10 @@ class ObservationController extends Controller
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
         $sub_indicator = SubIndicator::all();
+        $indicator = Indicator::all();
         $data = AuditPlan::findOrFail($id);
 
-        return view("observations.make", compact("sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
+        return view("observations.make", compact("indicator", "sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
     }
 
     public function edit($id)
@@ -90,47 +91,48 @@ class ObservationController extends Controller
         return view('observations.edit', compact('data'));
     }
 
-    public function update(Request $request, $id){
-    $request->validate([
-        'remark_docs'    => '',
-    ]);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'remark_docs'    => '',
+        ]);
 
-    $data = AuditPlan::findOrFail($id);
-    $data->update([
-        'remark_docs' => $request->remark_docs,
-        'audit_status_id' => '3',
-    ]);
+        $data = AuditPlan::findOrFail($id);
+        $data->update([
+            'remark_docs' => $request->remark_docs,
+            'audit_status_id' => '3',
+        ]);
 
-    // if ($data) {
-    //     // Cari pengguna dan departemen berdasarkan ID yang ada dalam request
-    //     $lecture = User::find($request->lecture_id);
-    //     $department = Department::find($request->department_id);
+        // if ($data) {
+        //     // Cari pengguna dan departemen berdasarkan ID yang ada dalam request
+        //     $lecture = User::find($request->lecture_id);
+        //     $department = Department::find($request->department_id);
 
-    //     if ($lecture) {
-    //         // Data untuk email
-    //         $emailData = [
-    //             'lecture_id'    => $lecture->name,
-    //             'remark_docs'   => $request->remark_docs,
-    //             'date_start'    => $request->date_start,
-    //             'date_end'      => $request->date_end,
-    //             'department_id' => $department ? $department->name : null,
-    //         ];
+        //     if ($lecture) {
+        //         // Data untuk email
+        //         $emailData = [
+        //             'lecture_id'    => $lecture->name,
+        //             'remark_docs'   => $request->remark_docs,
+        //             'date_start'    => $request->date_start,
+        //             'date_end'      => $request->date_end,
+        //             'department_id' => $department ? $department->name : null,
+        //         ];
 
-    //         // Kirim email ke pengguna yang ditemukan
-    //         Mail::to($lecture->email)->send(new CommentDocs($emailData));
+        //         // Kirim email ke pengguna yang ditemukan
+        //         Mail::to($lecture->email)->send(new CommentDocs($emailData));
 
-    //         // Redirect dengan pesan sukses
-    //         return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
-    //     } else {
-    //         // Redirect dengan pesan error jika pengguna tidak ditemukan
-    //         return redirect()->route('observations.index')->with('msg', 'Pengguna tidak ditemukan');
-    //     }
-    // } else {
-    //     // Redirect dengan pesan error jika data tidak berhasil diupdate
-    //     return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
-    // }
+        //         // Redirect dengan pesan sukses
+        //         return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+        //     } else {
+        //         // Redirect dengan pesan error jika pengguna tidak ditemukan
+        //         return redirect()->route('observations.index')->with('msg', 'Pengguna tidak ditemukan');
+        //     }
+        // } else {
+        //     // Redirect dengan pesan error jika data tidak berhasil diupdate
+        //     return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
+        // }
         return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
-}
+    }
 
 
     public function data(Request $request)
@@ -151,12 +153,13 @@ class ObservationController extends Controller
             'departments' => function ($query) {
                 $query->select('id', 'name');
             },
-        ])->leftJoin('locations', 'locations.id' , '=', 'location_id')
-        ->select('audit_plans.*',
-        'locations.title as location'
-        )
-        // ->where('auditor_id', Auth::user()->id)
-        ->orderBy("id");
+        ])->leftJoin('locations', 'locations.id', '=', 'location_id')
+            ->select(
+                'audit_plans.*',
+                'locations.title as location'
+            )
+            // ->where('auditor_id', Auth::user()->id)
+            ->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 //jika pengguna memfilter berdasarkan roles
@@ -166,9 +169,9 @@ class ObservationController extends Controller
                     });
                 }
                 if (!empty($request->get('search'))) {
-                    $instance->where(function($w) use($request){
+                    $instance->where(function ($w) use ($request) {
                         $search = $request->get('search');
-                            $w->orWhere('date_start', 'LIKE', "%$search%")
+                        $w->orWhere('date_start', 'LIKE', "%$search%")
                             ->orWhere('date_end', 'LIKE', "%$search%");
                     });
                 }
