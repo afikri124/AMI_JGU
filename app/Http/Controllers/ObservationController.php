@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\CommentDocs;
 use App\Mail\sendEmail;
 use App\Models\AuditPlan;
+use App\Models\CategoriesAmi;
 use App\Models\Department;
 use App\Models\Indicator;
 use App\Models\Location;
@@ -14,6 +15,7 @@ use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
 use App\Models\User;
+use App\Models\UserStandard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
@@ -79,8 +81,10 @@ class ObservationController extends Controller
         $sub_indicator = SubIndicator::all();
         $indicator = Indicator::all();
         $data = AuditPlan::findOrFail($id);
+        $categoryId = CategoriesAmi::findOrFail($id);
+        $auditorId = UserStandard::findOrFail($id);
 
-        return view("observations.make", compact("indicator", "sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
+        return view("observations.make", compact("auditorId", "categoryId", "indicator", "sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
     }
 
     public function edit($id)

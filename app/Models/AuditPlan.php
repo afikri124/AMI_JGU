@@ -27,20 +27,8 @@ class AuditPlan extends Model
         'link',
         'remark_docs',
         'periode',
-        'standard_categories_id',
-        'standard_criterias_id',
         'periode',
-        'user_standard',
-        'standard_criterias_id'
     ];
-
-    // Casting kolom JSON ke array
-    protected $casts = [
-        'standard_categories_id' => 'array',
-        'standard_criterias_id' => 'array',
-    ];
-
-
 
     // Relasi ke model lain (opsional, jika diperlukan)
     public function lecture()
@@ -63,25 +51,19 @@ class AuditPlan extends Model
         return $this->belongsTo(Location::class, 'location_id', 'id');
     }
 
-
-
-
-    // public function category()
+    // public function categoryid()
     // {
-    //     return $this->belongsTo(StandardCategory::class, 'description', 'audit_status_id');
+    //     return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
     // }
-
-
-    public function categoryid()
+    // public function criterias()
+    // {
+    //     return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    // }
+    
+    public function auditorId()
     {
-        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+        return $this->belongsTo(User::class, 'auditor_id');
     }
-    public function criterias()
-    {
-        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
-    }
-
-
     public function auditor()
     {
         return $this->belongsTo(UserStandard::class, 'auditor_id');
@@ -92,8 +74,12 @@ class AuditPlan extends Model
         return $this->belongsTo(CategoriesAmi::class, 'standard_categories_id');
     }
 
-    public function indicator()
+    public function criterias()
+    {
+        return $this->belongsTo(CriteriasAmi::class, 'standard_criterias_id');
+    }
 
+    public function indicator()
     {
         return $this->hasMany(Indicator::class, 'indicator_id');
     }

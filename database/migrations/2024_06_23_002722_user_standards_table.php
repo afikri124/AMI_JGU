@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_standard', function (Blueprint $table) {
+        Schema::create('user_standards', function (Blueprint $table) {
         $table->id('id');
         $table->unsignedBigInteger('audit_plan_id');
         $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_standard');
+        Schema::dropIfExists('user_standards');
     }
 };

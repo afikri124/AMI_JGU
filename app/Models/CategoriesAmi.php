@@ -17,4 +17,8 @@ class CategoriesAmi extends Model
     public function auditPlan(){
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
+
+    public function category(){
+        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+    }
 }

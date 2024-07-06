@@ -11,7 +11,7 @@ class CriteriasAmi extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'audit_plan_id', 'standard_categories_id'
+        'id', 'audit_plan_id', 'standard_criterias_id'
     ];
 
     public function auditPlan(){

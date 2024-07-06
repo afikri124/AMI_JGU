@@ -18,7 +18,7 @@ class UserStandard extends Model
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
 
-    public function user_standard(){
-        return $this->hasMany(AuditPlan::class, 'id');
+    public function auditor(){
+        return $this->belongsTo(User::class, 'auditor_id');
     }
 }

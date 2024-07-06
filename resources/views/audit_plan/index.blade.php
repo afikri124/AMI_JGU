@@ -152,12 +152,12 @@
                         var html = `<a class="text-primary" title="` + row.lecture.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
                             row.idd + `') }}">` + row.lecture.name + `</a>`;
-                        
+
                         if (row.no_phone) {
                             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
                                     `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
                         }
-                        
+
                         return html;
                     },
                 },
@@ -177,19 +177,29 @@
                         return html;
                     }
                 },
-                
+
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<code><span title=` + row.auditor.name + `" href="{{ url('setting/manage_account/users/edit/`
-                            + row.idd + `') }}">` + row.auditor.name +
-                            `</span></code>`;
-                        
+                        var x =
+                            '<ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">';
+                        if (row.auditorId != null) {
+                            row.auditorId.forEach((e) => {
+                                x += '<li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="' +
+                                    e.name +
+                                    '"><i class="badge rounded-pill"  style="font-size:8pt;background-color:' +
+                                    e.color + '">' +
+                                    e.name +
+                                    '</i></li>';
+                            });
+                        }
+
                         if (row.no_phone) {
-                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                            x += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
                                     `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
                         }
-                        
-                        return html;
+
+                        var y = "</ul>";
+                        return x + y;
                     },
                 },
                 {

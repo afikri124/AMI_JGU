@@ -236,7 +236,7 @@ class AuditPlanController extends Controller
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'auditor' => function ($query) {
+            'auditorId' => function ($query) {
                 $query->select('id', 'name');
             },
             'category' => function ($query) {

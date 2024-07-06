@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('criterias_ami', function (Blueprint $table) {
+        Schema::create('categories_amis', function (Blueprint $table) {
             $table->id('id');
             $table->unsignedBigInteger('audit_plan_id');
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('criterias_ami');
+        Schema::dropIfExists('categories_amis');
     }
 };
