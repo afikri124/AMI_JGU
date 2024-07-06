@@ -30,7 +30,7 @@ class Indicator extends Model
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
 
-    public function subIndicators()
+    public function sub_indicator()
     {
         return $this->hasMany(SubIndicator::class, 'indicator_id');
     }

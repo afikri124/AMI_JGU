@@ -91,7 +91,7 @@
     <div class="step" data-target="#personal-info">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>  
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
         </span>
         <span class="bs-stepper-label">Personal Info</span>
       </button>
@@ -147,12 +147,17 @@
           <div class="col-md-6">
             <label class="form-label" for="lecture"><b>Auditee</b><i class="text-danger">*</i></label>
             <input class="form-control" type="text" value="{{ $data->lecture->name}}" disabled>
-
           </div>
           <div class="col-md-6">
             <label class="form-label" for="auditor"><b>Auditor</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" value="{{ $data->auditor->name}}" disabled>
-
+            @php
+                $auditorNames = [];
+                foreach ($data->auditor as $auditor) {
+                    $auditorNames[] = $auditor->auditor->name;
+                }
+                $auditorNamesString = implode(', ', $auditorNames);
+            @endphp
+            <input class="form-control" type="text" value="{{ $auditorNamesString }}" disabled>
         </div>
           <div class="col-md-6">
             <div class="form-group">
@@ -240,7 +245,7 @@
                           <strong>{{ $message }}</strong>
                       </span>
                       @enderror
-                  </div>        
+                  </div>
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
@@ -251,67 +256,72 @@
       </div>
       <!-- Address -->
       <div id="address" class="content">
-        <div class="content-header mb-3">
+      <div class="content-header mb-3">
         <small>Category Standard</small>
-          <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
-            {{ $data->categoryid->description  }}
-          </h6>
-          <p></p>
-          <small>Criteria Standard</small>
-          <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
-            {{ $data->criterias->title  }}
-          </h6>
-        </div>
+        @foreach ($categories as $category)
+            <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
+                {{ $category->category->description }}
+            </h6>
+        @endforeach
+    <p></p>
 
-        @foreach ($sub_indicator as $sub)
-            <table>
-              <tr>
+    <small>Criteria Standard</small>
+    @foreach ($criterias as $criteria)
+        <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
+            @if ($criteria->criteria)
+                {{ $criteria->criteria->title }}
+            @endif
+        </h6>
+    @endforeach
+    </div>
+
+    @foreach ($sub_indicator as $sub)
+        <table class="table table-bordered">
+            <tr>
                 <th colspan="2">Indicator:</th>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td colspan="2">
-                  {{ $sub->indicator->name }}
+                    {{ $sub->indicator->name }}
                 </td>
-              </tr>
-              <tr>
-
+            </tr>
+            <tr>
                 <td style="width: 80%">
-                  <strong>Sub Indicator:</strong>
-
-                  <p> {!! $sub->name !!}</p>
+                    <strong>Sub Indicator:</strong>
+                    <p>{!! $sub->name !!}</p>
                 </td>
                 <td>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="ks" name="title_ass" />
-                    <label for="ks">KS</label>
-                  </div>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="obs" name="title_ass" />
-                    <label for="obs">OBS</label>
-                  </div>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="kts" name="title_ass" />
-                    <label for="kts">KTS Minor</label>
-                  </div>
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="kts" name="title_ass" />
-                    <label for="kts">KTS Mayor</label>
-                  </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ks" name="title_ass[]" value="KS" />
+                        <label for="ks">KS</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="obs" name="title_ass[]" value="OBS" />
+                        <label for="obs">OBS</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="kts_minor" name="title_ass[]" value="KTS Minor" />
+                        <label for="kts_minor">KTS Minor</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="kts_major" name="title_ass[]" value="KTS Major" />
+                        <label for="kts_major">KTS Major</label>
+                    </div>
                 </td>
-              </tr>
-              <tr>
+            </tr>
+            <tr>
                 <td colspan="2">
-                  <label for="remark_docs">Komentar:</label>
-                  <textarea
-                    id="remark_docs"
-                    name="remark_docs"
-                    class="comment"
-                    maxlength="250"
-                    placeholder="MAX 250 karakter..."></textarea>
+                    <label for="remark_docs_{{ $sub->id }}">Komentar:</label>
+                    <textarea
+                        id="remark_docs_{{ $sub->id }}"
+                        name="remark_docs[]"
+                        class="comment"
+                        maxlength="250"
+                        placeholder="MAX 250 karakter..."></textarea>
                 </td>
-              </tr>
-            </table>
-            @endforeach
+            </tr>
+        </table>
+    @endforeach
 
 
           <div class="col-12 d-flex justify-content-between">

@@ -126,7 +126,7 @@ class MyAuditController extends Controller{
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'auditor' => function ($query) {
+            'auditorId' => function ($query) {
                 $query->select('id', 'name');
             },
             ])->leftJoin('locations', 'locations.id' , '=', 'location_id')

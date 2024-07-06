@@ -8,7 +8,8 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <!-- Favicons -->
+  <!
+-- Favicons -->
   <link href="assets/img/favicon.ico" rel="icon">
 
   <!-- Fonts -->
@@ -74,7 +75,9 @@
         <div class="row justify-content-start">
           <div class="col-lg-8">
           <h1><b>WELCOME TO </b> <br>
+          <marquee  scrollamount="9"  direction="left" width="270" >
           <span class="badge text-bg-danger">AUDIT MUTU INTERNAL</span><br>
+          </marquee>
         </h1>
         <br>
 
@@ -83,6 +86,7 @@
       </div>
 
     </section><!-- /Hero Section -->
+
 
     <!-- About Section -->
     <section id="about" class="about section">

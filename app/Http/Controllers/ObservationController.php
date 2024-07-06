@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\CommentDocs;
 use App\Mail\sendEmail;
 use App\Models\AuditPlan;
+use App\Models\CategoriesAmi;
+use App\Models\CriteriasAmi;
 use App\Models\Department;
 use App\Models\Indicator;
 use App\Models\Location;
@@ -14,6 +16,7 @@ use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
 use App\Models\User;
+use App\Models\UserStandard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
@@ -76,11 +79,23 @@ class ObservationController extends Controller
         $department = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
-        $sub_indicator = SubIndicator::all();
-        $indicator = Indicator::all();
+        $auditors = UserStandard::where('audit_plan_id', $id)->get();
         $data = AuditPlan::findOrFail($id);
+        $criterias = CriteriasAmi::where('audit_plan_id', $id)->get();
+        $categories = CategoriesAmi::where('audit_plan_id', $id)->get();
+        // Ambil data CriteriasAmi berdasarkan $id
+$criteriasAmi = CriteriasAmi::findOrFail($id);
 
-        return view("observations.make", compact("indicator", "sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
+// Ambil standard_criterias_id dari CriteriasAmi
+$standardCriteriasId = $criteriasAmi->standard_criterias_id;
+
+// Ambil indicator berdasarkan standard_criterias_id
+$indicator = Indicator::where('standard_criterias_id', $standardCriteriasId)->get();
+
+// Ambil sub_indicator berdasarkan standard_criterias_id
+$sub_indicator = SubIndicator::where('standard_criterias_id', $standardCriteriasId)->get();
+
+        return view("observations.make", compact("auditors", "categories", "criterias", "indicator", "sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
     }
 
     public function edit($id)
@@ -144,7 +159,7 @@ class ObservationController extends Controller
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'auditor' => function ($query) {
+            'auditorId' => function ($query) {
                 $query->select('id', 'name');
             },
             'category' => function ($query) {

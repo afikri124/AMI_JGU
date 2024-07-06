@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\sendEmail;
 use App\Models\AuditPlan;
 use App\Models\AuditStatus;
+use App\Models\CategoriesAmi;
+use App\Models\CriteriasAmi;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -12,34 +14,26 @@ use App\Models\User;
 use App\Models\Location;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
+use App\Models\UserStandard;
 use Illuminate\Support\Facades\Mail;
 
-class AuditPlanController extends Controller{
-    public function index(Request $request){
+class AuditPlanController extends Controller
+{
+    public function index(Request $request)
+    {
         $data = AuditPlan::all();
         $lecture = User::with(['roles' => function ($query) {
-            $query->select( 'id','name' );
+            $query->select('id', 'name');
         }])
-        ->whereHas('roles', function($q) use($request){
-            $q->where('name', 'lecture');
-        })
-        ->orderBy('name')->get();
+            ->whereHas('roles', function ($q) use ($request) {
+                $q->where('name', 'lecture');
+            })
+            ->orderBy('name')->get();
         return view('audit_plan.index', compact('data', 'lecture'));
     }
 
-    // public function getStandardCategoriesById(Request $request)
-    // {
-    //     $category = StandardCategory::where('id', $request->id)->get();
-    //     return response()->json($category);
-    // }
-
-    // public function getStandardCriteriasById(Request $request)
-    // {
-    //     $criterias = StandardCriteria::where('standard_categories_id', $request->id)->get();
-    //     return response()->json($criterias);
-    // }
-
-    public function add(Request $request) {
+    public function add(Request $request)
+    {
         if ($request->isMethod('POST')) {
             $this->validate($request, [
                 'lecture_id'            => ['required'],
@@ -50,7 +44,7 @@ class AuditPlanController extends Controller{
                 'location_id'           => ['required'],
                 'auditor_id'            => ['required'],
                 'standard_criterias_id' => ['required'],
-                'standard_categories_id'=> ['required'],
+                'standard_categories_id' => ['required'],
                 'link'                  => ['string'],
             ]);
             $data = AuditPlan::create([
@@ -62,15 +56,39 @@ class AuditPlanController extends Controller{
                 'audit_status_id'           => '1',
                 'location_id'               => $request->location_id,
                 'department_id'             => $request->department_id,
-                'auditor_id'                => $request->auditor_id,
                 'doc_path'                  => $request->doc_path,
                 'link'                      => $request->link,
                 'remark_docs'               => $request->remark_docs,
-                'standard_categories_id'    => $request->standard_categories_id,
-                'standard_criterias_id'     => $request->standard_criterias_id,
             ]);
+            if ($request->standard_categories_id) {
+                foreach ($request->standard_categories_id as $categoryId) {
+                    CategoriesAmi::create([
+                        'audit_plan_id'         => $data->id,
+                        'standard_categories_id'  => $categoryId,
+                    ]);
+                }
+            }
+
+            if ($request->auditor_id) {
+                foreach ($request->auditor_id as $auditorId) {
+                    UserStandard::create([
+                        'audit_plan_id'         => $data->id,
+                        'auditor_id'            => $auditorId,
+                    ]);
+                }
+            }
+
+            if ($request->standard_criterias_id) {
+                foreach ($request->standard_criterias_id as $criteriasId) {
+                    CriteriasAmi::create([
+                        'audit_plan_id'         => $data->id,
+                        'standard_criterias_id' => $criteriasId,
+                    ]);
+                }
+            }
+
             if ($data) {
-                return redirect()->route('audit_plan.index')->with('msg', 'Data ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');
+                return redirect()->route('audit_plan.index')->with('msg', 'Data (' . $request->lecture_id . ') pada tanggal ' . $request->date_start . ' BERHASIL ditambahkan!!');
             }
         }
 
@@ -84,18 +102,18 @@ class AuditPlanController extends Controller{
         $lecture = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
-        ->whereHas('roles', function($q) use ($request) {
-            $q->where('name', 'lecture');
-        })
-        ->orderBy('name')->get();
+            ->whereHas('roles', function ($q) use ($request) {
+                $q->where('name', 'lecture');
+            })
+            ->orderBy('name')->get();
 
         $auditor = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
-        ->whereHas('roles', function($q) use ($request) {
-            $q->where('name', 'auditor');
-        })
-        ->orderBy('name')->get();
+            ->whereHas('roles', function ($q) use ($request) {
+                $q->where('name', 'auditor');
+            })
+            ->orderBy('name')->get();
 
         $data = AuditPlan::all();
 
@@ -103,20 +121,22 @@ class AuditPlanController extends Controller{
     }
 
 
-    public function edit(Request $request, $id){
+    public function edit(Request $request, $id)
+    {
         $data = AuditPlan::findOrFail($id);
         $locations = Location::orderBy('title')->get();
         $auditor = User::with(['roles' => function ($query) {
-            $query->select( 'id','name' );
+            $query->select('id', 'name');
         }])
-        ->whereHas('roles', function($q) use($request){
-            $q->where('name', 'auditor');
-        })
-        ->orderBy('name')->get();
+            ->whereHas('roles', function ($q) use ($request) {
+                $q->where('name', 'auditor');
+            })
+            ->orderBy('name')->get();
         return view('audit_plan.edit_audit', compact('data', 'locations', 'auditor'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'date_start'    => 'required',
             'date_end'    => 'required',
@@ -126,18 +146,19 @@ class AuditPlanController extends Controller{
 
         $data = AuditPlan::findOrFail($id);
         $data->update([
-            'date_start'=> $request->date_start,
-            'date_end'=> $request->date_end,
-            'audit_status_id'=> '2',
-            'auditor_id'=> $request->auditor_id,
-            'location_id'=> $request->location_id,
+            'date_start' => $request->date_start,
+            'date_end' => $request->date_end,
+            'audit_status_id' => '2',
+            'auditor_id' => $request->auditor_id,
+            'location_id' => $request->location_id,
         ]);
         return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         $data = AuditPlan::find($request->id);
-        if($data){
+        if ($data) {
             $data->delete();
             return response()->json([
                 'success' => true,
@@ -186,16 +207,16 @@ class AuditPlanController extends Controller{
     //     }
     // }
 
-    public function data(Request $request){
-        $data = AuditPlan::
-        with([
+    public function data(Request $request)
+    {
+        $data = AuditPlan::with([
             'lecture' => function ($query) {
-                $query->select('id','name');
+                $query->select('id', 'name');
             },
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'auditor' => function ($query) {
+            'auditorId' => function ($query) {
                 $query->select('id', 'name');
             },
             'category' => function ($query) {
@@ -208,32 +229,34 @@ class AuditPlanController extends Controller{
                 $query->select('id', 'name');
             },
         ])
-        ->leftJoin('locations', 'locations.id' , '=', 'location_id')
-        ->select('audit_plans.*',
-        'locations.title as location'
-        )->orderBy("id");
-                return DataTables::of($data)
-                    ->filter(function ($instance) use ($request) {
-                        //jika pengguna memfilter berdasarkan roles
-                        if (!empty($request->get('select_lecture'))) {
-                            $instance->whereHas('lecture', function($q) use($request){
-                                $q->where('lecture_id', $request->get('select_lecture'));
-                            });
-                    }
-                    if (!empty($request->get('search'))) {
-                        $instance->where(function($w) use($request){
-                            $search = $request->get('search');
-                                $w->orWhere('date_start', 'LIKE', "%$search%")
-                                ->orWhere('date_end', 'LIKE', "%$search%");
-                        });
-                    }
-                    })->make(true);
+            ->leftJoin('locations', 'locations.id', '=', 'location_id')
+            ->select(
+                'audit_plans.*',
+                'locations.title as location'
+            )->orderBy("id");
+        return DataTables::of($data)
+            ->filter(function ($instance) use ($request) {
+                //jika pengguna memfilter berdasarkan roles
+                if (!empty($request->get('select_lecture'))) {
+                    $instance->whereHas('lecture', function ($q) use ($request) {
+                        $q->where('lecture_id', $request->get('select_lecture'));
+                    });
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function ($w) use ($request) {
+                        $search = $request->get('search');
+                        $w->orWhere('date_start', 'LIKE', "%$search%")
+                            ->orWhere('date_end', 'LIKE', "%$search%");
+                    });
+                }
+            })->make(true);
     }
 
-    
 
-//Json
-    public function getData(){
+
+    //Json
+    public function getData()
+    {
         $data = AuditPlan::with('users')->with('auditstatus')->with('locations')->get()->map(function ($data) {
             return [
                 'lecture_id' => $data->lecture_id,
@@ -253,7 +276,8 @@ class AuditPlanController extends Controller{
         return response()->json($data);
     }
 
-    public function datatables(){
+    public function datatables()
+    {
         $data = AuditPlan::select('*');
         return DataTables::of($data)->make(true);
     }
