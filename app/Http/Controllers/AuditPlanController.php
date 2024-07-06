@@ -27,17 +27,17 @@ class AuditPlanController extends Controller{
         return view('audit_plan.index', compact('data', 'lecture'));
     }
 
-    public function getStandardCategoriesById(Request $request)
-    {
-        $category = StandardCategory::where('standard_categories_id', $request->id)->get();
-        return response()->json($category);
-    }
+    // public function getStandardCategoriesById(Request $request)
+    // {
+    //     $category = StandardCategory::where('standard_categories_id', $request->id)->get();
+    //     return response()->json($category);
+    // }
 
-    public function getStandardCriteriasById(Request $request)
-    {
-        $criterias = StandardCriteria::where('standard_criterias_id', $request->id)->get();
-        return response()->json($criterias);
-    }
+    // public function getStandardCriteriasById(Request $request)
+    // {
+    //     $criterias = StandardCriteria::where('standard_criterias_id', $request->id)->get();
+    //     return response()->json($criterias);
+    // }
 
     public function add(Request $request) {
         if ($request->isMethod('POST')) {
@@ -62,12 +62,9 @@ class AuditPlanController extends Controller{
                 'audit_status_id'           => '1',
                 'location_id'               => $request->location_id,
                 'department_id'             => $request->department_id,
-                'auditor_id'                => $request->auditor_id,
                 'doc_path'                  => $request->doc_path,
                 'link'                      => $request->link,
                 'remark_docs'               => $request->remark_docs,
-                'standard_categories_id'    => $request->standard_categories_id,
-                'standard_criterias_id'     => $request->standard_criterias_id,
             ]);
             if ($data) {
                 return redirect()->route('audit_plan.index')->with('msg', 'Data ('.$request->lecture_id.') pada tanggal '.$request->date_start.' BERHASIL ditambahkan!!');

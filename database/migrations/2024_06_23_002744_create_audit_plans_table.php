@@ -23,17 +23,18 @@ return new class extends Migration
             $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
             $table->string('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
-            $table->string('standard_categories_id')->nullable();
-            $table->foreign('standard_categories_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('standard_criterias_id')->nullable();
+           $table->unsignedBigInteger('standard_criterias_id')->nullable();
             $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
-            $table->unsignedBigInteger('auditor_id');
-            $table->foreign('auditor_id')->references('id')->on('users');
             $table->string('doc_path')->nullable();
             $table->string('link')->nullable();
             $table->string('remark_docs')->nullable();
+            $table->string('periode')->nullable();
+            $table->unsignedBigInteger('standard_categories_id')->nullable();
+            $table->foreign('standard_categories_id')->references('id')->on('standard_ami')->nullable()->onDelete('cascade');
+            $table->unsignedBigInteger('auditor_id')->nullable();
+            $table->foreign('auditor_id')->references('id')->on('user_standard')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
     }

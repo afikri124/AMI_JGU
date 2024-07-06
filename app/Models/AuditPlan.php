@@ -27,7 +27,9 @@ class AuditPlan extends Model
         'link',
         'remark_docs',
         'standard_categories_id',
-        'standard_criterias_id'
+        'standard_criterias_id',
+        'periode',
+        'user_standard'
         ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -49,23 +51,21 @@ class AuditPlan extends Model
         return $this->belongsTo(Department::class, 'department_id');
     }
 
-    public function auditor()
-    {
-        return $this->belongsTo(User::class, 'auditor_id');
-    }
-
     public function location()
     {
         return $this->belongsTo(Location::class, "location_id", 'id');
     }
 
-    public function category()
-    {
-        return $this->belongsTo(StandardCategory::class, 'description', 'audit_status_id');
-    }
-
     public function criterias()
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    }
+
+    public function auditor(){
+        return $this->belongsTo(UserStandard::class, 'auditor_id');
+    }
+
+    public function category(){
+        return $this->belongsTo(StandardAmi::class, 'standard_categories_id');
     }
 }
