@@ -20,6 +20,11 @@
         padding: 0.4em;
         margin-right: 0.1em;
     }
+    table.dataTable td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 </style>
 
 
@@ -200,7 +205,7 @@
                 {
                     render: function(data, type, row, meta) {
                         var html =
-                            `<a class="badge bg-success badge-icon" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
+                            `<a class="badge bg-danger badge-icon" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
                             <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
                             <a class="badge bg-dark badge-icon"title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
                         return html;
