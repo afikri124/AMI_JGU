@@ -7,7 +7,7 @@ use App\Models\Indicator;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
-use App\Models\ListDocument;
+use App\Models\ReviewDocs;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -106,7 +106,7 @@ class StandardCriteriaController extends Controller
 
 
 
-    
+
 
     //INDICATOR
     public function indicator(){
@@ -345,94 +345,96 @@ class StandardCriteriaController extends Controller
     }
 
 
-    // LIST DOCUMENT
-    public function list_document(){
-        $data = ListDocument::all();
-        $sub_indicator = SubIndicator::orderBy('name')->get();
-        return view('standard_criteria.list_document.index',compact('data', 'sub_indicator'));
+
+
+    // REVIEW DOCUMENT
+    public function review_docs(){
+        $data = ReviewDocs::all();
+        $indicator = Indicator::orderBy('name')->get();
+        return view('standard_criteria.review_docs.index',compact('data', 'indicator'));
     }
 
-    public function create_list(Request $request){
-    if ($request->isMethod('POST')){
-        // Validate the data request
-        $validatedData = $request->validate([
-            'standard_criterias_id' => ['required', 'uuid'],
-            'numForms' => ['required', 'integer', 'min:1'],
-            'indicators' => ['required', 'array', 'min:1'],
-            'indicators.*.name' => ['required', 'string'],
-        ]);
+    public function create_docs(Request $request){
+        if ($request->isMethod('POST')) {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'standard_criterias_id' => ['required', 'uuid'],
+                'numForms' => ['required', 'integer', 'min:1'],
+                'indicators' => ['required', 'array', 'min:1'],
+                'indicators.*.name' => ['required', 'string'],
+            ]);
 
-        // Relative the specific Standard Criteria by ID
-        $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
+            // Retrieve the specific Standard Criteria by ID
+            $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
 
-        if (!$criteria) {
-            return redirect()->back()->with('error', 'Standard Criteria not found!');
+            if (!$criteria) {
+                return redirect()->back()->with('error', 'Standard Criteria not found.');
+            }
+
+            return redirect()->route('standard_criteria.review_docs')->with('msg', 'Review Docs added successfully.');
         }
 
-        return redirect()->route('standard_criteria.list_document')->with('msg', 'Indicators added successfully.');
+        // Retrieve all Standard Criteria and Indicator for the dropdown
+        $allCriteria = StandardCriteria::all();
+        $criterias = StandardCriteria::orderBy('title')->get();
+        $indicators = Indicator::orderBy('name')->get();
+
+        return view('standard_criteria.review_docs.create', compact('allCriteria', 'criterias','indicators'));
     }
 
-    //Retrieve all Standard Criteria, Indicator and Sub Indicator for the dropdown
-    $allCriteria = StandardCriteria::all();
-    $criterias = StandardCriteria::orderBy('title')->get();
-    $indicators = Indicator::orderBy('name')->get();
-    $sub_indicators = SubIndicator::orderBy('name')->get();
-
-    return view('standard_criteria.list_document.create', compact('allCriteria', 'criterias','indicators', 'sub_indicators'));
-    }
-
-    public function store_list(Request $request){
+        public function store_docs(Request $request){
         $validatedData = $request->validate([
-            'sub_indicator_id' => 'required|exists:sub_indicators,id',
+            'indicator_id' => 'required|exists:indicators,id',
             'numForms' => 'required|integer|min:1',
-            'list_documents' => 'required|array|min:1',
-            'list_documents.*.name' => 'required|string',
+            'review_docs' => 'required|array|min:1',
+            'review_docs.*.name' => 'required|string',
         ]);
 
-        $sub_indicator_id = $request->sub_indicator_id;
+        $indicator_id = $request->indicator_id;
 
-        // Create the List_Document
-        foreach ($request->list_document as $list_documentData) {
-            SubIndicator::create([
-                'name' => $list_documentData['name'],
-                'indicator_id' => $sub_indicator_id,
+        //Create the Sub_indicators
+        foreach ($request->review_docs as $reviewDocsData) {
+            ReviewDocs::create([
+                'name' => $reviewDocsData['name'],
+                'indicator_id' => $indicator_id,
             ]);
         }
-    
-        return redirect()->route('standard_criteria.list_document')->with('msg', 'List Document added successfully.');
+
+        return redirect()->route('standard_criteria.review_docs')->with('msg', 'Review Document added successfully.');
     }
 
-    // Edit List Document
-    public function edit_list($id){
-        $data = ListDocument::findOrFail($id);
+
+    // Edit docs Document
+    public function edit_docs($id){
+        $data = ReviewDocs::findOrFail($id);
 
        // Fetch all criteria
         $criteria = StandardCriteria::all();
-        return view('standard_criteria.list_document.edit', compact('data', 'criteria'));
+        return view('standard_criteria.review_docs.edit', compact('data', 'criteria'));
     }
 
-    public function update_list(Request $request, $id){
+    public function update_docs(Request $request, $id){
     // Validate the request
     $request->validate([
-        'standard_criterias_id' => ['required', 'string'],
+        'indicator_id' => ['required', 'string'],
         'name' => ['required','string','max:512'],
     ]);
 
     // Find the Sub_Indicator data
-    $data = ListDocument::findOrFail($id);
+    $data = ReviewDocs::findOrFail($id);
 
     $data->update([
-        'standard_criterias_id'=> $request->standard_criterias_id,
+        'indicator_id'=> $request->indicator_id,
         'name'=> $request->name,
     ]);
 
     // Redirect back with a success message
-    return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicator updated successfully.');
+    return redirect()->route('standard_criteria.review_docs')->with('msg', 'Review Document updated successfully.');
     }
 
-    // Delete List Document
-    public function delete_list(Request $request){
-        $data = ListDocument::find($request->id);
+    // Delete docs Document
+    public function delete_docs(Request $request){
+        $data = ReviewDocs::find($request->id);
         if($data){
             $data->delete();
             return response()->json([
@@ -448,17 +450,17 @@ class StandardCriteriaController extends Controller
     }
 
     // Retrieve and filter data for Dist Document
-    public function data_list(Request $request){
-        $data = ListDocument::
-        with(['sub_indicator' => function ($query) {
+    public function data_docs(Request $request){
+        $data = ReviewDocs::
+        with(['indicator' => function ($query) {
             $query->select('id','name');
         }])->
         select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('select_sub_indicator'))) {
-                    $instance->whereHas('sub_indicator', function ($q) use ($request) {
-                        $q->where('sub_indicator_id', $request->get('select_sub_indicator'));
+                if (!empty($request->get('select_indicator'))) {
+                    $instance->whereHas('indicator', function ($q) use ($request) {
+                        $q->where('indicator_id', $request->get('select_indicator'));
                     });
                 }
                 if (!empty($request->get('search'))) {

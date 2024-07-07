@@ -145,13 +145,13 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
 
 
             // Route List Document
-            Route::get('/list_document', [StandardCriteriaController::class, 'list_document'])->name('standard_criteria.list_document');
-            Route::get('/data_list', [StandardCriteriaController::class, 'data_list'])->name('standard_criteria.data_list');
-            Route::get('/standard_criteria.list_document.create', [StandardCriteriaController::class, 'create_list'])->name('standard_criteria.list_document.create');
-            Route::post('/add/list_document', [StandardCriteriaController::class, 'store_list'])->name('store_list.list_document');
-            Route::get('/edit_list/list_document/{id}', [StandardCriteriaController::class, 'edit_list'])->name('edit_list.list_document');
-            Route::put('/update_list/list_document/{id}', [StandardCriteriaController::class, 'update_list'])->name('update_list.list_document');
-            Route::delete('/delete_list', [StandardCriteriaController::class, 'delete_list'])->name('delete_list.list_document');
+            Route::get('/review_docs', [StandardCriteriaController::class, 'review_docs'])->name('standard_criteria.review_docs');
+            Route::get('/data_docs', [StandardCriteriaController::class, 'data_docs'])->name('standard_criteria.data_docs');
+            Route::get('/standard_criteria.review_docs.create', [StandardCriteriaController::class, 'create_docs'])->name('standard_criteria.review_docs.create');
+            Route::post('/add/store_docs', [StandardCriteriaController::class, 'store_docs'])->name('store_docs.review_docs');
+            Route::get('/edit_docs/review_docs/{id}', [StandardCriteriaController::class, 'edit_docs'])->name('edit_docs.review_docs');
+            Route::put('/update_docs/review_docs/{id}', [StandardCriteriaController::class, 'update_docs'])->name('update_docs.review_docs');
+            Route::delete('/delete_docs', [StandardCriteriaController::class, 'delete_docs'])->name('delete_docs.review_docs');
 
             // Route::post('/add/indicator', [StandardCriteriaController::class, 'create'])->name('create.indicator');
             // Route::get('/data', [StandardCriteriaController::class, 'data'])->name('standard_criteria.data');

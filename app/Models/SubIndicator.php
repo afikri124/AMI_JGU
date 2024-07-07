@@ -26,15 +26,15 @@ class SubIndicator extends Model
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
-    
+
     public function indicator()
     {
         return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 
-    public function list()
+    public function reviewDocs()
     {
-        return $this->hasMany(ListDocument::class, 'sub_indicator_id');
+        return $this->belongsTo(ReviewDocs::class, 'review_docs_id');
     }
 
 }

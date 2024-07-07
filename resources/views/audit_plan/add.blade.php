@@ -53,6 +53,7 @@
                             @enderror
                         </div>
                     </div>
+                    <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
@@ -79,6 +80,7 @@
                             </div>
                         </div>
                     </div>
+                    <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="lecture_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
@@ -113,6 +115,7 @@
                             </select>
                         </div>
                     </div>
+                    <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
@@ -139,6 +142,7 @@
                             </select>
                         </div>
                     </div>
+                    <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="standard_categories_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
@@ -160,6 +164,23 @@
                                     {{ $c->id }} - {{ $c->title }}
                                 </option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
+                            <select id="periode" name="periode" class="form-select" required>
+                            <option value="">Select Periode</option>
+                            <?php
+                            $startYear = 2019;
+                            $endYear = $startYear + 100;
+                            for ($year = $startYear; $year <= $endYear; $year++) {
+                                $nextYear = $year + 1;
+                                echo "<option value='$year/$nextYear'>$year/$nextYear</option>";
+                            }
+                            ?>
                             </select>
                         </div>
                     </div>
@@ -195,21 +216,20 @@
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-
 <script>
     $(document).ready(function() {
         $('#standard_categories_id').select2({
-            placeholder: "Select Categories",
+            placeholder: " Select Categories",
             allowClear: true
         });
-        
+
         $('#standard_criterias_id').select2({
-            placeholder: "Select Criterias",
+            placeholder: "  Select Criterias",
             allowClear: true
         });
 
         $('#auditor_id').select2({
-            placeholder: "Select Auditor",
+            placeholder: "  Select Auditor",
             allowClear: true
         });
     });

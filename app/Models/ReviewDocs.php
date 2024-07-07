@@ -11,6 +11,16 @@ class ReviewDocs extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'name', 'standard_categories_id', 'standard_criterias_id'
+        'id', 'name', 'indicator_id', 'standard_criterias_id'
     ];
+
+    public function criteria()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    }
+
+    public function indicator()
+    {
+        return $this->belongsTo(Indicator::class, 'indicator_id');
+    }
 }

@@ -19,26 +19,9 @@ class StandardCriteria extends Model
         'status'
     ];
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     // Automatically generate a UUID for the 'id' field
-    //     static::creating(function ($model) {
-    //         if (empty($model->{$model->getKeyName()})) {
-    //             $model->{$model->getKeyName()} = (string) Str::uuid();
-    //         }
-    //     });
-    // }
-
     public function category()
     {
         return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
-    }
-
-    public function indicator()
-    {
-        return $this->hasMany(Indicator::class, 'standard_criterias_id');
     }
 
     public function status()
@@ -50,13 +33,14 @@ class StandardCriteria extends Model
     {
         return $this->hasMany(AuditPlan::class, 'id');
     }
-    // public function getKeyType()
-    // {
-    //     return 'string';
-    // }
 
     public function indicators()
     {
         return $this->hasMany(Indicator::class, 'standard_criterias_id');
+    }
+
+    public function reviewDocs()
+    {
+        return $this->hasMany(ReviewDocs::class, 'standard_criterias_id');
     }
 }

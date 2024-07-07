@@ -12,6 +12,7 @@ use App\Models\Indicator;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Observation;
+use App\Models\ReviewDocs;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
@@ -45,12 +46,6 @@ class ObservationController extends Controller
                 'location_id' => ['required'],
                 'department_id' => ['required'],
                 'standard_categories_id' => ['required'],
-                'remark_ass' => ['required'],
-                'doc_path' => ['required'],
-                'link' => ['required'],
-                'class_type' => ['required'],
-                'total_students' => ['required'],
-                'title_ass' => ['required'],
             ]);
 
             $data = Observation::create([
@@ -61,12 +56,16 @@ class ObservationController extends Controller
                 'audit_status_id' => '4',
                 'standard_categories_id' => $request->standard_categories_id,
                 'standard_criterias_id' => $request->standard_criterias_id,
-                'remark_ass' => $request->remark_ass,
-                'doc_path' => $request->doc_path,
+                'type_audit' => $request->type_audit,
                 'link' => $request->link,
-                'class_type' => $request->class_type,
-                'total_students' => $request->total_students,
-                'title_ass' => $request->title_ass,
+                'ks' => $request->ks,
+                'obs' => $request->obs,
+                'kts_minor' => $request->kts_minor,
+                'kts_mayor' => $request->kts_mayor,
+                'description_remark' => $request->description_remark,
+                'success_remark' => $request->success_remark,
+                'failed_remark' => $request->failed_remark,
+                'recommend_remark' => $request->recommend_remark,
             ]);
 
             if ($data) {
@@ -83,19 +82,22 @@ class ObservationController extends Controller
         $data = AuditPlan::findOrFail($id);
         $criterias = CriteriasAmi::where('audit_plan_id', $id)->get();
         $categories = CategoriesAmi::where('audit_plan_id', $id)->get();
-        // Ambil data CriteriasAmi berdasarkan $id
-$criteriasAmi = CriteriasAmi::findOrFail($id);
+        // Ambil data StandardCriteria ID dari CriteriasAmi
+        $standardCriteriasIds = $criterias->pluck('standard_criterias_id');
+        // Ambil indicator berdasarkan standard_criterias_id
+        $indicators = Indicator::whereIn('standard_criterias_id', $standardCriteriasIds)->get();
+        // Ambil sub_indicator berdasarkan indicator_id dari indicators yang didapat
+        $subIndicators = SubIndicator::whereIn('indicator_id', $indicators->pluck('id'))->get();
+        $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicators->pluck('id'))->get();
+        foreach ($subIndicators as $sub) {
+            $reviewDocs = ReviewDocs::where('indicator_id', $sub->indicator_id)
+                ->where('standard_criterias_id', $sub->standard_criterias_id)
+                ->get();
 
-// Ambil standard_criterias_id dari CriteriasAmi
-$standardCriteriasId = $criteriasAmi->standard_criterias_id;
+            $sub->reviewDocs = $reviewDocs; // Attach review documents to each sub indicator
+        }
 
-// Ambil indicator berdasarkan standard_criterias_id
-$indicator = Indicator::where('standard_criterias_id', $standardCriteriasId)->get();
-
-// Ambil sub_indicator berdasarkan standard_criterias_id
-$sub_indicator = SubIndicator::where('standard_criterias_id', $standardCriteriasId)->get();
-
-        return view("observations.make", compact("auditors", "categories", "criterias", "indicator", "sub_indicator", "data", "locations", "department", "category", "criteria", "audit_plan"));
+    return view('observations.make', compact('criterias', 'categories', 'indicators', 'subIndicators', 'auditors','reviewDocs', "data", "locations", "department", "category", "criteria", "audit_plan"));
     }
 
     public function edit($id)

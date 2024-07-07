@@ -65,9 +65,9 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.list_document')}}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    List Document</a></li>
+                    Review Document</a></li>
         </ul>
     </div>
 
@@ -240,10 +240,15 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.category.id +
-                            `" href="">` + row.category.id + `</a>`;
-                        return html;
-                    },
+    // Check if row.category exists and has an id
+    if (row.category && row.category.id) {
+        var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
+        return html;
+    } else {
+        return ''; // Return empty string or handle the case where category.id is missing
+    }
+},
+
                 },
                 {
                     render: function (data, type, row, meta) {

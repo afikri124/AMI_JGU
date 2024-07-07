@@ -67,6 +67,10 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+    .text-wrapper {
+    width: 200px; /* set a width for the wrapping container */
+    word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
+}
 </style>
 @endsection
 
@@ -83,17 +87,6 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(36, 34, 34);transform: ;msFilter:;"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z"></path></svg>
         </span>
         <span class="bs-stepper-label">Account Details</span>
-      </button>
-    </div>
-    <div class="line">
-      <i class="bx bx-chevron-right"></i>
-    </div>
-    <div class="step" data-target="#personal-info">
-      <button type="button" class="step-trigger">
-        <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
-        </span>
-        <span class="bs-stepper-label">Personal Info</span>
       </button>
     </div>
     <div class="line">
@@ -218,42 +211,6 @@
           </div>
         </div>
       </div>
-      <!-- Personal Info -->
-      <div id="personal-info" class="content">
-        <div class="content-header mb-3">
-          <h6 class="mb-0">Personal Info</h6>
-          <small>Enter Your Personal Info.</small>
-        </div>
-          <div class="form-group">
-            <label class="form-label">Upload Document</label>
-              <div class="input-group mb-3">
-                <input class="form-control @error('doc_path') is-invalid @enderror"
-                  name="doc_path" type="file" accept=".pdf" title="PDF">
-                    @error('doc_path')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Link Document</label>
-                  <div class="input-group mb-3">
-                      <a href="{{ $data->link }}" target="_blank">( {{ $data->link }} )</a>
-                      @error('link')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                      @enderror
-                  </div>
-          <div class="col-12 d-flex justify-content-between">
-            <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-              <span class="align-middle d-sm-inline-block d-none">Previous</span>
-            </button>
-            <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
-          </div>
-        </div>
-      </div>
       <!-- Address -->
       <div id="address" class="content">
       <div class="content-header mb-3">
@@ -275,54 +232,101 @@
     @endforeach
     </div>
 
-    @foreach ($sub_indicator as $sub)
-        <table class="table table-bordered">
-            <tr>
-                <th colspan="2">Indicator:</th>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    {{ $sub->indicator->name }}
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 80%">
-                    <strong>Sub Indicator:</strong>
-                    <p>{!! $sub->name !!}</p>
-                </td>
-                <td>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="ks" name="title_ass[]" value="KS" />
-                        <label for="ks">KS</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="obs" name="title_ass[]" value="OBS" />
-                        <label for="obs">OBS</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="kts_minor" name="title_ass[]" value="KTS Minor" />
-                        <label for="kts_minor">KTS Minor</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="kts_major" name="title_ass[]" value="KTS Major" />
-                        <label for="kts_major">KTS Major</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <label for="remark_docs_{{ $sub->id }}">Komentar:</label>
-                    <textarea
-                        id="remark_docs_{{ $sub->id }}"
-                        name="remark_docs[]"
-                        class="comment"
-                        maxlength="250"
-                        placeholder="MAX 250 karakter..."></textarea>
-                </td>
-            </tr>
-        </table>
-    @endforeach
+    @foreach ($criterias as $criteria)
+    <h6 ><b>{{ $criteria->criteria->id }}. {{ $criteria->criteria->title }}</b></h6>
 
+    @foreach ($subIndicators as $sub)
+    @if ($sub->indicator->standard_criterias_id == $criteria->criteria->id)
+    <table class="table table-bordered">
+        <tr>
+            <th><b>Indicator   :</b></th>
+            <td>
+                <!-- Display the drive link -->
+                <a href="{{ $data->link }}" target="_blank">( {{ $data->link }} )</a>
+                @error('link')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 60%">
+                {{ $sub->indicator->name ?? 'No Indicator Found' }}
+            </td>
+            <td style="width: 35%">
+            <div class="checkbox-group">
+                <input type="radio" id="ks" name="options" value="KS" onchange="toggleRemarks()" />
+                <label for="ks">KS</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="radio" id="obs" name="options" value="OBS" onchange="toggleRemarks()" />
+                <label for="obs">OBS</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="radio" id="kts_minor" name="options" value="KTS Minor" onchange="toggleRemarks()" />
+                <label for="kts_minor">KTS MINOR</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="radio" id="kts_mayor" name="options" value="KTS Mayor" onchange="toggleRemarks()" />
+                <label for="kts_mayor">KTS MAYOR</label>
+            </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 60%">
+                <strong>Sub Indicator:</strong>
+                <p>{!! $sub->name !!}</p>
+            </td>
+            <td style="vertical-align: top;">
+                <div class="form_control">
+                    <label for="upgrade_plan" class="form-label"><b>Rencana Penigkatan</b><i class="text-danger">*</i></label>
+                    <textarea type="text" id="upgrade_plan" class="form-control" name="upgrade_plan" placeholder="Input Rencana Peningkatan"></textarea>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 60%" id="review-docs">
+                <strong>Review Documents :</strong>
+                @foreach ($sub->reviewDocs as $reviewDoc)
+                    <p>{{ $reviewDoc->name }}</p>
+                @endforeach
+            </td>
+            <td>
+                <div class="form_control">
+                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
+                    <input type="date" class="form-control @error('plan_complated') is-invalid @enderror" name="plan_complated" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime">
+                </div>
+            </td>
+        </tr>
+    <tr>
+        <td colspan="3">
+            <label for="description_remark" class="form-label"><b>Deskripsi Audit  :</b></label>
+            <textarea id="description_remark" name="description_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label for="success_remark" class="form-label"><b>Faktor Pendukung Keberhasilan    :</b></label>
+            <textarea id="success_remark" name="success_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label for="failed_remark" class="form-label"><b>Faktor Pendukung Kegagalan    :</b></label>
+            <textarea id="failed_remark" name="failed_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <label for="recommend_remark" class="form-label"><b>Rekomendasi Audit  :</b></label>
+            <textarea id="recommend_remark" name="recommend_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+        </td>
+    </tr>
+    </table>
+    @endif
+    @endforeach
+@endforeach
 
           <div class="col-12 d-flex justify-content-between">
             <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
@@ -427,36 +431,57 @@
 
 </script>
 <script>
+    const wizardIcons = document.querySelector('.wizard-icons-example');
 
-const wizardIcons = document.querySelector('.wizard-icons-example');
+    if (typeof wizardIcons !== undefined && wizardIcons !== null) {
+        const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
+              wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
+              wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
 
-if (typeof wizardIcons !== undefined && wizardIcons !== null) {
-  const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
-    wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
-    wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
+        const iconsStepper = new Stepper(wizardIcons, {
+            linear: false
+        });
 
-  const iconsStepper = new Stepper(wizardIcons, {
-    linear: false
-  });
-  if (wizardIconsBtnNextList) {
-    wizardIconsBtnNextList.forEach(wizardIconsBtnNext => {
-      wizardIconsBtnNext.addEventListener('click', event => {
-        iconsStepper.next();
-      });
-    });
-  }
-  if (wizardIconsBtnPrevList) {
-    wizardIconsBtnPrevList.forEach(wizardIconsBtnPrev => {
-      wizardIconsBtnPrev.addEventListener('click', event => {
-        iconsStepper.previous();
-      });
-    });
-  }
-  if (wizardIconsBtnSubmit) {
-    wizardIconsBtnSubmit.addEventListener('click', event => {
-      alert('Submitted..!!');
-    });
-  }
-}
+        if (wizardIconsBtnNextList) {
+            wizardIconsBtnNextList.forEach(wizardIconsBtnNext => {
+                wizardIconsBtnNext.addEventListener('click', event => {
+                    iconsStepper.next();
+                });
+            });
+        }
+
+        if (wizardIconsBtnPrevList) {
+            wizardIconsBtnPrevList.forEach(wizardIconsBtnPrev => {
+                wizardIconsBtnPrev.addEventListener('click', event => {
+                    iconsStepper.previous();
+                });
+            });
+        }
+
+        if (wizardIconsBtnSubmit) {
+            wizardIconsBtnSubmit.addEventListener('click', event => {
+                alert('Submitted..!!');
+            });
+        }
+    }
+
+    function toggleRemarks() {
+        var ksChecked = document.getElementById("ks").checked;
+        var obsChecked = document.getElementById("obs").checked;
+        var ktsMinorChecked = document.getElementById("kts_minor").checked;
+        var ktsMajorChecked = document.getElementById("kts_mayor").checked;
+
+        if (ksChecked) {
+            document.getElementById("success_remark").style.display = "block";
+        } else {
+            document.getElementById("success_remark").style.display = "none";
+        }
+
+        if (obsChecked || ktsMinorChecked || ktsMajorChecked) {
+            document.getElementById("failed_remark").style.display = "block";
+        } else {
+            document.getElementById("failed_remark").style.display = "none";
+        }
+    }
 </script>
 @endsection

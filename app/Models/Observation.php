@@ -22,11 +22,16 @@ class Observation extends Model
         'standard_categories_id',
         'indicator_id',
         'sub_indicator_id',
-        'remark_ass',
-        'doc_path',
-        'total_students',
+        'type_audit',
         'link',
-        'title_ass'
+        'ks',
+        'obs',
+        'kts_minor',
+        'kts_mayor',
+        'description_remark',
+        'success_remark',
+        'failed_remark',
+        'recommend_remark'
     ];
 
     public function auditPlan()
@@ -68,5 +73,15 @@ class Observation extends Model
     public function sub_indicator()
     {
         return $this->belongsTo(SubIndicator::class, 'sub_indicator_id');
+    }
+
+    public function review_docs()
+    {
+        return $this->belongsTo(ReviewDocs::class, 'review_docs_id');
+    }
+
+    public function obs_checklist()
+    {
+        return $this->belongsTo(ObsChecklist::class, 'obs_checklist_id');
     }
 }

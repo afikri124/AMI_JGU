@@ -66,9 +66,9 @@
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.list_document')}}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    List Document</a></li>            
+                    Review Document</a></li>
         </ul>
     </div>
 

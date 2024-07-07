@@ -18,22 +18,22 @@
             @endif
             <div class="card mb-4">
                   <hr class="my-0">
-                  <div class="card-header">List Document</div>
+                  <div class="card-header">Review Document</div>
                   <div class="card-body">
-                  <form id="form-add-new-record" method="POST" action="{{ route('store_list.list_document') }}" enctype="multipart/form-data">
+                  <form id="form-add-new-record" method="POST" action="{{ route('store_docs.review_docs') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group col-md-4">
-                              <label for="sub_indicator_id" class="form-label">Select Sub Indicator<i class="text-danger">*</i></label>
-                              <select class="form-select digits select2 @error('sub_indicator_id') is-invalid @enderror"
-                                    name="sub_indicator_id" id="indicator_id" data-placeholder="Select">
-                              <option value="" selected disabled>Select Sub Indicator</option>
-                              @foreach($sub_indicators as $c)
-                                    <option value="{{ $c->id }}" {{ old('sub_indicator_id') == $c->id ? 'selected' : '' }}>
+                              <label for="indicator_id" class="form-label">Select Indicator<i class="text-danger">*</i></label>
+                              <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
+                                    name="indicator_id" id="indicator_id" data-placeholder="Select">
+                              <option value="" selected disabled>Select Indicator</option>
+                              @foreach($indicators as $c)
+                                    <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
                                           {{ $c->name }}
                                     </option>
                               @endforeach
                               </select>
-                              @error('sub_indicator_id')
+                              @error('indicator_id')
                               <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                               </span>
@@ -50,7 +50,7 @@
 
                         <div class="col-sm-12 mt-4">
                               <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
-                              <a href="{{ route('standard_criteria.list_document')}}">
+                              <a href="{{ route('standard_criteria.review_docs')}}">
                               <span class="btn btn-outline-secondary">Back</span>
                               </a>
                         </div>
@@ -75,8 +75,8 @@
                   <p></p>
                   <div class="row mb-3">
                               <div class="form-group">
-                              <label for="inputField${i + 1}_1">List Document<i class="text-danger">*</i></label>
-                              <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="list_document[${i}][name]"></input>
+                              <label for="inputField${i + 1}_1">Review Document<i class="text-danger">*</i></label>
+                              <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="review_docs[${i}][name]"></input>
                               <trix-editor input="inputField${i + 1}_1"></trix-editor>
                               </div>
                         </div>

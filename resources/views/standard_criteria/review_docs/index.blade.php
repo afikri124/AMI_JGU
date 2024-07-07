@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'List Document')
+@section('title', 'Review Document')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -54,9 +54,9 @@
         <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.sub_indicator') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
                     Sub Indicator</a></li>
-        <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.list_document')}}"><i
+        <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    List Document</a></li>            
+                    Review Document</a></li>
         </ul>
     </div>
 
@@ -70,14 +70,14 @@
                         <div class="col-md-4">
                             <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
                                 <option value="">Select Sub Indicator</option>
-                                @foreach($sub_indicator as $d)
+                                @foreach($indicator as $d)
                                 <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
                             <a class="btn btn-primary btn-block btn-mail" title="Add Sub Indicator"
-                                href="{{ route('standard_criteria.list_document.create')}}">
+                                href="{{ route('standard_criteria.review_docs.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
@@ -86,8 +86,8 @@
             <thead>
                 <tr>
                     <th width="20px">No</th>
-                    <th>List Document</th>
-                    <th>Sub Indicator</th>
+                    <th>Name</th>
+                    <th>Indicator</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -143,7 +143,7 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.data_list') }}",
+                url: "{{ route('standard_criteria.data_docs') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_indicator = $('#select_indicator').val()
@@ -172,7 +172,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.sub_indicator.name;
+                        var x = row.indicator.name;
                         return x;
                     },
                 },
@@ -180,11 +180,11 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit List Document" style="cursor:pointer"
-                            href="{{ url('setting/manage_standard/criteria/edit_list/list_document/') }}/${row.id}">
+                            `<a class="text-warning" title="Edit docs Document" style="cursor:pointer"
+                            href="{{ url('setting/manage_standard/criteria/edit_docs/review_docs/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
 
-                            <a class="text-primary" title="Delete List Document" style="cursor:pointer"
+                            <a class="text-primary" title="Delete docs Document" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
                             <i class='bx bxs-trash'></i></a>`;
                         return html;
@@ -210,7 +210,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('delete_list.list_document') }}",
+                        url: "{{ route('delete_docs.review_docs') }}",
                         type: "DELETE",
                         data: {
                             "id": id,

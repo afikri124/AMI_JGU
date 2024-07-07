@@ -27,7 +27,6 @@ class AuditPlan extends Model
         'link',
         'remark_docs',
         'periode',
-        'periode',
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
