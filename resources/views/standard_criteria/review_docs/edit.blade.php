@@ -49,7 +49,7 @@
                         <div id="dynamic-form-container"></div>
                               <br>
                         <div class="mt-2">
-                              <button type="submit" class="btn btn-primary me-2">Submit</button>
+                              <button type="submit" class="btn btn-success me-2">Update</button>
                               <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.sub_indicator') }}">Back</a>
                         </div>
                   </form>

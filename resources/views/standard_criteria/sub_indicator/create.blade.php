@@ -26,10 +26,10 @@
                         <label for="indicator_id" class="form-label">Select Indicator<i class="text-danger">*</i></label>
                         <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
                                 name="indicator_id" id="indicator_id" data-placeholder="Select">
-                            <option value="" selected disabled>Select Indicator</option>
+                            <option value="" selected disabled>Indicator</option>
                             @foreach($indicators as $c)
-                                <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
-                                    {{ $c->name }}
+                                <option value="{{ $c->id }}" > {{ old('indicator_id') == $c->id ? 'selected' : '' }}
+                                {{ $c->id }}  -  {{ $c->name }}
                                 </option>
                             @endforeach
                         </select>
