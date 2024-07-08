@@ -30,6 +30,17 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.3em;
+        margin-right: 0.1em;
+    }
+
+    .icon-white
+    {
+        color: white;
+    }
 
 </style>
 @endsection
@@ -86,7 +97,7 @@
             <thead>
                 <tr>
                     <th width="20px">No</th>
-                    <th>Name</th>
+                    <th>Review Document</th>
                     <th>Indicator</th>
                     <th width="40px">Action</th>
                 </tr>
@@ -180,13 +191,13 @@
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="text-warning" title="Edit docs Document" style="cursor:pointer"
+                            `<a class="badge bg-warning badge-icon" title="Edit docs Document" style="cursor:pointer"
                             href="{{ url('setting/manage_standard/criteria/edit_docs/review_docs/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
 
-                            <a class="text-primary" title="Delete docs Document" style="cursor:pointer"
+                            <a class="badge bg-danger badge-icon" title="Delete docs Document" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
-                            <i class='bx bxs-trash'></i></a>`;
+                            <i class='bx bx-trash icon-white'></i></a>`;
                         return html;
                     },
                     orderable: false,

@@ -11,6 +11,40 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
+@section('style')
+<style>
+    table.dataTable tbody td {
+        vertical-align: middle;
+    }
+
+    table.dataTable td:nth-child(2) {
+        max-width: 120px;
+    }
+
+    table.dataTable td:nth-child(3) {
+        max-width: 100px;
+    }
+
+    table.dataTable td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.4em;
+        margin-right: 0.1em;
+    }
+
+    .icon-white
+    {
+        color: white;
+    }
+
+</style>
+@endsection
 
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
@@ -33,8 +67,7 @@
                             <tr>
                                 <th><b>No</b></th>
                                 <th><b>Lecture</b></th>
-                                <th><b>Schedule</b></th>
-                                <th><b>Department</b></th>
+                                <th width="35%"><b>Schedule</b></th>
                                 <th><b>Location</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
@@ -104,12 +137,12 @@
                         var html = `<a class="text-primary" title="` + row.lecture.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
                             row.idd + `') }}">` + row.lecture.name + `</a>`;
-                        
+
                         if (row.no_phone) {
                             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
                                     `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
                         }
-                        
+
                         return html;
                     },
                 },
@@ -121,12 +154,6 @@
                         var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
                         return formattedStartDate + ' - ' + formattedEndDate;
                     }
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.departments.name;
-                    },
                 },
                 {
                     render: function (data, type, row, meta) {

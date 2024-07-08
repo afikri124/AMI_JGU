@@ -98,9 +98,9 @@
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="40px"><b>No</b></th>
+                    <th width="10px"><b>No</b></th>
                     <th><b>Indicator</b></th>
-                    <th><b>Criteria</b></th>
+                    <th width="10px"><b>Criteria</b></th>
                     <th><b>Action</b></th>
                 </tr>
             </thead>
@@ -188,7 +188,7 @@
                             `<a class="badge bg-warning badge-icon" title="Edit Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
                             <a class="badge bg-danger badge-icon" title="Delete Indicator" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
-                            <i class='bx bxs-trash icon-white'></i></a>`;
+                            <i class='bx bx-trash icon-white'></i></a>`;
                         return html;
                     },
                     orderable: false,

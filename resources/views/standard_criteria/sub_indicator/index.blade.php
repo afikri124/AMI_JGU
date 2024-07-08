@@ -198,7 +198,7 @@
 
                             <a class="badge bg-danger badge-icon" title="Delete Sub Indicator" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
-                            <i class='bx bxs-trash icon-white'></i></a>`;
+                            <i class='bx bx-trash icon-white'></i></a>`;
                         return html;
                     },
                     orderable: false,
