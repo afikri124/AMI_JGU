@@ -29,7 +29,7 @@
                               <option value="" selected disabled>Select Indicator</option>
                               @foreach($indicators as $c)
                                     <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
-                                          {{ $c->name }}
+                                    {{ $c->id }} - {{ $c->name }}
                                     </option>
                               @endforeach
                               </select>

@@ -51,8 +51,8 @@
                         <div id="dynamic-form-container"></div>
                               <br>
                         <div class="mt-2">
-                              <button type="submit" class="btn btn-primary me-2">Submit</button>
-                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.review_docs') }}">Back</a>
+                              <button type="submit" class="btn btn-success me-2">Update</button>
+                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.revie _doc') }}">Back</a>
                         </div>
                   </form>
                   </div>
