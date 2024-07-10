@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <button class="btn btn-success" type="submit">Update</button>
                     <a href="{{ url()->previous() }}">
                         <span class="btn btn-secondary">Back</span>
                     </a>
