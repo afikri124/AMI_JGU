@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('review_docs', function (Blueprint $table) {
             $table->id('id');
-            $table->string('name');
-            $table->unsignedBigInteger('standard_criterias_id')->nullable();
-            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
+            $table->text('name');
+            $table->unsignedBigInteger('standard_criteria_id')->nullable();
+            $table->foreign('standard_criteria_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('indicator_id')->nullable();
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
             $table->timestamps();

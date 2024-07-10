@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('id');
             $table->string('title');
             $table->boolean('status')->nullable();
-            $table->uuid('standard_categories_id')->nullable();
-            $table->foreign('standard_categories_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
+            $table->uuid('standard_category_id')->nullable();
+            $table->foreign('standard_category_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
     }

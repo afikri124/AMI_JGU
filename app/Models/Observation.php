@@ -13,25 +13,8 @@ class Observation extends Model
     protected $fillable = [
         'id',
         'audit_plan_id',
-        'audit_status_id',
         'auditor_id',
         'location_id',
-        'department_id',
-        'lecture_id',
-        'standard_criterias_id',
-        'standard_categories_id',
-        'indicator_id',
-        'sub_indicator_id',
-        'type_audit',
-        'link',
-        'ks',
-        'obs',
-        'kts_minor',
-        'kts_mayor',
-        'description_remark',
-        'success_remark',
-        'failed_remark',
-        'recommend_remark'
     ];
 
     public function auditPlan()
@@ -39,9 +22,9 @@ class Observation extends Model
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
 
-    public function lecture()
+    public function auditee()
     {
-        return $this->belongsTo(User::class, 'lecture_id');
+        return $this->belongsTo(User::class, 'auditee_id');
     }
 
     // Contoh relasi ke model AuditPlanStatus
@@ -78,10 +61,5 @@ class Observation extends Model
     public function review_docs()
     {
         return $this->belongsTo(ReviewDocs::class, 'review_docs_id');
-    }
-
-    public function obs_checklist()
-    {
-        return $this->belongsTo(ObsChecklist::class, 'obs_checklist_id');
     }
 }

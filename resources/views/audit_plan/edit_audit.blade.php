@@ -71,7 +71,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>                            
+                            </div>
                     <p></p>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary me-2">Submit</button>

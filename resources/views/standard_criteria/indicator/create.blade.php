@@ -21,13 +21,12 @@
                 <form id="form-add-new-record" method="POST" action="{{ route('standard_criteria.indicator.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
-                        <label for="standard-criteria_id" class="form-label  input-sm select2">Select Criteria</label>
+                        <label for="standard-_criteria_id" class="form-label  input-sm select2">Select Criteria</label>
                         <div class="form-group">
-
-                                <select name="standard_criterias_id" id="standard_criterias_id" class="form-select input-sm select2" required>
+                                <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
                                     <option value="">Select Criterias</option>
                                     @foreach($criterias as $c)
-                                        <option value="{{ $c->id }}" {{ old('standard_criterias_id') == $c->id ? 'selected' : '' }}>
+                                        <option value="{{ $c->id }}" {{ old('standard_criteria_id') == $c->id ? 'selected' : '' }}>
                                         {{ $c->id }} -  {{ $c->title }}
                                         </option>
                                         @endforeach

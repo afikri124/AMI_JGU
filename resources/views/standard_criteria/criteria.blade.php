@@ -131,15 +131,15 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Category<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <select  class="form-select @error('standard_categories_id') is-invalid @enderror  input-sm select2-modal "
-                                    name="standard_categories_id" id="standard_categories_id">
+                                <select  class="form-select @error('standard_category_id') is-invalid @enderror  input-sm select2-modal "
+                                    name="standard_category_id" id="standard_category_id">
                                     @foreach($category as $p)
                                     <option value="{{ $p->id }}"
                                         {{ ($p->id==old('standard_category_id') ? "selected": "") }}>
                                         {{ $p->id }} - {{ $p->description }}</option>
                                     @endforeach
                                 </select>
-                                @error('standard_categories_id')
+                                @error('standard_category_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -240,15 +240,14 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-    // Check if row.category exists and has an id
-    if (row.category && row.category.id) {
-        var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
-        return html;
-    } else {
-        return ''; // Return empty string or handle the case where category.id is missing
-    }
-},
-
+                    // Check if row.category exists and has an id
+                    if (row.category && row.category.id) {
+                        var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
+                        return html;
+                    } else {
+                        return ''; // Return empty string or handle the case where category.id is missing
+                    }
+                },
                 },
                 {
                     render: function (data, type, row, meta) {

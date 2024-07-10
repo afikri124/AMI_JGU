@@ -24,16 +24,16 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group col-md-4">
-                        <label for="standard_criterias_id" class="form-label">Select Standard Criteria<i class="text-danger">*</i></label>
-                        <select class="form-select digits select2 @error('standard_criterias_id') is-invalid @enderror"
-                                name="standard_criterias_id" id="standard_criterias_id" data-placeholder="Select">
+                        <label for="standard_criteria_id" class="form-label">Select Criteria<i class="text-danger">*</i></label>
+                        <select class="form-select digits select2 @error('standard_criteria_id') is-invalid @enderror"
+                                name="standard_criteria_id" id="standard_criteria_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Standard Criteria</option>
                             @foreach($criteria as $f)
-                                <option value="{{$f->id}}" {{ $data->standard_criterias_id ? 'selected' : '' }}>
+                                <option value="{{$f->id}}" {{ $data->standard_criteria_id ? 'selected' : '' }}>
                                 {{ $f->id }} - {{$f->title}}</option>
                                 @endforeach
                         </select>
-                        @error('standard_criterias_id')
+                        @error('standard_criteria_id')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

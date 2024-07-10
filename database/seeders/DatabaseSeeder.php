@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             AuditStatusSeeder::class,
             DepartmentSeeder::class,
             LocationSeeder::class,
+            StandardCategorySeeder::class,
+            StandardCriteriaSeeder::class,
+            IndicatorSeeder::class,
         ]);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\CommentDocs;
 use App\Mail\sendEmail;
 use App\Models\AuditPlan;
+use App\Models\AuditPlanAuditor;
+use App\Models\AuditPlanCriteria;
 use App\Models\CategoriesAmi;
 use App\Models\CriteriasAmi;
 use App\Models\Department;
@@ -27,14 +29,14 @@ class ObservationController extends Controller
     public function index(Request $request)
     {
         $data = AuditPlan::all();
-        $lecture = User::with(['roles' => function ($query) {
+        $auditee = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
             ->whereHas('roles', function ($q) use ($request) {
-                $q->where('name', 'lecture');
+                $q->where('name', 'auditee');
             })
             ->orderBy('name')->get();
-        return view('observations.index', compact('data', 'lecture'));
+        return view('observations.index', compact('data', 'auditee'));
     }
 
     public function make(Request $request, $id)
@@ -43,33 +45,16 @@ class ObservationController extends Controller
             $this->validate($request, [
                 'audit_plan_id' => ['required'],
                 'auditor_id' => ['string'],
-                'location_id' => ['required'],
-                'department_id' => ['required'],
-                'standard_categories_id' => ['required'],
             ]);
 
             $data = Observation::create([
                 'audit_plan_id' => $request->audit_plan_id,
                 'auditor_id' => $request->auditor_id,
                 'location_id' => $request->location_id,
-                'department_id' => $request->department_id,
-                'audit_status_id' => '4',
-                'standard_categories_id' => $request->standard_categories_id,
-                'standard_criterias_id' => $request->standard_criterias_id,
-                'type_audit' => $request->type_audit,
-                'link' => $request->link,
-                'ks' => $request->ks,
-                'obs' => $request->obs,
-                'kts_minor' => $request->kts_minor,
-                'kts_mayor' => $request->kts_mayor,
-                'description_remark' => $request->description_remark,
-                'success_remark' => $request->success_remark,
-                'failed_remark' => $request->failed_remark,
-                'recommend_remark' => $request->recommend_remark,
             ]);
 
             if ($data) {
-                return redirect()->route('observations.index')->with('msg', 'Data Auditee (' . $request->lecture_id . ') pada tanggal ' . $request->date . ' BERHASIL ditambahkan!!');
+                return redirect()->route('observations.index')->with('msg', 'Data Auditee (' . $request->auditee_id . ') pada tanggal ' . $request->date . ' BERHASIL ditambahkan!!');
             }
         }
 
@@ -78,20 +63,20 @@ class ObservationController extends Controller
         $department = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
-        $auditors = UserStandard::where('audit_plan_id', $id)->get();
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         $data = AuditPlan::findOrFail($id);
-        $criterias = CriteriasAmi::where('audit_plan_id', $id)->get();
-        $categories = CategoriesAmi::where('audit_plan_id', $id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_id', $id)->get();
+        $categories = AuditPlanCriteria::where('audit_plan_id', $id)->get();
         // Ambil data StandardCriteria ID dari CriteriasAmi
-        $standardCriteriasIds = $criterias->pluck('standard_criterias_id');
-        // Ambil indicator berdasarkan standard_criterias_id
-        $indicators = Indicator::whereIn('standard_criterias_id', $standardCriteriasIds)->get();
+        $standardCriteriasIds = $criterias->pluck('standard_criteria_id');
+        // Ambil indicator berdasarkan standard_criteria_id
+        $indicators = Indicator::whereIn('standard_criteria_id', $standardCriteriasIds)->get();
         // Ambil sub_indicator berdasarkan indicator_id dari indicators yang didapat
         $subIndicators = SubIndicator::whereIn('indicator_id', $indicators->pluck('id'))->get();
         $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicators->pluck('id'))->get();
         foreach ($subIndicators as $sub) {
             $reviewDocs = ReviewDocs::where('indicator_id', $sub->indicator_id)
-                ->where('standard_criterias_id', $sub->standard_criterias_id)
+                ->where('standard_criteria_id', $sub->standard_criteria_id)
                 ->get();
 
             $sub->reviewDocs = $reviewDocs; // Attach review documents to each sub indicator
@@ -122,13 +107,13 @@ class ObservationController extends Controller
 
         // if ($data) {
         //     // Cari pengguna dan departemen berdasarkan ID yang ada dalam request
-        //     $lecture = User::find($request->lecture_id);
+        //     $auditee = User::find($request->auditee_id);
         //     $department = Department::find($request->department_id);
 
-        //     if ($lecture) {
+        //     if ($auditee) {
         //         // Data untuk email
         //         $emailData = [
-        //             'lecture_id'    => $lecture->name,
+        //             'auditee_id'    => $auditee->name,
         //             'remark_docs'   => $request->remark_docs,
         //             'date_start'    => $request->date_start,
         //             'date_end'      => $request->date_end,
@@ -136,7 +121,7 @@ class ObservationController extends Controller
         //         ];
 
         //         // Kirim email ke pengguna yang ditemukan
-        //         Mail::to($lecture->email)->send(new CommentDocs($emailData));
+        //         Mail::to($auditee->email)->send(new CommentDocs($emailData));
 
         //         // Redirect dengan pesan sukses
         //         return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
@@ -155,7 +140,7 @@ class ObservationController extends Controller
     public function data(Request $request)
     {
         $data = AuditPlan::with([
-            'lecture' => function ($query) {
+            'auditee' => function ($query) {
                 $query->select('id', 'name');
             },
             'auditstatus' => function ($query) {
@@ -180,9 +165,9 @@ class ObservationController extends Controller
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 //jika pengguna memfilter berdasarkan roles
-                if (!empty($request->get('select_lecture'))) {
-                    $instance->whereHas('lecture', function ($q) use ($request) {
-                        $q->where('lecture_id', $request->get('select_lecture'));
+                if (!empty($request->get('select_auditee'))) {
+                    $instance->whereHas('auditee', function ($q) use ($request) {
+                        $q->where('auditee_id', $request->get('select_auditee'));
                     });
                 }
                 if (!empty($request->get('search'))) {
