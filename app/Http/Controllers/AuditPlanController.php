@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\Location;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class AuditPlanController extends Controller
@@ -154,15 +155,23 @@ class AuditPlanController extends Controller
         return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
     }
 
+    // Delete Audit Plane
     public function delete(Request $request)
 {
-    $data = AuditPlan::find($request->id);
-    if ($data) {
-        // Hapus entri terkait di AuditPlanAuditor
-        AuditPlanAuditor::where('audit_plan_id', $data->id)->delete();
+    $auditPlan = AuditPlan::find($request->id);
 
-        // Hapus AuditPlan
-        $data->delete();
+    if ($auditPlan) {
+        // Menghapus relasi dengan audit plan categories
+        AuditPlanCategory::where('audit_plan_id', $auditPlan->id)->delete();
+        
+        // Menghapus relasi dengan audit plan auditors
+        AuditPlanAuditor::where('audit_plan_id', $auditPlan->id)->delete();
+        
+        // Menghapus relasi dengan audit plan criterias
+        AuditPlanCriteria::where('audit_plan_id', $auditPlan->id)->delete();
+
+        // Menghapus audit plan itu sendiri
+        $auditPlan->delete();
 
         return response()->json([
             'success' => true,
@@ -175,6 +184,8 @@ class AuditPlanController extends Controller
         ]);
     }
 }
+    
+
 
     // public function approve(Request $request)
     // {
