@@ -120,7 +120,7 @@ class MyAuditController extends Controller{
     }
     public function data(Request $request){
         $data = AuditPlan::
-        with(['lecture' => function ($query) {
+        with(['auditee' => function ($query) {
                 $query->select('id','name');
             },
             'auditstatus' => function ($query) {
@@ -133,16 +133,16 @@ class MyAuditController extends Controller{
             ->select('audit_plans.*',
             'locations.title as location'
             )
-            // ->where('lecture_id', Auth::user()->id)
+            // ->where('auditee_id', Auth::user()->id)
             ->orderBy("id");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('lecture_id'))) {
-                    $instance->where("lecture_id", $request->get('lecture_id'));
+                if (!empty($request->get('auditee_id'))) {
+                    $instance->where("auditee_id", $request->get('auditee_id'));
                 }
                 if (!empty($request->get('search'))) {
                     $search = $request->get('search');
-                    $instance->where('lecture_id', 'LIKE', "%$search%");
+                    $instance->where('auditee_id', 'LIKE', "%$search%");
                 }
                 if (!empty($request->get('search'))) {
                     $instance->where(function($w) use($request){
@@ -158,7 +158,7 @@ class MyAuditController extends Controller{
     public function getData(){
         $data = AuditPlan::with('users')->with('auditstatus')->with('locations')->get()->map(function ($data) {
             return [
-                'lecture_id' => $data->lecture_id,
+                'auditee_id' => $data->auditee_id,
                 'date_start' => $data->date_start,
                 'date_end' => $data->date_end,
                 'audit_status_id' => '1',

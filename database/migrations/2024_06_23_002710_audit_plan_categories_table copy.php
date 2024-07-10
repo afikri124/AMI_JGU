@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('criterias_amis', function (Blueprint $table) {
+        Schema::create('audit_plan_categories', function (Blueprint $table) {
             $table->id('id');
             $table->unsignedBigInteger('audit_plan_id');
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
-            $table->unsignedBigInteger('standard_criterias_id')->nullable();
-            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
+            $table->string('standard_category_id')->nullable();
+            $table->foreign('standard_category_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
         });
-    }
+        }
 
 
     /**
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('criterias_amis');
+        Schema::dropIfExists('audit_plan_categories');
     }
 };

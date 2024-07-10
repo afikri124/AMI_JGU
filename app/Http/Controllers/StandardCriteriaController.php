@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AuditStatus;
 use App\Models\Indicator;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
@@ -18,12 +17,12 @@ class StandardCriteriaController extends Controller
     {
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-                'standard_categories_id' => ['required'],
+                'standard_category_id' => ['required'],
                 'title' => ['required', 'string'],
             ]);
 
             $data = StandardCriteria::create([
-                'standard_categories_id' => $request->standard_categories_id,
+                'standard_category_id' => $request->standard_category_id,
                 'title' => $request->title,
             ]);
 
@@ -86,7 +85,7 @@ class StandardCriteriaController extends Controller
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('select_category'))) {
                     $instance->whereHas('category', function ($q) use ($request) {
-                        $q->where('standard_categories_id', $request->get('select_category'));
+                        $q->where('standard_category_id', $request->get('select_category'));
                     });
                 }
                 if (!empty($request->get('status'))) {
@@ -119,14 +118,14 @@ class StandardCriteriaController extends Controller
     if ($request->isMethod('POST')) {
         // Validate the request data
         $validatedData = $request->validate([
-            'standard_criterias_id' => ['required'],
+            'standard_criteria_id' => ['required'],
             'numForms' => ['required', 'integer', 'min:1'],
             'indicators' => ['required', 'array', 'min:1'],
             'indicators.*.name' => ['required', 'string'],
         ]);
 
         // Retrieve the specific Standard Criteria by ID
-        $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
+        $criteria = StandardCriteria::find($validatedData['standard_criteria_id']);
 
         if (!$criteria) {
             return redirect()->back()->with('error', 'Standard Criteria not found.');
@@ -136,7 +135,7 @@ class StandardCriteriaController extends Controller
         foreach ($validatedData['indicators'] as $indicatorData) {
             Indicator::create([
                 'name' => $indicatorData['name'],
-                'standard_criterias_id' => $validatedData['standard_criterias_id'],
+                'standard_criteria_id' => $validatedData['standard_criteria_id'],
             ]);
         }
 
@@ -161,7 +160,7 @@ class StandardCriteriaController extends Controller
     public function update_indicator(Request $request, $id){
     // Validate the request
     $request->validate([
-        'standard_criterias_id' => ['required', 'string'],
+        'standard_criteria_id' => ['required', 'string'],
         'name' => ['required','string','max:512'],
     ]);
 
@@ -169,7 +168,7 @@ class StandardCriteriaController extends Controller
     $data = Indicator::findOrFail($id);
 
     $data->update([
-        'standard_criterias_id'=> $request->standard_criterias_id,
+        'standard_criteria_id'=> $request->standard_criteria_id,
         'name'=> $request->name,
     ]);
 
@@ -205,7 +204,7 @@ class StandardCriteriaController extends Controller
         ->filter(function ($instance) use ($request) {
             if (!empty($request->get('select_criteria'))) {
                 $instance->whereHas('criteria', function ($q) use ($request) {
-                    $q->where('standard_criterias_id', $request->get('select_criteria'));
+                    $q->where('standard_criteria_id', $request->get('select_criteria'));
                 });
             }
             if (!empty($request->get('search'))) {
@@ -234,14 +233,14 @@ class StandardCriteriaController extends Controller
     if ($request->isMethod('POST')) {
         // Validate the request data
         $validatedData = $request->validate([
-            'standard_criterias_id' => ['required', 'uuid'],
+            'standard_criteria_id' => ['required', 'uuid'],
             'numForms' => ['required', 'integer', 'min:1'],
             'indicators' => ['required', 'array', 'min:1'],
             'indicators.*.name' => ['required', 'string'],
         ]);
 
         // Retrieve the specific Standard Criteria by ID
-        $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
+        $criteria = StandardCriteria::find($validatedData['standard_criteria_id']);
 
         if (!$criteria) {
             return redirect()->back()->with('error', 'Standard Criteria not found.');
@@ -266,13 +265,10 @@ class StandardCriteriaController extends Controller
         'sub_indicators.*.name' => 'required|string',
     ]);
 
-    $indicator_id = $request->indicator_id;
-
-    //Create the Sub_indicators
     foreach ($request->sub_indicators as $sub_indicatorData) {
         SubIndicator::create([
             'name' => $sub_indicatorData['name'],
-            'indicator_id' => $indicator_id,
+            'indicator_id' => $validatedData['indicator_id'],
         ]);
     }
 
@@ -290,7 +286,7 @@ class StandardCriteriaController extends Controller
         public function update_sub(Request $request, $id){
         // Validate the request
         $request->validate([
-            'standard_criterias_id' => ['required', 'string'],
+            'indicator_id' => ['required', 'string'],
             'name' => ['required','string','max:512'],
         ]);
 
@@ -298,7 +294,7 @@ class StandardCriteriaController extends Controller
         $data = SubIndicator::findOrFail($id);
 
         $data->update([
-            'standard_criterias_id'=> $request->standard_criterias_id,
+            'indicator_id'=> $request->indicator_id,
             'name'=> $request->name,
         ]);
 
@@ -358,14 +354,14 @@ class StandardCriteriaController extends Controller
         if ($request->isMethod('POST')) {
             // Validate the request data
             $validatedData = $request->validate([
-                'standard_criterias_id' => ['required', 'uuid'],
+                'standard_criteria_id' => ['required', 'uuid'],
                 'numForms' => ['required', 'integer', 'min:1'],
                 'indicators' => ['required', 'array', 'min:1'],
                 'indicators.*.name' => ['required', 'string'],
             ]);
 
             // Retrieve the specific Standard Criteria by ID
-            $criteria = StandardCriteria::find($validatedData['standard_criterias_id']);
+            $criteria = StandardCriteria::find($validatedData['standard_criteria_id']);
 
             if (!$criteria) {
                 return redirect()->back()->with('error', 'Standard Criteria not found.');

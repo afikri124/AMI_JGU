@@ -15,36 +15,11 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('audit_plan_id');
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
-            $table->string('type_audit');
-            $table->string('link');
             $table->unsignedBigInteger('auditor_id');
             $table->foreign('auditor_id')->references('id')->on('users');
-            $table->unsignedBigInteger('audit_status_id');
-            $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
-            $table->unsignedBigInteger('lecture_id');
-            $table->foreign('lecture_id')->references('id')->on('users');
             $table->string('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
-            $table->string('standard_categories_id')->nullable();
-            $table->foreign('standard_categories_id')->references('id')->on('standard_categories')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('standard_criterias_id')->nullable();
-            $table->foreign('standard_criterias_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('indicator_id')->nullable();
-            $table->foreign('indicator_id')->references('id')->on('indicators')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('sub_indicator_id')->nullable();
-            $table->foreign('sub_indicator_id')->references('id')->on('sub_indicators')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('review_docs_id')->nullable();
-            $table->foreign('review_docs_id')->references('id')->on('review_docs')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('department_id');
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->string('ks')->nullable();
-            $table->string('obs')->nullable();
-            $table->string('kts_minor')->nullable();
-            $table->string('kts_mayor')->nullable();
-            $table->string('description_remark')->nullable();
-            $table->string('success_remark')->nullable();
-            $table->string('failed_remark')->nullable();
-            $table->string('recommend_remark')->nullable();
+
             $table->timestamps();
         });
     }

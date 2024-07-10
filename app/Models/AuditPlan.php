@@ -14,7 +14,7 @@ class AuditPlan extends Model
 
     // Menentukan kolom-kolom yang dapat diisi
     protected $fillable = [
-        'lecture_id',
+        'auditee_id',
         'email',
         'no_phone',
         'date_start',
@@ -30,9 +30,9 @@ class AuditPlan extends Model
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
-    public function lecture()
+    public function auditee()
     {
-        return $this->belongsTo(User::class, 'lecture_id');
+        return $this->belongsTo(User::class, 'auditee_id');
     }
 
     public function auditStatus()
@@ -65,17 +65,17 @@ class AuditPlan extends Model
     }
     public function auditor()
     {
-        return $this->hasMany(UserStandard::class, 'audit_plan_id');
+        return $this->hasMany(AuditPlanAuditor::class, 'audit_plan_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(CategoriesAmi::class, 'standard_categories_id');
+        return $this->belongsTo(AuditPlanCategory::class, 'standard_category_id');
     }
 
     public function criterias()
     {
-        return $this->belongsTo(CriteriasAmi::class, 'standard_criterias_id');
+        return $this->belongsTo(AuditPlanCriteria::class, 'standard_criteria_id');
     }
 
     public function indicator()

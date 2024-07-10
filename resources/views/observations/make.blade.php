@@ -138,8 +138,8 @@
         </div>
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label" for="lecture"><b>Auditee</b><i class="text-danger">*</i></label>
-            <input class="form-control" type="text" value="{{ $data->lecture->name}}" disabled>
+            <label class="form-label" for="auditee"><b>Auditee</b><i class="text-danger">*</i></label>
+            <input class="form-control" type="text" value="{{ $data->auditee->name}}" disabled>
           </div>
           <div class="col-md-6">
             <label class="form-label" for="auditor"><b>Auditor</b><i class="text-danger">*</i></label>
@@ -216,15 +216,15 @@
       <div class="content-header mb-3">
         <small>Category Standard</small>
         @foreach ($categories as $category)
-            <h6 class="mb-0" name="standard_categories_id" id="standard_categories_id">
-                {{ $category->category->description }}
+            <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
+                {{ $category->description }}
             </h6>
         @endforeach
     <p></p>
 
     <small>Criteria Standard</small>
     @foreach ($criterias as $criteria)
-        <h6 class="mb-0" name="standard_criterias_id" id="standard_criterias_id">
+        <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
             @if ($criteria->criteria)
                 {{ $criteria->criteria->title }}
             @endif
@@ -236,7 +236,7 @@
     <h6 ><b>{{ $criteria->criteria->id }}. {{ $criteria->criteria->title }}</b></h6>
 
     @foreach ($subIndicators as $sub)
-    @if ($sub->indicator->standard_criterias_id == $criteria->criteria->id)
+    @if ($sub->indicator->standard_criteria_id == $criteria->criteria->id)
     <table class="table table-bordered">
         <tr>
             <th><b>Indicator   :</b></th>
@@ -277,11 +277,31 @@
             <td style="width: 60%">
                 <strong>Sub Indicator:</strong>
                 <p>{!! $sub->name !!}</p>
-            </td>
+                <div class="form_control">
+                    <label for="upgrade_plan" class="form-label"><b>Deskripsi Audit    :</b></label>
+                    <textarea type="text" id="upgrade_plan" class="form-control" name="upgrade_plan" placeholder="Masukkan Jawaban dari Sub Indicator"></textarea>
+                </div>
+            <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan    :</b></label>
+            <textarea id="remark_success_failed" name="remark_success_failed" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
+            <br>
+
+            <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Kegagalan    :</b></label>
+            <textarea id="remark_success_failed" name="remark_success_failed" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
+            <br>
+
+            <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
+            <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" placeholder="Input Rencana Peningkatan"></input>
+
             <td style="vertical-align: top;">
                 <div class="form_control">
-                    <label for="upgrade_plan" class="form-label"><b>Rencana Penigkatan</b><i class="text-danger">*</i></label>
-                    <textarea type="text" id="upgrade_plan" class="form-control" name="upgrade_plan" placeholder="Input Rencana Peningkatan"></textarea>
+                    <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan</b><i class="text-danger">*</i></label>
+                    <textarea type="text" id="remark_upgrade_repair" class="form-control" name="remark_upgrade_repair" placeholder="Input Rencana Peningkatan"></textarea>
+
+                    <label for="remark_upgrade_repair" class="form-label"><b>Rencana Perbaikan</b><i class="text-danger">*</i></label>
+                    <textarea type="text" id="remark_upgrade_repair" class="form-control" name="remark_upgrade_repair" placeholder="Input Rencana Peningkatan"></textarea>
+                </div>
+                <div class="form_control">
+
                 </div>
             </td>
         </tr>
@@ -289,7 +309,7 @@
             <td style="width: 60%" id="review-docs">
                 <strong>Review Documents :</strong>
                 @foreach ($sub->reviewDocs as $reviewDoc)
-                    <p>{{ $reviewDoc->name }}</p>
+                    <p>{!! $reviewDoc->name !!}</p>
                 @endforeach
             </td>
             <td>
@@ -299,7 +319,7 @@
                 </div>
             </td>
         </tr>
-    <tr>
+    <!-- <tr>
         <td colspan="3">
             <label for="description_remark" class="form-label"><b>Deskripsi Audit  :</b></label>
             <textarea id="description_remark" name="description_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..."></textarea>
@@ -316,7 +336,7 @@
             <label for="failed_remark" class="form-label"><b>Faktor Pendukung Kegagalan    :</b></label>
             <textarea id="failed_remark" name="failed_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
         </td>
-    </tr>
+    </tr> -->
     <tr>
         <td colspan="3">
             <label for="recommend_remark" class="form-label"><b>Rekomendasi Audit  :</b></label>

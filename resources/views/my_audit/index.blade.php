@@ -29,10 +29,10 @@
 
 
         <!-- <div class=" col-md-3">
-            <select id="select_lecture" class="select2 form-select" data-placeholder="lecture">
-                <option value="">Select Lecture</option>
+            <select id="select_auditee" class="select2 form-select" data-placeholder="auditee">
+                <option value="">Select auditee</option>
                 @foreach($data as $d)
-                    <option value="{{ $d->id }}">{{ $d->lecture_id }}</option>
+                    <option value="{{ $d->id }}">{{ $d->auditee_id }}</option>
                 @endforeach
             </select>
         </div> -->
@@ -142,9 +142,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.lecture.name +
+                        var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.lecture.name + `</a>`;
+                            row.idd + `') }}">` + row.auditee.name + `</a>`;
 
                         if (row.no_phone) {
                             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +

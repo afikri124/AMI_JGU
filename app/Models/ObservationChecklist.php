@@ -12,14 +12,15 @@ class ObsChecklist extends Model
     public $incrementing = false;
     protected $fillable = [
         'id',
-        'ks',
-        'obs',
-        'kts_minor',
-        'kts_mayor',
-        'description_remark',
-        'success_remark',
-        'failed_remark',
-        'recommend_remark'
+        'observation_id',
+        'remark_description',
+        'remark_plan',
+        'obs_checklist_option',
+        'remark_success_failed',
+        'remark_recommend',
+        'remark_upgrade_repair',
+        'person_in_charge',
+        'plan_complated',
     ];
 
 }

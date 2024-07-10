@@ -30,10 +30,10 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Admin',
                 'username' => 'admin',
             ], $default_user_value));
-            $lecture = User::create(array_merge([
+            $auditee = User::create(array_merge([
                 'email' => 'zidanazzahra916@gmail.com',
                 'name' => 'Ziddan Azzahra',
-                'username' => 'lecture',
+                'username' => 'auditee',
                 'gender' => 'M',
                 'no_phone' => '081384810569'
             ], $default_user_value));
@@ -58,13 +58,13 @@ class UserRolePermissionSeeder extends Seeder
             ], $default_user_value));
             //create role
             $role_admin = Role::create(['name' => 'admin', 'color' => '#000000', 'description' => 'Administrator']);
-            $role_lecture = Role::create(['name' => 'lecture', 'color' => '#003285', 'description' => 'Audit Person']);
+            $role_auditee = Role::create(['name' => 'auditee', 'color' => '#003285', 'description' => 'Audit Person']);
             $role_auditor = Role::create(['name' => 'auditor', 'color' => '#006769', 'description' => 'Audits Person']);
             $role_lpm = Role::create(['name' => 'lpm', 'color' => '#FF0000', 'description' => 'LPM Person']);
             $role_approver = Role::create(['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Apporverd']);
             //set default role
             $admin->assignRole('admin');
-            $lecture->assignRole('lecture');
+            $auditee->assignRole('auditee');
             $auditor->assignRole('auditor');
             $lpm->assignRole('lpm');
             $approver->assignRole('approver');

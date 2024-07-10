@@ -5,6 +5,8 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+
 @endsection
 
 <div class="row">
@@ -42,7 +44,8 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             <label for="name" class="col-form-label">Sub Indicator</label>
-                            <textarea class="form-control" rows="2" name="name" id="name">{{ $data->name }}</textarea>
+                            <input type="hidden" class="form-control"  name="name" id="name" value = "{!! $data->name !!}"></input>
+                            <trix-editor input="name"></trix-editor>
                         </div>
                     </div>
                     <br>
@@ -58,4 +61,6 @@
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
 @endsection

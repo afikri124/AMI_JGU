@@ -71,7 +71,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>                            
+                            </div>
                     <p></p>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-success me-2">Update</button>

@@ -83,11 +83,11 @@
                     <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="lecture_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
-                            <select name="lecture_id" id="lecture_id" class="form-select" required>
-                                <option value="">Select Lecture</option>
-                                @foreach($lecture as $role)
-                                <option value="{{$role->id}}" {{ (in_array($role->id, old('lecture') ?? []) ? "selected": "") }}>
+                            <label for="auditee_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
+                            <select name="auditee_id" id="auditee_id" class="form-select" required>
+                                <option value="">Select Auditee</option>
+                                @foreach($auditee as $role)
+                                <option value="{{$role->id}}" {{ (in_array($role->id, old('auditee') ?? []) ? "selected": "") }}>
                                     {{$role->name}} (
                                     @foreach ($role->roles as $x)
                                     {{ $x->name}}
@@ -145,10 +145,10 @@
                     <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="standard_categories_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
-                            <select name="standard_categories_id[]" id="standard_categories_id" class="form-select select2" multiple required>
+                            <label for="standard_category_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
+                            <select name="standard_category_id[]" id="standard_category_id" class="form-select select2" multiple required>
                                 @foreach($category as $c)
-                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_categories_id', [])) ? 'selected' : '' }}>
+                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_category_id', [])) ? 'selected' : '' }}>
                                     {{ $c->id }} - {{ $c->description }}
                                 </option>
                                 @endforeach
@@ -157,10 +157,10 @@
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="standard_criterias_id" class="form-label"><b>Criterias</b><i class="text-danger">*</i></label>
-                            <select name="standard_criterias_id[]" id="standard_criterias_id" class="form-select select2" multiple required>
+                            <label for="standard_criteria_id" class="form-label"><b>Criteria</b><i class="text-danger">*</i></label>
+                            <select name="standard_criteria_id[]" id="standard_criteria_id" class="form-select select2" multiple required>
                                 @foreach($criterias as $c)
-                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_criterias_id', [])) ? 'selected' : '' }}>
+                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_criteria_id', [])) ? 'selected' : '' }}>
                                     {{ $c->id }} - {{ $c->title }}
                                 </option>
                                 @endforeach
@@ -218,12 +218,12 @@
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#standard_categories_id').select2({
+        $('#standard_category_id').select2({
             placeholder: " Select Categories",
             allowClear: true
         });
 
-        $('#standard_criterias_id').select2({
+        $('#standard_criteria_id').select2({
             placeholder: "  Select Criterias",
             allowClear: true
         });

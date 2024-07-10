@@ -13,7 +13,7 @@ class Indicator extends Model
     public $incrementing = false;
     protected $fillable = [
         'name',
-        'standard_criterias_id',
+        'standard_criteria_id',
     ];
 
     public function getKeyType()
@@ -23,11 +23,11 @@ class Indicator extends Model
 
     // public function criteria()
     // {
-    //     return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+    //     return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');
     // }
     public function criteria()
     {
-        return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
+        return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');
     }
 
     public function sub_indicator()

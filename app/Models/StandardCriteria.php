@@ -14,14 +14,14 @@ class StandardCriteria extends Model
     public $timestamps = true;
     public $incrementing = false;
     protected $fillable = [
-        'standard_categories_id',
+        'standard_category_id',
         'title',
         'status'
     ];
 
     public function category()
     {
-        return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
+        return $this->belongsTo(StandardCategory::class, 'standard_category_id');
     }
 
     public function status()

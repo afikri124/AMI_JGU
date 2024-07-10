@@ -56,9 +56,9 @@
                         <div class="row">
                 <div class="row">
                 <div class="col-md-3">
-                    <select id="select_lecture" name="select2" class="select form-select" data-placeholder="Date Start">
-                        <option value="">Select Lecture</option>
-                        @foreach($lecture as $d)
+                    <select id="select_auditee" name="select2" class="select form-select" data-placeholder="Date Start">
+                        <option value="">Select Auditee</option>
+                        @foreach($auditee as $d)
                         <option value="{{ $d->id }}">{{ $d->name }}</option>
                         @endforeach
                     </select>
@@ -133,7 +133,7 @@
                 url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_lecture = $('#select_lecture').val()
+                    d.select_auditee = $('#select_auditee').val()
                 },
             },
             columnDefs: [{
@@ -149,9 +149,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.lecture.name +
+                        var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.lecture.name + `</a>`;
+                            row.idd + `') }}">` + row.auditee.name + `</a>`;
 
                         if (row.no_phone) {
                             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
@@ -212,7 +212,7 @@
                         var html =
                             `<a class="badge bg-warning badge-icon" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.lecture.name + `\')" >
+                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
                             <i class="bx bx-trash icon-white"></i></a>`;
                         return html;
                     },
@@ -221,7 +221,7 @@
                 }
             ]
         });
-        $('#select_lecture').change(function () {
+        $('#select_auditee').change(function () {
             table.draw();
         });
     });

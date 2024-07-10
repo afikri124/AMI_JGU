@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audit_doc_statuses', function (Blueprint $table) {
+        Schema::create('observation_assesments', function (Blueprint $table) {
             $table->id('id');
-            $table->string('title');
-            $table->timestamps();
+            $table->string('observation_id')->nullable();
+            $table->string('audit_plan_category_id')->nullable();
+            $table->string('audit_plan_criteria_id')->nullable();
         });
-    }
-
-    /**
+    }    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('audit_doc_statuses');
+        Schema::dropIfExists('observation_assesments');
     }
 };

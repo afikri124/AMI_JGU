@@ -100,7 +100,7 @@
                 <tr>
                     <th width="10px"><b>No</b></th>
                     <th><b>Indicator</b></th>
-                    <th width="10px"><b>Criteria</b></th>
+                    <!-- <th width="10px"><b>Criteria</b></th> -->
                     <th><b>Action</b></th>
                 </tr>
             </thead>
@@ -175,12 +175,12 @@
                         return x;
                     },
                 },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.criteria.title;
-                        return x;
-                    },
-                },
+                // {
+                //     render: function (data, type, row, meta) {
+                //         var x = row.criteria.title;
+                //         return x;
+                //     },
+                // },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;
