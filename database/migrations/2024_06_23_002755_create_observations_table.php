@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('auditor_id')->references('id')->on('users');
             $table->string('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
-
+            $table->string('remark_plan')->nullable();
             $table->timestamps();
         });
     }
