@@ -74,7 +74,7 @@
                             </div>
                     <p></p>
                     <div class="mt-2">
-                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button type="submit" class="btn btn-success me-2">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
                     </div>
                 </form>
