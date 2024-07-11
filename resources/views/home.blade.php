@@ -9,7 +9,7 @@
   <meta content="" name="keywords">
 
   <!
--- Favicons -->
+<-- Favicons -->
   <link href="assets/img/favicon.ico" rel="icon">
 
   <!-- Fonts -->
