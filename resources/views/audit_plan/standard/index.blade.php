@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Auditor')
+@section('title', 'Auditor Standard')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -44,6 +44,31 @@
         color: white;
     }
 
+    .auditor-name {
+    display: flex;
+    align-items: center;
+    }
+
+    .auditor-name a.text-danger {
+        color: #c00f0f; /* Mengubah warna teks */
+        font-family: 'Arial', sans-serif; /* Mengubah jenis font */
+        font-weight: bold; /* Mengubah ketebalan font */
+        font-size: 15px; /* Mengubah ukuran font */
+        margin-right: 10px; /* Menambahkan jarak antara nama auditor dan nomor telepon */
+        text-decoration: none; /* Menghapus garis bawah dari link */
+    }
+
+    .auditor-name a.text-muted {
+        color: #6c757d; /* Warna teks untuk nomor telepon */
+        font-size: 0.8em; /* Ukuran font untuk nomor telepon */
+        text-decoration: none; /* Menghapus garis bawah dari link */
+    }
+
+    .auditor-name a.text-danger:hover,
+    .auditor-name a.text-muted:hover {
+        color: #d81515; /* Mengubah warna teks saat hover */
+    }
+
 </style>
 @endsection
 
@@ -80,8 +105,9 @@
                         <tr>
                             <th width="5%"><b>No</b></th>
                             {{-- <th width="15%"><b>Auditee</b></th> --}}
-                            <th width="15%"><b>Auditor</b></th>
-                            <th width="15%"><b>Action</b></th>
+                            <th width="35%"><b>Auditor</b></th>
+                            {{-- <th width="10%"><b>Category</b></th> --}}
+                            <th width="5%"><b>Action</b></th>
                         </tr>
                     </thead>
                 </table>
@@ -144,39 +170,58 @@
                     },
                     className: "text-center"
                 },
-            //     {
-            //         render: function (data, type, row, meta) {
-            //             var html = `<a class="text-primary" title="` + row.auditee.name +
-            //                 `" href="{{ url('setting/manage_account/users/edit/` +
-            //                 row.idd + `') }}">` + row.auditee.name + `</a>`;
-
-            //             if (row.no_phone) {
-            //                 html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-            //                         `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
-            //             }
-
-            //             return html;
-            //         },
-            //     },
-            {
-                    data: 'auditors',
-                    name: 'auditors',
+                {
                     render: function (data, type, row, meta) {
-                        var auditors = data.split(', ');
-                        var html = '';
-                        auditors.forEach(function (auditor) {
-                            html += '<div>' + auditor + '</div>';
-                        });
+                        var html = `<a class="text-danger" title="` + row.auditor.name +
+                            `" href="{{ url('setting/manage_account/users/edit/` +
+                            row.idd + `') }}">` + row.auditor.name + `</a>`;
+
+                        if (row.no_phone) {
+                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        }
+
                         return html;
                     },
                 },
+                // {
+                //     data: 'auditors',
+                //     name: 'auditors',
+                //     render: function (data, type, row, meta) {
+                //         var auditors = data.split(', ');
+                //         var html = '';
+                //         auditors.forEach(function (auditor) {
+                //             html += `<div class="auditor-name">
+                //                         <a class="text-danger" title="${auditor}" 
+                //                         href="{{ url('setting/manage_account/users/edit/${row.idd}') }}">
+                //                         ${auditor}
+                //                         </a>`;
+                //             if (row.no_phone) {
+                //                 html += ` <a href="tel:${row.no_phone}" class="text-muted" style="font-size: 0.8em;">
+                //                             <i class="fas fa-phone-alt"></i> ${row.no_phone}
+                //                         </a>`;
+                //             }
+                //             html += '</div>';
+                //         });
+                //         return html;
+                //     },
+                // },
+                // {
+                //     render: function (data, type, row, meta) {
+                //     // Check if row.category exists and has an id
+                //     if (row.category && row.category.id) {
+                //         var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
+                //         return html;
+                //   } else {
+                //         return '';
+                //   }
+                //   },
+                // },
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="badge bg-warning badge-icon" title="Edit" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
-                            <i class="bx bx-plus"></i></a>
-                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
-                            <i class="bx bx-trash icon-white"></i></a>`;
+                            `<a class="badge bg-danger badge-icon" title="Create Standar" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
+                            <i class="bx bx-plus"></i></a>`;
                         return html;
                     },
                     "orderable": false,

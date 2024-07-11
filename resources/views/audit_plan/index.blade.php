@@ -184,12 +184,14 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="badge bg-warning badge-icon" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
+                            `
+                            <a class="badge bg-dark badge-icon" title="Show Auditor" style="cursor:pointer" href="{{ url('audit_plan/standard/') }}/${row.id}">
+                            <i class="bx bx-show-alt icon-white"></i></a>
+                            <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
                             <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
                             <i class="bx bx-trash icon-white"></i></a>
-                            <a class="badge bg-dark badge-icon" title="Show Auditor" style="cursor:pointer" href="{{ url('audit_plan/standard/') }}/${row.id}">
-                            <i class="bx bx-arrow-to-bottom icon-white"></i></a>`;
+                            `;
                         return html;
                     },
                     "orderable": false,

@@ -73,7 +73,7 @@ class AuditPlan extends Model
         return $this->belongsTo(AuditPlanCategory::class, 'standard_category_id');
     }
 
-    public function criterias()
+    public function criteria()
     {
         return $this->belongsTo(AuditPlanCriteria::class, 'standard_criteria_id');
     }

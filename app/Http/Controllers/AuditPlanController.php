@@ -178,7 +178,7 @@ class AuditPlanController extends Controller
             'category' => function ($query) {
                 $query->select('id', 'description', 'status');
             },
-            'criterias' => function ($query) {
+            'criteria' => function ($query) {
                 $query->select('id', 'title', 'status');
             },
             'departments' => function ($query) {
@@ -208,95 +208,95 @@ class AuditPlanController extends Controller
             })->make(true);
     }
 
-
+    
     
     // CHOOSE STANDARD AUDIT
     public function standard(Request $request, $id)
     {
-        $data = AuditPlan::findOrFail($id);
-        $auditor = $data->auditor()->with('auditor')->get();
-        $auditee = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-            ->whereHas('roles', function ($q) use ($request) {
-                $q->where('name', 'auditee');
-            })
-            ->orderBy('name')->get();
-        return view('audit_plan.standard.index', compact('data', 'auditee', 'auditor'));
-    }
-
-    public function create(Request $request, $id)
-    {
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'auditor_id'            => ['required'],
-                'standard_criteria_id' => ['required'],
-                'standard_category_id' => ['required'],
-                'link'                  => ['string'],
-            ]);
-            
-            if ($request->standard_category_id) {
-                foreach ($request->standard_category_id as $categoryId) {
-                    AuditPlanCategory::create([
-                        'audit_plan_id'         => id,
-                        'standard_category_id'  => $categoryId,
-                    ]);
-                }
-            }
-
-            if ($request->standard_criteria_id) {
-                foreach ($request->standard_criteria_id as $criteriasId) {
-                    AuditPlanCriteria::create([
-                        'audit_plan_id'         => id,
-                        'standard_criteria_id' => $criteriasId,
-                    ]);
-                }
-            }
-                return redirect()->route('audit_plan.standard.index')->with('msg', 'Data (' . $request->categoryId . ') dan ' . $request->criteriaId . ' Berhasil di tambahkan!!');
-        }
-        
-        $data = AuditPlan::findOrFail($id);
-        $audit_plan = AuditPlan::with('auditstatus')->get();
-        $locations = Location::orderBy('title')->get();
-        $departments = Department::orderBy('name')->get();
-        $auditStatus = AuditStatus::get();
-        $category = StandardCategory::where('status', true)->get();
-        $criterias = StandardCriteria::where('status', true)->get();
-        $auditee = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-            ->whereHas('roles', function ($q) use ($request) {
-                $q->where('name', 'auditee');
-            })
-            ->orderBy('name')->get();
-
+        $data = AuditPlanAuditor::findOrFail($id);
+        $categoryId = StandardCategory::all();
+        $criteriaId = StandardCriteria::all();
         $auditor = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
             ->whereHas('roles', function ($q) use ($request) {
                 $q->where('name', 'auditor');
             })
-            ->orderBy('name')->get();
+            ->where('id', $id)->orderBy('name')->get();
+        return view('audit_plan.standard.index', compact('data', 'auditor', 'categoryId', 'criteriaId'));
+    }
 
-        return view("audit_plan.standard.create", compact("data", "category", "criterias", "auditee", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
+    public function create(Request $request, $id)
+    {
+        $data = AuditPlanAuditor::findOrFail($id);
+        $category = StandardCategory::where('status', true)->get();
+        $criteria = StandardCriteria::where('status', true)->get();
+
+        $auditor = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
+            $q->where('name', 'auditor');
+        })
+        ->where('id', $data->auditor_id) // Gunakan ID dari data yang diambil
+        ->orderBy('name')
+        ->get();
+
+        // // Ambil kriteria yang sudah dipilih oleh auditor lain
+        // $selectedCriteria = AuditPlanAuditor::where('auditor_id', '!=', $id)
+        // ->pluck('standard_criteria_id')
+        // ->flatten()
+        // ->unique();
+
+        return view("audit_plan.standard.create", compact("data", "category", "criteria", "auditor"
+        // "selectedCriteria"
+        ));
+    }
+
+    public function update_std(Request $request, $id)
+    {
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'auditor_id' => 'required',
+                'standard_criteria_id' => 'required',
+                'standard_category_id' => 'required',
+            ]);            
+
+            $data = AuditPlanAuditor::findOrFail($id);
+            
+            if ($request->standard_category_id) {
+                foreach ($request->standard_category_id as $categoryId) {
+                    AuditPlanCategory::create([
+                        'audit_plan_auditor_id' => $data->id,
+                        'standard_category_id'  => $categoryId,
+                    ]);
+                }
+            }
+
+            if ($request->standard_criteria_id) {
+                foreach ($request->standard_criteria_id as $criteriaId) {
+                    AuditPlanCriteria::create([
+                        'audit_plan_auditor_id'=> $data->id,
+                        'standard_criteria_id' => $criteriaId,
+                    ]);
+                }
+            }
+        }
+        return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil di tambahkan!!');
     }
 
     public function data_auditor(Request $request)
     {
-        $data = AuditPlan::with([
-            'auditee' => function ($query) {
+        $data = AuditPlanAuditor::with([            
+            'auditor' => function ($query) {
                 $query->select('id', 'name');
             },
-            'auditor' => function ($query) {
-                $query->select('audit_plan_id', 'auditor_id')
-                    ->with('auditor:id,name'); // Ambil data auditor dengan id dan nama saja
+            'categoryId' => function ($query) {
+                $query->select('id', 'description');
             },
-            'category' => function ($query) {
-                $query->select('id', 'description', 'status');
-            },
-            'criterias' => function ($query) {
-                $query->select('id', 'title', 'status');
-            },
+            'criteriaId' => function ($query) {
+                $query->select('id', 'title');
+            }
         ])->orderBy("id");
 
         // Gunakan DataTables untuk memfilter dan membuat respons JSON
@@ -315,12 +315,6 @@ class AuditPlanController extends Controller
                             ->orWhere('date_end', 'LIKE', "%$search%");
                     });
                 }
-            })
-            ->addColumn('auditors', function ($row) {
-                $auditors = $row->auditor->map(function ($auditor) {
-                    return $auditor->auditor->name;
-                })->implode(', ');
-                return $auditors;
             })
             ->make(true);
     }
