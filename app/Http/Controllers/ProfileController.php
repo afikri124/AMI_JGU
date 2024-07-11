@@ -19,7 +19,7 @@ class ProfileController extends Controller
     {
         $departments = Department::orderBy('name')->get();
 
-        return view('profile.edit', compact("departments"));
+        return view('profile.index', compact("departments"));
     }
 
     /**
@@ -35,7 +35,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.index')->with('status', 'profile-updated');
     }
 
     /**

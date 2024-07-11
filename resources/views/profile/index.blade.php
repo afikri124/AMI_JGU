@@ -1,5 +1,4 @@
 @extends('layouts.master')
-
 @section('title', 'Edit Profile')
 @section('breadcrumb-items')
     <span class="text-muted fw-light"></span>

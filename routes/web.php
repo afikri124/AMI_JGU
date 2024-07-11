@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -33,11 +34,16 @@ require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 //Profile
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::get('profile/index', [ProfileController::class, 'edit'])->name('profile.index');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
+//setting
+Route::middleware(['auth'])->group(function () {
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings/change-password', [SettingController::class, 'changePassword'])->name('settings.changePassword');
+});
+
 Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
 
 //Audit Plan

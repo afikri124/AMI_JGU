@@ -60,15 +60,15 @@
                             <p class="mb-0 font-roboto"><span>{{ $first_name[0] }}</span></p>
                         </div>
                     <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.edit' ? 'active' : '' }}"
-                            href="{{ route('profile.edit') }}">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
+                            href="{{ route('profile.index') }}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
                     </li>
                     <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
-                            href="{{ route('profile.index') }}">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'settings.index' ? 'active' : '' }}"
+                            href="{{ route('settings.index') }}">
                             <i class="bx bx-cog  me-2"></i>
                             <span class="align-middle">Settings</span>
                         </a>
