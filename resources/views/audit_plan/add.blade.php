@@ -4,7 +4,6 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endsection
 
@@ -145,31 +144,6 @@
                     <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="standard_category_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
-                            <select name="standard_category_id[]" id="standard_category_id" class="form-select select2" multiple required>
-                                @foreach($category as $c)
-                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_category_id', [])) ? 'selected' : '' }}>
-                                    {{ $c->id }} - {{ $c->description }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label for="standard_criteria_id" class="form-label"><b>Criteria</b><i class="text-danger">*</i></label>
-                            <select name="standard_criteria_id[]" id="standard_criteria_id" class="form-select select2" multiple required>
-                                @foreach($criterias as $c)
-                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_criteria_id', [])) ? 'selected' : '' }}>
-                                    {{ $c->id }} - {{ $c->title }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
                             <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
                             <select id="periode" name="periode" class="form-select" required>
                             <option value="">Select Periode</option>
@@ -215,7 +189,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#standard_category_id').select2({

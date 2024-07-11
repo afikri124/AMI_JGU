@@ -109,7 +109,7 @@
                         </div>
                         <i class="text-danger">* <b>Tambahkan note, jika Document Auditee belum lengkap!</b></i>
             <div class="card-footer text-end">
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-success" type="submit">Update</button>
                 <a href="{{ url()->previous() }}">
                     <span class="btn btn-secondary">Back</span>
                 </a>

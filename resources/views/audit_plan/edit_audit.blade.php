@@ -3,7 +3,6 @@
 @section('title', ' Edit Data Audit Plan')
 
 @section('css')
-<link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
@@ -74,7 +73,7 @@
                             </div>
                     <p></p>
                     <div class="mt-2">
-                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button type="submit" class="btn btn-success me-2">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
                     </div>
                 </form>
@@ -82,13 +81,5 @@
             @endsection
 
 @section('script')
-<script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-bootstrap5.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.responsive.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/responsive.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-buttons.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
-<script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 @endsection

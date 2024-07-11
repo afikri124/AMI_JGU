@@ -2,7 +2,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme no-print">
     <div class="app-brand demo ">
         <a href="{{ route('index') }}" class="app-brand-link">
-            <span class="app-brand-logo demo" style="margin-left: -10px">
+            <span class="app-brand-logo demo" style="margin-left: -20px">
                 <img src="{{asset('assets-landing/img/ami-jgu.png')}}" height="70" >
             </span>
         </a>

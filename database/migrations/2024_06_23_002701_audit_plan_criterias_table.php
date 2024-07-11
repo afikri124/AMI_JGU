@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('audit_plan_criterias', function (Blueprint $table) {
             $table->id('id');
-            $table->unsignedBigInteger('audit_plan_id');
-            $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
+            $table->unsignedBigInteger('audit_plan_auditor_id');
+            $table->foreign('audit_plan_auditor_id')->references('id')->on('audit_plan_auditors')->onDelete('cascade');
             $table->unsignedBigInteger('standard_criteria_id')->nullable();
             $table->foreign('standard_criteria_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

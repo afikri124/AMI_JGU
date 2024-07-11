@@ -4,6 +4,7 @@
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/date-picker.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
 <style>
 
@@ -68,13 +69,12 @@ h3{
 </style>
 @endsection
 
-
 @section('content')
 <div class="app-calendar-wrapper">
     <div class="row">
         <div class="col-xl-6 col-lg-12 xl-50 morning-sec box-col-12">
-            <div class="card profile-greeting bg-black">
-                <div class="card-body">
+            <div class="card profile-greeting bg-card">
+                <div class="card-body pb-0">
                     <div class="media">
                         <div class="media-body">
                             <div class="greeting-user m-0">
@@ -83,28 +83,40 @@ h3{
                                     <h4><span id="txt"></span></h4>
                                 </div>
                                 <h3>{{ Auth::user()->name }}</h3>
-                                <i class="email text-danger">{{ Auth::user()->email }}</i>
+                                <i class="emaill">{{ Auth::user()->email }}</i>
                             </div>
                         </div>
+                     
                     </div>
-                    <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/img/bg.jpg')}}"
+                    <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/img/cartoon.png')}}"
                             style="max-width: 90%;" alt="">
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="col-xl-6 col-lg-12 xl-60 calendar-sec box-col-6">
+            <div class="card gradient-primary o-hidden">
+                <div class="card-body">
+                    <div class="default-datepicker">
+                        <div class="datepicker-here" data-language="en"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<table class="table" id="datatable">
+   
+</div>
+@endsection
+
+<!-- <table class="table" id="datatable">
     <thead>
         <tr>
             <th>Announcements</th>
         </tr>
     </thead>
-</table>
-@foreach ($auditplans as $x)
+</table> -->
+<!-- @foreach ($auditplans as $x)
     <ul class="list-group">
         <div class="card-container">
             <li class="list-group-item">
@@ -180,13 +192,11 @@ h3{
                         </div>
                     </div>
                 </div>
-@endforeach
 </li>
 </div>
 </ul>
+@endforeach -->
 
-
-@endsection
 @section('script')
 <script type="text/javascript">
     $(window).on('load', function () {
@@ -236,6 +246,9 @@ h3{
 
 </script>
 <!-- <script src="{{asset('assets/js/notify/index.js')}}"></script> -->
-
+<script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/daterange-picker/moment.min.js')}}"></script>
 
 @endsection

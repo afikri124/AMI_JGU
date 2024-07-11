@@ -203,83 +203,83 @@
         });
     });
 
-    function approveId(id, data) {
-        swal({
-                title: "Cek kembali document!",
-                text: "Apakah document ("+data+") sudah sesuai?!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willApprove) => {
-                if (willApprove) {
-                    $.ajax({
-                        url: "{{ route('audit_plan.approve') }}",
-                        type: "POST",
-                        data: {
-                            "id": id,
-                            "_token": $("meta[name='csrf-token']").attr("content"),
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                swal({
-                                    icon: 'success',
-                                    title: 'Acc!',
-                                    text: 'Document ('+data+') berhasil di Acc',
-                                    customClass: {
-                                        confirmButton: 'btn btn-success'
-                                    }
-                                });
-                                $('#datatable').DataTable().ajax.reload();
-                            } else {
-                                swal({
-                                    icon: 'error',
-                                    title: 'Error!',
-                                    text: data.error,
-                                    customClass: {
-                                        confirmButton: 'btn btn-danger'
-                                    }
-                                });
-                            }
-                        }
-                    })
-                }
-            })
-    }
+    // function approveId(id, data) {
+    //     swal({
+    //             title: "Cek kembali document!",
+    //             text: "Apakah document ("+data+") sudah sesuai?!",
+    //             icon: "warning",
+    //             buttons: true,
+    //             dangerMode: true,
+    //         })
+    //         .then((willApprove) => {
+    //             if (willApprove) {
+    //                 $.ajax({
+    //                     url: "",
+    //                     type: "POST",
+    //                     data: {
+    //                         "id": id,
+    //                         "_token": $("meta[name='csrf-token']").attr("content"),
+    //                     },
+    //                     success: function(response) {
+    //                         if (response.success) {
+    //                             swal({
+    //                                 icon: 'success',
+    //                                 title: 'Acc!',
+    //                                 text: 'Document ('+data+') berhasil di Acc',
+    //                                 customClass: {
+    //                                     confirmButton: 'btn btn-success'
+    //                                 }
+    //                             });
+    //                             $('#datatable').DataTable().ajax.reload();
+    //                         } else {
+    //                             swal({
+    //                                 icon: 'error',
+    //                                 title: 'Error!',
+    //                                 text: data.error,
+    //                                 customClass: {
+    //                                     confirmButton: 'btn btn-danger'
+    //                                 }
+    //                             });
+    //                         }
+    //                     }
+    //                 })
+    //             }
+    //         })
+    // }
 
-    function revisedId(id, data) {
-        swal({
-                title: "Apa kamu yakin?",
-                text: "Periksa kembali, apakah data ("+data+") kurang sesuai?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willRevised) => {
-                if (willRevised) {
-                    $.ajax({
-                        url: "{{ route('audit_plan.revised') }}",
-                        type: "POST",
-                        data: {
-                            "id": id,
-                            "_token": $("meta[name='csrf-token']").attr("content"),
-                        },
-                        success: function (data) {
-                            if (data['success']) {
-                                swal(data['message'], {
-                                    icon: "success",
-                                });
-                                $('#datatable').DataTable().ajax.reload();
-                            } else {
-                                swal(data['message'], {
-                                    icon: "error",
-                                });
-                            }
-                        }
-                    })
-                }
-            })
-    }
+    // function revisedId(id, data) {
+    //     swal({
+    //             title: "Apa kamu yakin?",
+    //             text: "Periksa kembali, apakah data ("+data+") kurang sesuai?",
+    //             icon: "warning",
+    //             buttons: true,
+    //             dangerMode: true,
+    //         })
+    //         .then((willRevised) => {
+    //             if (willRevised) {
+    //                 $.ajax({
+    //                     url: "",
+    //                     type: "POST",
+    //                     data: {
+    //                         "id": id,
+    //                         "_token": $("meta[name='csrf-token']").attr("content"),
+    //                     },
+    //                     success: function (data) {
+    //                         if (data['success']) {
+    //                             swal(data['message'], {
+    //                                 icon: "success",
+    //                             });
+    //                             $('#datatable').DataTable().ajax.reload();
+    //                         } else {
+    //                             swal(data['message'], {
+    //                                 icon: "error",
+    //                             });
+    //                         }
+    //                     }
+    //                 })
+    //             }
+    //         })
+    // }
 
 </script>
 

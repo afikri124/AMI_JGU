@@ -29,18 +29,13 @@ class StandardCriteria extends Model
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
 
-    public function auditPlan()
-    {
-        return $this->hasMany(AuditPlan::class, 'id');
-    }
-
     public function indicators()
     {
-        return $this->hasMany(Indicator::class, 'standard_criterias_id');
+        return $this->hasMany(Indicator::class, 'standard_criteria_id');
     }
 
     public function reviewDocs()
     {
-        return $this->hasMany(ReviewDocs::class, 'standard_criterias_id');
+        return $this->hasMany(ReviewDocs::class, 'standard_criteria_id');
     }
 }

@@ -11,11 +11,11 @@ class AuditPlanCategory extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
-        'id', 'audit_plan_id', 'standard_category_id'
+        'id', 'audit_plan_auditor_id', 'standard_category_id'
     ];
 
-    public function auditPlan(){
-        return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
+    public function auditor(){
+        return $this->belongsTo(AuditPlanAuditor::class, 'audit_plan_auditor_id');
     }
 
     public function category(){
