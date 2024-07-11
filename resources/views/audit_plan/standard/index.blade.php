@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Audit Plan')
+@section('title', 'Auditor Standard')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -44,6 +44,31 @@
         color: white;
     }
 
+    .auditor-name {
+    display: flex;
+    align-items: center;
+    }
+
+    .auditor-name a.text-danger {
+        color: #c00f0f; /* Mengubah warna teks */
+        font-family: 'Arial', sans-serif; /* Mengubah jenis font */
+        font-weight: bold; /* Mengubah ketebalan font */
+        font-size: 15px; /* Mengubah ukuran font */
+        margin-right: 10px; /* Menambahkan jarak antara nama auditor dan nomor telepon */
+        text-decoration: none; /* Menghapus garis bawah dari link */
+    }
+
+    .auditor-name a.text-muted {
+        color: #6c757d; /* Warna teks untuk nomor telepon */
+        font-size: 0.8em; /* Ukuran font untuk nomor telepon */
+        text-decoration: none; /* Menghapus garis bawah dari link */
+    }
+
+    .auditor-name a.text-danger:hover,
+    .auditor-name a.text-muted:hover {
+        color: #d81515; /* Mengubah warna teks saat hover */
+    }
+
 </style>
 @endsection
 
@@ -55,22 +80,22 @@
                     <div class="col-12">
                         <div class="row">
                 <div class="row">
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <select id="select_auditee" name="select2" class="select form-select" data-placeholder="Date Start">
                         <option value="">Select Auditee</option>
                         @foreach($auditee as $d)
                         <option value="{{ $d->id }}">{{ $d->name }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
                 <div class="container">
                     <table class="table" id="datatable">
-                        <div class="col-md d-flex justify-content-center justify-content-md-end">
+                        {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
                             <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
                                 href="{{ route('audit_plan.add')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -79,11 +104,10 @@
                     <thead>
                         <tr>
                             <th width="5%"><b>No</b></th>
-                            <th width="15%"><b>Auditee</b></th>
-                            <th width="35%"><b>Schedule</b></th>
-                            <th width="10%"><b>Status</b></th>
-                            <th width="20%"><b>Location</b></th>
-                            <th width="15%"><b>Action</b></th>
+                            {{-- <th width="15%"><b>Auditee</b></th> --}}
+                            <th width="35%"><b>Auditor</b></th>
+                            {{-- <th width="10%"><b>Category</b></th> --}}
+                            <th width="5%"><b>Action</b></th>
                         </tr>
                     </thead>
                 </table>
@@ -129,7 +153,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_plan.data') }}",
+                url: "{{ route('audit_plan.data_auditor') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_auditee = $('#select_auditee').val()
@@ -148,9 +172,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.auditee.name +
+                        var html = `<a class="text-danger" title="` + row.auditor.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.auditee.name + `</a>`;
+                            row.idd + `') }}">` + row.auditor.name + `</a>`;
 
                         if (row.no_phone) {
                             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
@@ -160,38 +184,44 @@
                         return html;
                     },
                 },
+                // {
+                //     data: 'auditors',
+                //     name: 'auditors',
+                //     render: function (data, type, row, meta) {
+                //         var auditors = data.split(', ');
+                //         var html = '';
+                //         auditors.forEach(function (auditor) {
+                //             html += `<div class="auditor-name">
+                //                         <a class="text-danger" title="${auditor}" 
+                //                         href="{{ url('setting/manage_account/users/edit/${row.idd}') }}">
+                //                         ${auditor}
+                //                         </a>`;
+                //             if (row.no_phone) {
+                //                 html += ` <a href="tel:${row.no_phone}" class="text-muted" style="font-size: 0.8em;">
+                //                             <i class="fas fa-phone-alt"></i> ${row.no_phone}
+                //                         </a>`;
+                //             }
+                //             html += '</div>';
+                //         });
+                //         return html;
+                //     },
+                // },
+                // {
+                //     render: function (data, type, row, meta) {
+                //     // Check if row.category exists and has an id
+                //     if (row.category && row.category.id) {
+                //         var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
+                //         return html;
+                //   } else {
+                //         return '';
+                //   }
+                //   },
+                // },
                 {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
                     render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
-                        return formattedStartDate + ' - ' + formattedEndDate;
-                    }
-                },
-                {
-                    render: function(data, type, row, meta) {
                         var html =
-                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
-                        return html;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-                            return row.location;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html =
-                            `
-                            <a class="badge bg-dark badge-icon" title="Show Auditor" style="cursor:pointer" href="{{ url('audit_plan/standard/') }}/${row.id}">
-                            <i class="bx bx-show-alt icon-white"></i></a>
-                            <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
-                            <i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
-                            <i class="bx bx-trash icon-white"></i></a>
-                            `;
+                            `<a class="badge bg-danger badge-icon" title="Create Standar" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
+                            <i class="bx bx-plus"></i></a>`;
                         return html;
                     },
                     "orderable": false,

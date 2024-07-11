@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('remark_upgrade_repair')->nullable();
             $table->string('person_in_charge')->nullable();
             $table->string('plan_complated')->nullable();
+            $table->timestamps();
 
         });
     }    /**

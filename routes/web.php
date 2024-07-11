@@ -46,12 +46,21 @@ Route::group(['prefix' => 'audit_plan'], function () {
     Route::get('/data', [AuditPlanController::class, 'data'])->name('audit_plan.data');
     Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
     Route::any('/add', [AuditPlanController::class, 'add'])->name('audit_plan.add');
-    Route::post('/approve', [AuditPlanController::class, 'approve'])->name('audit_plan.approve');
-    Route::post('/revised', [AuditPlanController::class, 'revised'])->name('audit_plan.revised');
+    // Route::post('/approve', [AuditPlanController::class, 'approve'])->name('audit_plan.approve');
+    // Route::post('/revised', [AuditPlanController::class, 'revised'])->name('audit_plan.revised');
+
+    //Add Standard Auditor
+    Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
+    Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
+    Route::get('/data_auditor', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
+
 });
+Route::put('/update_std/{id}', [AuditPlanController::class, 'update_std'])->name('update_std');
+
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
+//Observations
 Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
@@ -60,6 +69,8 @@ Route::group(['prefix' => 'observations'], function () {
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });
 
+
+//MY Audit
 Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
     Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
