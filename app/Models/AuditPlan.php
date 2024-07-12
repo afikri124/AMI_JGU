@@ -15,8 +15,6 @@ class AuditPlan extends Model
     // Menentukan kolom-kolom yang dapat diisi
     protected $fillable = [
         'auditee_id',
-        'email',
-        'no_phone',
         'date_start',
         'date_end',
         'audit_status_id',

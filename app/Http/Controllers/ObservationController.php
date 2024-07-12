@@ -39,6 +39,35 @@ class ObservationController extends Controller
         return view('observations.index', compact('data', 'auditee'));
     }
 
+    public function create(Request $request, $id)
+    {
+        $audit_plan = AuditPlan::with('auditStatus')->get();
+        $locations = Location::orderBy('title')->get();
+        $department = Department::orderBy('name')->get();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $data = AuditPlan::findOrFail($id);
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->get();
+        $categories = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->get();
+        // Ambil data StandardCriteria ID dari CriteriasAmi
+        $standardCriteriasIds = $criterias->pluck('standard_criteria_id');
+        // Ambil indicator berdasarkan standard_criteria_id
+        $indicators = Indicator::whereIn('standard_criteria_id', $standardCriteriasIds)->get();
+        // Ambil sub_indicator berdasarkan indicator_id dari indicators yang didapat
+        $subIndicators = SubIndicator::whereIn('indicator_id', $indicators->pluck('id'))->get();
+        $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicators->pluck('id'))->get();
+        foreach ($subIndicators as $sub) {
+            $reviewDocs = ReviewDocs::where('indicator_id', $sub->indicator_id)
+                ->where('standard_criteria_id', $sub->standard_criteria_id)
+                ->get();
+
+            $sub->reviewDocs = $reviewDocs; // Attach review documents to each sub indicator
+        }
+
+    return view('observations.make', compact('criterias', 'categories', 'indicators', 'subIndicators', 'auditors','reviewDocs', "data", "locations", "department", "category", "criteria", "audit_plan"));
+    }
+
     public function make(Request $request, $id)
     {
         if ($request->isMethod('POST')) {
@@ -57,32 +86,6 @@ class ObservationController extends Controller
                 return redirect()->route('observations.index')->with('msg', 'Data Auditee (' . $request->auditee_id . ') pada tanggal ' . $request->date . ' BERHASIL ditambahkan!!');
             }
         }
-
-        $audit_plan = AuditPlan::with('auditStatus')->get();
-        $locations = Location::orderBy('title')->get();
-        $department = Department::orderBy('name')->get();
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
-        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)->get();
-        $data = AuditPlan::findOrFail($id);
-        $criterias = AuditPlanCriteria::where('audit_plan_id', $id)->get();
-        $categories = AuditPlanCriteria::where('audit_plan_id', $id)->get();
-        // Ambil data StandardCriteria ID dari CriteriasAmi
-        $standardCriteriasIds = $criterias->pluck('standard_criteria_id');
-        // Ambil indicator berdasarkan standard_criteria_id
-        $indicators = Indicator::whereIn('standard_criteria_id', $standardCriteriasIds)->get();
-        // Ambil sub_indicator berdasarkan indicator_id dari indicators yang didapat
-        $subIndicators = SubIndicator::whereIn('indicator_id', $indicators->pluck('id'))->get();
-        $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicators->pluck('id'))->get();
-        foreach ($subIndicators as $sub) {
-            $reviewDocs = ReviewDocs::where('indicator_id', $sub->indicator_id)
-                ->where('standard_criteria_id', $sub->standard_criteria_id)
-                ->get();
-
-            $sub->reviewDocs = $reviewDocs; // Attach review documents to each sub indicator
-        }
-
-    return view('observations.make', compact('criterias', 'categories', 'indicators', 'subIndicators', 'auditors','reviewDocs', "data", "locations", "department", "category", "criteria", "audit_plan"));
     }
 
     public function edit($id)

@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('audit_plans', function (Blueprint $table) {
             $table->id('id');
-            $table->string('email');
-            $table->string('no_phone');
             $table->unsignedBigInteger('auditee_id');
             $table->foreign('auditee_id')->references('id')->on('users');
             $table->dateTime('date_start');

@@ -22,20 +22,9 @@ class Observation extends Model
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
 
-    public function auditee()
+    public function auditor()
     {
-        return $this->belongsTo(User::class, 'auditee_id');
-    }
-
-    // Contoh relasi ke model AuditPlanStatus
-    public function auditstatus()
-    {
-        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class, 'department_id');
+        return $this->belongsTo(AuditPlanAuditor::class, 'auditor_id');
     }
 
     public function category()

@@ -69,7 +69,8 @@ Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('
 Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
-    Route::get('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
+    Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
+    Route::any('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
     Route::any('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });

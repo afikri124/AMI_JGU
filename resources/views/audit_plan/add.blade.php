@@ -32,29 +32,6 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label class="form-label"><b>Email</b><i class="text-danger">*</i></label>
-                            <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" placeholder="Input email" name="email" value="{{ old('email') }}">
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label class="form-label"><b>No Telepon</b><i class="text-danger">*</i></label>
-                            <input class="form-control @error('no_phone') is-invalid @enderror" id="no_phone" name="no_phone" type="text" placeholder="Input No Telepon">
-                            @error('no_phone')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
                             <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_start') }}">
@@ -83,7 +60,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="auditee_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
-                            <select name="auditee_id" id="auditee_id" class="form-select" required>
+                            <select name="auditee_id" id="auditee_id" class="form-select" value="{{ old('auditee_id') }}" required>
                                 <option value="">Select Auditee</option>
                                 @foreach($auditee as $role)
                                 <option value="{{$role->id}}" {{ (in_array($role->id, old('auditee') ?? []) ? "selected": "") }}>
@@ -100,7 +77,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id[]" id="auditor_id" class="form-select select2" multiple required>
+                            <select name="auditor_id[]" id="auditor_id" class="form-select select2"  multiple required>
                                 <option value="">Select Auditor</option>
                                 @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
@@ -118,7 +95,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
-                            <select name="location_id" id="location_id" class="form-select" required>
+                            <select name="location_id" id="location_id" class="form-select" value="{{ old('location_id') }}" required>
                                 <option value="">Select Location</option>
                                 @foreach($locations as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
@@ -131,7 +108,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-                            <select name="department_id" id="department_id" class="form-select" required>
+                            <select name="department_id" id="department_id" class="form-select" value="{{ old('department_id') }}" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
@@ -145,7 +122,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
-                            <select id="periode" name="periode" class="form-select" required>
+                            <select id="periode" name="periode" class="form-select" value="{{ old('periode') }}" required>
                             <option value="">Select Periode</option>
                             <?php
                             $startYear = 2019;
@@ -161,7 +138,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="link" class="form-label"><b>Link Document</b><i class="text-danger">*</i></label>
-                            <input type="text" class="form-control" id="link" name="link" placeholder="Input Link Document">
+                            <input type="text" class="form-control" id="link" name="link" placeholder="Input Link Document" value="{{ old('link') }}">
                         </div>
                     </div>
                 </div>
