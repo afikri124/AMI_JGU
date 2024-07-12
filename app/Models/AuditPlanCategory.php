@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AuditPlanCategory extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    public $incrementing = false;
+    public $timestamps = true;
+    public $incrementing = true;
     protected $fillable = [
         'id', 'audit_plan_auditor_id', 'standard_category_id'
     ];

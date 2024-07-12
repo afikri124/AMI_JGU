@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans')->onDelete('cascade');
             $table->unsignedBigInteger('auditor_id');
             $table->foreign('auditor_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->unsignedBigInteger('standard_criteria_id')->nullable();
-            // $table->foreign('standard_criteria_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
     }

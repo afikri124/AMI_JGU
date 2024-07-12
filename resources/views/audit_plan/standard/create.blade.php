@@ -22,7 +22,6 @@
     <div class="col-md-12">
       <form class="card" action="{{ route('update_std', $data->id) }}"  method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
             <div class="card-header">
                 <h3 class="card-header"><b>Create Auditor Standard</b></h3>
                 <hr class="my-0">
@@ -31,7 +30,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" disabled>
+                            <select name="auditor_id" id="auditor_id" class="form-select">
                             <option value="">Select Auditor</option>
                             @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ $data->auditor_id ? 'selected' : '' }}>
@@ -88,7 +87,7 @@
     });
 </script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#standard_category_id').select2({
             placeholder: " Select Category",
@@ -119,10 +118,34 @@
             $(this).select2('close');
         });
 
-        Pastikan opsi nonaktif tidak dihapus saat mengirimkan formulir
+        //Pastikan opsi nonaktif tidak dihapus saat mengirimkan formulir
         $('form').on('submit', function() {
             $('#standard_criteria_id option').removeAttr('disabled');
         });
     });
+</script> -->
+<script>
+    // ketika tema dirubah, topic di isi
+    $('#standard_category_id').change(function() {
+                var categoryId = this.value;
+                $("#standard_criteria_id").html('');
+                $.ajax({
+                    url: "{{ route('DOC.get_standard_criteria_id_by_id') }}",
+                    type: "GET",
+                    data: {
+                        id: categoryId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#standard_criteria_id').html('<option value="">Select Topic</option>');
+                        $.each(result, function(key, value) {
+                            $("#standard_criteria_id").append('<option value="' + value.id +
+                                '">' + value.title + '</option>');
+                        });
+                    }
+                });
+            });
+    </script>
 </script>
 @endsection

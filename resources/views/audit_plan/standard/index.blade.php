@@ -80,22 +80,8 @@
                     <div class="col-12">
                         <div class="row">
                 <div class="row">
-                {{-- <div class="col-md-3">
-                    <select id="select_auditee" name="select2" class="select form-select" data-placeholder="Date Start">
-                        <option value="">Select Auditee</option>
-                        @foreach($auditee as $d)
-                        <option value="{{ $d->id }}">{{ $d->name }}</option>
-                        @endforeach
-                    </select>
-                </div> --}}
                 <div class="container">
                     <table class="table" id="datatable">
-                        {{-- <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
-                                href="{{ route('audit_plan.add')}}">
-                                <i data-feather="plus"></i>+ Add
-                            </a>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -104,9 +90,7 @@
                     <thead>
                         <tr>
                             <th width="5%"><b>No</b></th>
-                            {{-- <th width="15%"><b>Auditee</b></th> --}}
                             <th width="35%"><b>Auditor</b></th>
-                            {{-- <th width="10%"><b>Category</b></th> --}}
                             <th width="5%"><b>Action</b></th>
                         </tr>
                     </thead>
@@ -153,7 +137,7 @@
                 searchPlaceholder: 'Search data..'
             },
             ajax: {
-                url: "{{ route('audit_plan.data_auditor') }}",
+                url: "{{ route('audit_plan.data_auditor', ['id' => $data->id ]) }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
                     d.select_auditee = $('#select_auditee').val()
@@ -184,43 +168,10 @@
                         return html;
                     },
                 },
-                // {
-                //     data: 'auditors',
-                //     name: 'auditors',
-                //     render: function (data, type, row, meta) {
-                //         var auditors = data.split(', ');
-                //         var html = '';
-                //         auditors.forEach(function (auditor) {
-                //             html += `<div class="auditor-name">
-                //                         <a class="text-danger" title="${auditor}" 
-                //                         href="{{ url('setting/manage_account/users/edit/${row.idd}') }}">
-                //                         ${auditor}
-                //                         </a>`;
-                //             if (row.no_phone) {
-                //                 html += ` <a href="tel:${row.no_phone}" class="text-muted" style="font-size: 0.8em;">
-                //                             <i class="fas fa-phone-alt"></i> ${row.no_phone}
-                //                         </a>`;
-                //             }
-                //             html += '</div>';
-                //         });
-                //         return html;
-                //     },
-                // },
-                // {
-                //     render: function (data, type, row, meta) {
-                //     // Check if row.category exists and has an id
-                //     if (row.category && row.category.id) {
-                //         var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
-                //         return html;
-                //   } else {
-                //         return '';
-                //   }
-                //   },
-                // },
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="badge bg-danger badge-icon" title="Create Standar" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
+                            `<a class="badge bg-danger badge-icon" title="Create Auditor Standard" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
                             <i class="bx bx-plus"></i></a>`;
                         return html;
                     },
