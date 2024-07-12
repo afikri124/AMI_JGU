@@ -24,7 +24,7 @@
         </li>
         <li class="menu-item {{ request()->segment(1) == 'audit_plan' ? 'active' : '' }}">
             <a href="{{ route('audit_plan.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <i class="menu-icon tf-icons bx bx-calendar-edit"></i>
                 <div data-i18n="Dashboards">Audit Plans</div>
             </a>
         </li>
