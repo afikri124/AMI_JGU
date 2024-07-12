@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -33,11 +34,16 @@ require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 //Profile
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::get('profile/index', [ProfileController::class, 'edit'])->name('profile.index');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
+//setting
+Route::middleware(['auth'])->group(function () {
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings/change-password', [SettingController::class, 'changePassword'])->name('settings.changePassword');
+});
+
 Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
 
 //Audit Plan
@@ -52,10 +58,9 @@ Route::group(['prefix' => 'audit_plan'], function () {
     //Add Standard Auditor
     Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
     Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
-    Route::get('/data_auditor', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
-
+    Route::get('/data_auditor/{id}', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
+    Route::any('/update_std/{id}', [AuditPlanController::class, 'update_std'])->name('update_std');
 });
-Route::put('/update_std/{id}', [AuditPlanController::class, 'update_std'])->name('update_std');
 
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
@@ -69,6 +74,7 @@ Route::group(['prefix' => 'observations'], function () {
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });
 
+Route::get('/get_standard_criteria_id_by_id', [AuditPlanController::class, 'getStandardCriteriaId'])->name('DOC.get_standard_criteria_id_by_id');
 
 //MY Audit
 Route::group(['prefix' => 'my_audit'], function () {
@@ -82,12 +88,12 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::any('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::any('/profile', [ProfileController::class, 'index'])->name('profile.index');
+//     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+//     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);
 

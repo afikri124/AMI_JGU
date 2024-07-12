@@ -52,7 +52,7 @@
                               <br>
                         <div class="mt-2">
                               <button type="submit" class="btn btn-success me-2">Update</button>
-                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.revie _doc') }}">Back</a>
+                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.revie _docs') }}">Back</a>
                         </div>
                   </form>
                   </div>
