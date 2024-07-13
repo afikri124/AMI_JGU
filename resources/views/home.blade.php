@@ -56,7 +56,7 @@
             <li><a href="#about"><b>ABOUT</b></a></li>
             <li><a href="#visi&misi"><b>VISI & MISI</b></a></li>
             <li><a href="#contact"><b>CONTACT</b></a></li>
-            <li><a href="login"><button type="button" class="btn btn-danger">Login </button></a></li>
+            <li><a href="login3"><button type="button" class="btn btn-danger">Login </button></a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
