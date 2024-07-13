@@ -40,8 +40,6 @@ class AuditPlanController extends Controller
                 'auditee_id'            => ['required'],
                 'date_start'            => ['required'],
                 'date_end'              => ['required'],
-                'email'                 => ['required'],
-                'no_phone'              => ['required'],
                 'location_id'           => ['required'],
                 'link'                  => ['string'],
             ]);
@@ -49,8 +47,6 @@ class AuditPlanController extends Controller
                 'auditee_id'                => $request->auditee_id,
                 'date_start'                => $request->date_start,
                 'date_end'                  => $request->date_end,
-                'email'                     => $request->email,
-                'no_phone'                  => $request->no_phone,
                 'audit_status_id'           => '1',
                 'location_id'               => $request->location_id,
                 'department_id'             => $request->department_id,
@@ -67,7 +63,7 @@ class AuditPlanController extends Controller
                 }
             }
             if ($data) {
-                return redirect()->route('audit_plan.index')->with('msg', 'Data (' . $request->auditee_id . ') pada tanggal ' . $request->date_start . ' BERHASIL ditambahkan!!');
+                return redirect()->route('audit_plan.standard.index')->with('msg', 'Data (' . $request->auditee_id . ') pada tanggal ' . $request->date_start . ' BERHASIL ditambahkan!!');
             }
         }
 
@@ -216,7 +212,13 @@ class AuditPlanController extends Controller
         $data = AuditPlanAuditor::findOrFail($id);
         $categoryId = StandardCategory::all();
         $criteriaId = StandardCriteria::all();
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $auditor = AuditPlanAuditor::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+            ->whereHas('roles', function ($q) use ($request) {
+                $q->where('name', 'auditor');
+            })
+            ->where('audit_plan_id', $id)->orderBy('name')->get();
         return view('audit_plan.standard.index', compact('data', 'auditor', 'categoryId', 'criteriaId'));
     }
 
@@ -296,7 +298,7 @@ class AuditPlanController extends Controller
 
     public function data_auditor(Request $request, $id)
     {
-        $data = AuditPlanAuditor::where('audit_plan_id', $id)->
+        $data = AuditPlanAuditor::where('audit_plan_id',$id)->
         with([
             'auditor' => function ($query) {
                 $query->select('id', 'name');

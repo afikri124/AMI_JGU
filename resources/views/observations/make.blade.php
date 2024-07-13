@@ -84,7 +84,7 @@
     <div class="step" data-target="#account-details">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(36, 34, 34);transform: ;msFilter:;"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(36, 34, 34);"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z"></path></svg>
         </span>
         <span class="bs-stepper-label">Account Details</span>
       </button>
@@ -95,7 +95,7 @@
     <div class="step" data-target="#address">
       <button type="button" class="step-trigger">
         <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M19 4h-3V2h-2v2h-4V2H8v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM5 20V7h14V6l.002 14H5z"></path><path d="M7 9h10v2H7zm0 4h5v2H7z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M19 4h-3V2h-2v2h-4V2H8v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM5 20V7h14V6l.002 14H5z"></path><path d="M7 9h10v2H7zm0 4h5v2H7z"></path></svg>
           </svg>
         </span>
         <span class="bs-stepper-label">Assesment</span>
@@ -319,24 +319,24 @@
                 </div>
             </td>
         </tr>
-    <!-- <tr>
-        <td colspan="3">
-            <label for="description_remark" class="form-label"><b>Deskripsi Audit  :</b></label>
-            <textarea id="description_remark" name="description_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..."></textarea>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <label for="success_remark" class="form-label"><b>Faktor Pendukung Keberhasilan    :</b></label>
-            <textarea id="success_remark" name="success_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <label for="failed_remark" class="form-label"><b>Faktor Pendukung Kegagalan    :</b></label>
-            <textarea id="failed_remark" name="failed_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
-        </td>
-    </tr> -->
+        <tr>
+            <td colspan="3">
+                <label for="description_remark" class="form-label"><b>Deskripsi Audit  :</b></label>
+                <textarea id="description_remark" name="description_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label for="success_remark" class="form-label"><b>Faktor Pendukung Keberhasilan    :</b></label>
+                <textarea id="success_remark" name="success_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label for="failed_remark" class="form-label"><b>Faktor Pendukung Kegagalan    :</b></label>
+                <textarea id="failed_remark" name="failed_remark" class="comment" maxlength="250" placeholder="MAX 250 characters..." style="display: none;"></textarea>
+            </td>
+        </tr>
     <tr>
         <td colspan="3">
             <label for="recommend_remark" class="form-label"><b>Rekomendasi Audit  :</b></label>

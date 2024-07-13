@@ -191,7 +191,7 @@
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
-                            x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/make/${row.id}') }}">
+                            x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/create/${row.id}') }}">
                                         <i class="bx bx-pencil"></i></a>`;
                         }
                         return x;
