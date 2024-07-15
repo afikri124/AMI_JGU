@@ -159,11 +159,11 @@
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="10px">No</th>
-                    <th >Criteria</th>
-                    <th width="40px">Category</th>
-                    <th >Status</th>
-                    <th width="10px">Action</th>
+                    <th width="5%"><b>No</b></th>
+                    <th width="15%"><b>Criteria</b></th>
+                    <th width="20%"><b>Category</b></th>
+                    <th width="10%"><b>Status</b></th>
+                    <th width="15%"><b>Action</b></th>
                 </tr>
             </thead>
         </table>

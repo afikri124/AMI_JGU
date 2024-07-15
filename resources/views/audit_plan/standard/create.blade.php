@@ -87,7 +87,7 @@
     });
 </script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<!-- <script>
+<script>
     $(document).ready(function() {
         $('#standard_category_id').select2({
             placeholder: " Select Category",
@@ -123,8 +123,8 @@
             $('#standard_criteria_id option').removeAttr('disabled');
         });
     });
-</script> -->
-<script>
+</script>
+<!-- <script>
     // ketika tema dirubah, topic di isi
     $('#standard_category_id').change(function() {
                 var categoryId = this.value;
@@ -147,5 +147,5 @@
                 });
             });
     </script>
-</script>
+</script> -->
 @endsection

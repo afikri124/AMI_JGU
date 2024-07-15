@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class StandardCategory extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    public $incrementing = false;
+    public $timestamps = true;
+    public $incrementing = true;
     protected $fillable = [
         'id', 'title', 'description', 'is_required', 'status'
     ];

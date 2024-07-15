@@ -100,7 +100,7 @@
                 <tr>
                     <th width="10px"><b>No</b></th>
                     <th><b>Indicator</b></th>
-                    <!-- <th width="10px"><b>Criteria</b></th> -->
+                    <th width="10px"><b>Criteria</b></th>
                     <th><b>Action</b></th>
                 </tr>
             </thead>
@@ -175,12 +175,17 @@
                         return x;
                     },
                 },
-                // {
-                //     render: function (data, type, row, meta) {
-                //         var x = row.criteria.title;
-                //         return x;
-                //     },
-                // },
+                {
+                    render: function (data, type, row, meta) {
+                    // Check if row.category exists and has an id
+                    if (row.criteria && row.criteria.title) {
+                        var html = `<a class="text-primary" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        return html;
+                    } else {
+                        return ''; // Return empty string or handle the case where category.title is missing
+                    }
+                },
+            },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;

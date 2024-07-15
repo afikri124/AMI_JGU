@@ -9,8 +9,8 @@ class SubIndicator extends Model
 {
     use HasFactory;
     protected $keyType = 'string';
-    public $timestamps = false;
-    public $incrementing = false;
+    public $timestamps = true;
+    public $incrementing = true;
     protected $fillable = [
         'name',
         'standard_criteria_id',

@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="assets/vendor/libs/flatpickr/flatpickr.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 @endsection
 
@@ -26,17 +25,6 @@
         overflow: hidden;
     }
 </style>
-
-
-        <!-- <div class=" col-md-3">
-            <select id="select_auditee" class="select2 form-select" data-placeholder="auditee">
-                <option value="">Select auditee</option>
-                @foreach($data as $d)
-                    <option value="{{ $d->id }}">{{ $d->auditee_id }}</option>
-                @endforeach
-            </select>
-        </div> -->
-
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
             <div class="card-datatable table-responsive">
@@ -60,7 +48,6 @@
                                 <th><b>Auditee</b></th>
                                 <th><b>Schedule</b></th>
                                 <th><b>Location</b></th>
-                                <!-- <th><b>Auditor</b></th> -->
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
@@ -80,7 +67,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> <!-- Memuat lokal Indonesia untuk moment.js -->
 @if(session('msg'))
@@ -98,7 +84,6 @@
 </script>
 @endif
 
-<script src="assets/vendor/libs/flatpickr/flatpickr.js"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -146,9 +131,9 @@
                             `" href="{{ url('setting/manage_account/users/edit/` +
                             row.idd + `') }}">` + row.auditee.name + `</a>`;
 
-                        if (row.no_phone) {
-                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        if (row.auditee.no_phone) {
+                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
                         }
 
                         return html;
@@ -169,20 +154,6 @@
                             return row.location;
                     },
                 },
-                // {
-                //     render: function (data, type, row, meta) {
-                //         var html = `<a class="text-primary" title="` + row.auditor.name +
-                //             `" href="{{ url('setting/manage_account/users/edit/` +
-                //             row.idd + `') }}">` + row.auditor.name + `</a>`;
-
-                //         if (row.no_phone) {
-                //             html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                //                     `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
-                //         }
-
-                //         return html;
-                //     },
-                // },
                 {
                     render: function(data, type, row, meta) {
                         var html =
@@ -207,7 +178,7 @@
                         var html =
                             `<a class="badge bg-danger badge-icon" title="Upload" href="{{ url('my_audit/add/') }}/${row.id}"><i class="bx bx-upload"></i></a>
                             <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('my_audit/edit/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-dark badge-icon"title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-low-vision"></i></a>`;
+                            <a class="badge bg-dark badge-icon"title="show" href="{{ url('my_audit/show/') }}/${row.id}"><i class="bx bx-show-alt"></i></a>`;
                         return html;
                     },
                     "orderable": false,

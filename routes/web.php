@@ -70,7 +70,7 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
-    Route::any('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
+    Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
     Route::any('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });

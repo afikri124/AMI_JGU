@@ -30,9 +30,9 @@
                         <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
                                 name="indicator_id" id="indicator_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Indicator</option>
-                            @foreach($criteria as $role)
-                                <option value="{{$role->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
-                                    {{$role->title}}</option>
+                            @foreach($indicator as $ind)
+                                <option value="{{$ind->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
+                                    {{$ind->name}}</option>
                                 @endforeach
                         </select>
                         @error('indicator_id')

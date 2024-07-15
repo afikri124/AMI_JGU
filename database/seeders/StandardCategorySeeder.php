@@ -17,10 +17,10 @@ class StandardCategorySeeder extends Seeder
     {
         //
         $data = [
-            ["id" => "1", "title" => "Wajib", "description" => "Standar Pendidikan"],
-            ["id" => "2", "title" => "Wajib", "description" => "Standar Penelitian"],
-            ["id" => "3", "title" => "Wajib", "description" => "Standar Tambahan"],
-            ["id" => "4", "title" => "Wajib", "description" => "Standar Pengabdian Masyarakat"],
+            ["id" => "1", "title" => "Wajib", "description" => "Standar Pendidikan", "status" => true],
+            ["id" => "2", "title" => "Wajib", "description" => "Standar Penelitian", "status" => true],
+            ["id" => "3", "title" => "Wajib", "description" => "Standar Tambahan", "status" => true],
+            ["id" => "4", "title" => "Wajib", "description" => "Standar Pengabdian Masyarakat", "status" => true]
         ];
 
         foreach ($data as $x) {
@@ -29,6 +29,7 @@ class StandardCategorySeeder extends Seeder
                 $m->id = $x['id'];
                 $m->title = $x['title'];
                 $m->description = $x['description'];
+                $m->status = $x['status'];
                 $m->save();
             }
         }

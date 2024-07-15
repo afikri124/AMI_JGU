@@ -152,11 +152,10 @@
                             `" href="{{ url('setting/manage_account/users/edit/` +
                             row.idd + `') }}">` + row.auditee.name + `</a>`;
 
-                        if (row.no_phone) {
-                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        if (row.auditee.no_phone) {
+                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
                         }
-
                         return html;
                     },
                 },

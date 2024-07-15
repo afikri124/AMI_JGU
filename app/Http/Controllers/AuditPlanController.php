@@ -37,35 +37,43 @@ class AuditPlanController extends Controller
     {
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-                'auditee_id'            => ['required'],
-                'date_start'            => ['required'],
-                'date_end'              => ['required'],
-                'location_id'           => ['required'],
-                'link'                  => ['string'],
+                'auditee_id'      => ['required'],
+                'date_start'      => ['required'],
+                'date_end'        => ['required'],
+                'location_id'     => ['required'],
+                'link'            => ['string'],
+                'department_id'   => ['required'],
             ]);
-            $data = AuditPlan::create([
-                'auditee_id'                => $request->auditee_id,
-                'date_start'                => $request->date_start,
-                'date_end'                  => $request->date_end,
-                'audit_status_id'           => '1',
-                'location_id'               => $request->location_id,
-                'department_id'             => $request->department_id,
-                'doc_path'                  => $request->doc_path,
-                'link'                      => $request->link,
-                'remark_docs'               => $request->remark_docs,
-            ]);
-            if ($request->auditor_id) {
-                foreach ($request->auditor_id as $auditorId) {
-                    AuditPlanAuditor::create([
-                        'audit_plan_id'         => $data->id,
-                        'auditor_id'            => $auditorId,
-                    ]);
-                }
-            }
-            if ($data) {
-                return redirect()->route('audit_plan.standard.index')->with('msg', 'Data (' . $request->auditee_id . ') pada tanggal ' . $request->date_start . ' BERHASIL ditambahkan!!');
+
+        $auditee = User::find($request->auditee_id);
+
+        $data = AuditPlan::create([
+            'auditee_id'      => $request->auditee_id,
+            'date_start'      => $request->date_start,
+            'date_end'        => $request->date_end,
+            'audit_status_id' => '1',
+            'location_id'     => $request->location_id,
+            'department_id'   => $request->department_id,
+            'doc_path'        => $request->doc_path,
+            'link'            => $request->link,
+            'remark_docs'     => $request->remark_docs,
+        ]);
+
+        if ($request->auditor_id) {
+            foreach ($request->auditor_id as $auditorId) {
+                AuditPlanAuditor::create([
+                    'audit_plan_id' => $data->id,
+                    'auditor_id'    => $auditorId,
+                ]);
             }
         }
+
+        if ($data) {
+            return redirect()->route('audit_plan.standard', ['id' => $data->id])
+            ->with('msg', 'Data (' . $auditee->name . ') pada tanggal ' . $request->date_start . ' sampai tanggal ' . $request->date_end . ' BERHASIL ditambahkan!!');
+            }
+        return redirect()->back()->with('msg', 'Gagal menambahkan data.');
+    }
 
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
@@ -97,24 +105,33 @@ class AuditPlanController extends Controller
 
     public function edit(Request $request, $id)
     {
+        // Mendapatkan data audit plan berdasarkan id
         $data = AuditPlan::findOrFail($id);
+
+        // Mendapatkan semua lokasi
         $locations = Location::orderBy('title')->get();
-        $auditor = User::with(['roles' => function ($query) {
+
+        // Mendapatkan auditor yang memiliki peran 'auditor'
+        $auditors = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
-            ->whereHas('roles', function ($q) use ($request) {
-                $q->where('name', 'auditor');
-            })
-            ->orderBy('name')->get();
-        return view('audit_plan.edit_audit', compact('data', 'locations', 'auditor'));
+        ->whereHas('roles', function ($q) {
+            $q->where('name', 'auditor');
+        })
+        ->orderBy('name')->get();
+
+        // Mendapatkan semua auditor_id dari tabel audit_plan_auditor yang terkait dengan audit_plan_id
+        $selectedAuditors = AuditPlanAuditor::where('audit_plan_id', $id)->pluck('auditor_id')->toArray();
+
+        return view('audit_plan.edit_audit', compact('data', 'locations', 'auditors', 'selectedAuditors'));
     }
+
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'date_start'    => 'required',
             'date_end'    => 'required',
-            'auditor_id' => 'required',
             'location_id'    => 'required',
         ]);
 
@@ -123,9 +140,15 @@ class AuditPlanController extends Controller
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
             'audit_status_id' => '2',
-            'auditor_id' => $request->auditor_id,
             'location_id' => $request->location_id,
         ]);
+
+        foreach ($request->auditor_id as $auditorId) {
+            AuditPlanAuditor::updateOrCreate(
+                ['audit_plan_id' => $id, 'auditor_id' => $auditorId]
+            );
+        }
+
         return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
     }
 
@@ -163,13 +186,13 @@ class AuditPlanController extends Controller
     {
         $data = AuditPlan::with([
             'auditee' => function ($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'no_phone');
             },
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
             'auditorId' => function ($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'no_phone');
             },
             'category' => function ($query) {
                 $query->select('id', 'description', 'status');
@@ -188,7 +211,6 @@ class AuditPlanController extends Controller
             )->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                //jika pengguna memfilter berdasarkan roles
                 if (!empty($request->get('select_lecture'))) {
                     $instance->whereHas('auditee', function ($q) use ($request) {
                         $q->where('auditee_id', $request->get('select_lecture'));
@@ -212,13 +234,7 @@ class AuditPlanController extends Controller
         $data = AuditPlanAuditor::findOrFail($id);
         $categoryId = StandardCategory::all();
         $criteriaId = StandardCriteria::all();
-        $auditor = AuditPlanAuditor::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-            ->whereHas('roles', function ($q) use ($request) {
-                $q->where('name', 'auditor');
-            })
-            ->where('audit_plan_id', $id)->orderBy('name')->get();
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         return view('audit_plan.standard.index', compact('data', 'auditor', 'categoryId', 'criteriaId'));
     }
 
@@ -227,7 +243,6 @@ class AuditPlanController extends Controller
         $data = AuditPlanAuditor::findOrFail($id);
         $category = StandardCategory::where('status', true)->get();
         $criteria = StandardCriteria::where('status', true)->get();
-
         $auditor = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
@@ -238,15 +253,7 @@ class AuditPlanController extends Controller
         ->orderBy('name')
         ->get();
 
-        // // Ambil kriteria yang sudah dipilih oleh auditor lain
-        // $selectedCriteria = AuditPlanAuditor::where('auditor_id', '!=', $id)
-        // ->pluck('standard_criteria_id')
-        // ->flatten()
-        // ->unique();
-
-        return view("audit_plan.standard.create", compact("data", "category", "criteria", "auditor"
-        // "selectedCriteria"
-        ));
+        return view("audit_plan.standard.create", compact("data", "category", "criteria", "auditor"));
     }
 
     public function update_std(Request $request, $id)
@@ -301,7 +308,7 @@ class AuditPlanController extends Controller
         $data = AuditPlanAuditor::where('audit_plan_id',$id)->
         with([
             'auditor' => function ($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'no_phone');
             }
         ])->orderBy("id");
 
