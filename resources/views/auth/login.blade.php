@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMI | LOGIN</title>
   <!--Stylesheet-->
+  <link rel="stylesheet" type="text/css" href="https://cdn.prinsh.com/NathanPrinsley-textstyle/nprinsh-stext.css"/>
   <style media="screen">
 body {
     margin: 0;
@@ -80,7 +81,7 @@ body {
     width: 300px;
 }
 form {
-     width: 300px;
+     width: 270px;
      padding: 10px;
      margin: 0 auto;
      background-color: #f9f9f9;
@@ -200,7 +201,7 @@ form {
             <div class="login-container">
                 <form method="POST" action="{{ route('login-ami') }}">
             @csrf            
-                <h2>LOGIN AUDIT MUTU INTERNAL</h2>
+            <h2><div class="nprinsley-text-redan">LOGIN | AMI</div></h2>
                 <form>
                     <!-- Email Address or Username-->
                     <div class="input-field">
