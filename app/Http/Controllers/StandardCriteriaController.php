@@ -308,12 +308,12 @@ class StandardCriteriaController extends Controller
                 $data->delete();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil dihapus! ✅'
+                    'message' => 'Berhasil dihapus!'
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal dihapus! ❌'
+                    'message' => 'Gagal dihapus!'
                 ]);
             }
         }
@@ -437,12 +437,12 @@ class StandardCriteriaController extends Controller
             $data->delete();
             return response()->json([
                 'status' => true,
-                'message' => 'Berhasil dihapus ✅'
+                'message' => 'Berhasil dihapus!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus ❌'
+                'message' => 'Gagal dihapus!'
             ]);
         }
     }
