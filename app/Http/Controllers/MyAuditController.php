@@ -121,13 +121,13 @@ class MyAuditController extends Controller{
     public function data(Request $request){
         $data = AuditPlan::
         with(['auditee' => function ($query) {
-                $query->select('id','name');
+                $query->select('id','name', 'no_phone');
             },
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
             'auditorId' => function ($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'no_phone');
             },
             ])->leftJoin('locations', 'locations.id' , '=', 'location_id')
             ->select('audit_plans.*',

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Add Audit Plan')
+@section('title', 'Create Audit Plan')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -95,7 +95,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
-                            <select name="location_id" id="location_id" class="form-select" value="{{ old('location_id') }}" required>
+                            <select name="location_id" id="location_id" class="form-select" required>
                                 <option value="">Select Location</option>
                                 @foreach($locations as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
@@ -108,7 +108,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-                            <select name="department_id" id="department_id" class="form-select" value="{{ old('department_id') }}" required>
+                            <select name="department_id" id="department_id" class="form-select" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>

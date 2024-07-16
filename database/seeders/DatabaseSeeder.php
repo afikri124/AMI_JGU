@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             StandardCategorySeeder::class,
             StandardCriteriaSeeder::class,
             IndicatorSeeder::class,
+            SubIndicatorSeeder::class,
+            ReviewDocumentSeeder::class
         ]);
     }
 }

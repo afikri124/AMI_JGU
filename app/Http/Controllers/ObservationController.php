@@ -6,20 +6,21 @@ use App\Mail\CommentDocs;
 use App\Mail\sendEmail;
 use App\Models\AuditPlan;
 use App\Models\AuditPlanAuditor;
+use App\Models\AuditPlanCategory;
 use App\Models\AuditPlanCriteria;
-use App\Models\CategoriesAmi;
-use App\Models\CriteriasAmi;
 use App\Models\Department;
 use App\Models\Indicator;
 use App\Models\Location;
+use App\Models\ObservationChecklist;
 use Illuminate\Http\Request;
 use App\Models\Observation;
+use App\Models\ObservationCategory;
+use App\Models\ObservationCriteria;
 use App\Models\ReviewDocs;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\SubIndicator;
 use App\Models\User;
-use App\Models\UserStandard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
@@ -36,27 +37,32 @@ class ObservationController extends Controller
                 $q->where('name', 'auditee');
             })
             ->orderBy('name')->get();
+
         return view('observations.index', compact('data', 'auditee'));
     }
 
     public function create(Request $request, $id)
     {
-        $audit_plan = AuditPlan::with('auditStatus')->get();
         $locations = Location::orderBy('title')->get();
-        $department = Department::orderBy('name')->get();
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
-        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         $data = AuditPlan::findOrFail($id);
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->get();
-        $categories = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->get();
+        // Ambil auditor_id dari pengguna yang sedang login
+        $auditorId = Auth::user()->id; // Ganti ini sesuai dengan cara mendapatkan auditor_id
+        // Tarik data sesuai dengan auditor yang sedang login
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->firstOrFail();
+
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+
         // Ambil data StandardCriteria ID dari CriteriasAmi
-        $standardCriteriasIds = $criterias->pluck('standard_criteria_id');
-        // Ambil indicator berdasarkan standard_criteria_id
+        $standardCriteriasIds = $criterias->pluck('id');
         $indicators = Indicator::whereIn('standard_criteria_id', $standardCriteriasIds)->get();
+
         // Ambil sub_indicator berdasarkan indicator_id dari indicators yang didapat
         $subIndicators = SubIndicator::whereIn('indicator_id', $indicators->pluck('id'))->get();
         $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicators->pluck('id'))->get();
+
         foreach ($subIndicators as $sub) {
             $reviewDocs = ReviewDocs::where('indicator_id', $sub->indicator_id)
                 ->where('standard_criteria_id', $sub->standard_criteria_id)
@@ -65,7 +71,20 @@ class ObservationController extends Controller
             $sub->reviewDocs = $reviewDocs; // Attach review documents to each sub indicator
         }
 
-    return view('observations.make', compact('criterias', 'categories', 'indicators', 'subIndicators', 'auditors','reviewDocs', "data", "locations", "department", "category", "criteria", "audit_plan"));
+        // Ambil auditor sesuai dengan auditor_id dari pengguna yang sedang login
+        $auditor = User::with(['roles' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'auditor');
+            })
+            ->where('id', $auditorId) // Menggunakan auditor_id yang tepat
+            ->orderBy('name')
+            ->get();
+
+        $department = Department::where('id', $data->department_id)->orderBy('name')->get();
+
+        return view('observations.make', compact('auditorData', 'criterias', 'categories', 'indicators', 'subIndicators', 'auditor', 'reviewDocs', 'data', 'locations', 'department', 'category', 'criteria'));
     }
 
     public function make(Request $request, $id)
@@ -73,19 +92,61 @@ class ObservationController extends Controller
         if ($request->isMethod('POST')) {
             $this->validate($request, [
                 'audit_plan_id' => ['required'],
-                'auditor_id' => ['string'],
+                'audit_plan_auditor_id' => ['required'],
+                'location_id' => ['required'],
+                'remark_plan' => ['required'],
+                'audit_plan_category_id' => ['required', 'array'],
+                'audit_plan_criteria_id' => ['required', 'array'],
+                'sub_indicator_id' => ['required', 'array'],
+                'remark_description' => ['required', 'array'],
+                'obs_checklist_option' => ['required', 'array'],
+                'remark_success_failed' => ['required', 'array'],
+                'remark_recommend' => ['required', 'array'],
+                'remark_upgrade_repair' => ['required', 'array'],
+                'person_in_charge' => ['required', 'array'],
             ]);
 
-            $data = Observation::create([
+            // Create Observation
+            $observation = Observation::create([
                 'audit_plan_id' => $request->audit_plan_id,
-                'auditor_id' => $request->auditor_id,
+                'audit_plan_auditor_id' => $request->audit_plan_auditor_id,
                 'location_id' => $request->location_id,
+                'remark_plan' => $request->remark_plan,
             ]);
 
-            if ($data) {
-                return redirect()->route('observations.index')->with('msg', 'Data Auditee (' . $request->auditee_id . ') pada tanggal ' . $request->date . ' BERHASIL ditambahkan!!');
+            // Create Observation Categories and Criteria
+            foreach ($request->audit_plan_category_id as $index => $categoryId) {
+                $observationCategory = ObservationCategory::create([
+                    'observation_id' => $observation->id,
+                    'audit_plan_category_id' => $categoryId,
+                    'audit_plan_criteria_id' => $request->audit_plan_criteria_id[$index],
+                ]);
+
+                ObservationCriteria::create([
+                    'observation_id' => $observation->id,
+                    'observation_category_id' => $observationCategory->id,
+                ]);
+            }
+
+            // Create Observation Checklists
+            foreach ($request->sub_indicator_id as $index => $subIndicatorId) {
+                ObservationChecklist::create([
+                    'observation_id' => $observation->id,
+                    'sub_indicator_id' => $subIndicatorId,
+                    'remark_description' => $request->remark_description[$index],
+                    'obs_checklist_option' => $request->obs_checklist_option[$index],
+                    'remark_success_failed' => $request->remark_success_failed[$index],
+                    'remark_recommend' => $request->remark_recommend[$index],
+                    'remark_upgrade_repair' => $request->remark_upgrade_repair[$index],
+                    'person_in_charge' => $request->person_in_charge[$index],
+                ]);
+            }
+
+            if ($observation) {
+                return redirect()->route('observations.index')->with('msg', 'Observasi berhasil di laksanakan!!');
             }
         }
+        return back()->withErrors(['msg' => 'Terjadi kesalahan saat menambahkan data.'])->withInput();
     }
 
     public function edit($id)
@@ -95,6 +156,7 @@ class ObservationController extends Controller
         $data->link;
         return view('observations.edit', compact('data'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -144,7 +206,7 @@ class ObservationController extends Controller
     {
         $data = AuditPlan::with([
             'auditee' => function ($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'no_phone');
             },
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');

@@ -8,18 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Observation extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    public $incrementing = false;
+    public $timestamps = true;
+    public $incrementing = true;
     protected $fillable = [
         'id',
         'audit_plan_id',
-        'auditor_id',
+        'audit_plan_auditor_id',
         'location_id',
+        'remark_plan'
     ];
 
     public function auditPlan()
     {
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     public function auditor()

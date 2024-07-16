@@ -64,10 +64,20 @@ class UserRolePermissionSeeder extends Seeder
             $role_approver = Role::create(['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Apporverd']);
             //set default role
             $admin->assignRole('admin');
+            $admin->assignRole('auditor');
+            $admin->assignRole('auditee');
+
             $auditee->assignRole('auditee');
+            $auditee->assignRole('auditor');
+
             $auditor->assignRole('auditor');
+            $auditor->assignRole('auditee');
+
             $lpm->assignRole('lpm');
+            $lpm->assignRole('auditee');
+
             $approver->assignRole('approver');
+            $approver->assignRole('admin');
             //create permission
             $permission = Permission::create(['name' => 'log-viewers.read']);
             //set direct permissions

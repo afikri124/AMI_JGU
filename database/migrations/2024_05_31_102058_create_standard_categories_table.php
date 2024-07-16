@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('status')->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_required')->default(false);
+            $table->timestamps();
         });
     }
 

@@ -156,15 +156,13 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-danger" title="` + row.auditor.name +
-                            `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.auditor.name + `</a>`;
+                        var html = `<a class="text-danger" title="` + row.auditor.name + ` (` + row.auditor.no_phone + `)"
+                            href="{{ url('setting/manage_account/users/edit/` + row.idd + `') }}" style="font-size: 1,3em;">` + row.auditor.name + `</a>`;
 
-                        if (row.no_phone) {
-                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        if (row.auditor.no_phone) {
+                            html += ` <a href="tel:` + row.auditor.no_phone + `" class="text-muted" style="font-size: 0,9em; margin-left: 10px;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.auditor.no_phone + `</a>`;
                         }
-
                         return html;
                     },
                 },
