@@ -130,18 +130,31 @@ class AuditPlanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'date_start'    => 'required',
-            'date_end'    => 'required',
-            'location_id'    => 'required',
+            'date_start' => 'required',
+            'date_end' => 'required',
+            'location_id' => 'required',
         ]);
 
         $data = AuditPlan::findOrFail($id);
-        $data->update([
+
+        // Determine if date_start or date_end has changed
+        $isDateChanged = $data->date_start !== $request->date_start || $data->date_end !== $request->date_end;
+
+        // Prepare update data
+        $updateData = [
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
-            'audit_status_id' => '2',
             'location_id' => $request->location_id,
-        ]);
+        ];
+
+        // Only change audit_status_id if the dates are changed
+        if ($isDateChanged) {
+            $updateData['audit_status_id'] = '2';
+        } else {
+            $updateData['audit_status_id'] = $data->audit_status_id; // Keep the existing status
+        }
+
+        $data->update($updateData);
 
         foreach ($request->auditor_id as $auditorId) {
             AuditPlanAuditor::updateOrCreate(
@@ -152,7 +165,8 @@ class AuditPlanController extends Controller
         return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
     }
 
-    // Delete Audit Plane
+
+    // Delete Audit Plan
     public function delete(Request $request)
 {
     $auditPlan = AuditPlan::find($request->id);
@@ -228,14 +242,13 @@ class AuditPlanController extends Controller
 
 
 
-    // CHOOSE STANDARD AUDIT
+
+    // ------------- CHOOSE STANDARD AUDITOR ---------------
     public function standard(Request $request, $id)
     {
         $data = AuditPlanAuditor::findOrFail($id);
-        $categoryId = StandardCategory::all();
-        $criteriaId = StandardCriteria::all();
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
-        return view('audit_plan.standard.index', compact('data', 'auditor', 'categoryId', 'criteriaId'));
+        return view('audit_plan.standard.index', compact('data', 'auditor'));
     }
 
     public function create(Request $request, $id)

@@ -17,30 +17,6 @@ body {
     background-color: #f4f4f4;
 }
 
-.split-screen {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.left, .right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.left {
-    flex: 400px;
-    background-color: #fff;
-
-}
-
-.image-container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
 .image-container img {
     width: 100%;
     height: 100%;
