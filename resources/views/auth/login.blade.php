@@ -17,7 +17,7 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-600px p-10">
 							<!--begin::Form-->
-							<form method="POST" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login') }}">
+							<form method="POST" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login3') }}">
 							@csrf
 							<div class="text-center mb-11">
 									<h1 class="text-dark fw-bolder mb-3">Sign In</h1>

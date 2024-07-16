@@ -8,8 +8,6 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <!
-<-- Favicons -->
   <link href="assets/img/favicon.ico" rel="icon">
 
   <!-- Fonts -->
@@ -54,6 +52,7 @@
             <li><a href="#visi&misi">VISI & MISI</a></li>
             <li><a href="#contact">CONTACT</a></li>
             <li><a href="login"><button type="button" class="btn btn-danger">Login </button></a></li>
+            <li><a href="login-ami"><button type="button" class="btn btn-danger">Login </button></a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
