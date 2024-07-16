@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-})->name('index');
+})->name('home');
 // Route::get('/', [SendEmailController::class, 'index']);
 
 require __DIR__ . '/auth.php';
