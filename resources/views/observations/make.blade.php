@@ -81,12 +81,8 @@
 </style>
 @endsection
 
-@section('breadcrumb-title')
-<!-- <h3>User Profile</h3> -->
-@endsection
-
 @section('content')
-<div class="bs-stepper wizard-icons wizard-icons-example">
+<div class="bs-stepper wizard-icons wizard-icons-example mt-2 p-3">
   <div class="bs-stepper-header">
     <div class="step" data-target="#account-details">
       <button type="button" class="step-trigger">
@@ -110,8 +106,7 @@
     </div>
   </div>
   <div class="bs-stepper-content">
-  <form id="form-add-new-record" method="POST" action="{{ route('make', $data->id) }}" enctype="multipart/form-data">
-  @csrf
+
     <!-- Account Details -->
       <div id="account-details" class="content">
         <div class="content-header mb-3">
@@ -125,7 +120,7 @@
           </div>
           <div class="col-md-6">
             <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-            <select name="auditor_id" id="auditor_id" class="form-select bg-user" readonly>
+            <select name="auditor_id" id="auditor_id" class="form-select select2 bg-user" readonly>
                 @foreach($auditor as $role)
                     <option value="{{$role->id}}" {{ $auditorData->auditor_id == $role->id ? 'selected' : '' }}>
                         {{$role->name}}
@@ -136,7 +131,7 @@
           <div class="col-md-6">
             <div class="form-group">
             <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-            <select name="location_id" id="location_id" class="form-select" required>
+            <select name="location_id" id="location_id" class="form-select select2" required>
             <option value="">Select Location</option>
             @foreach($locations as $d)
                 <option value="{{$d->id}}"
@@ -149,7 +144,7 @@
         <div class="col-md-6">
             <div class="form-group">
             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-            <select name="department_id" id="department_id" class="form-select bg-user" readonly>
+            <select name="department_id" id="department_id" class="form-select select2 bg-user" readonly>
             @foreach($department as $role)
                     <option value="{{$role->id}}" {{ $data->department_id == $role->id ? 'selected' : '' }}>
                         {{$role->name}}
@@ -163,7 +158,7 @@
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
 
-            {{-- <!-- Tombol Next dengan JavaScript Validasi -->
+            <!-- Tombol Next dengan JavaScript Validasi -->
             <button id="btnNext" class="btn btn-primary btn-next" disabled>
               <span class="align-middle d-sm-inline-block d-none">Next</span>
               <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
@@ -186,41 +181,30 @@
                       });
                   });
               });
-            </script> --}}
+            </script>
 
-            <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+            <!-- <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button> -->
           </div>
         </div>
       </div>
 
+
+
       <div id="address" class="content">
       <div class="content-header mb-3">
         <small>Category Standard</small>
-        @foreach ($categories as $category)
-            <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
-                {{ $category->category->description }} <!-- Pastikan relasi category sudah ada -->
-            </h6>
-        @endforeach
+
     <p></p>
 
     <small>Criteria Standard</small>
-    @foreach ($criterias as $criteria)
-            <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
-                {{ $criteria->criteria->title }}
-            </h6>
-        @endforeach
-</div>
 
-@foreach ($criterias as $criteria)
-    <h6><b>{{ $criteria->criteria->title }}</b></h6>
+    </div>
 
-    @foreach ($subIndicators as $sub)
-        @if ($sub->indicator && $sub->indicator->standard_criteria_id == $criteria->id)
-            <table class="table table-bordered">
+
+        <table class="table table-bordered">
         <tr>
             <th><b>Indicator</b></th>
             <td>
-                <!-- Display the drive link -->
                 <a href="{{ $data->link }}" target="_blank">( {{ $data->link }} )</a>
                 @error('link')
                 <span class="invalid-feedback" role="alert">
@@ -231,8 +215,7 @@
         </tr>
         <tr>
             <td style="width: 60%">
-                {{ $sub->indicator->name ?? 'No Indicator Found' }}
-            </td>
+                </td>
             <td style="width: 35%">
             <div id="data-sets">
             <div id="data-set-1">
@@ -257,7 +240,6 @@
         <tr>
             <td style="width: 60%">
                 <strong>Sub Indicator</strong>
-                <p>{!! $sub->name !!}</p>
             </td>
             <td>
             <div class="form_control">
@@ -269,9 +251,7 @@
         <tr>
             <td style="width: 60%" id="review-docs">
                 <strong>Review Document</strong>
-                @foreach ($sub->reviewDocs as $reviewDoc)
-                    <p>{!! $reviewDoc->name !!}</p>
-                @endforeach
+
             </td>
             <td style="vertical-align: top;">
                 <div>
@@ -317,9 +297,7 @@
             </td>
         </tr>
     </table>
-    @endif
-    @endforeach
-    @endforeach
+
           <div class="col-12 d-flex justify-content-between">
           <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
             <span class="align-middle d-sm-inline-block d-none">Previous</span>

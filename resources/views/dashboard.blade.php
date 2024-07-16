@@ -72,21 +72,21 @@ h3{
 @section('content')
 <div class="app-calendar-wrapper">
     <div class="row">
-        <div class="col-xl-6 col-lg-12 xl-50 morning-sec box-col-12">
+        <div class="col-xl-7 col-lg-12 xl-50 morning-sec box-col-12">
             <div class="card profile-greeting bg-card">
                 <div class="card-body pb-0">
                     <div class="media">
                         <div class="media-body">
                             <div class="greeting-user m-0">
                                 <div class="greeting-container">
-                                    <h4 class="f-w-600 font-light m-0 mb-3" id="greeting">Good Morning</h4>
+                                    <h4 class="f-w-600 font-light m-0 mb-3" id="greeting"></h4>
                                     <h4><span id="txt"></span></h4>
                                 </div>
                                 <h3>{{ Auth::user()->name }}</h3>
                                 <i class="emaill">{{ Auth::user()->email }}</i>
                             </div>
                         </div>
-                     
+
                     </div>
                     <div class="cartoon"><img class="img-fluid" src="{{asset('/assets/img/cartoon.png')}}"
                             style="max-width: 90%;" alt="">
@@ -94,7 +94,7 @@ h3{
                 </div>
             </div>
         </div>
-        <div class="col-xl-6 col-lg-12 xl-60 calendar-sec box-col-6">
+        <div class="col-xl-5 col-lg-12 xl-60 calendar-sec box-col-6">
             <div class="card gradient-primary o-hidden">
                 <div class="card-body">
                     <div class="default-datepicker">
@@ -105,7 +105,7 @@ h3{
         </div>
     </div>
 
-   
+
 </div>
 @endsection
 
@@ -170,9 +170,8 @@ h3{
                         </div>
                     </div>
                 </div>
-                <!-- Button trigger modal -->
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal{{ $x->id }}" tabindex="-1"
+                <-- Modal -->
+                <!-- <div class="modal fade" id="exampleModal{{ $x->id }}" tabindex="-1"
                     aria-labelledby="exampleModalLabel{{ $x->id }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">

@@ -52,25 +52,6 @@ class ObservationController extends Controller
         // Tarik data sesuai dengan auditor yang sedang login
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->firstOrFail();
 
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-
-        // Ambil data StandardCriteria ID dari CriteriasAmi
-        $standardCriteriasIds = $criterias->pluck('id');
-        $indicators = Indicator::whereIn('standard_criteria_id', $standardCriteriasIds)->get();
-
-        // Ambil sub_indicator berdasarkan indicator_id dari indicators yang didapat
-        $subIndicators = SubIndicator::whereIn('indicator_id', $indicators->pluck('id'))->get();
-        $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicators->pluck('id'))->get();
-
-        foreach ($subIndicators as $sub) {
-            $reviewDocs = ReviewDocs::where('indicator_id', $sub->indicator_id)
-                ->where('standard_criteria_id', $sub->standard_criteria_id)
-                ->get();
-
-            $sub->reviewDocs = $reviewDocs; // Attach review documents to each sub indicator
-        }
-
         // Ambil auditor sesuai dengan auditor_id dari pengguna yang sedang login
         $auditor = User::with(['roles' => function ($query) {
                 $query->select('id', 'name');
@@ -84,7 +65,7 @@ class ObservationController extends Controller
 
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();
 
-        return view('observations.make', compact('auditorData', 'criterias', 'categories', 'indicators', 'subIndicators', 'auditor', 'reviewDocs', 'data', 'locations', 'department', 'category', 'criteria'));
+        return view('observations.make', compact('auditorData', 'auditor', 'data', 'locations', 'department', 'category', 'criteria'));
     }
 
     public function make(Request $request, $id)

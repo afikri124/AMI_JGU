@@ -52,7 +52,7 @@
                                         <p></p>
                             <div class="col-sm-12 fv-plugins-icon-container">
                                 <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                                <select name="auditor_id[]" id="auditor_id" class="form-select" multiple required>
+                                <select name="auditor_id[]" id="auditor_id" class="form-select select2" multiple required>
                                     <option value="">Select Auditor</option>
                                     @foreach($auditors as $auditor)
                                         <option value="{{ $auditor->id }}" {{ in_array($auditor->id, $selectedAuditors) ? 'selected' : '' }}>
@@ -64,7 +64,7 @@
                             <p></p>
                             <div class="col-sm-12 fv-plugins-icon-container">
                                 <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-                                <select name="location_id" id="location_id" class="form-select" required>
+                                <select name="location_id" id="location_id" class="form-select select2" required>
                                     <option value="">Select Location</option>
                                     @foreach($locations as $d)
                                         <option value="{{ $d->id }}" {{ $d->id == $data->location_id ? 'selected' : '' }}>
@@ -90,6 +90,10 @@
 $(document).ready(function() {
     $('#auditor_id').select2({
         placeholder: "Select Auditor",
+        allowClear: true
+    });
+    $('#location_id').select2({
+        placeholder: "Select Location",
         allowClear: true
     });
 

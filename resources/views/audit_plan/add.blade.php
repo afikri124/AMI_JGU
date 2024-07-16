@@ -60,7 +60,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="auditee_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
-                            <select name="auditee_id" id="auditee_id" class="form-select" value="{{ old('auditee_id') }}" required>
+                            <select name="auditee_id" id="auditee_id" class="form-select select2" value="{{ old('auditee_id') }}" required>
                                 <option value="">Select Auditee</option>
                                 @foreach($auditee as $role)
                                 <option value="{{$role->id}}" {{ (in_array($role->id, old('auditee') ?? []) ? "selected": "") }}>
@@ -95,7 +95,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
-                            <select name="location_id" id="location_id" class="form-select" required>
+                            <select name="location_id" id="location_id" class="form-select select2" required>
                                 <option value="">Select Location</option>
                                 @foreach($locations as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
@@ -108,7 +108,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-                            <select name="department_id" id="department_id" class="form-select" required>
+                            <select name="department_id" id="department_id" class="form-select select2" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
@@ -122,7 +122,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
-                            <select id="periode" name="periode" class="form-select" value="{{ old('periode') }}" required>
+                            <select id="periode" name="periode" class="form-select select2" value="{{ old('periode') }}" required>
                             <option value="">Select Periode</option>
                             <?php
                             $startYear = 2019;
@@ -168,18 +168,24 @@
 <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $('#standard_category_id').select2({
-            placeholder: " Select Categories",
-            allowClear: true
-        });
-
-        $('#standard_criteria_id').select2({
-            placeholder: "  Select Criterias",
-            allowClear: true
-        });
-
         $('#auditor_id').select2({
             placeholder: "  Select Auditor",
+            allowClear: true
+        });
+        $('#location_id').select2({
+            placeholder: "  Select Location",
+            allowClear: true
+        });
+        $('#department_id').select2({
+            placeholder: "  Select Department",
+            allowClear: true
+        });
+        $('#auditee_id').select2({
+            placeholder: "  Select Auditee",
+            allowClear: true
+        });
+        $('#periode').select2({
+            placeholder: "  Select Periode",
             allowClear: true
         });
     });
