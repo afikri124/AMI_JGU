@@ -59,11 +59,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; 
+    height: 100px;
 }
 
 .animated-logo {
-    width: 310px; 
+    width: 310px;
     height: 100px;
     animation: moveUpDown 1.5s infinite alternate;
 }
@@ -183,7 +183,7 @@ form {
 .alternative-login .btn.google {
     background-color: #4285f4;
 }
-  </style>  
+  </style>
 </head>
 <body>
     <div class="split-screen">
@@ -200,7 +200,7 @@ form {
             </div>
             <div class="login-container">
                 <form method="POST" action="{{ route('login-ami') }}">
-            @csrf            
+            @csrf
             <h2><div class="nprinsley-text-redan">LOGIN | AMI</div></h2>
                 <form>
                     <!-- Email Address or Username-->

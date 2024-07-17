@@ -1,19 +1,24 @@
 @extends('layouts.master')
-@section('title', 'Edit Profile')
-@section('breadcrumb-items')
-    <span class="text-muted fw-light"></span>
+@section('title', 'Profile')
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 @endsection
 
+@section('style')
+
+@endsection
+
+
 @section('content')
-    <div class="content-wrapper">
-
-        <!-- Content -->
-
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="card mb-4">
-                <h5 class="card-header">Profile Details</h5>
-                <!-- Account -->
-                <div class="card-body">
+<div class="container-fluid">
+    <div class="row edit-profile">
+        <div class="col-xl-6">
+            <div class="card">
+                
+            <div class="card-body">
                     @if (session('msg'))
                         <div class="alert alert-primary alert-dismissible" role="alert">
                             {{ session('msg') }}
@@ -25,7 +30,7 @@
                             width="100" id="uploadedAvatar">
                         <div class="button-wrapper">
                             <label for="upload" class="btn btn-info me-2 mb-4" tabindex="0">
-                                <span class="d-none d-sm-block">Upload new photo</span>
+                                <span class="d-none d-sm-block ">Upload new photo</span>
                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                 <input type="file" id="upload" class="account-file-input" hidden=""
                                     accept="image/png, image/jpeg">
@@ -41,139 +46,212 @@
                 </div>
                 <hr class="my-0">
                 <div class="card-body">
-                    <form action="" method="POST">
-                        <div class="row">
-                            @csrf
-                            <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                                <label class="form-label"><b>Nama</b></label><i class="text-danger">*</i>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" value="{{ Auth::user()->name }}" placeholder="Nama Lengkap" autofocus/>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                <div
-                                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                </div>
-                            </div>
-                            <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                                <label class="form-label"><b>Username</b></label><i class="text-danger">*</i>
-                                <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                    name="username" value="{{ Auth::user()->username }}" placeholder="NIK/NIM"
-                                    @if (Auth::user()->username != null) readonly title="Silahkan hubungi Admin" @endif />
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                @if (Auth::user()->username == null)
-                                    <span class="text-danger">
-                                        <strong>Isi Username/NIM Anda</strong>
-                                    </span>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-user"></i>
+                        <span class="fw-semibold mx-2">Nama:</span>
+                        <div class="col-sm-6">
+                            <b>
+                                {{ Auth::user()->front_title }}
+                                {{ Auth::user()->name }}
+                                {{ Auth::user()->back_title }}
+                            </b>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-user-check"></i>
+                        <span class="fw-semibold mx-2">Username:</span>
+                        <div class="col-sm-6">
+                            <span>{{ Auth::user()->username }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-envelope"></i>
+                        <span class="fw-semibold mx-2">Email:</span>
+                        <div class="col-sm-6">
+                            <span class="text-primary">{{ Auth::user()->email }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-mobile-alt"></i>
+                        <span class="fw-semibold mx-2">Phone:</span>
+                        <div class="col-sm-6">
+                            <span>{{ Auth::user()->no_phone }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-briefcase"></i>
+                        <span class="fw-semibold mx-2">NIDN:</span>
+                        <div class="col-sm-6">
+                            <span>{{ Auth::user()->nidn }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-buildings"></i>
+                        <span class="fw-semibold mx-2">Department:</span>
+                        <div class="col-sm-6">
+                        <span>{{ Auth::user()->departments ? Auth::user()->departments->name : 'No Department' }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-user"></i>
+                        <span class="fw-semibold mx-2">Job:</span>
+                        <div class="col-sm-6">
+                            <span>{{ Auth::user()->job }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-male-sign"></i>
+                        <span class="fw-semibold mx-2">Gender:</span>
+                        <div class="col-sm-6">
+                            <span>{{ Auth::user()->gender }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                    <li class="d-flex align-items-center mb-3"><i class="bx bx-face"></i>
+                        <span class="fw-semibold mx-2">Role Access:</span>
+                        <div class="col-sm-6">
+                            <span>
+                                @if(Auth::user()->roles->count() == 0)
+                                <p class="p-0 mb-0 text-danger">You don't have access rights, please contact the
+                                    administrator!</p>
+                                @else
+                                @foreach(Auth::user()->roles as $x)
+                                <b>{{ $x->name }}</b>
+                                @endforeach
                                 @endif
-                                <div
-                                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                </div>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="email" class="form-label"><b>Email</b></label><i class="text-danger">*</i>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email"
-                                    value="{{ old('email') == null ? Auth::user()->email : old('email') }}" />
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="nidn" class="form-label"><b>NIDN</b></label><i class="text-danger">*</i>
-                                <input type="number" class="form-control @error('nidn') is-invalid @enderror"
-                                    id="nidn" name="nidn" placeholder="Input your NIDN"
-                                    value="{{ old('nidn') == null ? Auth::user()->nidn : old('nidn') }}" />
-                                @error('nidn')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label"><b>Front Title</b></label><i class="text-danger">*</i>
-                                <input type="text" class="form-control @error('front_title') is-invalid @enderror"
-                                    name="front_title" placeholder="Input your Front Title" value="{{ Auth::user()->front_title }}" />
-                                @error('front_title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label"><b>Back Title</b></label><i class="text-danger">*</i>
-                                <input type="text" class="form-control @error('back_title') is-invalid @enderror"
-                                    name="back_title" placeholder="Input your Back Title" value="{{ Auth::user()->back_title }}" />
-                                @error('back_title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="no_phone" class="form-label"><b>Phone Number</b></label><i class="text-danger">*</i>
-                                <input type="number" class="form-control @error('no_phone') is-invalid @enderror"
-                                    id="no_phone" name="no_phone" placeholder="Input your Phone Number"
-                                    value="{{ old('no_phone') == null ? Auth::user()->no_phone : old('no_phone') }}" />
-                                @error('no_phone')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3 col-md-6">
-                            <label class="form-label" for="basicDate"><b>Gender</b></label><i class="text-danger">*</i>
-                            <div class="input-group input-group-merge has-validation">
-                                <select class="form-select @error('gender') is-invalid @enderror select2-modal"
-                                    name="gender" data-placeholder="-- Select --">
-                                    <option value="">-- Select --</option>
-                                    <option value="M" {{ ("M"==old('gender') ? "selected": "") }}>Male</option>
-                                    <option value="F" {{ ("F"==old('gender') ? "selected": "") }}>Female</option>
-                                </select>
-                                @error('gender')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
+                            </span>
                         </div>
-                            <div class="mb-3 col-md-6">
-                            <div class="form-group">
-                            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-                            <select name="department_id" id="department_id" class="form-select" required>
-                                <option value="">Select Department</option>
-                                @foreach($departments as $d)
-                                    <option value="{{$d->id}}"
-                                        {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
-                                        {{$d->name}}</option>
-                                    @endforeach
-                            </select>
-                            </div>
-                        </div>
-                            <div class="card-footer text-end">
-                            <button class="btn btn-danger" type="submit">Save</button>
-                            <a class="btn btn-outline-secondary" href="{{ route('dashboard') }}">Back</a>
-                        </div>
-                        <input type="hidden">
-                    </form>
+                    </div>
                 </div>
-                <!-- /Account -->
             </div>
         </div>
-
-
-
+        <div class="col-xl-6">
+            <form class="card" method="POST" action="{{ route('profile.update') }}">
+                @csrf
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Update Profile</h4>
+                    <div class="card-options"><a class="card-options-collapse" href="#"
+                            data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a
+                            class="card-options-remove" href="#" data-bs-toggle="card-remove"><i
+                                class="fe fe-x"></i></a>
+                    </div>
+                    
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label class="form-label">Name</label>
+                                <input class="form-control" type="text" name="name" value="{{ Auth::user()->name }}" >
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Front title</label>
+                                <input class="form-control" type="text" name="front_title" value="{{ Auth::user()->front_title }}" >
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Back title</label>
+                                <input class="form-control" type="text" name="back_title" value="{{ Auth::user()->back_title }}" >
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input class="form-control" type="text" name="username" value="{{ Auth::user()->username }}" >
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input class="form-control" type="email" name="email" value="{{ Auth::user()->email }}"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label class="form-label">Phone <i>(ex. 62xxxxxxxxx)</i></label>
+                                <input class="form-control" type="number" name="no_phone" id="phone" value="{{ Auth::user()->no_phone }}"  placeholder="62xxxxxxxxxx">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label class="form-label">NIDN</label>
+                                <input class="form-control" type="number" name="nidn" id="nidn" value="{{ Auth::user()->nidn }}"  >
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                        <div class="col-sm-12">
+                        <div class="mb-3">
+                            <label class="form-label">Department</label>
+                            <select name="department_id" id="department_id" class="form-select select2">
+                                <option value="">Select Department</option>
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}" {{ Auth::user()->department_id == $department->id ? 'selected' : '' }}>
+                                        {{ $department->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                                <label class="form-label">Job</label>
+                                <input class="form-control" type="text" name="job" value="{{ Auth::user()->job }}" >
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select @error('gender') is-invalid @enderror select2" 
+                                    name="gender" data-placeholder="-- Select --">
+                                    <option value="{{ Auth::user()->gender }}">-- Select --</option>
+                                    <option value="M" {{ ("M"==$user->gender ? "selected": "") }}>Male</option>
+                                    <option value="F" {{ ("F"==$user->gender ? "selected": "") }}>Female</option>
+                            </select>
+                        </div>
+                        @foreach ($errors->all() as $error)
+                        <p class="text-danger m-0">{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    
+                </div>
+                @method('PUT')
+                <div class="card-footer text-end">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <!-- / Content -->
+</div>
+@endsection
 
-    <div class="content-backdrop fade"></div>
-    </div>
+@section('script')
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+
+    function remove_zero(){
+    var x = document.getElementById("phone").value;
+    let number = Number(x);
+    if(number == 0){
+        document.getElementById("phone").value = null;
+    } else {
+        document.getElementById("phone").value = number;
+    }
+}
+</script>
 @endsection

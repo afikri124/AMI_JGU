@@ -43,10 +43,17 @@
     {
         color: white;
     }
-
+    .container,.container-fluid,.container-sm,.container-md,.container-lg,.container-xl,.container-xxl {
+    padding-right: unset;
+    padding-left: unset;
+    }
+    .container-p-y:not([class^=pt-]):not([class*=" pt-"]) {
+    padding-top: 0.9em !important;
+}
 </style>
 @endsection
 
+<div class="container-xxl flex-grow-1 container-p-y">
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">

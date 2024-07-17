@@ -18,6 +18,7 @@ use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class RoleController extends Controller
 {
@@ -131,7 +132,7 @@ class RoleController extends Controller
         $guard_names = Role::select('guard_name')->groupBy('guard_name')->get();
 
         $role = Role::with('permissions')->find($id);
-        \DB::statement("SET SQL_MODE=''");
+        FacadesDB::statement("SET SQL_MODE=''");
         $role_permission = Permission::select('name','id')->groupBy('name')->orderBy('name')->get();
         $custom_permission = array();
         foreach($role_permission as $per){

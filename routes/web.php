@@ -35,8 +35,9 @@ require __DIR__ . '/auth.php';
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 //Profile
 Route::middleware(['auth'])->group(function () {
-    Route::get('profile/index', [ProfileController::class, 'edit'])->name('profile.index');
-    Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile/update', [ProfileController::class, 'update_profile'])->name('profile.update');
+    Route::post('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.updateImage');
 });
 //setting
 Route::middleware(['auth'])->group(function () {

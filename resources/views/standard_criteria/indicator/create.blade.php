@@ -21,7 +21,7 @@
                 <form id="form-add-new-record" method="POST" action="{{ route('standard_criteria.indicator.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
-                        <label for="standard-_criteria_id" class="form-label  input-sm select2">Select Criteria</label>
+                        <label for="standard-_criteria_id" >Select Criteria</label>
                         <div class="form-group">
                                 <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
                                     <option value="">Select Criterias</option>
@@ -56,7 +56,18 @@
 @section('script')
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+
+    document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('numForms').addEventListener('input', function() {
         var numForms = this.value;
         var container = document.getElementById('dynamic-form-container');
