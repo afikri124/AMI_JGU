@@ -11,8 +11,8 @@ class AuditPlan extends Model
 
     // Menentukan nama tabel
     protected $table = 'audit_plans';
-
-    // Menentukan kolom-kolom yang dapat diisi
+    public $timestamps = true;
+    public $incrementing = true;
     protected $fillable = [
         'auditee_id',
         'date_start',
@@ -24,7 +24,7 @@ class AuditPlan extends Model
         'doc_path',
         'link',
         'remark_docs',
-        'periode',
+        'periode'
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -43,24 +43,16 @@ class AuditPlan extends Model
         return $this->belongsTo(Department::class, 'department_id');
     }
 
-    public function location()
+    public function locations()
     {
         return $this->belongsTo(Location::class, 'location_id', 'id');
     }
-
-    // public function categoryid()
-    // {
-    //     return $this->belongsTo(StandardCategory::class, 'standard_categories_id');
-    // }
-    // public function criterias()
-    // {
-    //     return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
-    // }
 
     public function auditorId()
     {
         return $this->belongsTo(User::class, 'auditor_id');
     }
+
     public function auditor()
     {
         return $this->hasMany(AuditPlanAuditor::class, 'audit_plan_id');

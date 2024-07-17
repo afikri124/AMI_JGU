@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id" id="auditor_id" class="form-select">
+                            <select name="auditor_id" id="auditor_id" class="form-select select2">
                             <option value="">Select Auditor</option>
                             @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ $data->auditor_id ? 'selected' : '' }}>
@@ -87,7 +87,7 @@
     });
 </script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<!-- <script>
+<script>
     $(document).ready(function() {
         $('#standard_category_id').select2({
             placeholder: " Select Category",
@@ -123,8 +123,8 @@
             $('#standard_criteria_id option').removeAttr('disabled');
         });
     });
-</script> -->
-<script>
+</script>
+<!-- <script>
     // ketika tema dirubah, topic di isi
     $('#standard_category_id').change(function() {
                 var categoryId = this.value;
@@ -147,5 +147,5 @@
                 });
             });
     </script>
-</script>
+</script> -->
 @endsection

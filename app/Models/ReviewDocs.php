@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ReviewDocs extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    public $incrementing = false;
+    public $timestamps = true;
+    public $incrementing = true;
     protected $fillable = [
         'id', 'name', 'indicator_id', 'standard_criteria_id'
     ];

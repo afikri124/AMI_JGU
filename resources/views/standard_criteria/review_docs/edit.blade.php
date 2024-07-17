@@ -29,9 +29,9 @@
                               <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
                                     name="indicator_id" id="indicator_id" data-placeholder="Select">
                               <option value="" selected disabled>Select Indicator</option>
-                              @foreach($criteria as $role)
-                                    <option value="{{$role->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
-                                          {{$role->title}}</option>
+                              @foreach($indicator as $ind)
+                                    <option value="{{$ind->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
+                                          {{$ind->name}}</option>
                                     @endforeach
                               </select>
                               @error('indicator_id')
@@ -52,7 +52,7 @@
                               <br>
                         <div class="mt-2">
                               <button type="submit" class="btn btn-success me-2">Update</button>
-                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.revie _docs') }}">Back</a>
+                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.review_docs') }}">Back</a>
                         </div>
                   </form>
                   </div>

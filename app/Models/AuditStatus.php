@@ -15,7 +15,8 @@ class AuditStatus extends Model
      * @var string
      */
     protected $table = 'audit_statuses';
-
+    public $timestamps = true;
+    public $incrementing = true;
     /**
      * The attributes that are mass assignable.
      *

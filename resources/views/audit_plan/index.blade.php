@@ -43,10 +43,17 @@
     {
         color: white;
     }
-
+    .container,.container-fluid,.container-sm,.container-md,.container-lg,.container-xl,.container-xxl {
+    padding-right: unset;
+    padding-left: unset;
+    }
+    .container-p-y:not([class^=pt-]):not([class*=" pt-"]) {
+    padding-top: 0.9em !important;
+}
 </style>
 @endsection
 
+<div class="container-xxl flex-grow-1 container-p-y">
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
@@ -93,7 +100,6 @@
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/datatables/datatables-bootstrap5.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/datatables.responsive.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/responsive.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/datatables.checkboxes.js')}}"></script>
@@ -152,11 +158,10 @@
                             `" href="{{ url('setting/manage_account/users/edit/` +
                             row.idd + `') }}">` + row.auditee.name + `</a>`;
 
-                        if (row.no_phone) {
-                            html += `<br><a href="tel:` + row.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.no_phone + `</a>`;
+                        if (row.auditee.no_phone) {
+                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                    `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
                         }
-
                         return html;
                     },
                 },
@@ -187,9 +192,9 @@
                             `
                             <a class="badge bg-dark badge-icon" title="Show Auditor" style="cursor:pointer" href="{{ url('audit_plan/standard/') }}/${row.id}">
                             <i class="bx bx-show-alt icon-white"></i></a>
-                            <a class="badge bg-warning badge-icon" title="Edit" href="{{ url('edit_audit/') }}/${row.id}">
+                            <a class="badge bg-warning badge-icon" title="Edit Audit Plan" href="{{ url('edit_audit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
-                            <a class="badge bg-danger badge-icon" title="Delete" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
+                            <a class="badge bg-danger badge-icon" title="Delete Audit Plan" style="cursor:pointer" onclick="DeleteId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
                             <i class="bx bx-trash icon-white"></i></a>
                             `;
                         return html;

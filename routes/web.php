@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-})->name('index');
+})->name('home');
 // Route::get('/', [SendEmailController::class, 'index']);
 
 require __DIR__ . '/auth.php';
@@ -56,7 +56,7 @@ Route::group(['prefix' => 'audit_plan'], function () {
     // Route::post('/approve', [AuditPlanController::class, 'approve'])->name('audit_plan.approve');
     // Route::post('/revised', [AuditPlanController::class, 'revised'])->name('audit_plan.revised');
 
-    //Add Standard Auditor
+    //Add Audit Plan Auditor Standard
     Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
     Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
     Route::get('/data_auditor/{id}', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
@@ -71,7 +71,7 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
-    Route::any('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
+    Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
     Route::any('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
 });
@@ -89,13 +89,6 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::put('/update_doc/{id}', [MyAuditController::class, 'update_doc'])->name('my_audit.update_doc');
     Route::get('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
 });
-
-// Route::middleware('auth')->group(function () {
-//     Route::any('/profile', [ProfileController::class, 'index'])->name('profile.index');
-//     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-//     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);
 

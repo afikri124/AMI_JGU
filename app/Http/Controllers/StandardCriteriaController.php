@@ -279,8 +279,8 @@ class StandardCriteriaController extends Controller
             $data = SubIndicator::findOrFail($id);
 
             // Fetch all criteria
-            $criteria = StandardCriteria::all();
-            return view('standard_criteria.sub_indicator.edit', compact('data', 'criteria'));
+            $indicator = Indicator::orderBy('name')->get();
+            return view('standard_criteria.sub_indicator.edit', compact('data', 'indicator'));
         }
 
         public function update_sub(Request $request, $id){
@@ -308,12 +308,12 @@ class StandardCriteriaController extends Controller
                 $data->delete();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil dihapus! ✅'
+                    'message' => 'Berhasil dihapus!'
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal dihapus! ❌'
+                    'message' => 'Gagal dihapus!'
                 ]);
             }
         }
@@ -405,23 +405,25 @@ class StandardCriteriaController extends Controller
         $data = ReviewDocs::findOrFail($id);
 
        // Fetch all criteria
-        $criteria = StandardCriteria::all();
-        return view('standard_criteria.review_docs.edit', compact('data', 'criteria'));
+        $indicator = Indicator::orderBy('name')->get();
+        return view('standard_criteria.review_docs.edit', compact('data', 'indicator'));
     }
 
-    public function update_docs(Request $request, $id){
-    // Validate the request
+    public function update_docs(Request $request, $id)
+{
+    // Validasi permintaan
     $request->validate([
-        'indicator_id' => ['required', 'string'],
-        'name' => ['required','string','max:512'],
+        'indicator_id' => ['required', 'exists:indicators,id'], // Pastikan indicator_id ada di tabel indicators
+        'name' => ['required', 'string', 'max:512'],
     ]);
 
-    // Find the Sub_Indicator data
+    // Temukan data ReviewDocs
     $data = ReviewDocs::findOrFail($id);
 
+    // Pembaruan data
     $data->update([
-        'indicator_id'=> $request->indicator_id,
-        'name'=> $request->name,
+        'indicator_id' => $request->indicator_id,
+        'name' => $request->name,
     ]);
 
     // Redirect back with a success message
@@ -435,12 +437,12 @@ class StandardCriteriaController extends Controller
             $data->delete();
             return response()->json([
                 'status' => true,
-                'message' => 'Berhasil dihapus ✅'
+                'message' => 'Berhasil dihapus!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus ❌'
+                'message' => 'Gagal dihapus!'
             ]);
         }
     }

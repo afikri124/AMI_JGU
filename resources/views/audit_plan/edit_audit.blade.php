@@ -4,6 +4,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endsection
 
 <div class="row">
@@ -50,19 +51,20 @@
                                         </div>
                                         <p></p>
                             <div class="col-sm-12 fv-plugins-icon-container">
-                            <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id" id="auditor_id" class="form-select" required>
-                            <option value="">Select Auditor</option>
-                            @foreach($auditor as $role)
-                                <option value="{{$role->id}}" {{ $data->auditor_id ? 'selected' : '' }}>
-                                    {{$role->name}}</option>
-                                @endforeach
-                            </select>
+                                <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
+                                <select name="auditor_id[]" id="auditor_id" class="form-select select2" multiple required>
+                                    <option value="">Select Auditor</option>
+                                    @foreach($auditors as $auditor)
+                                        <option value="{{ $auditor->id }}" {{ in_array($auditor->id, $selectedAuditors) ? 'selected' : '' }}>
+                                            {{ $auditor->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <p></p>
                             <div class="col-sm-12 fv-plugins-icon-container">
                                 <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-                                <select name="location_id" id="location_id" class="form-select" required>
+                                <select name="location_id" id="location_id" class="form-select select2" required>
                                     <option value="">Select Location</option>
                                     @foreach($locations as $d)
                                         <option value="{{ $d->id }}" {{ $d->id == $data->location_id ? 'selected' : '' }}>
@@ -82,4 +84,23 @@
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#auditor_id').select2({
+        placeholder: "Select Auditor",
+        allowClear: true
+    });
+    $('#location_id').select2({
+        placeholder: "Select Location",
+        allowClear: true
+    });
+
+    $('#auditor_id').change(function() {
+        let selected = $(this).val();
+        console.log('Selected Auditors: ', selected); // Tampilkan auditor yang terpilih di console
+    });
+});
+</script>
 @endsection
