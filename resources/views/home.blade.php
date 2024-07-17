@@ -22,7 +22,7 @@
   <link href="assets-landing/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets-landing/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
+ <!-- Main CSS File -->
   <link href="assets-landing/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
@@ -70,9 +70,9 @@
         <div class="row justify-content-start">
           <div class="col-lg-8">
           <h1><b>WELCOME TO </b> <br>
-          <marquee  scrollamount="9"  direction="left" width="270" >
-          <span class="badge text-bg-danger">AUDIT MUTU INTERNAL</span><br>
-          </marquee>
+          <h2><div class="nprinsley-text-redan">AUDIT MUTU INTERNAL</div></h2>
+          <br>
+      
         </h1>
         <br>
 
@@ -272,6 +272,8 @@
 
   <!-- Main JS File -->
   <script src="assets-landing/js/main.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.prinsh.com/NathanPrinsley-textstyle/nprinsh-stext.css"/>
 
 </body>
 
