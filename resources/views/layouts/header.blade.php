@@ -44,57 +44,63 @@
           <!-- / Style Switcher-->
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="" data-bs-toggle="dropdown">
-                <div class="media profile-media">
-                        <img class="rounded-circle" src="{{Auth::user()->image()}}" style="width: 40px;height: 40px; object-fit: cover;" alt="">
-                    </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                <div class="media-body">
-                        @php
-                         $first_name = explode(" ", ucfirst(Auth::user()->name));
-                         if(strlen(Auth::user()->name) < 15){
-                            $first_name[0] = Auth::user()->name;
-                         }
-                        @endphp
-                            <p class="mb-0 font-roboto"><span>{{ $first_name[0] }}</span></p>
+    <a class="nav-link dropdown-toggle hide-arrow" href="" data-bs-toggle="dropdown">
+        <div class="avatar avatar-online">
+            <img src="{{ Auth::user()->image() }}" class="w-40 h-40 rounded-circle" style="object-fit: cover;" alt="">
+        </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+            <a class="dropdown-item" href="{{ route('profile.index') }}">
+                <div class="d-flex">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar avatar-online">
+                            <img src="{{ Auth::user()->image() }}" class="w-40 h-40 rounded-circle" style="object-fit: cover;">
                         </div>
-                    <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
-                            href="{{ route('profile.index') }}">
-                            <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'settings.index' ? 'active' : '' }}"
-                            href="{{ route('settings.index') }}">
-                            <i class="bx bx-cog  me-2"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" target="_blank" href="https://wa.me/+62881082124678">
-                            <i class="bx bx-support me-2"></i>
-                            <span class="align-middle">Support</span>
-                        </a>
-                    </li>
-                    <li>
-                        <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                       document.getElementById('logout-form').submit();">
-                            <i class="bx bx-power-off me-2"></i>
-                            <span class="align-middle">Logout</span>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+                    </div>
+                    <div class="flex-grow-1">
+                        <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                        <small class="text-muted">{{ Auth::user()->email }}</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="">
+            <a class="dropdown-item {{ Route::currentRouteName() == 'profile.index' ? 'active' : '' }}"
+                href="{{ route('profile.index') }}">
+                <i class="bx bx-user me-2"></i>
+                <span class="align-middle">My Profile</span>
+            </a>
+        </li>
+        <li class="">
+            <a class="dropdown-item {{ Route::currentRouteName() == 'settings.index' ? 'active' : '' }}"
+                href="{{ route('settings.index') }}">
+                <i class="bx bx-lock-open-alt me-2"></i>
+                <span class="align-middle">Change Password</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" target="_blank" href="https://wa.me/+62881082124678">
+                <i class="bx bx-support me-2"></i>
+                <span class="align-middle">Support</span>
+            </a>
+        </li>
+        <li>
+            <div class="dropdown-divider"></div>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+                <i class="bx bx-power-off me-2"></i>
+                <span class="align-middle">Logout</span>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </a>
+        </li>
+    </ul>
+</li>
+
             <!--/ User -->
         </ul>
     </div>
