@@ -70,7 +70,7 @@ class AuditPlanController extends Controller
 
         if ($data) {
             return redirect()->route('audit_plan.standard', ['id' => $data->id])
-            ->with('msg', 'Data (' . $auditee->name . ') pada tanggal ' . $request->date_start . ' sampai tanggal ' . $request->date_end . ' BERHASIL ditambahkan!!');
+            ->with('msg', 'Data ' . $auditee->name . ' pada tanggal ' . $request->date_start . ' sampai tanggal ' . $request->date_end . ' BERHASIL ditambahkan!!');
             }
         return redirect()->back()->with('msg', 'Gagal menambahkan data.');
     }
@@ -299,10 +299,57 @@ class AuditPlanController extends Controller
                 }
             }
         }
-
-
         return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil di tambahkan!!');
     }
+
+    public function edit_auditor_std(Request $request, $id)
+    {
+        $data = AuditPlanAuditor::findOrFail($id);
+        $category = StandardCategory::where('status', true)->get();
+        $criteria = StandardCriteria::where('status', true)->get();
+        $auditor = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
+            $q->where('name', 'auditor');
+        })
+        ->where('id', $data->auditor_id)
+        ->orderBy('name')
+        ->get();
+
+        $selectedCategory = AuditPlanCategory::where('audit_plan_auditor_id', $id)->pluck('standard_category_id')->toArray();
+        $selectedCriteria = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->pluck('standard_criteria_id')->toArray();
+
+        return view("audit_plan.standard.edit", compact("data", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
+    }
+
+        public function update_auditor_std(Request $request, $id)
+    {
+    // Validate the incoming request data
+    $this->validate($request, [
+        'auditor_id' => 'required|exists:users,id',
+        'standard_category_id' => 'required|array',
+        'standard_criteria_id' => 'required|array',
+    ]);
+
+    // Find the AuditPlanAuditor record by ID
+    $data = AuditPlanAuditor::findOrFail($id);
+
+    foreach ($request->standard_category_id as $categoryId) {
+        AuditPlanCategory::updateOrCreate(
+            ['audit_plan_auditor_id' => $id, 'standard_category_id' => $categoryId]
+        );
+
+    foreach ($request->standard_criteria_id as $criteriaId) {
+            AuditPlanCriteria::updateOrCreate(
+            ['audit_plan_auditor_id' => $id, 'standard_criteria_id' => $criteriaId]
+        );
+    }
+    // Redirect with a success message
+    return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil diupdate!');
+    }
+}
+
 
     // public function getStandardCategoryId(Request $request)
     // {

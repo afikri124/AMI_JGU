@@ -42,4 +42,15 @@ class AuditPlanAuditor extends Model
         return $this->hasMany(AuditPlanCategory::class, 'audit_plan_auditor_id');
     }
 
+    public function categories()
+{
+    return $this->belongsToMany(StandardCategory::class, 'audit_plan_categories', 'audit_plan_auditor_id', 'standard_category_id');
+}
+
+public function criterias()
+{
+    return $this->belongsToMany(StandardCriteria::class, 'audit_plan_criteria', 'audit_plan_auditor_id', 'standard_criteria_id');
+}
+
+
 }

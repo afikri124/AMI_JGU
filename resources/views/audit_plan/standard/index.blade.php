@@ -170,7 +170,10 @@
                     render: function (data, type, row, meta) {
                         var html =
                             `<a class="badge bg-danger badge-icon" title="Create Auditor Standard" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
-                            <i class="bx bx-plus"></i></a>`;
+                            <i class="bx bx-plus"></i></a>
+
+                            <a class="badge bg-warning badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
+                            <i class="bx bx-pencil"></i></a>`;
                         return html;
                     },
                     "orderable": false,

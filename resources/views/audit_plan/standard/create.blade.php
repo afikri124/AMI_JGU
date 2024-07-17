@@ -57,7 +57,6 @@
                             <select name="standard_criteria_id[]" id="standard_criteria_id" class="form-select select2" multiple required>
                                 @foreach($criteria as $c)
                                     <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_criteria_id', [])) ? 'selected' : '' }}>
-                                        {{-- {{ in_array($c->id, $selectedCriteria->toArray()) ? 'disabled' : '' }}> --}}
                                         {{ $c->id }} - {{ $c->title }}
                                     </option>
                                 @endforeach

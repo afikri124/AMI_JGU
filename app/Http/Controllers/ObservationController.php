@@ -52,6 +52,30 @@ class ObservationController extends Controller
         // Tarik data sesuai dengan auditor yang sedang login
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->firstOrFail();
 
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        // Ambil semua audit plan criterias berdasarkan audit plan auditor id
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        // Ambil id dari standard category dan standard criteria
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        // Ambil data standard category dan standard criteria berdasarkan id yang telah diambil
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)->get();
+
+        // Ambil data indicator berdasarkan standard criteria id
+        $indicators = Indicator::whereIn('standard_criteria_id', $standardCriteriaIds)->get();
+
+        $indicatorIds = $indicators->pluck('id');
+        $subIndicators = SubIndicator::whereIn('indicator_id', $indicatorIds)
+                                    ->whereIn('standard_criteria_id', $standardCriteriaIds)
+                                    ->get();
+        $reviewDocs = ReviewDocs::whereIn('indicator_id', $indicatorIds)
+                                ->whereIn('standard_criteria_id', $standardCriteriaIds)
+                                ->get();
+
         // Ambil auditor sesuai dengan auditor_id dari pengguna yang sedang login
         $auditor = User::with(['roles' => function ($query) {
                 $query->select('id', 'name');
@@ -65,7 +89,9 @@ class ObservationController extends Controller
 
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();
 
-        return view('observations.make', compact('auditorData', 'auditor', 'data', 'locations', 'department', 'category', 'criteria'));
+        return view('observations.make',
+        compact('standardCategories', 'standardCriterias', 'indicators', 'subIndicators', 'reviewDocs',
+        'auditorData', 'auditor', 'data', 'locations', 'department', 'category', 'criteria'));
     }
 
     public function make(Request $request, $id)

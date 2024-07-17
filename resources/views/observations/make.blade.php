@@ -120,7 +120,7 @@
           </div>
           <div class="col-md-6">
             <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-            <select name="auditor_id" id="auditor_id" class="form-select select2 bg-user" readonly>
+            <select name="auditor_id" id="auditor_id" class="form-select bg-user" readonly>
                 @foreach($auditor as $role)
                     <option value="{{$role->id}}" {{ $auditorData->auditor_id == $role->id ? 'selected' : '' }}>
                         {{$role->name}}
@@ -134,8 +134,7 @@
             <select name="location_id" id="location_id" class="form-select select2" required>
             <option value="">Select Location</option>
             @foreach($locations as $d)
-                <option value="{{$d->id}}"
-                    {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
+                <option value="{{$d->id}}" {{ $data->location_id == $d->id ? 'selected' : '' }}>
                     {{$d->title}}</option>
             @endforeach
             </select>
@@ -144,7 +143,7 @@
         <div class="col-md-6">
             <div class="form-group">
             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-            <select name="department_id" id="department_id" class="form-select select2 bg-user" readonly>
+            <select name="department_id" id="department_id" class="form-select bg-user" readonly>
             @foreach($department as $role)
                     <option value="{{$role->id}}" {{ $data->department_id == $role->id ? 'selected' : '' }}>
                         {{$role->name}}
@@ -158,109 +157,135 @@
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
 
-            <!-- Tombol Next dengan JavaScript Validasi -->
-            <button id="btnNext" class="btn btn-primary btn-next" disabled>
-              <span class="align-middle d-sm-inline-block d-none">Next</span>
-              <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+            <!-- <button id="btnNext" class="btn btn-primary btn-next" disabled>
+                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
             </button>
 
             <script>
-              // Menyimpan referensi ke tombol Next
-              const btnNext = document.getElementById('btnNext');
+                // Menyimpan referensi ke tombol Next
+                const btnNext = document.getElementById('btnNext');
 
-              // Event listener untuk mengecek validasi sebelum mengaktifkan tombol Next
-              document.addEventListener('DOMContentLoaded', function() {
-                  // Menambahkan event listener ke setiap input yang diperlukan
-                  const inputsRequired = document.querySelectorAll('input[required], select[required], textarea[required]');
+                // Event listener untuk mengecek validasi sebelum mengaktifkan tombol Next
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Menambahkan event listener ke setiap input yang diperlukan
+                    const inputsRequired = document.querySelectorAll('input[required], select[required], textarea[required]');
 
-                  inputsRequired.forEach(input => {
-                      input.addEventListener('input', function() {
-                          // Memeriksa apakah semua input yang diperlukan sudah diisi
-                          const allInputsFilled = Array.from(inputsRequired).every(input => input.value.trim() !== '');
-                          btnNext.disabled = !allInputsFilled;
-                      });
-                  });
-              });
-            </script>
+                    inputsRequired.forEach(input => {
+                        const checkInputs = () => {
+                            const allInputsFilled = Array.from(inputsRequired).every(input => input.value.trim() !== '');
+                            btnNext.disabled = !allInputsFilled;
+                        };
 
-            <!-- <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button> -->
+                        if (input.classList.contains('select2')) {
+                            $(input).on('change', checkInputs); // Event listener untuk select2
+                        } else {
+                            input.addEventListener('input', checkInputs);
+                        }
+                    });
+                });
+            </script> -->
+
+            <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
           </div>
         </div>
       </div>
 
-
-
       <div id="address" class="content">
       <div class="content-header mb-3">
-        <small>Category Standard</small>
+      <small>Category Standard</small>
+@foreach ($standardCategories as $category)
+    <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
+        {{ $category->description }}
+    </h6>
+@endforeach
+<p></p>
 
-    <p></p>
-
-    <small>Criteria Standard</small>
-
-    </div>
-
-
-        <table class="table table-bordered">
-        <tr>
-            <th><b>Indicator</b></th>
-            <td>
-                <a href="{{ $data->link }}" target="_blank">( {{ $data->link }} )</a>
-                @error('link')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 60%">
-                </td>
-            <td style="width: 35%">
-            <div id="data-sets">
-            <div id="data-set-1">
-                <div class="checkbox-group">
-                    <input type="checkbox" id="ks_1" name="obs_checklist_option" value="KS" onchange="toggleRemarks(1)" />
-                    <label for="ks_1">KS</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="obs_1" name="obs_checklist_option" value="OBS" onchange="toggleRemarks(1)" />
-                    <label for="obs_1">OBS</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="kts_minor_1" name="obs_checklist_option" value="KTS Minor" onchange="toggleRemarks(1)" />
-                    <label for="kts_minor_1">KTS MINOR</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="kts_mayor_1" name="obs_checklist_option" value="KTS Mayor" onchange="toggleRemarks(1)" />
-                    <label for="kts_mayor_1">KTS MAYOR</label>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 60%">
-                <strong>Sub Indicator</strong>
-            </td>
-            <td>
-            <div class="form_control">
-                    <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" placeholder="Pihak Bertanggung Jawab..."></input>
-            </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 60%" id="review-docs">
-                <strong>Review Document</strong>
-
-            </td>
-            <td style="vertical-align: top;">
-                <div>
-                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control @error('plan_complated') is-invalid @enderror" name="plan_complated" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime">
-                </div>
-            </td>
-        </tr>
-        <tr>
+<small>Criteria Standard</small>
+@foreach ($standardCriterias as $criteria)
+    <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
+        {{ $criteria->title }}
+    </h6>
+@endforeach
+<p></p>
+@foreach ($standardCriterias as $criteria)
+    <h6><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+    @foreach ($indicators as $indicator)
+        @if ($indicator->standard_criteria_id == $criteria->id)
+            <table class="table table-bordered">
+                <tr>
+                    <th><b>Indicator</b></th>
+                    <td>
+                        <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
+                        @error('link')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 60%">
+                        <ul>{{ $indicator->name }}</ul>
+                    </td>
+                    <td style="width: 35%">
+                        <div id="data-sets">
+                            <div id="data-set">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="ks" name="obs_checklist_option" value="KS" />
+                                    <label for="ks">KS</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="obs" name="obs_checklist_option" value="OBS" />
+                                    <label for="obs">OBS</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="kts_minor" name="obs_checklist_option" value="KTS Minor" />
+                                    <label for="kts_minor">KTS MINOR</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="kts_mayor" name="obs_checklist_option" value="KTS Mayor" />
+                                    <label for="kts_mayor">KTS MAYOR</label>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 60%">
+                        <strong>Sub Indicator</strong>
+                        @foreach ($subIndicators as $subIndicator)
+                            @if ($subIndicator->indicator_id == $indicator->id)
+                                <ul>{{ $subIndicator->name }}</ul>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>
+                        <div class="form_control">
+                            <label for="person_in_charge" class="form-label">
+                                <b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i>
+                            </label>
+                            <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" placeholder="Pihak Bertanggung Jawab..."></input>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 60%" id="review-docs">
+                        <strong>Review Document</strong>
+                        @foreach ($reviewDocs as $reviewDoc)
+                            @if ($reviewDoc->indicator_id == $indicator->id)
+                                <ul>{{ $reviewDoc->name }}</ul>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td style="vertical-align: top;">
+                        <div>
+                            <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
+                            <input type="date" class="form-control @error('plan_complated') is-invalid @enderror" name="plan_complated" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
             <td colspan="3">
                 <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
                 <textarea id="remark_description" name="remark_description" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
@@ -268,14 +293,14 @@
         </tr>
         <tr id="success-field-1" class="hidden">
             <td colspan="3">
-                <label for="remark_success_failed_1" class="form-label"><b>Faktor Pendukung Keberhasilan :</b></label>
-                <textarea id="remark_success_failed_1" name="remark_success_failed" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                <label for="remark_success" class="form-label"><b>Faktor Pendukung Keberhasilan :</b></label>
+                <textarea id="remark_success" name="remark_success_failed" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
-        <tr id="failure-field-1" class="hidden">
+        <tr id="failed-field-1" class="hidden">
             <td colspan="3">
-                <label for="remark_success_failed_1" class="form-label"><b>Faktor Pendukung Kegagalan :</b></label>
-                <textarea id="remark_success_failed_1" name="remark_success_failed" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                <label for="remark_failed" class="form-label"><b>Faktor Pendukung Kegagalan :</b></label>
+                <textarea id="remark_failed" name="remark_success_failed" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
         <tr>
@@ -286,17 +311,21 @@
         </tr>
         <tr id="upgrade-field-1" class="hidden">
             <td colspan="3">
-                <label for="remark_upgrade_repair_1" class="form-label"><b>Rencana Peningkatan :</b></label>
-                <textarea type="text" id="remark_upgrade_repair_1" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                <label for="remark_upgrade" class="form-label"><b>Rencana Peningkatan :</b></label>
+                <textarea type="text" id="remark_upgrade" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
         <tr id="repair-field-1" class="hidden">
             <td colspan="3">
-                <label for="remark_upgrade_repair_1" class="form-label"><b>Rencana Perbaikan :</b></label>
-                <textarea type="text" id="remark_upgrade_repair_1" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                <label for="remark_repair" class="form-label"><b>Rencana Perbaikan :</b></label>
+                <textarea type="text" id="remark_repair" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
-    </table>
+            </table>
+        @endif
+    @endforeach
+@endforeach
+
 
           <div class="col-12 d-flex justify-content-between">
           <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
@@ -309,7 +338,6 @@
     </form>
   </div>
   </div>
-
 @endsection
 
 @section('script')
@@ -365,33 +393,26 @@
         }
     }
 
-    function toggleRemarks(id) {
-            var ks = document.getElementById('ks_' + id).checked;
-            var obs = document.getElementById('obs_' + id).checked;
-            var ktsMinor = document.getElementById('kts_minor_' + id).checked;
-            var ktsMayor = document.getElementById('kts_mayor_' + id).checked;
+    document.addEventListener('DOMContentLoaded', function() {
+            const ksCheckbox = document.getElementById('ks');
+            const obsCheckbox = document.getElementById('obs');
+            const ktsMinorCheckbox = document.getElementById('kts_minor');
+            const ktsMayorCheckbox = document.getElementById('kts_mayor');
+            const successField = document.getElementById('success-field-1');
+            const failedField = document.getElementById('failed-field-1');
+            const upgradeField = document.getElementById('upgrade-field-1');
+            const repairField = document.getElementById('repair-field-1');
 
-            var successField = document.getElementById('success-field-' + id);
-            var failureField = document.getElementById('failure-field-' + id);
-            var upgradeField = document.getElementById('upgrade-field-' + id);
-            var repairField = document.getElementById('repair-field-' + id);
+            function toggleFields() {
+                successField.classList.toggle('hidden', !ksCheckbox.checked);
+                failedField.classList.toggle('hidden', !(obsCheckbox.checked || ktsMinorCheckbox.checked || ktsMayorCheckbox.checked));
+                upgradeField.classList.toggle('hidden', !ksCheckbox.checked);
+                repairField.classList.toggle('hidden', !(obsCheckbox.checked || ktsMinorCheckbox.checked || ktsMayorCheckbox.checked));            }
 
-            if (ks) {
-                successField.classList.remove('hidden');
-                upgradeField.classList.remove('hidden');
-                failureField.classList.add('hidden');
-                repairField.classList.add('hidden');
-            } else if (obs || ktsMinor || ktsMayor) {
-                failureField.classList.remove('hidden');
-                repairField.classList.remove('hidden');
-                successField.classList.add('hidden');
-                upgradeField.classList.add('hidden');
-            } else {
-                successField.classList.add('hidden');
-                upgradeField.classList.add('hidden');
-                failureField.classList.add('hidden');
-                repairField.classList.add('hidden');
-            }
-        }
-</script>
+            ksCheckbox.addEventListener('change', toggleFields);
+            obsCheckbox.addEventListener('change', toggleFields);
+            ktsMinorCheckbox.addEventListener('change', toggleFields);
+            ktsMayorCheckbox.addEventListener('change', toggleFields);
+        });
+    </script>
 @endsection
