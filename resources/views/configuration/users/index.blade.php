@@ -184,13 +184,12 @@
                                     <option value="1">admin (Administrator)</option>
                                     @endcan
                                     @foreach($roles as $role)
-                                    <option value="{{$role->id}}"
-                                        {{ (in_array($role->id, old('roles') ?? []) ? "selected": "") }}>
+                                    <option value="{{$role->id}}" {{ (in_array($role->id, old('roles') ?? []) ? "selected": "") }}>
                                         {{$role->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('roles')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" role="alert">                
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror

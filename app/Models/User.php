@@ -23,7 +23,16 @@ class User extends Authenticatable
         'email',
         'password',
         'username',
-        'gender'
+        'no_phone',
+        'gender',
+        'department_id',
+        'nidn',
+        'front_title',
+        'back_title',
+        'job',
+        
+
+
     ];
 
     /**
@@ -77,5 +86,10 @@ class User extends Authenticatable
       } else {
         return asset('assets/img/avatars/user.png');
       }
+    }
+
+    public function departments()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
     }
 }

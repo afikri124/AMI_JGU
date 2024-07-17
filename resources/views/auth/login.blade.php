@@ -81,10 +81,10 @@ body {
     width: 300px;
 }
 form {
-     width: 300px;
+     width: 270px;
      padding: 10px;
      margin: 0 auto;
-     background-color: #f9f9f9;
+     background-color: #fff;
  }
 
 .login-container {

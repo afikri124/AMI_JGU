@@ -30,9 +30,15 @@
                         <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
                                 name="indicator_id" id="indicator_id" data-placeholder="Select">
                             <option value="" selected disabled>Select Indicator</option>
+<<<<<<< HEAD
+                            @foreach($criteria as $d)
+                                <option value="{{$d->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
+                                {{$d->id}} - {{$d->title}}</option>
+=======
                             @foreach($indicator as $ind)
                                 <option value="{{$ind->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
                                     {{$ind->name}}</option>
+>>>>>>> 2b63e03640e26abceefe0f5785a7ebb8bc5889f0
                                 @endforeach
                         </select>
                         @error('indicator_id')
@@ -60,7 +66,20 @@
             @endsection
 
 @section('script')
-<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+</script>
 
 @endsection

@@ -64,6 +64,16 @@
       <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
       <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
       <script>
+      "use strict";
+      setTimeout(function () {
+            (function ($) {
+            "use strict";
+            $(".select2").select2({
+                  allowClear: true,
+                  minimumResultsForSearch: 7
+            });
+            })(jQuery);
+      }, 350);
       document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('numForms').addEventListener('input', function() {
             var numForms = this.value;

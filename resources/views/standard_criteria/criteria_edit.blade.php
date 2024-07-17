@@ -67,4 +67,17 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+</script>
 @endsection
