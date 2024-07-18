@@ -41,7 +41,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        user agent stylesheet i {
+        .user agent stylesheet i {
             font-style: italic;
         }
 
@@ -60,7 +60,7 @@
             border-radius: 50%;
         }
 
-        user agent stylesheet li {
+        .user agent stylesheet li {
             text-align: -webkit-match-parent;
         }
 
@@ -75,7 +75,11 @@
         .mb-4 {
             margin-bottom: 1.5rem !important;
         }
-    </style>
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
+</style>
 @endsection
 
 @section('content')

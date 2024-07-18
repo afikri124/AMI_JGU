@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('link')->nullable();
             $table->string('remark_docs')->nullable();
             $table->string('periode')->nullable();
-            $table->string('remark')->nullable();
             $table->string('type_audit')->nullable();
             $table->timestamps();
         });

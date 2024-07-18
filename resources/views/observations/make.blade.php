@@ -77,6 +77,10 @@
     .hidden {
         display: none;
     }
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 
 </style>
 @endsection
@@ -120,13 +124,7 @@
           </div>
           <div class="col-md-6">
             <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-            <select name="auditor_id" id="auditor_id" class="form-select bg-user" readonly>
-                @foreach($auditor as $role)
-                    <option value="{{$role->id}}" {{ $auditorData->auditor_id == $role->id ? 'selected' : '' }}>
-                        {{$role->name}}
-                    </option>
-                @endforeach
-            </select>
+            <input name="auditor_id" id="auditor_id" type="text" class="form-control bg-user" value="{{$auditorData->auditor->name}}" readonly></input>
         </div>
           <div class="col-md-6">
             <div class="form-group">
@@ -143,13 +141,7 @@
         <div class="col-md-6">
             <div class="form-group">
             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-            <select name="department_id" id="department_id" class="form-select bg-user" readonly>
-            @foreach($department as $role)
-                    <option value="{{$role->id}}" {{ $data->department_id == $role->id ? 'selected' : '' }}>
-                        {{$role->name}}
-                    </option>
-                @endforeach
-            </select>
+            <input name="department_id" id="department_id" type="text" class="form-control bg-user" value="{{$data->departments->name}}" readonly></input>
             </div>
         </div>
         <div class="col-12 d-flex justify-content-between">
@@ -285,19 +277,19 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
+        <tr>
             <td colspan="3">
                 <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
                 <textarea id="remark_description" name="remark_description" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
-        <tr id="success-field-1" class="hidden">
+        <tr id="success-field" class="hidden">
             <td colspan="3">
                 <label for="remark_success" class="form-label"><b>Faktor Pendukung Keberhasilan :</b></label>
                 <textarea id="remark_success" name="remark_success_failed" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
-        <tr id="failed-field-1" class="hidden">
+        <tr id="failed-field" class="hidden">
             <td colspan="3">
                 <label for="remark_failed" class="form-label"><b>Faktor Pendukung Kegagalan :</b></label>
                 <textarea id="remark_failed" name="remark_success_failed" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
@@ -309,13 +301,13 @@
                 <textarea name="remark_recommend" class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
-        <tr id="upgrade-field-1" class="hidden">
+        <tr id="upgrade-field" class="hidden">
             <td colspan="3">
                 <label for="remark_upgrade" class="form-label"><b>Rencana Peningkatan :</b></label>
                 <textarea type="text" id="remark_upgrade" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
         </tr>
-        <tr id="repair-field-1" class="hidden">
+        <tr id="repair-field" class="hidden">
             <td colspan="3">
                 <label for="remark_repair" class="form-label"><b>Rencana Perbaikan :</b></label>
                 <textarea type="text" id="remark_repair" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
@@ -398,10 +390,10 @@
             const obsCheckbox = document.getElementById('obs');
             const ktsMinorCheckbox = document.getElementById('kts_minor');
             const ktsMayorCheckbox = document.getElementById('kts_mayor');
-            const successField = document.getElementById('success-field-1');
-            const failedField = document.getElementById('failed-field-1');
-            const upgradeField = document.getElementById('upgrade-field-1');
-            const repairField = document.getElementById('repair-field-1');
+            const successField = document.getElementById('success-field');
+            const failedField = document.getElementById('failed-field');
+            const upgradeField = document.getElementById('upgrade-field');
+            const repairField = document.getElementById('repair-field');
 
             function toggleFields() {
                 successField.classList.toggle('hidden', !ksCheckbox.checked);

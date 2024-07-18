@@ -7,6 +7,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endsection
 
+<style>
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
+</style>
+
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -74,8 +81,8 @@
                                 </select>
                             </div>
                     <p></p>
-                    <div class="mt-2">
-                        <button type="submit" class="btn btn-success me-2">Update</button>
+                    <div class="mt-2 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
                     </div>
                 </form>

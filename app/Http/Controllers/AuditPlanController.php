@@ -43,6 +43,7 @@ class AuditPlanController extends Controller
                 'location_id'     => ['required'],
                 'link'            => ['string'],
                 'department_id'   => ['required'],
+                'type_audit'   => ['required'],
             ]);
 
         $auditee = User::find($request->auditee_id);
@@ -57,6 +58,7 @@ class AuditPlanController extends Controller
             'doc_path'        => $request->doc_path,
             'link'            => $request->link,
             'remark_docs'     => $request->remark_docs,
+            'type_audit'     => $request->type_audit,
         ]);
 
         if ($request->auditor_id) {
@@ -225,9 +227,9 @@ class AuditPlanController extends Controller
             )->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('select_lecture'))) {
+                if (!empty($request->get('select_auditee'))) {
                     $instance->whereHas('auditee', function ($q) use ($request) {
-                        $q->where('auditee_id', $request->get('select_lecture'));
+                        $q->where('auditee_id', $request->get('select_auditee'));
                     });
                 }
                 if (!empty($request->get('search'))) {

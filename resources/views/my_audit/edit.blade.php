@@ -5,6 +5,13 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
 @endsection
 
+<style>
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
+</style>
+
 @section('style')
 <style>
     *,
