@@ -69,10 +69,12 @@
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row justify-content-start">
           <div class="col-lg-8">
-          <h1><b>WELCOME TO </b> <br>
-          <h2><div class="nprinsley-text-redan">AUDIT MUTU INTERNAL</div></h2>
-          <br>
-      
+            <div class="background">
+              <div class="animated-text-box">
+                  <h1>WELCOME TO</h1>
+                  <h2><div class="nprinsley-text-redan">AUDIT MUTU INTERNAL</div></h2>
+              </div>
+          </div>
         </h1>
         <br>
 

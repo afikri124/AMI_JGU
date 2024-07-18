@@ -320,7 +320,7 @@
                 <label for="remark_repair" class="form-label"><b>Rencana Perbaikan :</b></label>
                 <textarea type="text" id="remark_repair" class="form-control" name="remark_upgrade_repair" maxlength="250" placeholder="MAX 250 characters..."></textarea>
             </td>
-        </tr>
+        </tr>        
             </table>
         @endif
     @endforeach
@@ -394,25 +394,37 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-            const ksCheckbox = document.getElementById('ks');
-            const obsCheckbox = document.getElementById('obs');
-            const ktsMinorCheckbox = document.getElementById('kts_minor');
-            const ktsMayorCheckbox = document.getElementById('kts_mayor');
-            const successField = document.getElementById('success-field-1');
-            const failedField = document.getElementById('failed-field-1');
-            const upgradeField = document.getElementById('upgrade-field-1');
-            const repairField = document.getElementById('repair-field-1');
+        const checkboxes = document.querySelectorAll('input[name="obs_checklist_option"]');
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Uncheck other checkboxes
+                checkboxes.forEach(cb => {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
 
-            function toggleFields() {
-                successField.classList.toggle('hidden', !ksCheckbox.checked);
-                failedField.classList.toggle('hidden', !(obsCheckbox.checked || ktsMinorCheckbox.checked || ktsMayorCheckbox.checked));
-                upgradeField.classList.toggle('hidden', !ksCheckbox.checked);
-                repairField.classList.toggle('hidden', !(obsCheckbox.checked || ktsMinorCheckbox.checked || ktsMayorCheckbox.checked));            }
-
-            ksCheckbox.addEventListener('change', toggleFields);
-            obsCheckbox.addEventListener('change', toggleFields);
-            ktsMinorCheckbox.addEventListener('change', toggleFields);
-            ktsMayorCheckbox.addEventListener('change', toggleFields);
+                if (checkbox.checked) {
+                    if (checkbox.value === 'KS') {
+                        document.getElementById('success-field-1').classList.remove('hidden');
+                        document.getElementById('upgrade-field-1').classList.remove('hidden');
+                        document.getElementById('failed-field-1').classList.add('hidden');
+                        document.getElementById('repair-field-1').classList.add('hidden');
+                    } else if (checkbox.value === 'OBS' || checkbox.value === 'KTS Minor' || checkbox.value === 'KTS Mayor') {
+                        document.getElementById('failed-field-1').classList.remove('hidden');
+                        document.getElementById('repair-field-1').classList.remove('hidden');
+                        document.getElementById('success-field-1').classList.add('hidden');
+                        document.getElementById('upgrade-field-1').classList.add('hidden');
+                    }
+                } else {
+                    document.getElementById('success-field-1').classList.add('hidden');
+                    document.getElementById('upgrade-field-1').classList.add('hidden');
+                    document.getElementById('failed-field-1').classList.add('hidden');
+                    document.getElementById('repair-field-1').classList.add('hidden');
+                }
+            });
         });
+    });
     </script>
 @endsection
