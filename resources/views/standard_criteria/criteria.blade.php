@@ -137,7 +137,7 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Category<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <select  class="form-select @error('standard_category_id') is-invalid @enderror  input-sm select2-modal "
+                                <select class="form-select @error('standard_category_id') is-invalid @enderror  input-sm select2-modal"
                                     name="standard_category_id" id="standard_category_id">
                                     @foreach($category as $p)
                                     <option value="{{ $p->id }}"
@@ -206,6 +206,16 @@
             $(".select2").select2({
                 allowClear: true,
                 minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2-modal").select2({
+                dropdownParent: $('#newrecord'),
+                allowClear: true,
+                minimumResultsForSearch: 5
             });
         })(jQuery);
     }, 350);

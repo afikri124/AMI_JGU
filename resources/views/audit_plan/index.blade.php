@@ -83,7 +83,7 @@
             </div>
             <div class="container">
                     <thead>
-                            <tr>><b>No</b></th>
+                            <th><b>No</b></th>
                             <th width="25%"><b>Auditee</b></th>
                             <th width="35%"><b>Schedule</b></th>
                             <th width="10%"><b>Status</b></th>
