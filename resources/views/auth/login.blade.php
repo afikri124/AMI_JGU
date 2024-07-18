@@ -81,7 +81,7 @@ body {
     width: 300px;
 }
 form {
-     width: 270px;
+     width:270px;
      padding: 10px;
      margin: 0 auto;
      background-color: #fff;
@@ -99,6 +99,27 @@ form {
 
 .login-container h2 {
     margin-bottom: 20px;
+}
+.error-messages {
+    color: red;
+}
+
+.error-messages ul {
+    padding-left: 0;
+    list-style:inside;
+}
+
+.error-messages li {
+    display: flex;
+    align-items:center;
+    margin-left: 5px;
+    font-size: 11px;
+}
+
+.error-messages li::before {
+    content: '•';
+    margin-right: 5px;
+    color: red;
 }
 
 .input-field {
@@ -159,30 +180,6 @@ form {
 .links a:hover {
     text-decoration: underline;
 }
-
-.alternative-login p {
-    margin-bottom: 10px;
-}
-
-.alternative-login .btn {
-    display: inline-block;
-    width: 48%;
-    margin-right: 2%;
-}
-
-.alternative-login .btn:last-child {
-    margin-right: 0;
-}
-
-.alternative-login .btn.sso {
-    background-color: #817c7c18;
-    color:black;
-    font-size: 12px;
-}
-
-.alternative-login .btn.google {
-    background-color: #4285f4;
-}
   </style>
 </head>
 <body>
@@ -198,32 +195,39 @@ form {
                 <img src="../assets-landing/img/ami-jgu.png" alt="Logo" class="animated-logo">
                 </a>
             </div>
+<!-- form login -->
             <div class="login-container">
                 <form method="POST" action="{{ route('login-ami') }}">
             @csrf
             <h2><div class="nprinsley-text-redan">LOGIN | AMI</div></h2>
                 <form>
-                    <!-- Email Address or Username-->
-                    <div class="input-field">
-                        <label for="login_account">Username or email</label>
-                        <input type="text" id="login_account" name="login_account"  placeholder="Masukkan Nama Pengguna atau Email" :value="old('login_account')" autocomplete="username" />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        <x-input-error :messages="$errors->get('username')" class="mt-2" />
-                    </div>
-                     <!-- Password -->
-                    <div class="input-field">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Masukkan Kata Sandi" autocomplete="current-password" />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                    </div>
-                    <br>
-                    <button type="submit" class="btn">Login</button>
-                    <div class="links">
-                        @if (Route::has('password.request'))
-                        <a class="forgot-password">Forgot Password?</a>
-                        @endif
-                    </div>
-                </form>
+
+         <!-- Email Address or Username-->
+            <div class="input-field">
+            <label for="login_account">Username or email</label>
+            <input type="text" id="login_account" name="login_account"  placeholder="Masukkan Nama Pengguna atau Email" :value="old('login_account')" autocomplete="username" /></div>
+
+         <!-- Password -->
+            <div class="input-field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Masukkan Kata Sandi" autocomplete="current-password" /></div>
+
+        <!-- pesan kesalahan -->
+            @if ($errors->any())
+            <div class="error-messages">
+            <ul>@foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                 @endforeach
+            </ul>
+        </div>
+    @endif
+        <button type="submit" class="btn">Login</button>
+            <div class="links">
+                @if (Route::has('password.request'))
+                    <a class="forgot-password">Forgot Password?</a>
+                @endif
+                </div>
+            </form>
         </div>
     </div>
 </body>

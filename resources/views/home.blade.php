@@ -47,7 +47,7 @@
 
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="#hero" class="active">HOME</a></li>
+            <li><a href="#hero" >HOME</a></li>
             <li><a href="#about">ABOUT</a></li>
             <li><a href="#visi&misi">VISI & MISI</a></li>
             <li><a href="#contact">CONTACT</a></li>
@@ -71,8 +71,8 @@
           <div class="col-lg-8">
             <div class="background">
               <div class="animated-text-box">
-                  <h1>WELCOME TO</h1>
-                  <h2><div class="nprinsley-text-redan">AUDIT MUTU INTERNAL</div></h2>
+                  <h1><b>WELCOME TO</b></h1>
+                  <h2><div class="nprinsley-text-redan"><b>AUDIT MUTU INTERNAL</b></div></h2>
               </div>
           </div>
         </h1>
@@ -115,14 +115,12 @@
               lingkungan JGU.</span></li>
             </ul>
         </div>
-
         </div>
-
       </div>
-
     </section><!-- /About Section -->
+
     <!-- Visi & Misi Section -->
-    <section id="visi&misi" class="visi&misi section">
+    <section id="visi&misi" class="Clients Section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -278,5 +276,4 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.prinsh.com/NathanPrinsley-textstyle/nprinsh-stext.css"/>
 
 </body>
-
 </html>

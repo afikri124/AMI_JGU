@@ -23,12 +23,12 @@
     --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
     --heading-color: #191919; /* Color for headings, subheadings and title throughout the website */
     --accent-color: #cc1616; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-    --contrast-color: #ffffff; /* The contrast color is used for elements when the background color is one of the heading, accent, or default colors. Its purpose is to ensure proper contrast and readability when placed over these more dominant colors */
+    --contrast-color: #fd0a0a; /* The contrast color is used for elements when the background color is one of the heading, accent, or default colors. Its purpose is to ensure proper contrast and readability when placed over these more dominant colors */
   }
 
   /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
   :root {
-    --nav-color: #ffffff;  /* The default color of the main navmenu links */
+    --nav-color: #fff;  /* The default color of the main navmenu links */
     --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
     --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
     --nav-dropdown-hover-color: #cc1616; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
@@ -73,7 +73,7 @@
   # Global Header
   --------------------------------------------------------------*/
   .header {
-    --background-color:;
+    --background-color:#ffffff;
     --default-color: #ffffff;
     --heading-color: #ffffff;
     --contrast-color: #ffffff;
@@ -867,7 +867,7 @@
   # Hero Section
   --------------------------------------------------------------*/
   .hero {
-    --background-color: black;
+    --background-color:#0f0e0e;
     --default-color: #ffffff;
     --heading-color: #ffffff;
     width: 100%;
@@ -891,7 +891,7 @@
 
   .hero:before {
     content: "";
-    background: color-mix(in srgb, var(--background-color), transparent 30%);
+    background: color-mix(in srgb, var(--background-color), transparent 33%);
     position: absolute;
     inset: 0;
     z-index: 2;
@@ -902,27 +902,29 @@
     height: 200px;
     z-index: 3;
   }
-  .background {
-    position: absolute;
+
+.background {
+    position:absolute;
     width: 50%;
     height: 20%;
-    background-size:;
-    filter: brightness(0.5); 
+    filter: brightness(1);
 }
 
 .animated-text-box {
     position: relative;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.8); 
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    animation: slideIn 2s ease-out;
+    text-align:left;
+    background: rgba(176, 171, 171, 0.8);
+    padding:20px;
+    border-radius: 15px;
+    animation: ease-out;
+    box-shadow:  0 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: perspective(700px) rotateY(9deg);
 }
 
 .animated-text-box h1 {
-    margin: 0;
+    margin: 10;
     color: #000;
+    text-align: ;
 }
 
 @keyframes slideIn {
@@ -932,14 +934,17 @@
     }
     to {
         transform: translateY(0);
-        opacity: 1;
+        opacity: 3;
     }
 }
   .hero h2 {
     margin: 0;
-    font-size: 48px;
+    font-size: 45px;
     text-transform: uppercase;
     font-weight: 700;
+    display: block;
+    margin-top: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   }
 
   .hero p {
@@ -957,7 +962,7 @@
     margin: 30px 0 0 0;
     transition: 0.5s;
     text-transform: uppercase;
-    border: 2px solid color-mix(in srgb, var(--default-color), transparent 20%);
+    border: 2px solid color-mix(in srgb, var(--default-color), transparent 10%);
   }
 
   .hero .btn-get-started:hover {
@@ -1035,146 +1040,12 @@
   }
 
   /*--------------------------------------------------------------
-  # Cards Section
-  --------------------------------------------------------------*/
-  .cards .card {
-    background-color: var(--background-color);
-    color: var(--default-color);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    padding: 40px;
-    margin: -1px;
-    border-radius: 0;
-  }
-
-  .cards .card span {
-    display: block;
-    font-size: 24px;
-    font-weight: 400;
-    color: var(--accent-color);
-  }
-
-  .cards .card h4 {
-    color: color-mix(in srgb, var(--heading-color), transparent 20%);
-    font-size: 24px;
-    font-weight: 600;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .cards .card p {
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-    font-size: 15px;
-    margin: 0;
-    padding: 0;
-  }
-
-  /*--------------------------------------------------------------
-  # Clients Section
-  --------------------------------------------------------------*/
-  .clients {
-    --background-color: color-mix(in srgb, var(--default-color), transparent 95%);
-    padding: 15px 0;
-  }
-
-  .clients .swiper {
-    padding: 10px 0;
-  }
-
-  .clients .swiper-wrapper {
-    height: auto;
-  }
-
-  .clients .swiper-slide img {
-    transition: 0.3s;
-  }
-
-  .clients .swiper-slide img:hover {
-    transform: scale(1.1);
-  }
-
-  /*--------------------------------------------------------------
-  # Services Section
-  --------------------------------------------------------------*/
-  .services .service-item {
-    text-align: center;
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-    padding: 80px 20px;
-    transition: all ease-in-out 0.3s;
-    height: 100%;
-  }
-
-  .services .service-item .icon {
-    margin: 0 auto;
-    width: 64px;
-    height: 64px;
-    background: var(--accent-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    transition: 0.3s;
-    transform-style: preserve-3d;
-  }
-
-  .services .service-item .icon i {
-    color: var(--contrast-color);
-    font-size: 28px;
-    transition: ease-in-out 0.3s;
-  }
-
-  .services .service-item .icon::before {
-    position: absolute;
-    content: "";
-    left: -8px;
-    top: -8px;
-    height: 100%;
-    width: 100%;
-    background: color-mix(in srgb, var(--accent-color), transparent 80%);
-    transition: all 0.3s ease-out 0s;
-    transform: translateZ(-1px);
-  }
-
-  .services .service-item h3 {
-    font-weight: 700;
-    margin: 10px 0 15px 0;
-    font-size: 22px;
-  }
-
-  .services .service-item p {
-    line-height: 24px;
-    font-size: 14px;
-    margin-bottom: 0;
-  }
-
-  .services .service-item:hover {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-  }
-
-  .services .service-item:hover .icon {
-    background: var(--contrast-color);
-  }
-
-  .services .service-item:hover .icon i {
-    color: var(--accent-color);
-  }
-
-  .services .service-item:hover .icon::before {
-    background: color-mix(in srgb, var(--background-color), transparent 70%);
-  }
-
-  .services .service-item:hover h3,
-  .services .service-item:hover p {
-    color: var(--contrast-color);
-  }
-
-  /*--------------------------------------------------------------
   # Call To Action Section
   --------------------------------------------------------------*/
   .call-to-action {
     --background-color: #000000;
     --default-color: #ffffff;
-    --contrast-color: #ffffff;
+    --contrast-color: #fd0a0a;
     padding: 120px 0;
     position: relative;
     clip-path: inset(0);
@@ -1232,283 +1103,6 @@
     background: var(--accent-color);
     border: 2px solid var(--accent-color);
   }
-
-  /*--------------------------------------------------------------
-  # Portfolio Section
-  --------------------------------------------------------------*/
-  .portfolio .portfolio-filters {
-    padding: 0;
-    margin: 0 auto 20px auto;
-    list-style: none;
-    text-align: center;
-  }
-
-  .portfolio .portfolio-filters li {
-    cursor: pointer;
-    display: inline-block;
-    padding: 8px 20px 10px 20px;
-    margin: 0;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1;
-    margin-bottom: 5px;
-    border-radius: 50px;
-    transition: all 0.3s ease-in-out;
-    font-family: var(--heading-font);
-  }
-
-  .portfolio .portfolio-filters li:hover,
-  .portfolio .portfolio-filters li.filter-active {
-    color: var(--contrast-color);
-    background-color: var(--accent-color);
-  }
-
-  .portfolio .portfolio-filters li:first-child {
-    margin-left: 0;
-  }
-
-  .portfolio .portfolio-filters li:last-child {
-    margin-right: 0;
-  }
-
-  @media (max-width: 575px) {
-    .portfolio .portfolio-filters li {
-      font-size: 14px;
-      margin: 0 0 10px 0;
-    }
-  }
-
-  .portfolio .portfolio-item {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .portfolio .portfolio-item .portfolio-info {
-    opacity: 0;
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: -100%;
-    z-index: 3;
-    transition: all ease-in-out 0.5s;
-    background: color-mix(in srgb, var(--background-color), transparent 10%);
-    padding: 15px;
-  }
-
-  .portfolio .portfolio-item .portfolio-info h4 {
-    font-size: 18px;
-    font-weight: 600;
-    padding-right: 50px;
-  }
-
-  .portfolio .portfolio-item .portfolio-info p {
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
-    font-size: 14px;
-    margin-bottom: 0;
-    padding-right: 50px;
-  }
-
-  .portfolio .portfolio-item .portfolio-info .preview-link,
-  .portfolio .portfolio-item .portfolio-info .details-link {
-    position: absolute;
-    right: 50px;
-    font-size: 24px;
-    top: calc(50% - 14px);
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
-    transition: 0.3s;
-    line-height: 0;
-  }
-
-  .portfolio .portfolio-item .portfolio-info .preview-link:hover,
-  .portfolio .portfolio-item .portfolio-info .details-link:hover {
-    color: var(--accent-color);
-  }
-
-  .portfolio .portfolio-item .portfolio-info .details-link {
-    right: 14px;
-    font-size: 28px;
-  }
-
-  .portfolio .portfolio-item:hover .portfolio-info {
-    opacity: 1;
-    bottom: 0;
-  }
-
-  /*--------------------------------------------------------------
-  # Pricing Section
-  --------------------------------------------------------------*/
-  .pricing .pricing-item {
-    padding: 60px 40px;
-    box-shadow: 0 3px 20px -2px color-mix(in srgb, var(--default-color), transparent 90%);
-    height: 100%;
-    position: relative;
-  }
-
-  .pricing h3 {
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 20px;
-  }
-
-  .pricing h4 {
-    font-size: 48px;
-    color: var(--accent-color);
-    font-family: var(--heading-font);
-    font-weight: 400;
-  }
-
-  .pricing h4 sup {
-    font-size: 28px;
-  }
-
-  .pricing h4 span {
-    color: color-mix(in srgb, var(--default-color), transparent 60%);
-    font-size: 18px;
-  }
-
-  .pricing ul {
-    padding: 20px 0;
-    list-style: none;
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
-    text-align: left;
-    line-height: 20px;
-  }
-
-  .pricing ul li {
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .pricing ul i {
-    color: #059652;
-    font-size: 24px;
-    padding-right: 3px;
-  }
-
-  .pricing ul .na {
-    color: color-mix(in srgb, var(--default-color), transparent 60%);
-  }
-
-  .pricing ul .na i {
-    color: color-mix(in srgb, var(--default-color), transparent 60%);
-  }
-
-  .pricing ul .na span {
-    text-decoration: line-through;
-  }
-
-  .pricing .buy-btn {
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-    background-color: var(--background-color);
-    display: inline-block;
-    padding: 8px 35px 10px 35px;
-    border-radius: 4px;
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 60%);
-    transition: none;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: var(--heading-font);
-    transition: 0.3s;
-  }
-
-  .pricing .buy-btn:hover {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--contrast-color);
-  }
-
-  .pricing .featured {
-    z-index: 10;
-  }
-
-  .pricing .featured .pricing-item {
-    background: var(--accent-color);
-  }
-
-  @media (min-width: 992px) {
-    .pricing .featured .pricing-item {
-      transform: scale(1.02, 1.1);
-    }
-  }
-
-  .pricing .featured h3,
-  .pricing .featured h4,
-  .pricing .featured h4 span,
-  .pricing .featured ul,
-  .pricing .featured ul .na,
-  .pricing .featured ul i,
-  .pricing .featured ul .na i {
-    color: var(--contrast-color);
-  }
-
-  .pricing .featured .buy-btn {
-    background: var(--accent-color);
-    color: var(--contrast-color);
-    border-color: var(--contrast-color);
-  }
-
-  .pricing .featured .buy-btn:hover {
-    background: color-mix(in srgb, var(--background-color), transparent 92%);
-  }
-
-  /*--------------------------------------------------------------
-  # Team Section
-  --------------------------------------------------------------*/
-  .team .member {
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .team .member img {
-    border-radius: 50%;
-    max-width: 60%;
-    margin: 30px 0;
-  }
-
-  .team .member .member-content {
-    padding: 0 20px 30px 20px;
-  }
-
-  .team .member h4 {
-    font-weight: 700;
-    margin-bottom: 2px;
-    font-size: 18px;
-  }
-
-  .team .member span {
-    font-style: italic;
-    display: block;
-    font-size: 13px;
-    color: color-mix(in srgb, var(--default-color), transparent 20%);
-  }
-
-  .team .member p {
-    padding-top: 10px;
-    font-size: 14px;
-    font-style: italic;
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-  }
-
-  .team .member .social {
-    margin-top: 15px;
-  }
-
-  .team .member .social a {
-    color: color-mix(in srgb, var(--default-color), transparent 60%);
-    transition: 0.3s;
-  }
-
-  .team .member .social a:hover {
-    color: var(--accent-color);
-  }
-
-  .team .member .social i {
-    font-size: 18px;
-    margin: 0 2px;
-  }
-
   /*--------------------------------------------------------------
   # Contact Section
   --------------------------------------------------------------*/
@@ -1700,11 +1294,4 @@
   .portfolio-details .portfolio-description p {
     padding: 0;
     color: color-mix(in srgb, var(--default-color), transparent 30%);
-  }
-
-  /*--------------------------------------------------------------
-  # Starter Section Section
-  --------------------------------------------------------------*/
-  .starter-section {
-    /* Add your styles here */
   }
