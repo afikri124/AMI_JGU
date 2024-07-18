@@ -42,7 +42,10 @@
     {
         color: white;
     }
-
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
 @endsection
 
@@ -57,10 +60,7 @@
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                           
                 <div class="container">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>

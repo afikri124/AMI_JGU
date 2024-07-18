@@ -11,6 +11,10 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
 @endsection
 

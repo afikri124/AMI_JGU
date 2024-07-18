@@ -24,7 +24,12 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
+
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
             <div class="card-datatable table-responsive">
@@ -32,14 +37,10 @@
                     <div class="row">
                         <div class="col-12 pt-3 pt-md-0">
                             <div class="col-12">
-                                <div class="row">
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="container">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
