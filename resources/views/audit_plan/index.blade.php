@@ -109,6 +109,7 @@
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> <!-- Memuat lokal Indonesia untuk moment.js -->
+
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -120,7 +121,6 @@
             }
         });
     });
-
 </script>
 @endif
 

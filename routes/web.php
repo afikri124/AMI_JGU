@@ -36,8 +36,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 //Profile
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/profile/update', [ProfileController::class, 'update_profile'])->name('profile.update');
-    Route::post('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.updateImage');
+    Route::get('/profile/edit', [ProfileController::class, 'showEditForm'])->name('profile.edit');
+    Route::post('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 //setting
 Route::middleware(['auth'])->group(function () {
