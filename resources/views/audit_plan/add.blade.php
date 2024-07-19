@@ -12,6 +12,10 @@
     .input-validation-error~.select2 .select2-selection {
         border: 1px solid red;
     }
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
 @endsection
 
@@ -137,6 +141,17 @@
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
+                            <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
+                            <select name="type_audit" id="type_audit" class="form-select select2" required>
+                                <option value="">Select Type Audit</option>
+                                <option value="reguler">Reguler</option>
+                                <option value="permintaan">Permintaan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
                             <label for="link" class="form-label"><b>Link Document</b><i class="text-danger">*</i></label>
                             <input type="text" class="form-control" id="link" name="link" placeholder="Input Link Document" value="{{ old('link') }}">
                         </div>
@@ -186,6 +201,10 @@
         });
         $('#periode').select2({
             placeholder: "  Select Periode",
+            allowClear: true
+        });
+        $('#type_audit').select2({
+            placeholder: "  Select Type Audit",
             allowClear: true
         });
     });

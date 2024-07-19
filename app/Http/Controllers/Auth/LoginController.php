@@ -4,34 +4,42 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    public function login(Request $request)
+    {
+        $request->validate([
+            'login_account' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-    use AuthenticatesUsers;
+        $login_account = $request->input('login_account');
+        $password = $request->input('password');
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+        // Cek apakah username/email ada
+        $user = \App\Models\User::where('email', $login_account)
+                                ->orWhere('username', $login_account)
+                                ->first();
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+        if ($user) {
+            // Username/email benar, tetapi password salah
+            if (!Auth::attempt(['email' => $login_account, 'password' => $password]) && !Auth::attempt(['username' => $login_account, 'password' => $password])) {
+                return back()->withErrors(['password' => 'Password salah. Silakan coba lagi.']);
+            }
+        } else {
+            return back()->withErrors(['login_account' => 'These credentials do not match our records.']);
+        }
+
+        // Lakukan login
+        if (Auth::attempt(['email' => $login_account, 'password' => $password]) || Auth::attempt(['username' => $login_account, 'password' => $password])) {
+            return redirect()->intended('dashboard');
+        } else {
+            return back()->withErrors(['login_account' => 'These credentials do not match our records.']);
+        }
+    }
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

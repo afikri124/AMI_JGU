@@ -43,27 +43,26 @@
     {
         color: white;
     }
-    .container,.container-fluid,.container-sm,.container-md,.container-lg,.container-xl,.container-xxl {
-    padding-right: unset;
-    padding-left: unset;
-    }
-    .container-p-y:not([class^=pt-]):not([class*=" pt-"]) {
-    padding-top: 0.9em !important;
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
 }
 </style>
 @endsection
-
-<div class="container-xxl flex-grow-1 container-p-y">
-<div class="card">
-    <div class="card-datatable table-responsive">
-        <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
-                <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
-                        <div class="row">
-                <div class="row">
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flaex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                            </div>
                 <div class="col-md-3">
-                    <select id="select_auditee" name="select2" class="select form-select" data-placeholder="Date Start">
+                    <select id="select_auditee" name="select2" class="select form-select">
                         <option value="">Select Auditee</option>
                         @foreach($auditee as $d)
                         <option value="{{ $d->id }}">{{ $d->name }}</option>
@@ -84,9 +83,8 @@
             </div>
             <div class="container">
                     <thead>
-                        <tr>
-                            <th width="5%"><b>No</b></th>
-                            <th width="15%"><b>Auditee</b></th>
+                            <th><b>No</b></th>
+                            <th width="25%"><b>Auditee</b></th>
                             <th width="35%"><b>Schedule</b></th>
                             <th width="10%"><b>Status</b></th>
                             <th width="20%"><b>Location</b></th>

@@ -61,6 +61,8 @@ Route::group(['prefix' => 'audit_plan'], function () {
     Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
     Route::get('/data_auditor/{id}', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
     Route::any('/update_std/{id}', [AuditPlanController::class, 'update_std'])->name('update_std');
+    Route::get('/standard/edit/{id}', [AuditPlanController::class, 'edit_auditor_std'])->name('audit_plan.standard.edit');
+    Route::PUT('/standard/update/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
 });
 
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');

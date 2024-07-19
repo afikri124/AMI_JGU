@@ -41,7 +41,10 @@
     {
         color: white;
     }
-
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
 @endsection
 
@@ -71,12 +74,18 @@
         </ul>
     </div>
 
-<div class="card">
-    <div class="card-datatable table-responsive">
-        <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
-                <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flaex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                            </div>
                         <div class="row">
                         <div class="col-md-4">
                             <select id="select_category" class="form-control input-sm  select2" data-placeholder="Categories">
@@ -93,7 +102,7 @@
                                 <option value='false'>OFF</option>
                             </select>
                         </div>
-                            <div class="offset-md col-md text-md-end text-center pt-3 pt-md-0">
+                            <div class="col-md d-flex justify-content-center justify-content-md-end">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
                                     aria-controls="DataTables_Table_0" title="Add Standard Criteria" type="button"><span><i
@@ -101,10 +110,7 @@
                                         <span>Add</span></span>
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="offcanvas offcanvas-end @if($errors->all()) show @endif" tabindex="-1" id="newrecord"
                 aria-labelledby="offcanvasEndLabel">
                 <div class="offcanvas-header">
@@ -131,7 +137,7 @@
                         <div class="col-sm-12 fv-plugins-icon-container">
                             <label class="form-label" for="basicDate">Category<i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <select  class="form-select @error('standard_category_id') is-invalid @enderror  input-sm select2-modal "
+                                <select class="form-select @error('standard_category_id') is-invalid @enderror  input-sm select2-modal"
                                     name="standard_category_id" id="standard_category_id">
                                     @foreach($category as $p)
                                     <option value="{{ $p->id }}"
@@ -151,24 +157,23 @@
                             <button type="reset" class="btn btn-outline-secondary"
                                 data-bs-dismiss="offcanvas">Cancel</button>
                         </div>
-                        <div></div><input type="hidden">
                     </form>
                 </div>
             </div>
         </div>
+        <div class="container">
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
                     <th width="5%"><b>No</b></th>
-                    <th width="15%"><b>Criteria</b></th>
-                    <th width="20%"><b>Category</b></th>
-                    <th width="10%"><b>Status</b></th>
-                    <th width="15%"><b>Action</b></th>
+                    <th width="25%"><b>Criteria</b></th>
+                    <th width="5%"><b>Category</b></th>
+                    <th width="5%"><b>Status</b></th>
+                    <th width="5%"><b>Action</b></th>
                 </tr>
             </thead>
         </table>
     </div>
-</div>
 @endsection
 
 @section('script')
@@ -201,6 +206,16 @@
             $(".select2").select2({
                 allowClear: true,
                 minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2-modal").select2({
+                dropdownParent: $('#newrecord'),
+                allowClear: true,
+                minimumResultsForSearch: 5
             });
         })(jQuery);
     }, 350);

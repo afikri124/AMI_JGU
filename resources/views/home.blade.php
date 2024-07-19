@@ -22,7 +22,7 @@
   <link href="assets-landing/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets-landing/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
+ <!-- Main CSS File -->
   <link href="assets-landing/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
@@ -47,7 +47,7 @@
 
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="#hero" class="active">HOME</a></li>
+            <li><a href="#hero" >HOME</a></li>
             <li><a href="#about">ABOUT</a></li>
             <li><a href="#visi&misi">VISI & MISI</a></li>
             <li><a href="#contact">CONTACT</a></li>
@@ -69,10 +69,12 @@
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row justify-content-start">
           <div class="col-lg-8">
-          <h1><b>WELCOME TO </b> <br>
-          <marquee  scrollamount="9"  direction="left" width="270" >
-          <span class="badge text-bg-danger">AUDIT MUTU INTERNAL</span><br>
-          </marquee>
+            <div class="background">
+              <div class="animated-text-box">
+                  <h1><b>WELCOME TO</b></h1>
+                  <h2><div class="nprinsley-text-redan"><b>AUDIT MUTU INTERNAL</b></div></h2>
+              </div>
+          </div>
         </h1>
         <br>
 
@@ -113,14 +115,12 @@
               lingkungan JGU.</span></li>
             </ul>
         </div>
-
         </div>
-
       </div>
-
     </section><!-- /About Section -->
+
     <!-- Visi & Misi Section -->
-    <section id="visi&misi" class="visi&misi section">
+    <section id="visi&misi" class="Clients Section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -273,6 +273,7 @@
   <!-- Main JS File -->
   <script src="assets-landing/js/main.js"></script>
 
-</body>
+  <link rel="stylesheet" type="text/css" href="https://cdn.prinsh.com/NathanPrinsley-textstyle/nprinsh-stext.css"/>
 
+</body>
 </html>

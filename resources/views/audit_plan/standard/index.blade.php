@@ -68,24 +68,26 @@
     .auditor-name a.text-muted:hover {
         color: #d81515; /* Mengubah warna teks saat hover */
     }
-
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
 @endsection
 
-<div class="card">
-    <div class="card-datatable table-responsive">
-        <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
-                <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flaex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                            </div>
                         <div class="row">
-                <div class="row">
-                <div class="container">
-                    <table class="table" id="datatable">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <table class="table table-hover table-sm" id="datatable" width="100%">
             <div class="container">
                     <thead>
                         <tr>
@@ -170,7 +172,10 @@
                     render: function (data, type, row, meta) {
                         var html =
                             `<a class="badge bg-danger badge-icon" title="Create Auditor Standard" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
-                            <i class="bx bx-plus"></i></a>`;
+                            <i class="bx bx-plus"></i></a>
+
+                            <a class="badge bg-warning badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
+                            <i class="bx bx-pencil"></i></a>`;
                         return html;
                     },
                     "orderable": false,

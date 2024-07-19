@@ -24,7 +24,8 @@ class AuditPlan extends Model
         'doc_path',
         'link',
         'remark_docs',
-        'periode'
+        'periode',
+        'type_audit'
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -76,5 +77,10 @@ class AuditPlan extends Model
     public function sub_indicator()
     {
         return $this->hasMany(SubIndicator::class, 'sub_indicator_id');
+    }
+    
+    public function review_document()
+    {
+        return $this->hasMany(ReviewDocs::class, 'review_document_id');
     }
 }

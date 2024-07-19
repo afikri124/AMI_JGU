@@ -10,6 +10,10 @@
     .input-validation-error~.select2 .select2-selection {
         border: 1px solid red;
     }
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+}
 </style>
 @endsection
 
@@ -30,7 +34,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id" id="auditor_id" class="form-select select2">
+                            <select name="auditor_id" id="auditor_id" class="form-select select2" @readonly(true)>
                             <option value="">Select Auditor</option>
                             @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ $data->auditor_id ? 'selected' : '' }}>
@@ -57,7 +61,6 @@
                             <select name="standard_criteria_id[]" id="standard_criteria_id" class="form-select select2" multiple required>
                                 @foreach($criteria as $c)
                                     <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_criteria_id', [])) ? 'selected' : '' }}>
-                                        {{-- {{ in_array($c->id, $selectedCriteria->toArray()) ? 'disabled' : '' }}> --}}
                                         {{ $c->id }} - {{ $c->title }}
                                     </option>
                                 @endforeach
