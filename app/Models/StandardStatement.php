@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubIndicator extends Model
+class StandardStatement extends Model
 {
     use HasFactory;
     protected $keyType = 'string';
@@ -14,7 +14,6 @@ class SubIndicator extends Model
     protected $fillable = [
         'name',
         'standard_criteria_id',
-        'indicator_id'
     ];
 
     public function getKeyType()
@@ -27,14 +26,13 @@ class SubIndicator extends Model
         return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');
     }
 
-    public function indicator()
+    public function indicators()
     {
-        return $this->belongsTo(Indicator::class, 'indicator_id');
+        return $this->hasMany(Indicator::class, 'standard_statement_id');
     }
 
     public function reviewDocs()
     {
-        return $this->belongsTo(ReviewDocs::class, 'review_docs_id');
+        return $this->hasMany(ReviewDocs::class, 'standard_statement_id');
     }
-
 }

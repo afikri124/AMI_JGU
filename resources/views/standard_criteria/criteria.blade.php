@@ -57,17 +57,17 @@
 
 
 @section('content')
-    <div class="col-md-12">
+<div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
                         class="bx bx-chart me-1"></i>
-                    Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
+                    Standard Statement</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator.index') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Sub Indicator</a></li>
+                    Indicator</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
                     Review Document</a></li>

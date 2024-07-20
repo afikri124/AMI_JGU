@@ -14,6 +14,7 @@ class Indicator extends Model
     protected $fillable = [
         'name',
         'standard_criteria_id',
+        'standard_statement_id'
     ];
 
     public function getKeyType()
@@ -26,18 +27,8 @@ class Indicator extends Model
         return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');
     }
 
-    public function subIndicators()
+    public function statement()
     {
-        return $this->hasMany(SubIndicator::class, 'id');
-    }
-
-    public function reviewDocs()
-    {
-        return $this->hasMany(ReviewDocs::class, 'id');
-    }
-
-    public function auditPlanCriteria()
-    {
-        return $this->hasMany(AuditPlanCriteria::class, 'standard_criteria_id', 'standard_criteria_id');
+        return $this->belongsTo(StandardStatement::class, 'standard_statement_id');
     }
 }

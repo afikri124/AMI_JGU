@@ -46,20 +46,23 @@ class ObservationController extends Controller
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
         $data = AuditPlan::findOrFail($id);
-        
+
         $auditorId = Auth::user()->id; //login sebagai user
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-        
+
         $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
         $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
-        
+
         $standardCategoryIds = $categories->pluck('standard_category_id');
         $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
 
         $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('indicators')
-                        ->with('indicators.subIndicators','indicators.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
         // dd($standardCriterias);
 
         $auditor = User::with(['roles' => function ($query) {
@@ -82,7 +85,7 @@ class ObservationController extends Controller
 
     public function make(Request $request, $id)
     {
-        dd($request);
+        // dd($request);
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();
@@ -91,9 +94,7 @@ class ObservationController extends Controller
             $this->validate($request, [
                 'location_id' => ['required'],
                 'remark_plan' => ['required'],
-                'audit_plan_category_id' => ['required', 'array'],
-                'audit_plan_criteria_id' => ['required', 'array'],
-                'sub_indicator_id' => ['required', 'array'],
+                'indicator_id' => ['required', 'array'],
                 'remark_description' => ['required', 'array'],
                 'obs_checklist_option' => ['required', 'array'],
                 'remark_success_failed' => ['required', 'array'],
@@ -103,32 +104,18 @@ class ObservationController extends Controller
             ]);
 
             // Create Observation
-            $o = Observation::create([
+            $obs = Observation::create([
                 'audit_plan_id' => $request->audit_plan_id,
                 'audit_plan_auditor_id' => $request->audit_plan_auditor_id,
                 'location_id' => $request->location_id,
                 'remark_plan' => $request->remark_plan,
             ]);
 
-            // Create Observation Categories and Criteria
-            foreach ($request->audit_plan_category_id as $index => $categoryId) {
-                $observationCategory = ObservationCategory::create([
-                    'observation_id' => $id,
-                    'audit_plan_category_id' => $categoryId,
-                    'audit_plan_criteria_id' => $request->audit_plan_criteria_id[$index],
-                ]);
-
-                ObservationCriteria::create([
-                    'observation_id' => $id,
-                    'observation_category_id' => $observationCategory->id,
-                ]);
-            }
-
             // Create Observation Checklists
-            foreach ($request->sub_indicator_id as $index => $subIndicatorId) {
+            foreach ($request->indicator_id as $index => $sub_indicator) {
                 ObservationChecklist::create([
-                    'observation_id' => $o->id,
-                    'sub_indicator_id' => $subIndicatorId,
+                    'observation_id' => $obs->id,
+                    'indicator_id' => $sub_indicator,
                     'remark_description' => $request->remark_description[$index],
                     'obs_checklist_option' => $request->obs_checklist_option[$index],
                     'remark_success_failed' => $request->remark_success_failed[$index],
@@ -138,7 +125,21 @@ class ObservationController extends Controller
                 ]);
             }
 
-            return redirect()->route('observations.index')->with('msg', 'Observasi berhasil di laksanakan!!');
+            // Create Observation Categories and Criteria
+            // foreach ($request->audit_plan_category_id as $index => $categoryId) {
+            //     $observationCategory = ObservationCategory::create([
+            //         'observation_id' => $obs->id,
+            //         'audit_plan_category_id' => $categoryId,
+            //         'audit_plan_criteria_id' => $request->audit_plan_criteria_id[$index],
+            //     ]);
+
+            //     ObservationCriteria::create([
+            //         'observation_id' => $obs->id,
+            //         'observation_category_id' => $observationCategory->id,
+            //     ]);
+            // }
+
+            return redirect()->route('observations.index')->with('msg', 'Observasition succeeded!!');
         }
     }
 

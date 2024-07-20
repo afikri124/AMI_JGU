@@ -60,14 +60,14 @@
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
                                 </div>
-                           
+
                 <div class="container">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th><b>Lecture</b></th>
-                                <th width="35%"><b>Schedule</b></th>
+                                <th width="20%"><b>Lecture</b></th>
+                                <th width="25%"><b>Schedule</b></th>
                                 <th><b>Location</b></th>
                                 <th><b>Status</b></th>
                                 <th><b>Doc</b></th>

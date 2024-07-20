@@ -4,7 +4,8 @@
 @section('title', 'Create Indicator')
 
 @section('css')
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
 <style>
     .checkbox label::before {
@@ -25,23 +26,44 @@
         @endif
         <div class="card mb-4">
             <hr class="my-0">
+            <div class="card-header">Indicator</div>
             <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('standard_criteria.indicator.create') }}" enctype="multipart/form-data">
+                <form id="form-add-new-record" method="POST" action="{{ route('store_indicator.indicator') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group col-md-4">
-                        <label for="standard-_criteria_id" >Select Criteria</label>
-                        <div class="form-group">
-                                <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
-                                    <option value="">Select Criterias</option>
-                                    @foreach($criterias as $c)
-                                        <option value="{{ $c->id }}" {{ old('standard_criteria_id') == $c->id ? 'selected' : '' }}>
-                                        {{ $c->id }} -  {{ $c->title }}
-                                        </option>
+                    <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="standard_criteria_id" class="form-label">Select Criteria<i class="text-danger">*</i></label>
+                                <div class="form-group">
+                                    <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
+                                        <option value="">Select Criteria</option>
+                                        @foreach($criterias as $c)
+                                            <option value="{{ $c->id }}" {{ old('standard_criteria_id') == $c->id ? 'selected' : '' }}>
+                                                {{ $c->id }} - {{ $c->title }}
+                                            </option>
                                         @endforeach
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                    </div>
 
+                            <div class="form-group col-md-6">
+                                <label for="standard_statement_id" class="form-label">Select Standard Statement<i class="text-danger">*</i></label>
+                                <div class="form-group">
+                                <select class="form-select input-sm select2" name="standard_statement_id" id="standard_statement_id">
+                                    <option value="" selected disabled>Select Standard Statement</option>
+                                    @foreach($statement as $c)
+                                        <option value="{{ $c->id }}" {{ old('standard_statement_id') == $c->id ? 'selected' : '' }}>
+                                            {{ $c->id }} - {{ $c->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('standard_statement_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+<p></p>
                     <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>
                         <input type="number" class="form-control" id="numForms" name="numForms" min="1">
@@ -49,9 +71,9 @@
 
                     <div id="dynamic-form-container"></div>
 
-                    <div class="col-sm-12 mt-4">
-                        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
-                        <a href="{{ url()->previous() }}">
+                    <div class="col-sm-12 mt-3">
+                        <button type="submit" class="btn btn-primary data-submit me-sm-1me-1">Create</button>
+                        <a href="{{ route('standard_criteria.indicator.index')}}">
                         <span class="btn btn-outline-secondary">Back</span>
                         </a>
                     </div>
@@ -62,7 +84,9 @@
 </div>
 
 @section('script')
+<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+
 <script>
     "use strict";
     setTimeout(function () {
@@ -86,26 +110,38 @@
             <p></p>
                 <div class="row mb-3">
                         <div class="form-group">
-                            <label for="inputField${i + 1}_1">Indikator (Max. 250 char)<i class="text-danger">*</i></label>
-                            <textarea type="text-danger" class="form-control" maxlength="250" id="inputField${i + 1}_1" name="indicators[${i}][name]">
-
+                            <label for="inputField${i + 1}_1">Indicator<i class="text-danger">*</i></label>
+                            <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="indicators[${i}][name]"></input>
+                            <trix-editor input="inputField${i + 1}_1"></trix-editor>
+                        </div>
+                    </div>
             `;
             container.insertAdjacentHTML('beforeend', row);
         }
     });
 });
 </script>
-<!-- <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputField${i + 1}_2">Sub Indikator</label>
-                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_2" name="indicators[${i}][sub_indicator]"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputField${i + 1}_3">Review Document</label>
-                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_3" name="indicators[${i}][review_document]"></textarea>
-                        </div>
-                    </div> -->
+<script>
+    $('#standard_criteria_id').change(function() {
+                var categoryId = this.value;
+                $("#standard_statement_id").html('');
+                $.ajax({
+                    url: "{{ route('DOC.get_standard_statement_id_by_id') }}",
+                    type: "GET",
+                    data: {
+                        id: categoryId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#standard_statement_id').html('<option value="">Select Standard Statement</option>');
+                        $.each(result, function(key, value) {
+                            $("#standard_statement_id").append('<option value="' + value.id +
+                                '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            });
+</script>
 @endsection
 @endsection

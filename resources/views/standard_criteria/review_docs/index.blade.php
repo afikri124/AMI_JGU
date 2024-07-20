@@ -65,12 +65,12 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
                         class="bx bx-chart me-1"></i>
-                    Indicator</a></li>
-        <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.sub_indicator') }}"><i
+                    Standard Statement</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator.index') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Sub Indicator</a></li>
+                    Indicator</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
                     Review Document</a></li>
@@ -85,15 +85,15 @@
                     <div class="col-12"> -->
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
-                                <option value="">Select Sub Indicator</option>
-                                @foreach($indicator as $d)
+                            <select id="select_statement" class="form-control input-sm select2" data-placeholder="Indicator">
+                                <option value="">Select Standard Statement</option>
+                                @foreach($statement as $d)
                                 <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Sub Indicator"
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Standard Statement"
                                 href="{{ route('standard_criteria.review_docs.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
@@ -104,7 +104,7 @@
                 <tr>
                     <th width="20px">No</th>
                     <th>Review Document</th>
-                    <th>Indicator</th>
+                    <th>Standard Statement</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -163,7 +163,7 @@
                 url: "{{ route('standard_criteria.data_docs') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_indicator = $('#select_indicator').val()
+                    d.select_statement = $('#select_statement').val()
                 },
             },
             columns: [{
@@ -189,8 +189,8 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.indicator.name;
-                        return x;
+                        var html = `<a class="text-primary" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        return html;
                     },
                 },
                 {
@@ -211,7 +211,7 @@
                 }
             ]
         });
-        $('#select_indicator').change(function () {
+        $('#select_statement').change(function () {
             table.draw();
         });
     });

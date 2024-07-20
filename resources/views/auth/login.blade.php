@@ -205,12 +205,12 @@ form {
          <!-- Email Address or Username-->
             <div class="input-field">
             <label for="login_account">Username or email</label>
-            <input type="text" id="login_account" name="login_account"  placeholder="Masukkan Nama Pengguna atau Email" :value="old('login_account')" autocomplete="username" /></div>
+            <input type="text" id="login_account" name="login_account"  placeholder="Enter Username or Email" :value="old('login_account')" autocomplete="username" /></div>
 
          <!-- Password -->
             <div class="input-field">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Masukkan Kata Sandi" autocomplete="current-password" /></div>
+            <input type="password" id="password" name="password" placeholder="Enter Password" autocomplete="current-password" /></div>
 
         <!-- pesan kesalahan -->
             @if ($errors->any())
@@ -221,6 +221,7 @@ form {
             </ul>
         </div>
     @endif
+
         <button type="submit" class="btn">Login</button>
             <div class="links">
                 @if (Route::has('password.request'))

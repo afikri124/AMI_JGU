@@ -85,6 +85,7 @@
 @endsection
 
 @section('content')
+<div id="wizard-validation" >
 <div class="bs-stepper wizard-icons wizard-icons-example mt-2 p-3">
   <div class="bs-stepper-header">
     <div class="step" data-target="#account-details">
@@ -109,10 +110,10 @@
     </div>
   </div>
 
-
   <div class="bs-stepper-content">
-<form method="POST" action="{{ route('make', $data->id) }}">
-            @csrf
+  <form id="wizard-validation-form" method="POST" action="{{ route('make', $data->id) }}"
+    enctype="multipart/form-data">
+    @csrf
     <!-- Account Details -->
       <div id="account-details" class="content">
         <div class="content-header mb-3">
@@ -186,7 +187,7 @@
 
       <div id="address" class="content">
       <div class="content-header mb-3">
-      <small>Category Standard</small>
+      <strong class="text-primary">Category Standard</strong>
 @foreach ($standardCategories as $category)
     <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
         {{ $category->description }}
@@ -194,7 +195,7 @@
 @endforeach
 <p></p>
 
-<small>Criteria Standard</small>
+<strong class="text-primary">Criteria Standard</strong>
 @foreach ($standardCriterias as $criteria)
     <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
         {{ $criteria->title }}
@@ -203,113 +204,119 @@
 <p></p>
 @foreach ($standardCriterias as $criteria)
     <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
-    
-    @foreach ($criteria->indicators as $no => $indicator)
-        {{-- @if ($indicator->standard_criteria_id == $criteria->id) --}}
-            <table class="table table-bordered">
-                <tr>
-                    <th><b>Indicator</b></th>
-                    <td>
-                        <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                        @error('link')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 60%">
-                        <ul>{{ $indicator->name }}</ul>
-                    </td>
-                    <td style="width: 35%">
-                        <div id="data-sets">
-                            <div id="data-set">
-                                <div class="checkbox-group">
-                                    <input type="radio" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" required />
-                                    <label for="ks">KS</label>
-                                </div>
-                                <div class="checkbox-group">
-                                    <input type="radio" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" required />
-                                    <label for="obs">OBS</label>
-                                </div>
-                                <div class="checkbox-group">
-                                    <input type="radio" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS Minor" required />
-                                    <label for="kts_minor">KTS MINOR</label>
-                                </div>
-                                <div class="checkbox-group">
-                                    <input type="radio" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS Mayor" required />
-                                    <label for="kts_mayor">KTS MAYOR</label>
-                                </div>
+
+    @foreach ($criteria->statements as $no => $statement)
+    @foreach ($statement->indicators as $indicator)
+        <table class="table table-bordered">
+            <tr>
+                <th><b>Standard Statement</b></th>
+                <td>
+                    <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
+                    @error('link')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 60%">
+                    <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
+                </td>
+                <td style="width: 35%">
+                    <div id="data-sets">
+                        <div id="data-set">
+                            <div class="checkbox-group">
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="KS" required />
+                                <label for="ks">KS</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="OBS" required />
+                                <label for="obs">OBS</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="KTS Minor" required />
+                                <label for="kts_minor">KTS MINOR</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="KTS Mayor" required />
+                                <label for="kts_mayor">KTS MAYOR</label>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 60%">
-                        <strong>Sub Indicator</strong>
-                        @foreach ($indicator->subIndicators as $subIndicator)
-                            {{-- @if ($subIndicator->indicator_id == $indicator->id) --}}
-                                <ul>{!! $subIndicator->name !!}</ul>
-                            {{-- @endif --}}
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 60%" id="review-docs">
-                        <strong>Review Document</strong>
-                        @foreach ($indicator->reviewDocs as $reviewDoc)
-                            {{-- @if ($reviewDoc->indicator_id == $indicator->id) --}}
-                                <ul>{!!$reviewDoc->name !!}</ul>
-                            {{-- @endif --}}
-                        @endforeach
-                    </td>
-                </tr>
-        <tr>
-            <td colspan="3">
-                <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
-                <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]" 
-                    class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
-                <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]" 
-                    class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
-                <textarea name="remark_recommend[{{ $indicator->id }}]" 
-                    class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
-                <textarea type="text" id="remark_upgrade_repair" class="form-control" 
-                    name="remark_upgrade_repair[{{ $indicator->id }}]" maxlength="250" 
-                    placeholder="MAX 250 characters..."></textarea>
-            </td>
-        </tr>
-            </table>
-        {{-- @endif --}}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 60%">
+                    <strong>Indicator</strong>
+                    <ul>{!! $indicator->name !!}</ul>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 60%" id="review-docs">
+                    <strong>Review Document</strong>
+                    @foreach ($statement->reviewDocs as $reviewDoc)
+                        <ul>{!! $reviewDoc->name !!}</ul>
+                    @endforeach
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
+                    <textarea id="remark_description" name="remark_description[{{ $statement->id }}]"
+                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
+                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $statement->id }}]"
+                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
+                    <textarea name="remark_recommend[{{ $statement->id }}]"
+                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
+                    <textarea type="text" id="remark_upgrade_repair" class="form-control"
+                              name="remark_upgrade_repair[{{ $statement->id }}]" maxlength="250"
+                              placeholder="MAX 250 characters..."></textarea>
+                </td>
+            </tr>
+        </table>
     @endforeach
-    <hr>
+@endforeach
+
+    <hr class="text-dark">
 @endforeach
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $indicator->id }}]" placeholder="Pihak Bertanggung Jawab...">
+                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $statement->id }}]" placeholder="Pihak Bertanggung Jawab...">
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_completed" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_completed[{{ $indicator->id }}]" id="plan_completed" placeholder="YYYY-MM-DD">
+                    <input type="date" class="form-control" name="plan_completed[{{ $statement->id }}]" id="plan_completed" placeholder="YYYY-MM-DD">
                 </div>
             </div>
-
+            <div class="col-sm-12 fv-plugins-icon-container">
+                <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
+                <div class="input-group input-group-merge has-validation">
+                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
+                    name="remark_plan" placeholder="MAX 250 characters..."></textarea>
+                    @error('remark_plan')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col-12 d-flex justify-content-between">
                     <button class="btn btn-primary btn-prev">
@@ -328,11 +335,22 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
-
-<script type="text/javascript">
+    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/form-wizard-validation/form-wizard-validation.js') }}"></script>
+    <script
+        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/bs-stepper/bs-stepper.js">
+    </script>
+    <script
+        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/popular.js">
+    </script>
+    <script
+        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/bootstrap5.js">
+    </script>
+    <script
+        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/auto-focus.js">
+    </script>
+    <script type="text/javascript">
     "use strict";
     setTimeout(function () {
         (function ($) {
@@ -344,6 +362,23 @@
         })(jQuery);
     }, 350);
 
+    // $(document).ready(function() {
+
+    //             $("#remark_description").prop('disabled', true).attr('data-placeholder',
+    //                 'Remark Descripstion data is required');
+    //             $("#obs_checklist_option").prop('disabled', true).attr('data-placeholder',
+    //                 'Form Checklist data is required');
+    //             $("#remark_success_failed").prop('disabled', true).attr('data-placeholder',
+    //                 'Remark success failed data is required');
+    //             $("#remark_recommend").prop('disabled', true).attr('data-placeholder',
+    //                 'Remark Recommend data is required');
+    //             $("#remark_upgrade_repair").prop('disabled', true).attr('data-placeholder',
+    //                 'Remark Upgrade Repair data is required');
+    //             $("#person_in_charge").prop('disabled', true).attr('data-placeholder',
+    //                 'Person In Charge data is required');
+    //             $("#plan_completed").prop('disabled', true).attr('data-placeholder',
+    //                 'Plan Complated data is required');
+    //         });
 </script>
 <script>
     const wizardIcons = document.querySelector('.wizard-icons-example');

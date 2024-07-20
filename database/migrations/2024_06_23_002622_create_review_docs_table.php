@@ -16,8 +16,8 @@ return new class extends Migration
             $table->text('name');
             $table->unsignedBigInteger('standard_criteria_id')->nullable();
             $table->foreign('standard_criteria_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('indicator_id')->nullable();
-            $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
+            $table->unsignedBigInteger('standard_statement_id')->nullable();
+            $table->foreign('standard_statement_id')->references('id')->on('standard_statements')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -24,8 +24,7 @@ class MyAuditController extends Controller{
 
     public function update(Request $request, $id){
         $request->validate([
-            'doc_path' => 'mimes:pdf|max:10000|required_without:link',
-            'link' => 'required_without:doc_path'
+            'doc_path' => 'mimes:pdf|max:10000|',
         ]);
         $fileName = null;
         if ($request->hasFile('doc_path')) {
@@ -48,54 +47,10 @@ class MyAuditController extends Controller{
         $data = AuditPlan::findOrFail($id);
         $data->update([
         'doc_path'          => $fileName,
-        'link'              => $request->link,
         'audit_status_id'   => '10',
     ]);
         return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Upload.');
     }
-
-    public function edit($id)
-    {
-        $data = AuditPlan::findOrFail($id);
-        $data->doc_path;
-        $data->link;
-        return view('my_audit.edit', compact('data'));
-    }
-
-    public function update_doc(Request $request, $id){
-    $request->validate([
-        'doc_path' => 'mimes:pdf|max:10000|required_without:link',
-        'link' => 'required_without:doc_path',
-    ]);
-
-    $fileName = $request->input('doc_path_existing', ''); // Menyimpan nama file yang sudah ada jika tidak ada file baru yang diunggah
-    if ($request->hasFile('doc_path')) {
-        $ext = $request->doc_path->extension();
-        $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
-        $fileName = Auth::user()->id . '_' . $name;
-        $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
-        $path = public_path() . "/" . $folderName;
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0755, true); //create folder
-        }
-        $upload = $request->doc_path->move($path, $fileName); //upload file to folder
-        if ($upload) {
-            $fileName = $folderName . "/" . $fileName;
-        } else {
-            $fileName = "";
-        }
-    }
-
-    //document upload
-    $data = AuditPlan::findOrFail($id);
-    $data->update([
-        'doc_path' => $fileName,
-        'link' => $request->link,
-        'audit_status_id' => '11',
-    ]);
-
-    return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Ubah.');
-}
 
     public function show($id)
     {

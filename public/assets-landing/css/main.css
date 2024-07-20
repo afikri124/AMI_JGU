@@ -891,7 +891,7 @@
 
   .hero:before {
     content: "";
-    background: color-mix(in srgb, var(--background-color), transparent 33%);
+    background: color-mix(in srgb, var(--background-color), transparent 70%);
     position: absolute;
     inset: 0;
     z-index: 2;
@@ -913,12 +913,12 @@
 .animated-text-box {
     position: relative;
     text-align:left;
-    background: rgba(176, 171, 171, 0.8);
+    background: rgba(182, 180, 180, 0.8);
     padding:20px;
     border-radius: 15px;
     animation: ease-out;
     box-shadow:  0 0 0 10px rgba(0, 0, 0, 0.2);
-    transform: perspective(700px) rotateY(9deg);
+    transform: perspective(500px) rotateY(11deg);
 }
 
 .animated-text-box h1 {

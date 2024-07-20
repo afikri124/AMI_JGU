@@ -32,17 +32,34 @@
                         <div class="row">
                               @csrf
                               @method('PUT')
+                              <div class="form-group mb-3">
+                                <label for="standard_criteria_id" class="form-label"><b>Select Criteria</b><i class="text-danger">*</i></label>
+                                <select class="form-select digits select2 @error('standard_criteria_id') is-invalid @enderror"
+                                        name="standard_criteria_id" id="standard_criteria_id" data-placeholder="Select">
+                                    <option value="" selected disabled>Select Standard Criteria</option>
+                                    @foreach($criteria as $c)
+                                        <option value="{{ $c->id }}" {{ $data->standard_criteria_id == $c->id ? 'selected' : '' }}>
+                                            {{ $c->id }} - {{$c->title}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('standard_criteria_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                               <div class="form-group col-md-4">
-                              <label for="indicator_id" class="form-label">Select Indicator</label>
-                              <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
-                                    name="indicator_id" id="indicator_id" data-placeholder="Select">
-                              <option value="" selected disabled>Select Indicator</option>
-                              @foreach($indicator as $ind)
-                                    <option value="{{$ind->id}}" {{ $data->indicator_id ? 'selected' : '' }}>
+                              <label for="standard_statement_id" class="form-label">Select Statement</label>
+                              <select class="form-select digits select2 @error('standard_statement_id') is-invalid @enderror"
+                                    name="standard_statement_id" id="standard_statement_id" data-placeholder="Select">
+                              <option value="" selected disabled>Select Statement</option>
+                              @foreach($statement as $ind)
+                                    <option value="{{$ind->id}}" {{ $data->standard_statement_id == $ind->id ? 'selected' : '' }}>
                                           {{$ind->name}}</option>
                                     @endforeach
                               </select>
-                              @error('indicator_id')
+                              @error('standard_statement_id')
                               <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                               </span>
@@ -58,8 +75,8 @@
                         <br>
                         <div id="dynamic-form-container"></div>
                               <br>
-                        <div class="mt-2">
-                              <button type="submit" class="btn btn-success me-2">Update</button>
+                        <div class="mt-2 text-end">
+                              <button type="submit" class="btn btn-primary me-2">Update</button>
                               <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.review_docs') }}">Back</a>
                         </div>
                   </form>
@@ -82,4 +99,5 @@
         })(jQuery);
     }, 350);
 </script>
+
 @endsection

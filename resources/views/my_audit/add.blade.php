@@ -7,6 +7,10 @@
 @endsection
 
 <style>
+    .large-text {
+        font-size: 15px; /* Anda bisa sesuaikan ukuran teks sesuai keinginan */
+        font-weight: bold;
+    }
     .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
     padding-right: 0.5em;
     padding-left: 0.5em;
@@ -21,16 +25,27 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
-        <div class="card mb-4">
-            <h4 class="card-header"><b>Upload Document Audit</b></h4>
+        <div class="card mb-5">
+            <h4 class="card-header"><b>Have you uploaded the following drive link?</b></h4>
             <hr class="my-0">
             <div class="card-body">
                 <form id="form-add-new-record" method="POST" action="{{ route('my_audit.update', $data->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+                        <td>
+                        <label class="form-label large-text">Link Drive</label>
+                        <br>
+                            <a href="{{ $data->link }}" class="large-text" target="_blank">{{ $data->link }}</a>
+                            @error('link')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </td>
+                        <hr>
                         <div class="form-group">
-                            <label class="form-label">Upload Images</label>
+                            <label class="form-label large-text">Upload Document</label>
                             <div class="input-group mb-3">
                                 <input class="form-control @error('doc_path') is-invalid @enderror"
                                     name="doc_path" type="file" accept=".pdf"
@@ -42,21 +57,11 @@
                                 @enderror
                             </div>
                             </div>
-                            <div class="col-sm-12 fv-plugins-icon-container">
-                                <label class="form-label" for="basicDate">Link Drive</label>
-                                <div class="input-group input-group-merge has-validation">
-                                    <input class="form-control @error('link') is-invalid @enderror" name="link" id="link"
-                                        placeholder="Input your link drive">{{ old('link') }}
-                                    @error('link')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-sm-12 mt-4">
-                                <button type="submit"
-                                    class="btn btn-primary data-submit me-sm-3 me-1">Submit</button>
+                            <div class="text-end">
+                                <button class="btn btn-primary" type="submit">Done</button>
+                                <a href="{{ url()->previous() }}">
+                                    <span class="btn btn-secondary">Back</span>
+                                </a>
                             </div>
                         @endsection
 

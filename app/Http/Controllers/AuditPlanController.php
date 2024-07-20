@@ -253,57 +253,6 @@ class AuditPlanController extends Controller
         return view('audit_plan.standard.index', compact('data', 'auditor'));
     }
 
-    public function create(Request $request, $id)
-    {
-        $data = AuditPlanAuditor::findOrFail($id);
-        $category = StandardCategory::where('status', true)->get();
-        $criteria = StandardCriteria::where('status', true)->get();
-        $auditor = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'auditor');
-        })
-        ->where('id', $data->auditor_id) // Gunakan ID dari data yang diambil
-        ->orderBy('name')
-        ->get();
-
-        return view("audit_plan.standard.create", compact("data", "category", "criteria", "auditor"));
-    }
-
-    public function update_std(Request $request, $id)
-    {
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'auditor_id' => 'required',
-                'standard_criteria_id' => 'required',
-                'standard_category_id' => 'required',
-            ]);
-            // dd($request->all());
-
-            $data = AuditPlanAuditor::findOrFail($id);
-
-            if ($request->standard_category_id) {
-                foreach ($request->standard_category_id as $categoryId) {
-                    AuditPlanCategory::create([
-                        'audit_plan_auditor_id' => $data->id,
-                        'standard_category_id'  => $categoryId,
-                    ]);
-                }
-            }
-
-            if ($request->standard_criteria_id) {
-                foreach ($request->standard_criteria_id as $criteriaId) {
-                    AuditPlanCriteria::create([
-                        'audit_plan_auditor_id'=> $data->id,
-                        'standard_criteria_id' => $criteriaId,
-                    ]);
-                }
-            }
-        }
-        return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil di tambahkan!!');
-    }
-
     public function edit_auditor_std(Request $request, $id)
     {
         $data = AuditPlanAuditor::findOrFail($id);
@@ -325,7 +274,7 @@ class AuditPlanController extends Controller
         return view("audit_plan.standard.edit", compact("data", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
     }
 
-        public function update_auditor_std(Request $request, $id)
+    public function update_auditor_std(Request $request, $id)
     {
     // Validate the incoming request data
     $this->validate($request, [

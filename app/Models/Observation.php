@@ -42,19 +42,9 @@ class Observation extends Model
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
-
-    public function indicator()
+    
+    public function obs_checklist()
     {
-        return $this->belongsTo(Indicator::class, 'indicator_id');
-    }
-
-    public function sub_indicator()
-    {
-        return $this->belongsTo(SubIndicator::class, 'sub_indicator_id');
-    }
-
-    public function review_docs()
-    {
-        return $this->belongsTo(ReviewDocs::class, 'review_docs_id');
+        return $this->hasMany(ObservationChecklist::class, 'observation_id');
     }
 }

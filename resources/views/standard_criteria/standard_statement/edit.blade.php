@@ -1,20 +1,20 @@
 @extends('layouts.master')
 @section('content')
-@section('title', ' Edit Indicator')
+@section('title', ' Edit Standard Statement')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
-
 <style>
+    .checkbox label::before {
+        border: 1px solid #333;
+    }
     .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
     padding-right: 0.5em;
     padding-left: 0.5em;
 }
 </style>
-
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -27,7 +27,7 @@
             <!-- Account -->
             <hr class="my-0">
             <div class="card-body">
-                <form action="{{ route('update_indicator', $data->id) }}" method="POST">
+                <form action="{{ route('update_standard_statement', $data->id) }}" method="POST">
                     <div class="row">
                         @csrf
                         @method('PUT')
@@ -49,38 +49,19 @@
                             @enderror
                         </div>
                         <div class="form-group mb-3">
-                            <label for="standard_statement_id" class="form-label"><b>Select Standard Statement</b></label>
-                            <select class="form-select digits select2 @error('standard_statement_id') is-invalid @enderror"
-                                    name="standard_statement_id" id="standard_statement_id" data-placeholder="Select">
-                                <option value="" selected disabled>Select Standard Statement</option>
-                                @foreach($statement as $ind)
-                                    <option value="{{$ind->id}}" {{ $data->standard_statement_id == $ind->id ? 'selected' : '' }}>
-                                        {{$ind->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('standard_statement_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <label for="name" class="col-form-label"><b>Standard Statement</b><i class="text-danger">*</i></label>
+                            <textarea class="form-control" maxlength="250" placeholder="Note: Maximum 250 char...." rows="2" name="name" id="name">{{ $data->name }}</textarea>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label for="name" class="col-form-label"><b>Indicator</b></label>
-                            <input type="hidden" class="form-control" name="name" id="name" value = "{!! $data->name !!}">
-                            <trix-editor input="name"></trix-editor>
-                        </div>
-
-                        <div class="mt-2 text-end">
-                            <button type="submit" class="btn btn-primary me-2">Update</button>
-                            <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.indicator.index') }}">Back</a>
-                        </div>
+                    <div class="mt-2 text-end">
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.standard_statement') }}">Back</a>
+                    </div>
                 </form>
                 </div>
             @endsection
 
 @section('script')
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 
 <script>
@@ -95,5 +76,4 @@
         })(jQuery);
     }, 350);
 </script>
-
 @endsection
