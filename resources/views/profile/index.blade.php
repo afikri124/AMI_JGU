@@ -52,9 +52,9 @@
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                                 @if (Auth::user()->image)
-                                <img src="{{ asset(Auth::user()->image) }}" class="img" width="100px">
+                                <img src="{{ asset(Auth::user()->image) }}" alt="user-avatar" class="img" >
                                 @else
-                                <img src="{{ Auth::user()->image() }}" class="img" width="100px">
+                                <img src="{{ Auth::user()->image() }}" alt="user-avatar" class="img" >
                                 @endif
                             </div>
                             <div class="flex-grow-1 mt-4">

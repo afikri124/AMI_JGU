@@ -128,8 +128,8 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <button type="submit" class="btn btn-primary me-2" onclick="return confirmSubmit(event)">Simpan</button>
-                        <a class="btn btn-outline-secondary" href="{{ route('profile.index') }}">Kembali</a>
+                        <button type="submit" class="btn btn-primary me-2" onclick="return confirmSubmit(event)">Update</button>
+                        <a class="btn btn-outline-secondary" href="{{ route('profile.index') }}">Back</a>
                     </div>
                     <input type="hidden">
                 </form>
