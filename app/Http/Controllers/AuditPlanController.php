@@ -72,9 +72,9 @@ class AuditPlanController extends Controller
 
         if ($data) {
             return redirect()->route('audit_plan.standard', ['id' => $data->id])
-            ->with('msg', 'Data ' . $auditee->name . ' pada tanggal ' . $request->date_start . ' sampai tanggal ' . $request->date_end . ' BERHASIL ditambahkan!!');
+            ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added!!');
             }
-        return redirect()->back()->with('msg', 'Gagal menambahkan data.');
+        return redirect()->back()->with('msg', 'Failed to add data.');
     }
 
         $audit_plan = AuditPlan::with('auditstatus')->get();
@@ -164,7 +164,7 @@ class AuditPlanController extends Controller
             );
         }
 
-        return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
+        return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan updated successfully.');
     }
 
 
@@ -188,12 +188,12 @@ class AuditPlanController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Berhasil dihapus!'
+            'message' => 'Successfully deleted!'
         ]);
     } else {
         return response()->json([
             'success' => false,
-            'message' => 'Gagal dihapus! Data tidak ditemukan.'
+            'message' => 'Failed to delete! Data not found'
         ]);
     }
 }
@@ -297,7 +297,7 @@ class AuditPlanController extends Controller
         );
     }
     // Redirect with a success message
-    return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil diupdate!');
+    return redirect()->route('audit_plan.index')->with('msg', 'Auditor data to determine each Standard was added successfully!');
     }
 }
 

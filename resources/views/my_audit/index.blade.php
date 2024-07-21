@@ -35,18 +35,18 @@
     {
         color: white;
     }
+    table.dataTable tbody tr {
+        height: 50px; /* Adjust the height as needed */
+    }
+    /* Increase padding for table cells */
     table.dataTable tbody td {
-        vertical-align: middle;
+        padding: 0.6rem; /* Adjust padding for more space within cells */
+        vertical-align: middle; /* Vertically align text */
     }
-
-    table.dataTable td:nth-child(2) {
-        max-width: 120px;
+    /* Optional: Adjust font size if necessary */
+    table.dataTable tbody td, table.dataTable tbody th {
+        font-size: 0.97rem; /* Increase font size if the text appears too small */
     }
-
-    table.dataTable td:nth-child(3) {
-        max-width: 100px;
-    }
-
     table.dataTable td {
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -69,7 +69,7 @@
                             </div>
                         </div>
 
-                        <div class="container">
+                        <div class="container mt-4">
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
@@ -142,13 +142,12 @@
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.auditee.name + `</a>`;
+                            row.idd + `') }}" style="display: block; margin-bottom: 0.5em;">` + row.auditee.name + `</a>`;
 
                         if (row.auditee.no_phone) {
-                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                            html += `<a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
                                     `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
                         }
-
                         return html;
                     },
                 },
@@ -233,7 +232,7 @@
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-3">
-                        <label for="doc_path"></b><b>Upload Document</label>
+                        <label for="doc_path" class="form-label large-text"></b><b>Upload Document</label>
                         <input type="file" class="form-control" id="doc_path" name="doc_path" accept=".pdf">
                     </div>
                     <div class="form-group mb-3">

@@ -16,6 +16,12 @@ class MyAuditController extends Controller{
         return view('my_audit.index', compact('data'));
     }
 
+    public function add($id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        return view('my_audit.add', compact('data'));
+    }
+
     public function update(Request $request, $id){
         $request->validate([
             'doc_path' => 'mimes:pdf|max:10000|',
@@ -43,7 +49,13 @@ class MyAuditController extends Controller{
         'doc_path'          => $fileName,
         'audit_status_id'   => '10',
     ]);
-        return redirect()->route('my_audit.index')->with('msg', 'Document Anda Berhasil di Upload.');
+        return redirect()->route('my_audit.index')->with('msg', 'Thank you for uploading the document ');
+    }
+
+    public function show($id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        return view('my_audit.show', compact('data'));
     }
 
     public function delete(Request $request){
@@ -52,12 +64,12 @@ class MyAuditController extends Controller{
             $data->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil dihapus!'
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }

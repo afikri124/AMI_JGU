@@ -146,11 +146,8 @@ class ObservationController extends Controller
     public function edit($id)
     {
         $data = AuditPlan::findOrFail($id);
-        $data->doc_path;
-        $data->link;
         return view('observations.edit', compact('data'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -192,7 +189,7 @@ class ObservationController extends Controller
         //     // Redirect dengan pesan error jika data tidak berhasil diupdate
         //     return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
         // }
-        return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
+        return redirect()->route('observations.index')->with('msg', 'Document reviewed, you are ready for Observation');
     }
 
 

@@ -100,7 +100,8 @@
                 <tr>
                     <th width="20px">No</th>
                     <th>Review Document</th>
-                    <th>Standard Statement</th>
+                    <th >Standard Statement</th>
+                    <th width="15px">Standard Criteria</th>
                     <th width="40px">Action</th>
                 </tr>
             </thead>
@@ -185,10 +186,21 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        var html = `<a class="text-dark" title="${row.statement.name}" href="">${row.statement.name}</a>`;
                         return html;
                     },
                 },
+                {
+                    render: function (data, type, row, meta) {
+                    // Check if row.category exists and has an id
+                    if (row.criteria && row.criteria.title) {
+                        var html = `<a class="text-primary" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        return html;
+                    } else {
+                        return ''; // Return empty string or handle the case where category.title is missing
+                    }
+                },
+            },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;

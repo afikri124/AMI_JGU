@@ -13,18 +13,31 @@
 @endsection
 @section('style')
 <style>
+    .modal-header .modal-title {
+            font-weight: normal; /* Ensure the modal title is not bold */
+    }
+    .modal-body {
+        font-weight: normal; /* Ensure modal body text is not bold */
+    }
+    .modal-footer {
+        font-weight: normal; /* Ensure modal footer text is not bold */
+    }
+    body, h1, h2, h3, h4, h5, h6, p, span, a, div {
+        font-weight: normal; /* Ensure these elements are not bold */
+    }
+
+    table.dataTable tbody tr {
+        height: 50px; /* Adjust the height as needed */
+    }
+    /* Increase padding for table cells */
     table.dataTable tbody td {
-        vertical-align: middle;
+        padding: 0.6rem; /* Adjust padding for more space within cells */
+        vertical-align: middle; /* Vertically align text */
     }
-
-    table.dataTable td:nth-child(2) {
-        max-width: 120px;
+    /* Optional: Adjust font size if necessary */
+    table.dataTable tbody td, table.dataTable tbody th {
+        font-size: 0.97rem; /* Increase font size if the text appears too small */
     }
-
-    table.dataTable td:nth-child(3) {
-        max-width: 100px;
-    }
-
     table.dataTable td {
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -132,10 +145,10 @@
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.auditee.name + `</a>`;
+                            row.idd + `') }}" style="display: block; margin-bottom: 0.5em;">` + row.auditee.name + `</a>`;
 
                         if (row.auditee.no_phone) {
-                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                            html += `<a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
                                     `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
                         }
                         return html;
@@ -181,13 +194,14 @@
 
                         // Check if auditstatus is '1' or '2'
                         if (row.auditstatus.id === 10 ) {
-                            x = `<a class="badge bg-warning" title="Remark Document" href="{{ url('observations/edit/${row.id}') }}">
-                                        <i class="bx bx-pencil"></i></a>`;
+                            x = `<a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
+                            data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
+                            <i class="bx bx-pencil icon-white"></i></a>`;
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
                             x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/create/${row.id}') }}">
-                                        <i class="bx bx-pencil"></i></a>`;
+                                        <i class="bx bx-search-alt-2"></i></a>`;
                         }
                         return x;
                     },
@@ -276,6 +290,50 @@
     //         })
     // }
 
+    function showModal(element) {
+        var id = $(element).data('id');
+        var link = $(element).data('link');
+        var remark_docs = $(element).data('remark_docs');
+        $('#modal-link').text(link).attr('href', link);
+        $('#modal-remark_docs').text(remark_docs).attr('href', remark_docs);
+        $('#upload-form').attr('action', '/observations/update/' + id);
+        $('#uploadModal').modal('show');
+    }
 </script>
-
 @endsection
+
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel"><b>Please Review  and Comments Auditee Documents.</b></h4>
+                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="link"><b>Link Drive</b></label>
+                    <br>
+                    <a id="modal-link" href="#" target="_blank"></a>
+                </div>
+                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group mb-3">
+                        <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
+                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3"></textarea>
+                        <i class="text-danger"><b>* Give a note, if the Auditee Document is not complete!</b></i>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <a href="">
+                            <span class="btn btn-secondary">Back</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -162,7 +162,7 @@
             <thead>
                 <tr>
                     <th width="5%"><b>No</b></th>
-                    <th width="25%"><b>Criteria</b></th>
+                    <th width="15%"><b>Criteria</b></th>
                     <th width="5%"><b>Category</b></th>
                     <th width="5%"><b>Status</b></th>
                     <th width="5%"><b>Action</b></th>
@@ -253,7 +253,7 @@
                     render: function (data, type, row, meta) {
                     // Check if row.category exists and has an id
                     if (row.category && row.category.id) {
-                        var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
+                        var html = `<a class="text-primary" title="${row.category.description}" href="">${row.category.description}</a>`;
                         return html;
                     } else {
                         return ''; // Return empty string or handle the case where category.id is missing

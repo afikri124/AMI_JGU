@@ -28,7 +28,7 @@ class StandardCriteriaController extends Controller
             ]);
 
             if ($data) {
-                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') berhasil ditambahkan');
+                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') added successfully');
             }
         }
 
@@ -55,7 +55,7 @@ class StandardCriteriaController extends Controller
             'status'=> $request->status,
             'title'=> $request->title,
         ]);
-        return redirect()->route('standard_criteria.criteria')->with('msg', 'Standard Criteria berhasil diperbarui.');
+        return redirect()->route('standard_criteria.criteria')->with('msg', 'Standard Criteria updated successfully.');
     }
 
     public function delete(Request $request){
@@ -64,12 +64,12 @@ class StandardCriteriaController extends Controller
             $data->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil dihapus!'
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }
@@ -172,7 +172,7 @@ class StandardCriteriaController extends Controller
     ]);
 
     // Redirect back with a success message
-    return redirect()->route('standard_criteria.standard_statement')->with('msg', 'standard_statement updated successfully.');
+    return redirect()->route('standard_criteria.standard_statement')->with('msg', 'Standard Statement updated successfully.');
 }
 
     public function delete_standard_statement(Request $request){
@@ -181,12 +181,12 @@ class StandardCriteriaController extends Controller
             $data->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil dihapus!'
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }
@@ -317,12 +317,12 @@ class StandardCriteriaController extends Controller
                 $data->delete();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil dihapus!'
+                    'message' => 'Successfully deleted!'
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal dihapus!'
+                    'message' => 'Failed to delete! Data not found'
                 ]);
             }
         }
@@ -455,13 +455,13 @@ class StandardCriteriaController extends Controller
         if($data){
             $data->delete();
             return response()->json([
-                'status' => true,
-                'message' => 'Berhasil dihapus!'
+                'success' => true,
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }
@@ -473,9 +473,9 @@ class StandardCriteriaController extends Controller
             'statement' => function ($query) {
             $query->select('id','name');
         },
-        'criteria' => function ($query) {
-        $query->select('id', 'title');
-        }
+            'criteria' => function ($query) {
+            $query->select('id', 'title');
+            }
         ])->select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
