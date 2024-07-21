@@ -48,9 +48,15 @@
         font-size: 0.97rem; /* Increase font size if the text appears too small */
     }
     table.dataTable td {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+    max-width: 150px; /* Adjust as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+    table.dataTable tbody td {
+        padding: 0.6rem; /* Adjust padding for more space within cells */
+        vertical-align: middle; /* Vertically align text */
     }
     .close {
             font-size: 1.5rem; /* Adjust font size as needed */
@@ -69,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="container mt-4">
+                        <div class="container">
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
@@ -77,6 +83,7 @@
                                 <th><b>Auditee</b></th>
                                 <th width="30%"><b>Schedule</b></th>
                                 <th width="15%"><b>Location</b></th>
+                                <th width="10%"><b>Auditor</b></th>
                                 <th width="10%"><b>Status</b></th>
                                 <th><b>Doc</b></th>
                                 <th><b>Action</b></th>
@@ -123,7 +130,7 @@
     </div>
 </div>
 
-                @endsection
+@endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
@@ -203,6 +210,25 @@
                     render: function (data, type, row, meta) {
 
                             return row.location;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var html = '';
+                        if (row.auditor) {
+                            row.auditor.forEach(function (auditor) {
+                                if (auditor.auditor) {
+                                    html += `<code><span title="` + auditor.auditor.name +
+                                        `" style="font-size: 1.2em;">` + auditor.auditor.name + `</span></code><br>`;
+
+                                    if (auditor.auditor.no_phone) {
+                                        html += `<a href="tel:` + auditor.auditor.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                                `<i class="fas fa-phone-alt"></i> ` + auditor.auditor.no_phone + `</a><br>`;
+                                    }
+                                }
+                            });
+                        }
+                        return html;
                     },
                 },
                 {

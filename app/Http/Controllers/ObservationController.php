@@ -85,7 +85,7 @@ class ObservationController extends Controller
 
     public function make(Request $request, $id)
     {
-        dd($request);
+        // dd($request);
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();

@@ -80,7 +80,7 @@
             <div class="container">
                     <thead>
                             <th><b>No</b></th>
-                            <th width="25%"><b>Auditee</b></th>
+                            <th width="20%"><b>Auditee</b></th>
                             <th width="35%"><b>Schedule</b></th>
                             <th width="10%"><b>Status</b></th>
                             <th width="20%"><b>Location</b></th>

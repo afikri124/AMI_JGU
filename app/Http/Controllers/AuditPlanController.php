@@ -131,41 +131,54 @@ class AuditPlanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'date_start' => 'required',
-            'date_end' => 'required',
-            'location_id' => 'required',
-        ]);
+    $request->validate([
+        'date_start' => 'required',
+        'date_end' => 'required',
+        'location_id' => 'required',
+        'auditor_id' => 'array',
+    ]);
 
-        $data = AuditPlan::findOrFail($id);
+    $data = AuditPlan::findOrFail($id);
+    $updateData = [
+        'date_start' => $request->date_start,
+        'date_end' => $request->date_end,
+        'location_id' => $request->location_id,
+    ];
 
-        // Determine if date_start or date_end has changed
-        $isDateChanged = $data->date_start !== $request->date_start || $data->date_end !== $request->date_end;
-
-        // Prepare update data
-        $updateData = [
-            'date_start' => $request->date_start,
-            'date_end' => $request->date_end,
-            'location_id' => $request->location_id,
-        ];
-
-        // Only change audit_status_id if the dates are changed
-        if ($isDateChanged) {
-            $updateData['audit_status_id'] = '2';
-        } else {
-            $updateData['audit_status_id'] = $data->audit_status_id; // Keep the existing status
-        }
-
-        $data->update($updateData);
-
-        foreach ($request->auditor_id as $auditorId) {
-            AuditPlanAuditor::updateOrCreate(
-                ['audit_plan_id' => $id, 'auditor_id' => $auditorId]
-            );
-        }
-
-        return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan updated successfully.');
+    // Periksa apakah ada perubahan pada date_start atau date_end
+    $updateAuditStatus = false;
+    if ($data->date_start !== $request->date_start || $data->date_end !== $request->date_end) {
+        $updateAuditStatus = true;
     }
+
+    // Update audit_status_id hanya jika ada perubahan pada date_start atau date_end
+    if ($updateAuditStatus) {
+        $updateData['audit_status_id'] = '2';
+    }
+
+    $data->update($updateData);
+
+    // Ambil semua auditor saat ini dari database untuk audit plan ini
+    $currentAuditors = $data->auditor->pluck('auditor_id')->toArray();
+
+    // Ambil auditor baru dari form
+    $newAuditors = $request->auditor_id;
+
+    // Hapus auditor yang tidak ada di form
+    $auditorsToDelete = array_diff($currentAuditors, $newAuditors);
+    AuditPlanAuditor::where('audit_plan_id', $id)
+                    ->whereIn('auditor_id', $auditorsToDelete)
+                    ->delete();
+
+    // Tambahkan atau perbarui auditor baru
+    foreach ($newAuditors as $auditor) {
+        AuditPlanAuditor::updateOrCreate(
+            ['audit_plan_id' => $id, 'auditor_id' => $auditor]
+        );
+    }
+
+    return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan updated successfully.');
+}
 
 
     // Delete Audit Plan

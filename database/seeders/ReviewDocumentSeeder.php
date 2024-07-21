@@ -19,7 +19,7 @@ class ReviewDocumentSeeder extends Seeder
         //
         $data = [
             ["id" => "1",
-            "name" => "1. Surat Undangan Mitra\n2. Hasil rapat atau berita acara lokakarya kurikulum\n3. Pengesahan kurikulum",
+            "name" => "1. Surat Undangan Mitra 2. Hasil rapat atau berita acara lokakarya kurikulum 3. Pengesahan kurikulum",
 "standard_criteria_id" => "1",
 "standard_statement_id" => "1"],
 
@@ -29,12 +29,12 @@ class ReviewDocumentSeeder extends Seeder
             "standard_statement_id" => "2"],
 
             ["id" => "3",
-            "name" => "1. Buku Kurikulum yang memuat CPL\n2. CPMK untuk di RPS",
+            "name" => "1. Buku Kurikulum yang memuat CPL 2. CPMK untuk di RPS",
 "standard_criteria_id" => "1",
 "standard_statement_id" => "3"],
 
             ["id" => "4",
-            "name" => "1. VMTS Prodi\n2. Profil Lulusan dan Keilmuan di Prodi",
+            "name" => "1. VMTS Prodi 2. Profil Lulusan dan Keilmuan di Prodi",
 "standard_criteria_id" => "1",
 "standard_statement_id" => "4"],
 
@@ -55,23 +55,18 @@ class ReviewDocumentSeeder extends Seeder
 
             ["id" => "8",
             "name" => "Laporan hasil tracer study",
-            "standard_criteria_id" => "9",
+            "standard_criteria_id" => "1",
             "standard_statement_id" => "8"],
 
             ["id" => "9",
-            "name" => "1. Data kesesuaian bidang kerja lulusan pada TS-1 (TA 2021/2022)\n2. Data kesesuaian bidang kerja lulusan pada TS-2 (TA 2020/2021)\n3. Data kesesuaian bidang kerja lulusan pada TS-3 (TA 2019/2020)\n4. Data kesesuaian bidang kerja lulusan pada TS-4 (TA 2018/2019)",
+            "name" => "1. Restra dan Renop penelitian 2. List Penelitian Dosen 3. List Penelitian Mahasiswa",
 "standard_criteria_id" => "9",
-"standard_statement_id" => "9"],
+"standard_statement_id" => "10"],
 
             ["id" => "10",
-            "name" => "1. Restra dan Renop penelitian\n2. List Penelitian Dosen\n3. List Penelitian Mahasiswa",
+            "name" => "1. Sample proposal penelitian dan laporan akhir penelitian 2. Roadmap penelitian Program Studi",
 "standard_criteria_id" => "9",
-"standard_statement_id" => "9"],
-
-            ["id" => "11",
-            "name" => "1. Sample proposal penelitian dan laporan akhir penelitian\n2. Roadmap penelitian Program Studi",
-"standard_criteria_id" => "9",
-"standard_statement_id"=> "10"]
+"standard_statement_id"=> "11"]
         ];
 
         foreach ($data as $x) {

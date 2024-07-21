@@ -198,8 +198,7 @@ class StandardCriteriaController extends Controller
                   ->with(['category' => function ($query) {
                       $query->select('id', 'title', 'description');
                   }]);
-        }
-    ])->select('*')->orderBy("id");
+        }])->select('*')->orderBy("id");
 
     return DataTables::of($data)
         ->filter(function ($instance) use ($request) {

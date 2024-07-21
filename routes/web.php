@@ -144,7 +144,7 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::any('/add/indicator', [StandardCriteriaController::class, 'store_indicator'])->name('store_indicator.indicator');
             Route::get('/edit_indicator/indicator/{id}', [StandardCriteriaController::class, 'edit_indicator'])->name('edit_indicator.indicator');
             Route::put('/update_indicator/{id}', [StandardCriteriaController::class, 'update_indicator'])->name('update_indicator');
-            Route::delete('/delete_indicator', [StandardCriteriaController::class, 'delete_indicator'])->name('delete_indicator.indicator');
+            Route::delete('/delete_indicator', [StandardCriteriaController::class, 'delete_indicator'])->name('indicator.delete_indicator');
 
 
             // Route List Document
