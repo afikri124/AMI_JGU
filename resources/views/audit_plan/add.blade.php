@@ -12,10 +12,6 @@
     .input-validation-error~.select2 .select2-selection {
         border: 1px solid red;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -28,10 +24,10 @@
     <div class="col-md-12">
         <form class="card" method="POST" action="">
             @csrf
-            <div class="card-header">
+            <!-- <div class="card-header">
                 <h3 class="card-header"><b>Create Audit Plan</b></h3>
                 <hr class="my-0">
-            </div>
+            </div> -->
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6 col-md-12">

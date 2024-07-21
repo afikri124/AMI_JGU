@@ -10,10 +10,6 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 <div class="row">
     <div class="col-md-12">
@@ -54,7 +50,7 @@
                         </div>
 
                     <div class="mt-2 text-end">
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <button type="submit" class="btn btn-primary me-1">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.standard_statement') }}">Back</a>
                     </div>
                 </form>

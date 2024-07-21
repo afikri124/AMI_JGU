@@ -71,7 +71,7 @@ class ObservationController extends Controller
             ->whereHas('roles', function ($q) {
                 $q->where('name', 'auditor');
             })
-            ->where('id', $auditorId) // Menggunakan auditor_id yang tepat
+            ->where('id', $auditorId)
             ->orderBy('name')
             ->get();
 
@@ -112,16 +112,16 @@ class ObservationController extends Controller
             ]);
 
             // Create Observation Checklists
-            foreach ($request->indicator_id as $index => $sub_indicator) {
+            foreach ($request->indicator_id as $indicator) {
                 ObservationChecklist::create([
                     'observation_id' => $obs->id,
-                    'indicator_id' => $sub_indicator,
-                    'remark_description' => $request->remark_description[$index],
-                    'obs_checklist_option' => $request->obs_checklist_option[$index],
-                    'remark_success_failed' => $request->remark_success_failed[$index],
-                    'remark_recommend' => $request->remark_recommend[$index],
-                    'remark_upgrade_repair' => $request->remark_upgrade_repair[$index],
-                    'person_in_charge' => $request->person_in_charge[$index],
+                    'indicator_id' => $indicator,
+                    'remark_description' => $request->remark_description,
+                    'obs_checklist_option' => $request->obs_checklist_option,
+                    'remark_success_failed' => $request->remark_success_failed,
+                    'remark_recommend' => $request->remark_recommend,
+                    'remark_upgrade_repair' => $request->remark_upgrade_repair,
+                    'person_in_charge' => $request->person_in_charge,
                 ]);
             }
 

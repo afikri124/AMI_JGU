@@ -24,10 +24,6 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">

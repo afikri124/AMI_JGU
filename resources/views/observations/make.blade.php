@@ -5,7 +5,13 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/wizard.css')}}" />
 <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/bs-stepper/bs-stepper.css" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/dropzone/dropzone.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}">
 @endsection
+
 @section('style')
 <style>
     .input-validation-error~.select2 .select2-selection {
@@ -76,10 +82,6 @@
     .hidden {
         display: none;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 
 </style>
 @endsection
@@ -338,6 +340,10 @@
     <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
     <script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
     <script src="{{ asset('assets/vendor/libs/form-wizard-validation/form-wizard-validation.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-file-upload.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-editors.js') }}"></script>
     <script
         src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/bs-stepper/bs-stepper.js">
     </script>
@@ -349,6 +355,23 @@
     </script>
     <script
         src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/auto-focus.js">
+    </script>
+    <script>
+        var quill = new Quill('#editor-container', {
+            theme: 'snow'
+        });
+
+        // Sync the content of the Quill editor with the textarea
+        quill.on('text-change', function() {
+            var notes = document.querySelector('textarea[name=notes]');
+            notes.value = quill.root.innerHTML;
+        });
+
+        // If the textarea already has content, load it into Quill
+        var notes = document.querySelector('textarea[name=notes]').value;
+        if (notes) {
+            quill.root.innerHTML = notes;
+        }
     </script>
     <script type="text/javascript">
     "use strict";

@@ -75,10 +75,6 @@
         .mb-4 {
             margin-bottom: 1.5rem !important;
         }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -112,8 +108,8 @@
                             </div>
                         </div>
                         <i class="text-danger">* <b>Tambahkan note, jika Document Auditee belum lengkap!</b></i>
-            <div class="card-footer text-end">
-                <button class="btn btn-success" type="submit">Update</button>
+            <div class="text-end">
+                <button class="btn btn-primary" type="submit">Update</button>
                 <a href="{{ url()->previous() }}">
                     <span class="btn btn-secondary">Back</span>
                 </a>

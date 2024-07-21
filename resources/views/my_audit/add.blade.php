@@ -11,10 +11,6 @@
         font-size: 15px; /* Anda bisa sesuaikan ukuran teks sesuai keinginan */
         font-weight: bold;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 
 <div class="row">

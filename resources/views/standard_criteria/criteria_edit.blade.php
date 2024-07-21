@@ -7,10 +7,7 @@
 @endsection
 
 <style>
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
+
 </style>
 
 <div class="row">
@@ -46,8 +43,8 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="mt-2">
-                                <button type="submit" class="btn btn-success me-2">Update</button>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary me-1">Update</button>
                                 <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.criteria') }}">Back</a>
                             </div>
                         </div>

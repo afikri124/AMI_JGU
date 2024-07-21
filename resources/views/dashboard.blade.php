@@ -64,11 +64,6 @@ h3{
 .profile-greeting .card-body {
     padding: 40px 20px
 }
-
-.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 

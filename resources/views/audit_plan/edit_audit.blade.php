@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', ' Edit Data Audit Plan')
+@section('title', ' Edit Audit Plan')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -8,10 +8,6 @@
 @endsection
 
 <style>
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 
 <div class="row">
@@ -23,10 +19,10 @@
         </div>
         @endif
         <div class="card mb-4">
-            <div class="card-header">
+            <!-- <div class="card-header">
                 <h4 class="card-header"><b>Update Audit Plan</b></h4>
                 <hr class="my-0">
-            </div>
+            </div> -->
             <div class="card-body">
                 <form action="{{ route('update_audit', $data->id) }}" method="POST">
                     <div class="row">
@@ -82,7 +78,7 @@
                             </div>
                     <p></p>
                     <div class="mt-2 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <button type="submit" class="btn btn-primary me-1">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
                     </div>
                 </form>
