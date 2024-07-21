@@ -52,13 +52,17 @@
                                     </span>
                                 @enderror
                             </div>
-                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="form-label large-text">Remark Document</label>
+                            <textarea class="form-control" id="remark_docs" name="remark_docs" rows="3" readonly>{{ $data->remark_docs }}</textarea>
                             <div class="text-end">
                                 <button class="btn btn-primary" type="submit">Done</button>
                                 <a href="{{ url()->previous() }}">
                                     <span class="btn btn-secondary">Back</span>
                                 </a>
                             </div>
+                        </div>
                         @endsection
 
 @section('script')
