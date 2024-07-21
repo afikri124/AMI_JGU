@@ -84,6 +84,45 @@
                         </thead>
                     </table>
                 </div>
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel"><b>Have you uploaded the following drive link?</b></h4>
+                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="link"><b>Link Drive</b></label>
+                    <br>
+                    <a id="modal-link" href="#" target="_blank"></a>
+                </div>
+                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group mb-3">
+                        <label for="doc_path" class="form-label large-text"></b><b>Upload Document</label>
+                        <input type="file" class="form-control" id="doc_path" name="doc_path" accept=".pdf">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
+                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" readonly></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-primary" type="submit">Done</button>
+                        <a href="">
+                            <span class="btn btn-secondary">Back</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
                 @endsection
 
 @section('script')
@@ -142,7 +181,7 @@
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}" style="display: block; margin-bottom: 0.5em;">` + row.auditee.name + `</a>`;
+                            row.idd + `') }}" style="display: block; margin-bottom: 0.1em;">` + row.auditee.name + `</a>`;
 
                         if (row.auditee.no_phone) {
                             html += `<a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
@@ -213,40 +252,3 @@
 @endsection
 
 <!-- Modal Lihat Link -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><b>Have you uploaded the following drive link?</b></h4>
-                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="link"><b>Link Drive</b></label>
-                    <br>
-                    <a id="modal-link" href="#" target="_blank"></a>
-                </div>
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"></b><b>Upload Document</label>
-                        <input type="file" class="form-control" id="doc_path" name="doc_path" accept=".pdf">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
-                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" readonly></textarea>
-                    </div>
-                    <div class="text-end">
-                        <button class="btn btn-primary" type="submit">Done</button>
-                        <a href="">
-                            <span class="btn btn-secondary">Back</span>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>

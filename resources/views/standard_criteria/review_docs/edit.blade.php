@@ -45,7 +45,7 @@
                                     </span>
                                 @enderror
                             </div>
-                              <div class="form-group col-md-4">
+                              <div class="form-group mb-3">
                               <label for="standard_statement_id" class="form-label">Select Statement</label>
                               <select class="form-select digits select2 @error('standard_statement_id') is-invalid @enderror"
                                     name="standard_statement_id" id="standard_statement_id" data-placeholder="Select">

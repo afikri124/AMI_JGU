@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Indicator;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
-use App\Models\SubIndicator;
 use App\Models\ReviewDocs;
 use App\Models\StandardStatement;
 use Illuminate\Http\Request;
@@ -195,7 +194,10 @@ class StandardCriteriaController extends Controller
     public function data_standard_statement(Request $request){
     $data = StandardStatement::with([
         'criteria' => function ($query) {
-            $query->select('id', 'title');
+            $query->select('id', 'title', 'standard_category_id')
+                  ->with(['category' => function ($query) {
+                      $query->select('id', 'title', 'description');
+                  }]);
         }
     ])->select('*')->orderBy("id");
 
@@ -473,9 +475,9 @@ class StandardCriteriaController extends Controller
             'statement' => function ($query) {
             $query->select('id','name');
         },
-            'criteria' => function ($query) {
-            $query->select('id', 'title');
-            }
+        'criteria' => function ($query) {
+        $query->select('id', 'title');
+        }
         ])->select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {

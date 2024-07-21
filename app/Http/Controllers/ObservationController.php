@@ -85,14 +85,16 @@ class ObservationController extends Controller
 
     public function make(Request $request, $id)
     {
-        // dd($request);
+        dd($request);
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [
+                'audit_plan_id' => ['required'],
                 'location_id' => ['required'],
+                'audit_plan_auditor_id' => ['required'],
                 'remark_plan' => ['required'],
                 'indicator_id' => ['required', 'array'],
                 'remark_description' => ['required', 'array'],
@@ -100,7 +102,8 @@ class ObservationController extends Controller
                 'remark_success_failed' => ['required', 'array'],
                 'remark_recommend' => ['required', 'array'],
                 'remark_upgrade_repair' => ['required', 'array'],
-                'person_in_charge' => ['required', 'array'],
+                'person_in_charge' => ['required'],
+                'plan_complated' => ['required'],
             ]);
 
             // Create Observation
@@ -116,12 +119,13 @@ class ObservationController extends Controller
                 ObservationChecklist::create([
                     'observation_id' => $obs->id,
                     'indicator_id' => $indicator,
-                    'remark_description' => $request->remark_description,
-                    'obs_checklist_option' => $request->obs_checklist_option,
-                    'remark_success_failed' => $request->remark_success_failed,
-                    'remark_recommend' => $request->remark_recommend,
-                    'remark_upgrade_repair' => $request->remark_upgrade_repair,
-                    'person_in_charge' => $request->person_in_charge,
+                    'remark_description' => $request->remark_description[$indicator] ?? '',
+                    'obs_checklist_option' => $request->obs_checklist_option[$indicator] ?? '',
+                    'remark_success_failed' => $request->remark_success_failed[$indicator] ?? '',
+                    'remark_recommend' => $request->remark_recommend[$indicator] ?? '',
+                    'remark_upgrade_repair' => $request->remark_upgrade_repair[$indicator] ?? '',
+                    'person_in_charge' => $request->person_in_charge[$indicator] ?? '',
+                    'plan_completed' => $request->plan_completed[$indicator] ?? '',
                 ]);
             }
 

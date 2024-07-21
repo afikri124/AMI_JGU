@@ -74,11 +74,11 @@ class AuditPlan extends Model
         return $this->hasMany(Indicator::class, 'indicator_id');
     }
 
-    public function sub_indicator()
-    {
-        return $this->hasMany(SubIndicator::class, 'sub_indicator_id');
-    }
-    
+    // public function sub_indicator()
+    // {
+    //     return $this->hasMany(SubIndicator::class, 'sub_indicator_id');
+    // }
+
     public function review_document()
     {
         return $this->hasMany(ReviewDocs::class, 'review_document_id');

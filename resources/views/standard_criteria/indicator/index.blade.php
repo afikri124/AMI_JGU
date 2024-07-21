@@ -95,7 +95,7 @@
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
-
+                        <div class="container">
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>

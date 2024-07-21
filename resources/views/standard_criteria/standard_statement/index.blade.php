@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
 @section('style')
 <style>
+
     table.dataTable tbody td {
         vertical-align: middle;
     }
@@ -74,13 +74,13 @@
         </ul>
     </div>
 
-<div class="card">
+    <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
-                    <div class="row">
+                    <div class="col-12"> -->
+                        <div class="row">
                         <div class="col-md-4">
                             <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
                                 <option value="">Select Criteria</option>
@@ -96,18 +96,20 @@
                             </a>
                         </div>
                         </div>
-
+    <div class="container">
         <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
-                    <th width="10px"><b>No</b></th>
-                    <th><b>Standard Statement</b></th>
-                    <th><b>Criteria</b></th>
-                    <th width="15px"><b>Action</b></th>
+                    <th width="15px">No</th>
+                    <th>Standard Statement</th>
+                    <th width="5px">Standard Criteria</th>
+                    <th width="5px">Standard Category</th>
+                    <th width="5px">Action</th>
                 </tr>
             </thead>
         </table>
     </div>
+</div>
 </div>
 @endsection
 
@@ -117,7 +119,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -186,6 +187,13 @@
                     } else {
                         return ''; // Return empty string or handle the case where category.title is missing
                     }
+                },
+            },
+            {
+                    render: function (data, type, row, meta) {
+                    // Check if row.category exists and has an id
+                        var html = `<a class="text-primary" title="${row.criteria.category.description}" href="">${row.criteria.category.description}</a>`;
+                        return html;
                 },
             },
                 {
