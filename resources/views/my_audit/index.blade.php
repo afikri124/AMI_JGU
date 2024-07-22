@@ -48,16 +48,11 @@
         font-size: 0.97rem; /* Increase font size if the text appears too small */
     }
     table.dataTable td {
-    max-width: 150px; /* Adjust as needed */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     }
 
-    table.dataTable tbody td {
-        padding: 0.6rem; /* Adjust padding for more space within cells */
-        vertical-align: middle; /* Vertically align text */
-    }
     .close {
             font-size: 1.5rem; /* Adjust font size as needed */
             padding: 0.5rem;  /* Adjust padding to increase button size */
@@ -71,11 +66,14 @@
                 <div class="row">
                     <div class="col-12 pt-3 pt-md-0">
                         <div class="col-12">
+                        <div class="row">
                             <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                             </div>
                         </div>
-
-                        <div class="container">
+                    </div>
+                    </div>
+                </div>
+                    <div class="container-fluid flex-grow-1 container-p-y">
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
@@ -107,7 +105,7 @@
                     <br>
                     <a id="modal-link" href="#" target="_blank"></a>
                 </div>
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
+                <form id="upload-form" method="POST" action="" enctype="multipart/form-data" style="display: inline;">
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-3">
@@ -118,12 +116,21 @@
                         <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
                         <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" readonly></textarea>
                     </div>
-                    <div class="text-end">
-                        <button class="btn btn-primary" type="submit">Done</button>
+                    <div class="text-end" id="button-container">
+                        <input type="hidden" name="audit_status_id" value="10">
+                        <button class="btn btn-primary" type="submit" id="done-button" style="display:none;">Done</button>
+                    </form>
+                        <form id="reupload-form" action="" method="POST" style="display: inline;">
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-primary" type="submit" id="reupload-button" style="display:none;">Reupload</button>
+                        </form>
+
                         <a href="">
                             <span class="btn btn-secondary">Back</span>
                         </a>
                     </div>
+                    <input type="hidden" id="audit_status_id" value="3">
                 </form>
             </div>
         </div>
@@ -272,8 +279,22 @@
         $('#modal-link').text(link).attr('href', link);
         $('#modal-remark_docs').text(remark_docs).attr('href', remark_docs);
         $('#upload-form').attr('action', '/my_audit/update/' + id);
+        $('#reupload-form').attr('action', '/my_audit/reupload/' + id);
         $('#uploadModal').modal('show');
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const auditStatusId = document.getElementById('audit_status_id').value;
+        const doneButton = document.getElementById('done-button');
+        const reuploadButton = document.getElementById('reupload-button');
+
+        if (auditStatusId == '2') {
+            doneButton.style.display = 'inline-block';
+        } else if (auditStatusId == '3') {
+            reuploadButton.style.display = 'inline-block';
+        }
+    });
+
 </script>
 @endsection
 

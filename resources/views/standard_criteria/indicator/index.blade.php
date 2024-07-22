@@ -88,26 +88,29 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="container-fluid">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
                             <a class="btn btn-primary btn-block btn-mail" title="Add statement"
                                 href="{{ route('standard_criteria.indicator.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
-                        <div class="container">
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-            <thead>
-                <tr>
-                    <th width="15px">No</th>
-                    <th>Indicator</th>
-                    <th >Standard Statement</th>
-                    <th width="15px">Standard Criteria</th>
-                    <th width="5px">Action</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+                        </div>
+                    <div class="container-fluid">
+                        <table class="table table-hover table-sm" id="datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="15px">No</th>
+                                    <th>Indicator</th>
+                                    <th >Standard Statement</th>
+                                    <th width="15px">Standard Criteria</th>
+                                    <th width="5px">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+        </div>
 @endsection
 
 @section('script')

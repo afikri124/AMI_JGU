@@ -43,7 +43,7 @@
 
           <!-- / Style Switcher-->
             <!-- User -->
-            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+<li class="nav-item navbar-dropdown dropdown-user dropdown">
     <a class="nav-link dropdown-toggle hide-arrow" href="" data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
             @if (Auth::user()->image)

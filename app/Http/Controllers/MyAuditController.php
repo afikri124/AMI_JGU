@@ -52,6 +52,15 @@ class MyAuditController extends Controller{
         return redirect()->route('my_audit.index')->with('msg', 'Thank you for uploading the document ');
     }
 
+    public function reupload(Request $request, $id){
+        //document upload
+        $data = AuditPlan::findOrFail($id);
+        $data->update([
+        'audit_status_id'   => '11',
+    ]);
+        return redirect()->route('my_audit.index')->with('msg', 'Thank you for reuploading the document ');
+    }
+
     public function show($id)
     {
         $data = AuditPlan::findOrFail($id);

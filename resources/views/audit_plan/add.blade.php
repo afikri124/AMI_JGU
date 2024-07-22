@@ -20,6 +20,7 @@
 @endsection
 
 @section('content')
+<div class="container-fluid flex-grow-1 container-p-y">
 <div class="row">
     <div class="col-md-12">
         <form class="card" method="POST" action="">

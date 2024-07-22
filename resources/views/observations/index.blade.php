@@ -69,8 +69,8 @@
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
                                 </div>
-
-                <div class="container">
+                                </div>
+                <div class="container-fluid flex-grow-1 container-p-y">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
@@ -121,7 +121,7 @@
     </div>
 </div>
 
-                @endsection
+@endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>

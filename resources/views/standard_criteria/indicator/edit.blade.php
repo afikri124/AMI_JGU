@@ -8,10 +8,8 @@
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 @endsection
 
-<style>
-</style>
-
-<div class="row">
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
         <div class="alert alert-primary alert-dismissible" role="alert">

@@ -70,14 +70,14 @@ h3{
 @section('content')
 <div class="app-calendar-wrapper">
     <div class="row">
-        <div class="col-xl-7 col-lg-12 xl-50 morning-sec box-col-12">
+        <div class="col-xl-7 col-lg-10 xl-40 morning-sec box-col-8">
             <div class="card profile-greeting bg-card">
                 <div class="card-body pb-0">
                     <div class="media">
                         <div class="media-body">
                             <div class="greeting-user m-0">
                                 <div class="greeting-container">
-                                    <h4 class="f-w-600 font-light m-0 mb-3" id="greeting"></h4>
+                                    <h4 class="f-w-600 font-light m-0 mb-" id="greeting"></h4>
                                     <h4><span id="txt"></span></h4>
                                 </div>
                                 <h3>{{ Auth::user()->name }}</h3>
@@ -92,11 +92,11 @@ h3{
                 </div>
             </div>
         </div>
-        <div class="col-xl-5 col-lg-12 xl-60 calendar-sec box-col-6">
+        <div class="col-xl-5 col-lg-12 xl-50 calendar-sec box-col-6">
             <div class="card gradient-primary o-hidden">
-                <div class="card-body">
+                <div class="card-body pb-10">
                     <div class="default-datepicker">
-                        <div class="datepicker-here" data-language="en"></div>
+                        <div class="datepicker-here" data-language="en" style="max-width: 100%;" alt=""></div>
                     </div>
                 </div>
             </div>
@@ -106,93 +106,6 @@ h3{
 
 </div>
 @endsection
-
-<!-- <table class="table" id="datatable">
-    <thead>
-        <tr>
-            <th>Announcements</th>
-        </tr>
-    </thead>
-</table> -->
-<!-- @foreach ($auditplans as $x)
-    <ul class="list-group">
-        <div class="card-container">
-            <li class="list-group-item">
-                <br>
-                <div class="card" data-aos="fade-down">
-                    <div class="card h-100">
-                        <div class="card-header flex-grow-0">
-                            <div class="d-flex">
-                                <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../../assets/img/avatars/user.png" alt="User"
-                                        class="w-100 rounded-circle">
-                                </div>
-                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-1">
-                                    <div class="me-2">
-                                        <h5 class="mb-0">{{ ucfirst(Auth::user()->username) }} Shared Post</h5>
-                                        <small
-                                            class="text-muted">{{ $x->created_at->format('d M Y \a\t h:i A') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="{{ asset($x->doc_path) }}" class="img-fluid" alt="" width="500px"
-                            height="500px">
-                        <div class="featured-date mt-n4 ms-4 bg-white rounded w-px-50 shadow text-center p-1">
-                            <h5 class="mb-0 text-dark">{{ date('d', strtotime($x->date_start)) }}</h5>
-                            <span class="text-primary">{{ date('F', strtotime($x->date_start)) }}</span>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="text-truncate">{{ $x->lecture_id }}</h5>
-                            <div class="d-flex gap-2">
-                            </div>
-                            <div class="d-flex my-3">
-                                <button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal{{ $x->id }}">
-                                    Show Description
-                                </button>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="card-actions">
-                                    <a href="javascript:;" class="text-muted me-3"><i class="bx bx-heart me-1"></i>
-                                        236</a>
-                                    <a href="javascript:;" class="text-muted"><i class="bx bx-message me-1"></i> 12</a>
-                                </div>
-                                <div class="dropup d-none d-sm-block">
-                                    <button class="btn p-0" type="button" id="sharedList" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <-- Modal -->
-                <!-- <div class="modal fade" id="exampleModal{{ $x->id }}" tabindex="-1"
-                    aria-labelledby="exampleModalLabel{{ $x->id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel{{ $x->id }}">
-                                    <p>{{ $x->lecture_id }}</p>
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>{{ $x->auditor_id }}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-</li>
-</div>
-</ul>
-@endforeach -->
 
 @section('script')
 <script type="text/javascript">

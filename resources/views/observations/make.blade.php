@@ -300,11 +300,11 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $statement->id }}]" placeholder="Pihak Bertanggung Jawab...">
+                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" placeholder="Pihak Bertanggung Jawab...">
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_completed" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_completed[{{ $statement->id }}]" id="plan_completed" placeholder="YYYY-MM-DD">
+                    <input type="date" class="form-control" name="plan_completed" id="plan_completed" placeholder="YYYY-MM-DD">
                 </div>
             </div>
             <div class="col-sm-12 fv-plugins-icon-container">

@@ -45,6 +45,7 @@
     }
 </style>
 @endsection
+
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
             <div class="card-datatable table-responsive">
@@ -65,7 +66,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container">
+                <div class="container-fluid flex-grow-1 container-p-y">
                     <table class="table" id="datatable">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
                             <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
@@ -77,7 +78,6 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
                     <thead>
                             <th><b>No</b></th>
                             <th width="20%"><b>Auditee</b></th>

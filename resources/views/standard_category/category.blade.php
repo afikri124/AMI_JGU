@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-            <div class="container">
+            <div class="container-fluid flex-grow-1 container-p-y">
                 <table class="table" id="datatable">
                     <div class="col-md d-flex justify-content-center justify-content-md-end">
                         <a class="btn btn-primary btn-block btn-mail" title="Add new"
@@ -63,7 +63,6 @@
                             <i data-feather="plus"></i>+ Add
                         </a>
                     </div>
-                        <div class="container">
                             <thead>
                                 <tr>
                                     <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>

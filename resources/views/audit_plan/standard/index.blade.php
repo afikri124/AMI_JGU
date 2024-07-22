@@ -83,8 +83,8 @@
                                 </div>
                             </div>
                         <div class="row">
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-            <div class="container">
+            <div class="container-fluid flex-grow-1 container-p-y">
+                <table class="table table-hover table-sm" id="datatable" width="100%">
                     <thead>
                         <tr>
                             <th width="5%"><b>No</b></th>

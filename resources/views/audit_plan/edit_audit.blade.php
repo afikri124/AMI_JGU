@@ -7,9 +7,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endsection
 
-<style>
-</style>
-
+<div class="container-fluid flex-grow-1 container-p-y">
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))

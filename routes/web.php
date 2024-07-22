@@ -82,6 +82,7 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
     Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
+    Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
 });
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);
@@ -147,7 +148,7 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::delete('/delete_indicator', [StandardCriteriaController::class, 'delete_indicator'])->name('indicator.delete_indicator');
 
 
-            // Route List Document
+            // Route Review Document
             Route::get('/review_docs', [StandardCriteriaController::class, 'review_docs'])->name('standard_criteria.review_docs');
             Route::get('/data_docs', [StandardCriteriaController::class, 'data_docs'])->name('standard_criteria.data_docs');
             Route::get('/standard_criteria.review_docs.create', [StandardCriteriaController::class, 'create_docs'])->name('standard_criteria.review_docs.create');

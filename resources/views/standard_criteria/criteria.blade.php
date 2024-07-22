@@ -84,20 +84,22 @@
                             </div>
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_category" class="form-control input-sm  select2" data-placeholder="Categories">
+                            <select id="select_category" class="form-control input-sm  select2" data-placeholder="Category">
                                 <option value="">Select Category</option>
                                 @foreach($category as $d)
                                 <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select id="select2" class="form-control input-sm select2" data-placeholder="Status">
                                 <option value="">Status</option>
                                 <option value='true'>ON</option>
                                 <option value='false'>OFF</option>
                             </select>
                         </div>
+                        </div>
+                        <div class="container-fluid">
                             <div class="col-md d-flex justify-content-center justify-content-md-end">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
@@ -157,15 +159,15 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-        <table class="table table-hover table-sm" id="datatable" width="100%">
+        <div class="container-fluid">
+            <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
                     <th width="5%"><b>No</b></th>
-                    <th width="15%"><b>Criteria</b></th>
-                    <th width="5%"><b>Category</b></th>
+                    <th><b>Criteria</b></th>
+                    <th width="15%"><b>Category</b></th>
                     <th width="5%"><b>Status</b></th>
-                    <th width="5%"><b>Action</b></th>
+                    <th width="15%"><b>Action</b></th>
                 </tr>
             </thead>
         </table>
