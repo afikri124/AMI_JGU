@@ -52,7 +52,7 @@
 
 
 @section('content')
-<div class="container-fluid flex-grow-1 container-p-y">
+<!-- <div class="container-fluid flex-grow-1 container-p-y"> -->
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
     <div class="card">
 <div class="content-wrapper">

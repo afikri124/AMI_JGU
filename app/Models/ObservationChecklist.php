@@ -19,8 +19,6 @@ class ObservationChecklist extends Model
         'remark_success_failed',
         'remark_recommend',
         'remark_upgrade_repair',
-        'person_in_charge',
-        'plan_complated'
     ];
 
     public function obs_checklist()

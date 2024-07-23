@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('observation_checklistes', function (Blueprint $table) {
+        Schema::create('observation_checklists', function (Blueprint $table) {
             $table->id('id');
             $table->unsignedBigInteger('observation_id')->nullable();
             $table->unsignedBigInteger('indicator_id')->nullable();
@@ -19,10 +19,9 @@ return new class extends Migration
             $table->foreign('observation_id')->references('id')->on('observations')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->string('obs_checklist_option')->nullable();
             $table->string('remark_success_failed')->nullable();
+            $table->string('remark_description')->nullable();
             $table->string('remark_recommend')->nullable();
             $table->string('remark_upgrade_repair')->nullable();
-            $table->string('person_in_charge')->nullable();
-            $table->string('plan_complated')->nullable();
             $table->timestamps();
 
         });
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('observation_checklistes');
+        Schema::dropIfExists('observation_checklists');
     }
 };

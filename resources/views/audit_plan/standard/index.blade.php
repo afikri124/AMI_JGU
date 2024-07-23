@@ -83,17 +83,17 @@
                                 </div>
                             </div>
                         <div class="row">
-            <div class="container-fluid flex-grow-1 container-p-y">
-                <table class="table table-hover table-sm" id="datatable" width="100%">
-                    <thead>
-                        <tr>
-                            <th width="5%"><b>No</b></th>
-                            <th width="35%"><b>Auditor</b></th>
-                            <th width="5%"><b>Action</b></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+                        <div class="container-fluid flex-grow-1 container-p-y">
+                            <table class="table table-hover table-sm" id="datatable" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="5%"><b>No</b></th>
+                                        <th width="35%"><b>Auditor</b></th>
+                                        <th width="5%"><b>Action</b></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
 
 @endsection
 

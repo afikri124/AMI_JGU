@@ -146,15 +146,15 @@ class AuditPlanController extends Controller
     ];
 
     // Periksa apakah ada perubahan pada date_start atau date_end
-    $updateAuditStatus = false;
-    if ($data->date_start !== $request->date_start || $data->date_end !== $request->date_end) {
-        $updateAuditStatus = true;
-    }
+    // $updateAuditStatus = false;
+    // if ($data->date_start !== $request->date_start || $data->date_end !== $request->date_end) {
+    //     $updateAuditStatus = true;
+    // }
 
-    // Update audit_status_id hanya jika ada perubahan pada date_start atau date_end
-    if ($updateAuditStatus) {
-        $updateData['audit_status_id'] = '2';
-    }
+    // // Update audit_status_id hanya jika ada perubahan pada date_start atau date_end
+    // if ($updateAuditStatus) {
+    //     $updateData['audit_status_id'] = '2';
+    // }
 
     $data->update($updateData);
 
@@ -297,23 +297,24 @@ class AuditPlanController extends Controller
     ]);
 
     // Find the AuditPlanAuditor record by ID
-    $data = AuditPlanAuditor::findOrFail($id);
-
     foreach ($request->standard_category_id as $categoryId) {
-        AuditPlanCategory::updateOrCreate(
-            ['audit_plan_auditor_id' => $id, 'standard_category_id' => $categoryId]
-        );
+        AuditPlanCategory::updateOrCreate([
+            'audit_plan_auditor_id' => $id,
+            'standard_category_id' => $categoryId,
+        ]);
+    }
 
+    // Create records for standard criteria
     foreach ($request->standard_criteria_id as $criteriaId) {
-            AuditPlanCriteria::updateOrCreate(
-            ['audit_plan_auditor_id' => $id, 'standard_criteria_id' => $criteriaId]
-        );
+        AuditPlanCriteria::updateOrCreate([
+            'audit_plan_auditor_id' => $id,
+            'standard_criteria_id' => $criteriaId,
+        ]);
     }
     // Redirect with a success message
-    return redirect()->route('audit_plan.index')->with('msg', 'Auditor data to determine each Standard was added successfully!');
+    return redirect()->route('audit_plan.standard', ['id' => $id])
+        ->with('msg', 'Auditor data to determine each Standard was added successfully!');
     }
-}
-
 
     // public function getStandardCategoryId(Request $request)
     // {

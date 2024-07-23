@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
             $table->string('remark_plan')->nullable();
+            $table->string('person_in_charge')->nullable();
+            $table->string('plan_complated')->nullable();
             $table->timestamps();
         });
     }

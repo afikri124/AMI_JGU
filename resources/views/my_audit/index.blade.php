@@ -77,14 +77,14 @@
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
-                                <th><b>No</b></th>
-                                <th><b>Auditee</b></th>
-                                <th width="30%"><b>Schedule</b></th>
-                                <th width="15%"><b>Location</b></th>
-                                <th width="10%"><b>Auditor</b></th>
+                                <th width="5%"><b>No</b></th>
+                                <th width="15%"><b>Auditee</b></th>
+                                <th width="25%"><b>Schedule</b></th>
+                                <th width="10%"><b>Location</b></th>
+                                <th width="5%"><b>Auditor</b></th>
                                 <th width="10%"><b>Status</b></th>
-                                <th><b>Doc</b></th>
-                                <th><b>Action</b></th>
+                                <th width="5%"><b>Doc</b></th>
+                                <th width="10%"><b>Action</b></th>
                             </tr>
                         </thead>
                     </table>
@@ -117,20 +117,19 @@
                         <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" readonly></textarea>
                     </div>
                     <div class="text-end" id="button-container">
-                        <input type="hidden" name="audit_status_id" value="10">
-                        <button class="btn btn-primary" type="submit" id="done-button" style="display:none;">Done</button>
+                        <button class="btn btn-primary" type="submit">Done</button>
                     </form>
-                        <form id="reupload-form" action="" method="POST" style="display: inline;">
+                        <!-- <form id="reupload-form" action="" method="POST">
                             @csrf
                             @method('PUT')
-                            <button class="btn btn-primary" type="submit" id="reupload-button" style="display:none;">Reupload</button>
-                        </form>
+                            <input type="hidden" id="audit_status_id">
+                            <button class="btn btn-primary" type="submit">Reupload</button>
+                        </form> -->
 
                         <a href="">
                             <span class="btn btn-secondary">Back</span>
                         </a>
                     </div>
-                    <input type="hidden" id="audit_status_id" value="3">
                 </form>
             </div>
         </div>
@@ -283,17 +282,17 @@
         $('#uploadModal').modal('show');
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const auditStatusId = document.getElementById('audit_status_id').value;
-        const doneButton = document.getElementById('done-button');
-        const reuploadButton = document.getElementById('reupload-button');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const auditStatusId = document.getElementById('audit_status_id').value;
+    //     const doneButton = document.getElementById('done-button');
+    //     const reuploadButton = document.getElementById('reupload-button');
 
-        if (auditStatusId == '2') {
-            doneButton.style.display = 'inline-block';
-        } else if (auditStatusId == '3') {
-            reuploadButton.style.display = 'inline-block';
-        }
-    });
+    //     if (auditStatusId == '1') {
+    //         doneButton.style.display = 'inline-block';
+    //     } else if (auditStatusId == '3') {
+    //         reuploadButton.style.display = 'inline-block';
+    //     }
+    // });
 
 </script>
 @endsection

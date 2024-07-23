@@ -113,4 +113,14 @@
         </ul>
     </div>
 </nav>
-<!-- / Navbar -->
+
+<style>
+.dropdown-menu li {
+  display: flex;
+}
+
+.dropdown-menu li a {
+  flex: 1;
+  padding: 10px;
+}
+</style>

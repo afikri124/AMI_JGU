@@ -75,11 +75,11 @@
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th width="20%"><b>Lecture</b></th>
+                                <th width="15%"><b>Lecture</b></th>
                                 <th width="25%"><b>Schedule</b></th>
-                                <th><b>Location</b></th>
-                                <th><b>Status</b></th>
-                                <th><b>Doc</b></th>
+                                <th width="15%"><b>Location</b></th>
+                                <th width="10%"><b>Status</b></th>
+                                <th width="10%"><b>Doc</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -106,7 +106,7 @@
                     @method('PUT')
                     <div class="form-group mb-3">
                         <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
-                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3"></textarea>
+                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" placeholder="MAX 250 characters..."></textarea>
                         <i class="text-danger"><b>* Give a note, if the Auditee Document is not complete!</b></i>
                     </div>
                     <div class="text-end">
@@ -134,7 +134,7 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> <!-- Memuat lokal Indonesia untuk moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -237,7 +237,9 @@
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
                             x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/create/${row.id}') }}">
-                                        <i class="bx bx-search-alt-2"></i></a>`;
+                                        <i class="bx bx-search-alt-2"></i></a>
+                                <a class="badge bg-dark" title="Show Make Report" href="{{ url('observations/make_report/${row.id}') }}">
+                                        <i class="bx bx-show"></i></a>`;
                         }
                         return x;
                     },

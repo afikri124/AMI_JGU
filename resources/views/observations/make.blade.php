@@ -87,7 +87,19 @@
 @endsection
 
 @section('content')
+
 <div id="wizard-validation" >
+@if ($errors->any())
+                        <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"
+                                data-bs-original-title="" title=""></button>
+                        </div>
+                        @endif
 <div class="bs-stepper wizard-icons wizard-icons-example mt-2 p-3">
   <div class="bs-stepper-header">
     <div class="step" data-target="#account-details">
@@ -153,35 +165,6 @@
             <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
-
-            <!-- <button id="btnNext" class="btn btn-primary btn-next" disabled>
-                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-            </button>
-
-            <script>
-                // Menyimpan referensi ke tombol Next
-                const btnNext = document.getElementById('btnNext');
-
-                // Event listener untuk mengecek validasi sebelum mengaktifkan tombol Next
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Menambahkan event listener ke setiap input yang diperlukan
-                    const inputsRequired = document.querySelectorAll('input[required], select[required], textarea[required]');
-
-                    inputsRequired.forEach(input => {
-                        const checkInputs = () => {
-                            const allInputsFilled = Array.from(inputsRequired).every(input => input.value.trim() !== '');
-                            btnNext.disabled = !allInputsFilled;
-                        };
-
-                        if (input.classList.contains('select2')) {
-                            $(input).on('change', checkInputs); // Event listener untuk select2
-                        } else {
-                            input.addEventListener('input', checkInputs);
-                        }
-                    });
-                });
-            </script> -->
             <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
           </div>
         </div>
@@ -190,22 +173,22 @@
       <div id="address" class="content">
       <div class="content-header mb-3">
       <strong class="text-primary">Category Standard</strong>
-@foreach ($standardCategories as $category)
-    <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
-        {{ $category->description }}
-    </h6>
-@endforeach
-<p></p>
+        @foreach ($standardCategories as $category)
+            <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
+                {{ $category->description }}
+            </h6>
+        @endforeach
+        <p></p>
 
-<strong class="text-primary">Criteria Standard</strong>
-@foreach ($standardCriterias as $criteria)
-    <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
-        {{ $criteria->title }}
-    </h6>
-@endforeach
-<p></p>
-@foreach ($standardCriterias as $criteria)
-    <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+        <strong class="text-primary">Criteria Standard</strong>
+        @foreach ($standardCriterias as $criteria)
+            <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
+                {{ $criteria->title }}
+            </h6>
+        @endforeach
+        <p></p>
+    @foreach ($standardCriterias as $criteria)
+        <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
     @foreach ($criteria->statements as $no => $statement)
     @foreach ($statement->indicators as $indicator)
@@ -229,19 +212,19 @@
                     <div id="data-sets">
                         <div id="data-set">
                             <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="KS" required />
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
                                 <label for="ks">KS</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="OBS" required />
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
                                 <label for="obs">OBS</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="KTS Minor" required />
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
                                 <label for="kts_minor">KTS MINOR</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="KTS Mayor" required />
+                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
                                 <label for="kts_mayor">KTS MAYOR</label>
                             </div>
                         </div>
@@ -265,22 +248,37 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_description" name="remark_description[{{ $statement->id }}]"
-                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                    <textarea id="remark_description" name="remark_description[{{ $statement->id }}]" class="form-control" maxlength="250"
+                              placeholder="MAX 250 characters..." value="{{ old( 'remark_description' ) }}"></textarea>
+                              @error('remark_description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
                     <textarea id="remark_success_failed" name="remark_success_failed[{{ $statement->id }}]"
-                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                              class="form-control" maxlength="250" placeholder="MAX 250 characters..." value="{{ old( 'remark_success_failed' ) }}"></textarea>
+                              @error('remark_success_failed')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea name="remark_recommend[{{ $statement->id }}]"
-                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
+                    <textarea name="remark_recommend[{{ $statement->id }}]" class="form-control" maxlength="250"
+                              placeholder="MAX 250 characters..." value="{{ old( 'remark_recommend' ) }}"></textarea>
+                              @error('remark_recommend')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </td>
             </tr>
             <tr>
@@ -288,30 +286,48 @@
                     <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
                     <textarea type="text" id="remark_upgrade_repair" class="form-control"
                               name="remark_upgrade_repair[{{ $statement->id }}]" maxlength="250"
-                              placeholder="MAX 250 characters..."></textarea>
+                              placeholder="MAX 250 characters..." value="{{ old( 'remark_upgrade_repair' ) }}"></textarea>
+                              @error('remark_upgrade_repair')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </td>
             </tr>
         </table>
     @endforeach
+
+@endforeach
+<hr class="text-dark">
 @endforeach
 
-    <hr class="text-dark">
-@endforeach
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" placeholder="Pihak Bertanggung Jawab...">
+                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
+                            placeholder="Pihak Bertanggung Jawab..." value="{{ old( 'person_in_charge' ) }}">
+                            @error('person_in_charge')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="plan_completed" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_completed" id="plan_completed" placeholder="YYYY-MM-DD">
+                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
+                    <input type="date" class="form-control" name="plan_complated" id="plan_complated"
+                            placeholder="YYYY-MM-DD" value="{{ old( 'plan_complated' ) }}">
+                            @error('plan_complated')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </div>
             </div>
             <div class="col-sm-12 fv-plugins-icon-container">
                 <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
                     <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
-                    name="remark_plan" placeholder="MAX 250 characters..."></textarea>
+                    name="remark_plan" placeholder="MAX 250 characters..." value="{{ old( 'remark_plan' ) }}"></textarea>
                     @error('remark_plan')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

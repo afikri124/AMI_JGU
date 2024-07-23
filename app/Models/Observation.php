@@ -15,7 +15,9 @@ class Observation extends Model
         'audit_plan_id',
         'audit_plan_auditor_id',
         'location_id',
-        'remark_plan'
+        'remark_plan',
+        'person_in_charge',
+        'plan_complated'
     ];
 
     public function auditPlan()
@@ -42,7 +44,7 @@ class Observation extends Model
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
-    
+
     public function obs_checklist()
     {
         return $this->hasMany(ObservationChecklist::class, 'observation_id');

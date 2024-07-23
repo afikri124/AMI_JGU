@@ -47,7 +47,7 @@ class ObservationController extends Controller
         $criteria = StandardCriteria::orderBy('title')->get();
         $data = AuditPlan::findOrFail($id);
 
-        $auditorId = Auth::user()->id; //login sebagai user
+        $auditorId = Auth::user()->id;
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
 
         $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
@@ -85,18 +85,15 @@ class ObservationController extends Controller
 
     public function make(Request $request, $id)
     {
-        // dd($request);
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
-        $department = Department::where('id', $data->department_id)->orderBy('name')->get();
 
         if ($request->isMethod('POST')) {
+            // dd($request);
+
             $this->validate($request, [
-                'audit_plan_id' => ['required'],
                 'location_id' => ['required'],
-                'audit_plan_auditor_id' => ['required'],
                 'remark_plan' => ['required'],
-                'indicator_id' => ['required', 'array'],
                 'remark_description' => ['required', 'array'],
                 'obs_checklist_option' => ['required', 'array'],
                 'remark_success_failed' => ['required', 'array'],
@@ -106,51 +103,40 @@ class ObservationController extends Controller
                 'plan_complated' => ['required'],
             ]);
 
+            // dd($request);
+            $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+
             // Create Observation
             $obs = Observation::create([
-                'audit_plan_id' => $request->audit_plan_id,
-                'audit_plan_auditor_id' => $request->audit_plan_auditor_id,
+                'audit_plan_id' => $id,
+                'audit_plan_auditor_id' => $auditPlanAuditorId,
                 'location_id' => $request->location_id,
                 'remark_plan' => $request->remark_plan,
+                'person_in_charge' => $request->person_in_charge,
+                'plan_complated' => $request->plan_complated,
             ]);
 
             // Create Observation Checklists
-            foreach ($request->indicator_id as $indicator) {
+            foreach ($request->obs_checklist_option as $key => $obs_c) {
                 ObservationChecklist::create([
                     'observation_id' => $obs->id,
-                    'indicator_id' => $indicator,
-                    'remark_description' => $request->remark_description[$indicator] ?? '',
-                    'obs_checklist_option' => $request->obs_checklist_option[$indicator] ?? '',
-                    'remark_success_failed' => $request->remark_success_failed[$indicator] ?? '',
-                    'remark_recommend' => $request->remark_recommend[$indicator] ?? '',
-                    'remark_upgrade_repair' => $request->remark_upgrade_repair[$indicator] ?? '',
-                    'person_in_charge' => $request->person_in_charge[$indicator] ?? '',
-                    'plan_completed' => $request->plan_completed[$indicator] ?? '',
+                    'indicator_id' => $key,
+                    'remark_description' => $request->remark_description[$key] ?? '',
+                    'obs_checklist_option' => $obs_c ?? '',
+                    'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
+                    'remark_recommend' => $request->remark_recommend[$key] ?? '',
+                    'remark_upgrade_repair' => $request->remark_upgrade_repair[$key] ?? '',
                 ]);
             }
-
-            // Create Observation Categories and Criteria
-            // foreach ($request->audit_plan_category_id as $index => $categoryId) {
-            //     $observationCategory = ObservationCategory::create([
-            //         'observation_id' => $obs->id,
-            //         'audit_plan_category_id' => $categoryId,
-            //         'audit_plan_criteria_id' => $request->audit_plan_criteria_id[$index],
-            //     ]);
-
-            //     ObservationCriteria::create([
-            //         'observation_id' => $obs->id,
-            //         'observation_category_id' => $observationCategory->id,
-            //     ]);
-            // }
 
             return redirect()->route('observations.index')->with('msg', 'Observasition succeeded!!');
         }
     }
 
-    public function edit($id)
+    public function make_report($id)
     {
         $data = AuditPlan::findOrFail($id);
-        return view('observations.edit', compact('data'));
+        return view('observations.make_report.print', compact('data'));
     }
 
     public function update(Request $request, $id)

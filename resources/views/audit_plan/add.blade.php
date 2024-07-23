@@ -20,15 +20,14 @@
 @endsection
 
 @section('content')
-<div class="container-fluid flex-grow-1 container-p-y">
 <div class="row">
     <div class="col-md-12">
         <form class="card" method="POST" action="">
             @csrf
-            <!-- <div class="card-header">
-                <h3 class="card-header"><b>Create Audit Plan</b></h3>
+            <div class="card-header">
+                <h4 class="card-header"><b>Create Audit Plan</b></h4>
                 <hr class="my-0">
-            </div> -->
+            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
@@ -48,7 +47,8 @@
                         <div class="form-group">
                             <label class="form-label" for="basicDate"><b>Date End</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
-                                <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_end') }}">
+                                <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
+                                        placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" value="{{ old('date_end') }}">
                                 @error('date_end')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -96,7 +96,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="location_id" class="form-label"><b>Location</b></label>
-                            <select name="location_id" id="location_id" class="form-select select2" required>
+                            <select name="location_id" id="location_id" class="form-select select2" value="{{ old('location_id') }}" required>
                                 <option value="">Select Location</option>
                                 @foreach($locations as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
@@ -109,7 +109,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-                            <select name="department_id" id="department_id" class="form-select select2" required>
+                            <select name="department_id" id="department_id" class="form-select select2" value="{{ old('department_id') }}" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $d)
                                 <option value="{{$d->id}}" {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
@@ -139,7 +139,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
-                            <select name="type_audit" id="type_audit" class="form-select select2" required>
+                            <select name="type_audit" id="type_audit" class="form-select select2" value="{{ old('type_audit') }}" required>
                                 <option value="">Select Type Audit</option>
                                 <option value="reguler">Reguler</option>
                                 <option value="permintaan">Permintaan</option>
