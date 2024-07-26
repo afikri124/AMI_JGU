@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PermissionController;
@@ -72,10 +73,9 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
     Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
-    Route::get('/make_report/{id}', [ObservationController::class, 'make_report'])->name('observations.make_report');
     Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
+    Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
 });
-
 
 //MY Audit
 Route::group(['prefix' => 'my_audit'], function () {

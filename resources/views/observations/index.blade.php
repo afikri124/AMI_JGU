@@ -238,8 +238,9 @@
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
                             x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/create/${row.id}') }}">
                                         <i class="bx bx-search-alt-2"></i></a>
-                                <a class="badge bg-dark" title="Show Make Report" href="{{ url('observations/make_report/${row.id}') }}">
-                                        <i class="bx bx-show"></i></a>`;
+                                <a class="badge bg-dark" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
+                                        <i class="bx bx-printer"></i></a>
+                                        `;
                         }
                         return x;
                     },

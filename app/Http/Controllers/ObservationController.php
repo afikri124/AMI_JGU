@@ -50,19 +50,19 @@ class ObservationController extends Controller
         $auditorId = Auth::user()->id;
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
 
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+            $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+            $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
 
-        $standardCategoryIds = $categories->pluck('standard_category_id');
-        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+            $standardCategoryIds = $categories->pluck('standard_category_id');
+            $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
 
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
+            $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+            $standardCriterias = StandardCriteria::with('statements')
+                            ->with('statements.indicators')
+                            ->with('statements.reviewDocs')
+                            ->whereIn('id', $standardCriteriaIds)
+                            ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                            ->get();
         // dd($standardCriterias);
 
         $auditor = User::with(['roles' => function ($query) {
@@ -133,11 +133,42 @@ class ObservationController extends Controller
         }
     }
 
-    public function make_report($id)
+    public function edit($id)
     {
         $data = AuditPlan::findOrFail($id);
-        return view('observations.make_report.print', compact('data'));
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with('auditor:id,name')
+        ->firstOrFail();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        return view('observations.print',
+        compact('standardCategories', 'standardCriterias',
+        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations'));
     }
+
+    // public function print($id)
+    // {
+    //     $data = AuditPlan::findOrFail($id);
+    //     return view('observations.edit', compact('data'));
+    // }
 
     public function update(Request $request, $id)
     {
