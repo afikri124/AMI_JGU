@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                 <div class="col-md-3">
-                    <select id="select_auditee" name="select2" class="select form-select">
+                    <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
                         <option value="">Select Auditee</option>
                         @foreach($auditee as $d)
                         <option value="{{ $d->id }}">{{ $d->name }}</option>
@@ -89,7 +89,6 @@
                     </thead>
                 </table>
             </div>
-
 @endsection
 
 @section('script')
@@ -117,7 +116,18 @@
     });
 </script>
 @endif
-
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+</script>
 <script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
@@ -238,5 +248,4 @@
     }
 
 </script>
-
 @endsection

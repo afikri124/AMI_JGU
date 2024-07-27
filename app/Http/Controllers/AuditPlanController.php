@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Location;
+use App\Models\Observation;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use Illuminate\Support\Facades\Log;
@@ -44,6 +45,7 @@ class AuditPlanController extends Controller
                 'link'            => ['string'],
                 'department_id'   => ['required'],
                 'type_audit'   => ['required'],
+                'periode'   => ['required'],
             ]);
 
         $auditee = User::find($request->auditee_id);
@@ -55,10 +57,9 @@ class AuditPlanController extends Controller
             'audit_status_id' => '1',
             'location_id'     => $request->location_id,
             'department_id'   => $request->department_id,
-            'doc_path'        => $request->doc_path,
             'link'            => $request->link,
-            'remark_docs'     => $request->remark_docs,
-            'type_audit'     => $request->type_audit,
+            'type_audit'      => $request->type_audit,
+            'periode'         => $request->periode,
         ]);
 
         if ($request->auditor_id) {
@@ -145,17 +146,6 @@ class AuditPlanController extends Controller
         'location_id' => $request->location_id,
     ];
 
-    // Periksa apakah ada perubahan pada date_start atau date_end
-    // $updateAuditStatus = false;
-    // if ($data->date_start !== $request->date_start || $data->date_end !== $request->date_end) {
-    //     $updateAuditStatus = true;
-    // }
-
-    // // Update audit_status_id hanya jika ada perubahan pada date_start atau date_end
-    // if ($updateAuditStatus) {
-    //     $updateData['audit_status_id'] = '2';
-    // }
-
     $data->update($updateData);
 
     // Ambil semua auditor saat ini dari database untuk audit plan ini
@@ -183,33 +173,31 @@ class AuditPlanController extends Controller
 
     // Delete Audit Plan
     public function delete(Request $request)
-{
-    $auditPlan = AuditPlan::find($request->id);
+    {
+        // Find the AuditPlan by ID
+        $auditPlan = AuditPlan::find($request->id);
 
-    if ($auditPlan) {
-        // Menghapus relasi dengan audit plan categories
-        // AuditPlanCategory::where('audit_plan_id', $auditPlan->id)->delete();
+        if ($auditPlan) {
+            // First, delete related AuditPlanAuditor records
+            $auditPlan->auditor()->delete();
 
-        // Menghapus relasi dengan audit plan auditors
-        AuditPlanAuditor::where('audit_plan_id', $auditPlan->id)->delete();
+            // Then, delete related Observation records
+            $auditPlan->observation()->delete();
 
-        // Menghapus relasi dengan audit plan criterias
-        // AuditPlanCriteria::where('audit_plan_id', $auditPlan->id)->delete();
+            // Finally, delete the AuditPlan itself
+            $auditPlan->delete();
 
-        // Menghapus audit plan itu sendiri
-        $auditPlan->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Successfully deleted!'
-        ]);
-    } else {
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to delete! Data not found'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully deleted!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete! Data not found'
+            ]);
+        }
     }
-}
 
     public function data(Request $request)
     {
@@ -236,7 +224,7 @@ class AuditPlanController extends Controller
             ->leftJoin('locations', 'locations.id', '=', 'location_id')
             ->select(
                 'audit_plans.*',
-                'locations.title as location'
+                'locations.title as location',
             )->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
@@ -249,7 +237,11 @@ class AuditPlanController extends Controller
                     $instance->where(function ($w) use ($request) {
                         $search = $request->get('search');
                         $w->orWhere('date_start', 'LIKE', "%$search%")
-                            ->orWhere('date_end', 'LIKE', "%$search%");
+                        ->orWhere('date_end', 'LIKE', "%$search%")
+                        ->orWhere('locations.title', 'LIKE', "%$search%")
+                        ->orWhereHas('auditee', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', "%$search%");
+                        });
                     });
                 }
             })->make(true);

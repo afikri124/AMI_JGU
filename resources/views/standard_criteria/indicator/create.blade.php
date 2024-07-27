@@ -13,7 +13,7 @@
     }
 </style>
 
-<div class="container-fluid flex-grow-1 container-p-y">
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -61,7 +61,7 @@
                                 @enderror
                             </div>
                         </div>
-<p></p>
+                    <p></p>
                     <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>
                         <input type="number" class="form-control" id="numForms" name="numForms" min="1">
@@ -70,7 +70,7 @@
                     <div id="dynamic-form-container"></div>
 
                     <div class="col-sm-12 mt-3">
-                        <button type="submit" class="btn btn-primary data-submit me-sm-1me-1">Create</button>
+                        <button type="submit" class="btn btn-primary data-submit me-1">Create</button>
                         <a href="{{ route('standard_criteria.indicator.index')}}">
                         <span class="btn btn-outline-secondary">Back</span>
                         </a>

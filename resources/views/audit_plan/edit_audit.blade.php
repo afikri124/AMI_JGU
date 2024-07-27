@@ -31,7 +31,7 @@
                         <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_start') is-invalid @enderror" name="date_start"
-                                    placeholder="Masukkan Date " value="{{ old( $data->date_start ) }}">
+                                    placeholder="Masukkan Date " value="{{ $data->date_start }}">
                                         @error('date_start')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
@@ -43,7 +43,7 @@
                         <label class="form-label" for="basicDate"><b>Date End</b><i class="text-danger">*</i></label>
                             <div class="input-group input-group-merge has-validation">
                                 <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror" name="date_end"
-                                    placeholder="Masukkan Date" value="{{ old($data->date_end) }}">
+                                    placeholder="Masukkan Date" value="{{ $data->date_end }}">
                                         @error('date_end')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong></span>
@@ -56,7 +56,7 @@
                                 <select name="auditor_id[]" id="auditor_id" class="form-select select2" multiple required>
                                     <option value="">Select Auditor</option>
                                     @foreach($auditors as $auditor)
-                                        <option value="{{ $auditor->id }}" {{ in_array(old($auditor->id), $selectedAuditors) ? 'selected' : '' }}>
+                                        <option value="{{ $auditor->id }}" {{ in_array($auditor->id, $selectedAuditors) ? 'selected' : '' }}>
                                             {{ $auditor->name }}
                                         </option>
                                     @endforeach
@@ -65,10 +65,10 @@
                             <p></p>
                             <div class="col-sm-12 fv-plugins-icon-container">
                                 <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-                                <select name="location_id" id="location_id" class="form-select select2" value="{{ old($data->loca) }}" required>
+                                <select name="location_id" id="location_id" class="form-select select2" required>
                                     <option value="">Select Location</option>
                                     @foreach($locations as $d)
-                                        <option value="{{ $d->id }}" {{ old($d->id == $data->location_id) ? 'selected' : '' }}>
+                                        <option value="{{ $d->id }}" {{ old('location_id', $data->location_id) == $d->id ? 'selected' : '' }}>
                                             {{ $d->title }}
                                         </option>
                                     @endforeach

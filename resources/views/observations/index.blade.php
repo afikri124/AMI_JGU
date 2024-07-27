@@ -70,6 +70,14 @@
                                     </div>
                                 </div>
                                 </div>
+                <div class="col-md-3">
+                    <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
+                        <option value="">Select Auditee</option>
+                        @foreach($auditee as $d)
+                        <option value="{{ $d->id }}">{{ $d->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="container-fluid flex-grow-1 container-p-y">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
@@ -110,9 +118,9 @@
                         <i class="text-danger"><b>* Give a note, if the Auditee Document is not complete!</b></i>
                     </div>
                     <div class="text-end">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary me-1" type="submit">Submit</button>
                         <a href="">
-                            <span class="btn btn-secondary">Back</span>
+                            <span class="btn btn-outline-secondary">Back</span>
                         </a>
                     </div>
                 </form>
@@ -146,9 +154,20 @@
             }
         });
     });
-
 </script>
 @endif
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -163,7 +182,8 @@
             ajax: {
                 url: "{{ route('observations.data') }}",
                 data: function (d) {
-                    d.search = $('input[type="search"]').val()
+                    d.search = $('input[type="search"]').val(),
+                    d.select_auditee = $('#select_auditee').val()
                 },
             },
             columnDefs: [{
@@ -236,9 +256,9 @@
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
-                            x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/create/${row.id}') }}">
-                                        <i class="bx bx-search-alt-2"></i></a>
-                                <a class="badge bg-dark" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
+                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('observations/create/${row.id}') }}">
+                                        <i class="bx bx-search-alt"></i></a>
+                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
                                         <i class="bx bx-printer"></i></a>
                                         `;
                         }
@@ -248,6 +268,9 @@
                     className: "text-md-center"
                 }
             ]
+        });
+        $('#select_auditee').change(function () {
+            table.draw();
         });
     });
 

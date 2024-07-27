@@ -84,7 +84,7 @@
                             </div>
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_category" class="form-control input-sm  select2" data-placeholder="Category">
+                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Category">
                                 <option value="">Select Category</option>
                                 @foreach($category as $d)
                                 <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
@@ -207,16 +207,16 @@
             });
         })(jQuery);
     }, 350);
-    setTimeout(function () {
-        (function ($) {
-            "use strict";
-            $(".select2-modal").select2({
-                dropdownParent: $('#newrecord'),
-                allowClear: true,
-                minimumResultsForSearch: 5
-            });
-        })(jQuery);
-    }, 350);
+    // setTimeout(function () {
+    //     (function ($) {
+    //         "use strict";
+    //         $(".select2-modal").select2({
+    //             dropdownParent: $('#newrecord'),
+    //             allowClear: true,
+    //             minimumResultsForSearch: 5
+    //         });
+    //     })(jQuery);
+    // }, 350);
 </script>
 <script type="text/javascript">
     $(document).ready(function () {

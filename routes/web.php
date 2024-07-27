@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApproveController;
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PDFController;
@@ -85,6 +86,20 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
 });
 
+Route::group(['prefix' => 'lpm'], function () {
+    Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
+    Route::get('/data', [ApproveController::class, 'data'])->name('lpm.data');
+    Route::put('/update/{id}', [ApproveController::class, 'update'])->name('my_audit.update');
+    Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+});
+
+Route::group(['prefix' => 'approver'], function () {
+    Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
+    Route::get('/data', [ApproveController::class, 'data'])->name('approver.data');
+    Route::put('/update/{id}', [ApproveController::class, 'update'])->name('my_audit.update');
+    Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+});
+
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);
 
 Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
@@ -157,8 +172,10 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::put('/update_docs/review_docs/{id}', [StandardCriteriaController::class, 'update_docs'])->name('update_docs.review_docs');
             Route::delete('/delete_docs', [StandardCriteriaController::class, 'delete_docs'])->name('delete_docs.review_docs');
          });
-
     Route::get('/get_standard_statement_id_by_id', [StandardCriteriaController::class, 'getStandardStatementId'])->name('DOC.get_standard_statement_id_by_id');
 
+        Route::group(['prefix' => 'hod_ami'], function () {
+            Route::any('/', [SettingController::class, 'hod_ami'])->name('hod_ami.index');
+        });
     });
 });

@@ -12,7 +12,7 @@
     }
 </style>
 
-<div class="container-fluid flex-grow-1 container-p-y">
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
