@@ -40,6 +40,21 @@
                 <div data-i18n="Dashboards">My Audit</div>
             </a>
         </li>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Approve</span>
+        </li>
+        <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
+            <a href="{{ route('lpm.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-copy-alt"></i>
+                <div data-i18n="Dashboards">LPM</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
+            <a href="{{ route('approver.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>
+                <div data-i18n="Dashboards">Approver</div>
+            </a>
+        </li>
         {{-- <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
             <a href="" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clipboard"></i>
@@ -103,16 +118,33 @@
                                 <div>Standard Criterias</div>
                             </a>
                         </li>
+                    </ul>
+                </li>
+                <li class="menu-item {{ request()->segment(2) == 'manage_unit' ? 'open active' : '' }}">
+                            <a href="" class="menu-link  menu-toggle">
+                                <div>Manage Unit</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->segment(3) == 'hod_ami' ? 'active' : '' }}">
+                                    <a href="{{ route('hod_ami.index') }}" class="menu-link">
+                                        <div>HoD AMI</div>
+                                    </a>
+                                </li>
+                                <!-- <li class="menu-item {{ request()->segment(3) == 'criteria' ? 'active' : '' }}">
+                                    <a href="" class="menu-link">
+                                        <div>Standard Criterias</div>
+                                    </a>
+                                </li> -->
+                        @endcan
+                    </ul>
+                </li>
                 @endcan
             </ul>
-        </li>
-        @endcan
-    </ul>
-    <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
-            <a href="{{route('documentation')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Documentation">Documentation</div>
-            </a>
-        </li>
+            <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
+                <a href="{{route('documentation')}}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-file"></i>
+                    <div data-i18n="Documentation">Documentation</div>
+                </a>
+            </li>
 </aside>
 <!-- / Menu -->

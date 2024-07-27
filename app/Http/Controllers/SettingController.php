@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,5 +39,19 @@ class SettingController extends Controller
         $user->save();
 
         return back()->with('success', 'Password berhasil diubah.');
+    }
+
+    // HoD AMI
+    public function hod_ami(Request $request) {
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'id'=> ['required'],
+                'title'=> ['required'],
+                'content'=> ['required'],
+            ]);
+            $up = Setting::find($request->id)->update(request()->all());
+        }
+        $data = Setting::get();
+        return view('hod_ami.index', ['data'=> $data]);
     }
 }

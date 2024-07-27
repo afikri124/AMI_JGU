@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ObservationCriteria extends Model
+class Approve extends Model
 {
     use HasFactory;
     public $timestamps = true;
@@ -13,7 +13,13 @@ class ObservationCriteria extends Model
     protected $fillable = [
         'id',
         'observation_id',
-        'observation_category_id',
+        'audit_status_id',
+        'remark_by_lpm',
+        'remark_by_approver',
     ];
 
+    public function approve()
+    {
+        return $this->belongsTo(Observation::class, 'observation_id');
+    }
 }

@@ -227,12 +227,6 @@ class StandardCriteriaController extends Controller
         return view('standard_criteria.indicator.index', compact('data', 'criteria', 'statement'));
     }
 
-    public function getStandardStatementId(Request $request)
-    {
-        $statement = StandardStatement::where('standard_criteria_id', $request->id)->get();
-        return response()->json($statement);
-    }
-
     // perubahan logic add indicator
     public function create_indicator(Request $request){
     if ($request->isMethod('POST')) {
@@ -492,6 +486,12 @@ class StandardCriteriaController extends Controller
                     });
                 }
             })->make(true);
+    }
+
+    public function getStandardStatementId(Request $request)
+    {
+        $statement = StandardStatement::where('standard_criteria_id', $request->id)->get();
+        return response()->json($statement);
     }
 }
 

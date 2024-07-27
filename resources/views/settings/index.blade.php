@@ -1,3 +1,6 @@
+@extends('layouts.master')
+@section('title', 'SETTING | PASSWORD')
+
 <style>
         body, html {
             height: 100%;
@@ -24,8 +27,6 @@
             text-align: right;
         }
     </style>
-@extends('layouts.master')
-@section('title', 'SETTING | PASSWORD')
 
 @section('content')
     <div class="container-centered">

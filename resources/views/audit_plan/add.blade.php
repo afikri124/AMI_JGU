@@ -141,8 +141,8 @@
                             <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
                             <select name="type_audit" id="type_audit" class="form-select select2" value="{{ old('type_audit') }}" required>
                                 <option value="">Select Type Audit</option>
-                                <option value="reguler">Reguler</option>
-                                <option value="permintaan">Permintaan</option>
+                                <option value="Reguler">Reguler</option>
+                                <option value="Permintaan">Permintaan</option>
                             </select>
                         </div>
                     </div>

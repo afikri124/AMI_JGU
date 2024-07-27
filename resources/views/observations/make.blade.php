@@ -211,22 +211,22 @@
                 <td style="width: 35%">
                     <div id="data-sets">
                         <div id="data-set">
-                            <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
-                                <label for="ks">KS</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
-                                <label for="obs">OBS</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
-                                <label for="kts_minor">KTS MINOR</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="radio" name="obs_checklist_option[{{ $statement->id }}]" value="{{ old( 'obs_checklist_option' ) }}" required />
-                                <label for="kts_mayor">KTS MAYOR</label>
-                            </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="ks_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KS" required />
+                            <label for="ks_{{ $statement->id }}">KS</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="obs_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="OBS" required />
+                            <label for="obs_{{ $statement->id }}">OBS</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="kts_minor_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KTS MINOR" required />
+                            <label for="kts_minor_{{ $statement->id }}">KTS MINOR</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="kts_mayor_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KTS MAYOR" required />
+                            <label for="kts_mayor_{{ $statement->id }}">KTS MAYOR</label>
+                        </div>
                         </div>
                     </div>
                 </td>
