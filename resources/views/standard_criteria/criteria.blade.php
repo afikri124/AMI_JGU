@@ -165,8 +165,8 @@
                 <tr>
                     <th width="5%"><b>No</b></th>
                     <th><b>Criteria</b></th>
-                    <th width="15%"><b>Category</b></th>
-                    <th width="5%"><b>Status</b></th>
+                    <th width="30%"><b>Category</b></th>
+                    <th width="2%"><b>Status</b></th>
                     <th width="15%"><b>Action</b></th>
                 </tr>
             </thead>
@@ -240,10 +240,9 @@
             },
             columns: [{
                 render: function (data, type, row, meta) {
-                        var no = (meta.row + meta.settings._iDisplayStart + 1);
+                        var no = row.id;
                         return no;
                     },
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -255,13 +254,14 @@
                     render: function (data, type, row, meta) {
                     // Check if row.category exists and has an id
                     if (row.category && row.category.id) {
-                        var html = `<a class="text-primary" title="${row.category.description}" href="">${row.category.description}</a>`;
+                        var html = `<a class="text-info" title="${row.category.description}" href="">${row.category.description}</a>`;
                         return html;
                     } else {
-                        return ''; // Return empty string or handle the case where category.id is missing
+                        return ''; // Return empty string or handle the case where category.title is missing
                     }
                 },
-                },
+                className: "text-center"
+            },
                 {
                     render: function (data, type, row, meta) {
                         if(row.status == 1){

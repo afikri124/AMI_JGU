@@ -31,8 +31,8 @@ class StandardCriteriaController extends Controller
             }
         }
 
-        $category = StandardCategory::all();
         $data = StandardCriteria::all();
+        $category = StandardCategory::all();
         return view('standard_criteria.criteria', compact('data', 'category'));
     }
 
@@ -100,9 +100,6 @@ class StandardCriteriaController extends Controller
                 }
             })->make(true);
     }
-
-
-
 
 
     // Standard Statement
@@ -227,11 +224,17 @@ class StandardCriteriaController extends Controller
         return view('standard_criteria.indicator.index', compact('data', 'criteria', 'statement'));
     }
 
-    public function getStandardStatementId(Request $request)
-    {
-        $statement = StandardStatement::where('standard_criteria_id', $request->id)->get();
-        return response()->json($statement);
-    }
+    // public function getStandardCriteria()
+    //     {
+    //         $criteria = StandardCriteria::all(); // Mengambil semua data dari tabel 'standard_criteria'
+    //         return view('standard_criteria.index', compact('criteria')); // Mengirim data ke view 'standard_criteria.index'
+    //     }
+
+    // public function getStandardStatements()
+    //     {
+    //         $statement = StandardStatement::orderBy('name')->get(); // Mengambil semua data dari tabel 'standard_statements' dan mengurutkannya berdasarkan kolom 'name'
+    //         return view('standard_statements.index', compact('statement')); // Mengirim data ke view 'standard_statements.index'
+    //     }
 
     // perubahan logic add indicator
     public function create_indicator(Request $request){

@@ -6,6 +6,8 @@
     <title>Login-AMI | JGU</title>
   <!--Stylesheet-->
   <link rel="stylesheet" type="text/css" href="https://cdn.prinsh.com/NathanPrinsley-textstyle/nprinsh-stext.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style media="screen">
 body {
     margin: 0;
@@ -81,7 +83,7 @@ body {
     width: 300px;
 }
 form {
-     width:270px;
+     width:290px;
      padding: 10px;
      margin: 0 auto;
      background-color: #fff;
@@ -89,7 +91,7 @@ form {
 
 .login-container {
     width: 100%;
-    max-width: 350px;
+    max-width: 390px;
     padding: 10px;
     background: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -98,7 +100,7 @@ form {
 }
 
 .login-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 17px;
 }
 .error-messages {
     color: red;
@@ -180,7 +182,43 @@ form {
 .links a:hover {
     text-decoration: underline;
 }
-  </style>
+
+.container {
+    background-color: #fff;
+    padding: 10px;
+}
+
+.or {
+    margin-top: 5px; /* Mengatur margin atas agar lebih dekat dengan elemen sebelumnya */
+    margin-bottom: 5px; /* Mengatur margin bawah agar lebih dekat dengan tombol */
+}
+
+
+
+.btn-showcase button,
+.btn-showcase a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px; /* Mengatur ukuran tombol lebih kecil */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.875rem; /* Ukuran font lebih kecil */
+}
+
+.btn-showcase button img,
+.btn-showcase a img {
+    margin-right: 5px;
+}
+
+.btn-showcase button:hover,
+.btn-showcase a:hover {
+    background-color: #e0e0e0;
+}
+</style>
 </head>
 <body>
     <div class="split-screen">
@@ -224,12 +262,28 @@ form {
 
         <button type="submit" class="btn">Login</button>
             <div class="links">
-                @if (Route::has('password.request'))
-                    <a class="forgot-password">Forgot Password?</a>
-                @endif
+                 @if (Route::has('password.request'))
+                                <a class="link" href="{{ route('password.request') }}">
+                                    {{ __('Forgot Password?') }}
+                                </a>
+                                @endif
                 </div>
             </form>
+            <h6 class="text-muted or">Or sign in with</h6>
+        <div class="d-flex justify-content-center">
+            <div class="btn-showcase me-2">
+                <button class="btn btn-light btn-block" onclick="Klas2Login()">
+                    <img style="max-height: 20px;" src="../assets/img/logo-icon.png" alt="SSO JGU">
+                    <span>SSO JGU</span>
+                </button>
+            </div>
+            <div class="btn-showcase ms-2">
+                <a class="btn btn-light btn-block" href="login/google">
+                    <img style="max-height: 20px;" src="https://avatars.githubusercontent.com/u/19180220?s=200&v=4" alt="Google">
+                    <span>Google</span>
+                </a>
+            </div>
         </div>
     </div>
 </body>
-</html>
+</html

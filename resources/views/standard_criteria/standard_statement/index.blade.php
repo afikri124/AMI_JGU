@@ -101,11 +101,11 @@
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                             <thead>
                                 <tr>
-                                    <th width="15px">No</th>
+                                    <th width="5%">No</th>
                                     <th>Standard Statement</th>
-                                    <th width="5px">Standard Criteria</th>
-                                    <th width="5px">Standard Category</th>
-                                    <th width="5px">Action</th>
+                                    <th width="25%">Standard Criteria</th>
+                                    <th width="15%">Standard Category</th>
+                                    <th width="5%">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -182,8 +182,8 @@
                 {
                     render: function (data, type, row, meta) {
                     // Check if row.category exists and has an id
-                    if (row.criteria && row.criteria.title) {
-                        var html = `<a class="text-primary" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                    if (row.criteria && row.criteria.id) {
+                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
                         return html;
                     } else {
                         return ''; // Return empty string or handle the case where category.title is missing
@@ -193,7 +193,7 @@
             {
                     render: function (data, type, row, meta) {
                     // Check if row.category exists and has an id
-                        var html = `<a class="text-primary" title="${row.criteria.category.description}" href="">${row.criteria.category.description}</a>`;
+                        var html = `<a class="text-info" title="${row.criteria.category.description}" href="">${row.criteria.category.description}</a>`;
                         return html;
                 },
             },

@@ -137,7 +137,8 @@
             },
             columns: [{
                     render: function (data, type, row, meta) {
-                        var x =  row.id ;
+                        console.log(row);
+                        var x = row.id.toString();
                         return x;
                     },
                     className: "text-center"

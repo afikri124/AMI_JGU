@@ -48,7 +48,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="name" class="col-form-label"><b>Standard Statement</b><i class="text-danger">*</i></label>
-                            <textarea class="form-control" maxlength="250" placeholder="Note: Maximum 250 char...." rows="2" name="name" id="name">{{ $data->name }}</textarea>
+                            <textarea class="form-control" maxlength="450" placeholder="Note: Maximum 250 char...." rows="2" name="name" id="name">{{ $data->name }}</textarea>
                         </div>
 
                     <div class="mt-2 text-end">

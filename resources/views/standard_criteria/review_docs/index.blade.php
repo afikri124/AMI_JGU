@@ -188,7 +188,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-dark" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        var html = `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
                         return html;
                     },
                 },
@@ -196,7 +196,7 @@
                     render: function (data, type, row, meta) {
                     // Check if row.category exists and has an id
                     if (row.criteria && row.criteria.title) {
-                        var html = `<a class="text-primary" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
                         return html;
                     } else {
                         return ''; // Return empty string or handle the case where category.title is missing

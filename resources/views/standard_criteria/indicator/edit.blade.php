@@ -61,8 +61,8 @@
 
                         <div class="form-group mb-3">
                             <label for="name" class="col-form-label"><b>Indicator</b></label>
-                            <input type="hidden" class="form-control" name="name" id="name" value = "{!! $data->name !!}">
-                            <trix-editor input="name"></trix-editor>
+                            <!-- <input type="hidden" class="form-control" name="name" id="name" value = "{!! $data->name !!}"> -->
+                            <textarea class="form-control" maxlength="450" placeholder="Note: Maximum 250 char...." rows="2" name="name" id="name">{{ $data->name }}</textarea>
                         </div>
 
                         <div class="mt-2 text-end">
