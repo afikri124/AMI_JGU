@@ -156,9 +156,9 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <button class="btn btn-primary" type="submit">Create</button>
+                <button class="btn btn-primary me-1" type="submit">Create</button>
                 <a href="{{ url()->previous() }}">
-                    <span class="btn btn-secondary">Back</span>
+                    <span class="btn btn-outline-secondary">Back</span>
                 </a>
             </div>
         </form>

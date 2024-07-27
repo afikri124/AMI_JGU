@@ -18,8 +18,8 @@
 <!-- <h3>User Profile</h3> -->
 @endsection
 @section('content')
-<div class="container-fluid flex-grow-1 container-p-y">
-    <div class="row">
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+<div class="row">
         <div class="col-xl-12">
             <form class="card" method="POST" action="">
                 @csrf
@@ -81,9 +81,9 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button class="btn btn-primary" type="submit">Create</button>
+                    <button class="btn btn-primary me-1" type="submit">Create</button>
                     <a href="{{ url()->previous() }}">
-                        <span class="btn btn-secondary">Back</span>
+                        <span class="btn btn-outline-secondary">Back</span>
                     </a>
                 </div>
             </form>

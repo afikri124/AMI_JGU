@@ -117,7 +117,7 @@
                         <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" readonly></textarea>
                     </div>
                     <div class="text-end" id="button-container">
-                        <button class="btn btn-primary" type="submit">Done</button>
+                        <button class="btn btn-primary me-1" type="submit">Done</button>
                     </form>
                         <!-- <form id="reupload-form" action="" method="POST">
                             @csrf
@@ -127,7 +127,7 @@
                         </form> -->
 
                         <a href="">
-                            <span class="btn btn-secondary">Back</span>
+                            <span class="btn btn-outline-secondary">Back</span>
                         </a>
                     </div>
                 </form>

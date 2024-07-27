@@ -118,9 +118,9 @@
                         <i class="text-danger"><b>* Give a note, if the Auditee Document is not complete!</b></i>
                     </div>
                     <div class="text-end">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary me-1" type="submit">Submit</button>
                         <a href="">
-                            <span class="btn btn-secondary">Back</span>
+                            <span class="btn btn-outline-secondary">Back</span>
                         </a>
                     </div>
                 </form>
