@@ -1,0 +1,218 @@
+[
+      {
+      "id": "1",
+      "title": "Standar Hasil Kompetensi Lulusan",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 2,
+      "title": "Standar Isi Pembelajaran",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 3,
+      "title": "Standar Proses Pembelajaran",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 4,
+      "title": "Standar Penilaian Pembelajaran",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 5,
+      "title": "Standar Dosen dan Tenaga Kependidikan",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 6,
+      "title": "Standar Sarana dan Prasarana Pembelajaran",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 7,
+      "title": "Standar Pengelolaan Pembelajaran",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 8,
+      "title": "Standar Pembiayaan Pembelajaran",
+      "status": true,
+      "standard_category_id": "1A"
+      },
+      {
+      "id": 9,
+      "title": "STANDAR HASIL PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 10,
+      "title": "STANDAR ISI PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 11,
+      "title": "STANDAR PROSES PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 12,
+      "title": "STANDAR PENILAIAN PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 13,
+      "title": "STANDAR PENELITI",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 14,
+      "title": "STANDAR SARANA DAN PRASARANA PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 15,
+      "title": "STANDAR PENGELOLAAN PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 16,
+      "title": "STANDAR PENDANAAN PENELITIAN",
+      "status": true,
+      "standard_category_id": "2B"
+      },
+      {
+      "id": 17,
+      "title": "STANDAR HASIL PENGABDIAN MASYARAKAT",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 18,
+      "title": "STANDAR ISI PENGABDIAN MASYARAKAT",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 19,
+      "title": "STANDAR PROSES PENGABDIAN MASYARAKAT",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 20,
+      "title": "STANDAR PENILAIAN PENGABDIAN MASYARAKAT",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 21,
+      "title": "STANDAR PELAKSANA ABDIMAS",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 22,
+      "title": "STANDAR SARANA DAN PRASARANA ABDIMAS",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 23,
+      "title": "STANDAR PENGELOLAAN ABDIMAS",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 24,
+      "title": "STANDAR PENDANAAN PENGABDIAN KEPADA MASYARAKAT",
+      "status": true,
+      "standard_category_id": "3C"
+      },
+      {
+      "id": 25,
+      "title": "Standar Kebijakan Tata Pamong dan Tata Kelola",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 26,
+      "title": "Standar pelaksanaan Tata Pamong Tata Kelola",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 27,
+      "title": "Standar Penerimaan Mahasiswa Baru",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 28,
+      "title": "Standar Lembaga Kemahasiswaan",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 29,
+      "title": "Standar Sarana dan Prasarana Kegiatan Kemahasiswaan",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 30,
+      "title": "Standar Pembiayaan Kegiatan Mahasiswa",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 31,
+      "title": "Standar Penghargaan dan Prestasi Mahasiswa",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 32,
+      "title": "Standar Lembaga Kerja sama",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 33,
+      "title": "Standar Prosedur Pelaksanaan Kegiatan kerja sama",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 34,
+      "title": "Standar Tupoksi Jobdesc Tata Pamong dan Tata Kelola JGU",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 35,
+      "title": "Standar Persiapan Perkuliahan",
+      "status": true,
+      "standard_category_id": "4D"
+      },
+      {
+      "id": 36,
+      "title": "Standar Pelaksanaan Ujian",
+      "status": true,
+      "standard_category_id": "4D"
+      }
+]
