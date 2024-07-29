@@ -1,21 +1,19 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Create Sub Indicator')
+@section('title', 'Create Standard Statement')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css') }}" />
 @endsection
 <style>
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
+
 </style>
+
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -26,28 +24,22 @@
         @endif
         <div class="card mb-4">
             <hr class="my-0">
-            <div class="card-header">Sub Indicator</div>
             <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('store_sub.sub_indicator') }}" enctype="multipart/form-data">
+                <form id="form-add-new-record" method="POST" action="{{ route('standard_criteria.standard_statement.create') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-md-4">
-                        <label for="indicator_id" class="form-label">Select Indicator<i class="text-danger">*</i></label>
-                        <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
-                                name="indicator_id" id="indicator_id" data-placeholder="Select">
-                            <option value="" selected disabled>Indicator</option>
-                            @foreach($indicators as $c)
-                                <option value="{{ $c->id }}" > {{ old('indicator_id') == $c->id ? 'selected' : '' }}
-                                {{ $c->id }}  -  {{ $c->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('indicator_id')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <label for="standard-_criteria_id" >Select Criteria</label>
+                        <div class="form-group">
+                                <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
+                                    <option value="">Select Criterias</option>
+                                    @foreach($criterias as $c)
+                                        <option value="{{ $c->id }}" {{ old('standard_criteria_id') == $c->id ? 'selected' : '' }}>
+                                        {{ $c->id }} -  {{ $c->title }}
+                                        </option>
+                                        @endforeach
+                                </select>
+                            </div>
                     </div>
-
 
                     <div class="form-group col-md-4">
                         <label for="numForms">Number of Forms</label>
@@ -57,8 +49,8 @@
                     <div id="dynamic-form-container"></div>
 
                     <div class="col-sm-12 mt-4">
-                        <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
-                        <a href="{{ route('standard_criteria.sub_indicator')}}">
+                        <button type="submit" class="btn btn-primary data-submit me-sm-1">Create</button>
+                        <a href="{{ url()->previous() }}">
                         <span class="btn btn-outline-secondary">Back</span>
                         </a>
                     </div>
@@ -69,9 +61,7 @@
 </div>
 
 @section('script')
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-
 <script>
     "use strict";
     setTimeout(function () {
@@ -95,11 +85,9 @@
             <p></p>
                 <div class="row mb-3">
                         <div class="form-group">
-                            <label for="inputField${i + 1}_1">Sub Indicator<i class="text-danger">*</i></label>
-                            <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="sub_indicators[${i}][name]"></input>
-                            <trix-editor input="inputField${i + 1}_1"></trix-editor>
-                        </div>
-                    </div>
+                            <label for="inputField${i + 1}_1">Standard Statement (Max. 250 char)<i class="text-danger">*</i></label>
+                            <textarea type="text-danger" class="form-control" maxlength="250" id="inputField${i + 1}_1" name="standard_statements[${i}][name]">
+
             `;
             container.insertAdjacentHTML('beforeend', row);
         }

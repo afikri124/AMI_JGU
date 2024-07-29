@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Location;
+use App\Models\Observation;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use Illuminate\Support\Facades\Log;
@@ -44,6 +45,7 @@ class AuditPlanController extends Controller
                 'link'            => ['string'],
                 'department_id'   => ['required'],
                 'type_audit'   => ['required'],
+                'periode'   => ['required'],
             ]);
 
         $auditee = User::find($request->auditee_id);
@@ -55,10 +57,9 @@ class AuditPlanController extends Controller
             'audit_status_id' => '1',
             'location_id'     => $request->location_id,
             'department_id'   => $request->department_id,
-            'doc_path'        => $request->doc_path,
             'link'            => $request->link,
-            'remark_docs'     => $request->remark_docs,
-            'type_audit'     => $request->type_audit,
+            'type_audit'      => $request->type_audit,
+            'periode'         => $request->periode,
         ]);
 
         if ($request->auditor_id) {
@@ -72,9 +73,9 @@ class AuditPlanController extends Controller
 
         if ($data) {
             return redirect()->route('audit_plan.standard', ['id' => $data->id])
-            ->with('msg', 'Data ' . $auditee->name . ' pada tanggal ' . $request->date_start . ' sampai tanggal ' . $request->date_end . ' BERHASIL ditambahkan!!');
+            ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added!!');
             }
-        return redirect()->back()->with('msg', 'Gagal menambahkan data.');
+        return redirect()->back()->with('msg', 'Failed to add data.');
     }
 
         $audit_plan = AuditPlan::with('auditstatus')->get();
@@ -131,72 +132,72 @@ class AuditPlanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'date_start' => 'required',
-            'date_end' => 'required',
-            'location_id' => 'required',
-        ]);
+    $request->validate([
+        'date_start' => 'required',
+        'date_end' => 'required',
+        'location_id' => 'required',
+        'auditor_id' => 'array',
+    ]);
 
-        $data = AuditPlan::findOrFail($id);
+    $data = AuditPlan::findOrFail($id);
+    $updateData = [
+        'date_start' => $request->date_start,
+        'date_end' => $request->date_end,
+        'location_id' => $request->location_id,
+    ];
 
-        // Determine if date_start or date_end has changed
-        $isDateChanged = $data->date_start !== $request->date_start || $data->date_end !== $request->date_end;
+    $data->update($updateData);
 
-        // Prepare update data
-        $updateData = [
-            'date_start' => $request->date_start,
-            'date_end' => $request->date_end,
-            'location_id' => $request->location_id,
-        ];
+    // Ambil semua auditor saat ini dari database untuk audit plan ini
+    $currentAuditors = $data->auditor->pluck('auditor_id')->toArray();
 
-        // Only change audit_status_id if the dates are changed
-        if ($isDateChanged) {
-            $updateData['audit_status_id'] = '2';
-        } else {
-            $updateData['audit_status_id'] = $data->audit_status_id; // Keep the existing status
-        }
+    // Ambil auditor baru dari form
+    $newAuditors = $request->auditor_id;
 
-        $data->update($updateData);
+    // Hapus auditor yang tidak ada di form
+    $auditorsToDelete = array_diff($currentAuditors, $newAuditors);
+    AuditPlanAuditor::where('audit_plan_id', $id)
+                    ->whereIn('auditor_id', $auditorsToDelete)
+                    ->delete();
 
-        foreach ($request->auditor_id as $auditorId) {
-            AuditPlanAuditor::updateOrCreate(
-                ['audit_plan_id' => $id, 'auditor_id' => $auditorId]
-            );
-        }
-
-        return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan berhasil diperbarui.');
+    // Tambahkan atau perbarui auditor baru
+    foreach ($newAuditors as $auditor) {
+        AuditPlanAuditor::updateOrCreate(
+            ['audit_plan_id' => $id, 'auditor_id' => $auditor]
+        );
     }
+
+    return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan updated successfully.');
+}
 
 
     // Delete Audit Plan
     public function delete(Request $request)
-{
-    $auditPlan = AuditPlan::find($request->id);
+    {
+        // Find the AuditPlan by ID
+        $auditPlan = AuditPlan::find($request->id);
 
-    if ($auditPlan) {
-        // Menghapus relasi dengan audit plan categories
-        // AuditPlanCategory::where('audit_plan_id', $auditPlan->id)->delete();
+        if ($auditPlan) {
+            // First, delete related AuditPlanAuditor records
+            $auditPlan->auditor()->delete();
 
-        // Menghapus relasi dengan audit plan auditors
-        AuditPlanAuditor::where('audit_plan_id', $auditPlan->id)->delete();
+            // Then, delete related Observation records
+            $auditPlan->observation()->delete();
 
-        // Menghapus relasi dengan audit plan criterias
-        // AuditPlanCriteria::where('audit_plan_id', $auditPlan->id)->delete();
+            // Finally, delete the AuditPlan itself
+            $auditPlan->delete();
 
-        // Menghapus audit plan itu sendiri
-        $auditPlan->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Berhasil dihapus!'
-        ]);
-    } else {
-        return response()->json([
-            'success' => false,
-            'message' => 'Gagal dihapus! Data tidak ditemukan.'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully deleted!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete! Data not found'
+            ]);
+        }
     }
-}
 
     public function data(Request $request)
     {
@@ -223,7 +224,7 @@ class AuditPlanController extends Controller
             ->leftJoin('locations', 'locations.id', '=', 'location_id')
             ->select(
                 'audit_plans.*',
-                'locations.title as location'
+                'locations.title as location',
             )->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
@@ -236,7 +237,11 @@ class AuditPlanController extends Controller
                     $instance->where(function ($w) use ($request) {
                         $search = $request->get('search');
                         $w->orWhere('date_start', 'LIKE', "%$search%")
-                            ->orWhere('date_end', 'LIKE', "%$search%");
+                        ->orWhere('date_end', 'LIKE', "%$search%")
+                        ->orWhere('locations.title', 'LIKE', "%$search%")
+                        ->orWhereHas('auditee', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', "%$search%");
+                        });
                     });
                 }
             })->make(true);
@@ -251,57 +256,6 @@ class AuditPlanController extends Controller
         $data = AuditPlanAuditor::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         return view('audit_plan.standard.index', compact('data', 'auditor'));
-    }
-
-    public function create(Request $request, $id)
-    {
-        $data = AuditPlanAuditor::findOrFail($id);
-        $category = StandardCategory::where('status', true)->get();
-        $criteria = StandardCriteria::where('status', true)->get();
-        $auditor = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'auditor');
-        })
-        ->where('id', $data->auditor_id) // Gunakan ID dari data yang diambil
-        ->orderBy('name')
-        ->get();
-
-        return view("audit_plan.standard.create", compact("data", "category", "criteria", "auditor"));
-    }
-
-    public function update_std(Request $request, $id)
-    {
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'auditor_id' => 'required',
-                'standard_criteria_id' => 'required',
-                'standard_category_id' => 'required',
-            ]);
-            // dd($request->all());
-
-            $data = AuditPlanAuditor::findOrFail($id);
-
-            if ($request->standard_category_id) {
-                foreach ($request->standard_category_id as $categoryId) {
-                    AuditPlanCategory::create([
-                        'audit_plan_auditor_id' => $data->id,
-                        'standard_category_id'  => $categoryId,
-                    ]);
-                }
-            }
-
-            if ($request->standard_criteria_id) {
-                foreach ($request->standard_criteria_id as $criteriaId) {
-                    AuditPlanCriteria::create([
-                        'audit_plan_auditor_id'=> $data->id,
-                        'standard_criteria_id' => $criteriaId,
-                    ]);
-                }
-            }
-        }
-        return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil di tambahkan!!');
     }
 
     public function edit_auditor_std(Request $request, $id)
@@ -325,7 +279,7 @@ class AuditPlanController extends Controller
         return view("audit_plan.standard.edit", compact("data", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
     }
 
-        public function update_auditor_std(Request $request, $id)
+    public function update_auditor_std(Request $request, $id)
     {
     // Validate the incoming request data
     $this->validate($request, [
@@ -335,23 +289,24 @@ class AuditPlanController extends Controller
     ]);
 
     // Find the AuditPlanAuditor record by ID
-    $data = AuditPlanAuditor::findOrFail($id);
-
     foreach ($request->standard_category_id as $categoryId) {
-        AuditPlanCategory::updateOrCreate(
-            ['audit_plan_auditor_id' => $id, 'standard_category_id' => $categoryId]
-        );
+        AuditPlanCategory::updateOrCreate([
+            'audit_plan_auditor_id' => $id,
+            'standard_category_id' => $categoryId,
+        ]);
+    }
 
+    // Create records for standard criteria
     foreach ($request->standard_criteria_id as $criteriaId) {
-            AuditPlanCriteria::updateOrCreate(
-            ['audit_plan_auditor_id' => $id, 'standard_criteria_id' => $criteriaId]
-        );
+        AuditPlanCriteria::updateOrCreate([
+            'audit_plan_auditor_id' => $id,
+            'standard_criteria_id' => $criteriaId,
+        ]);
     }
     // Redirect with a success message
-    return redirect()->route('audit_plan.index')->with('msg', 'Data Berhasil diupdate!');
+    return redirect()->route('audit_plan.standard', ['id' => $id])
+        ->with('msg', 'Auditor data to determine each Standard was added successfully!');
     }
-}
-
 
     // public function getStandardCategoryId(Request $request)
     // {

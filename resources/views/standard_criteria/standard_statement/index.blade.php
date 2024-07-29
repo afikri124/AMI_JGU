@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Sub Indicator')
+@section('title', 'Standard Statement')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
 @section('style')
 <style>
+
     table.dataTable tbody td {
         vertical-align: middle;
     }
@@ -34,7 +34,7 @@
     .badge-icon {
         display: inline-block;
         font-size: 1em;
-        padding: 0.4em;
+        padding: 0.3em;
         margin-right: 0.1em;
     }
 
@@ -45,10 +45,6 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -61,24 +57,24 @@
 
 
 @section('content')
-    <div class="col-md-12">
+<div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.standard_statement') }}"><i
                         class="bx bx-chart me-1"></i>
-                    Indicator</a></li>
-        <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.sub_indicator') }}"><i
+                    Standard Statement</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator.index') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Sub Indicator</a></li>
+                    Indicator</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
                     Review Document</a></li>
         </ul>
     </div>
 
-<div class="card">
+    <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
             <!-- <div class="row">
@@ -86,32 +82,36 @@
                     <div class="col-12"> -->
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
-                                <option value="">Select Indicator</option>
-                                @foreach($indicator as $d)
-                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
+                            <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
+                                <option value="">Select Criteria</option>
+                                @foreach($criteria as $d)
+                                <option value="{{ $d->id }}">{{ $d->id }} - {{ $d->title }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <div class="container-fluid">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Sub Indicator"
-                                href="{{ route('standard_criteria.sub_indicator.create')}}">
+                            <a class="btn btn-primary btn-block btn-mail" title="Add standard_statement"
+                                href="{{ route('standard_criteria.standard_statement.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
-
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-            <thead>
-                <tr>
-                    <th width="20px">No</th>
-                    <th>Sub Indicator</th>
-                    <th>Indicator</th>
-                    <th width="40px">Action</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+                        </div>
+                        <div class="container-fluid">
+                        <table class="table table-hover table-sm" id="datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">No</th>
+                                    <th>Standard Statement</th>
+                                    <th width="25%">Standard Criteria</th>
+                                    <th width="15%">Standard Category</th>
+                                    <th width="5%">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
 @endsection
 
 @section('script')
@@ -120,7 +120,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -161,10 +160,10 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.data_sub') }}",
+                url: "{{ route('standard_criteria.standard_statement.data_standard_statement')}}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_indicator = $('#select_indicator').val()
+                    d.select_criteria = $('#select_criteria').val()
                 },
             },
             columns: [{
@@ -172,37 +171,38 @@
                         var no = (meta.row + meta.settings._iDisplayStart + 1);
                         return no;
                     },
-                    orderable: false,
 
                 },
                 {
                     render: function (data, type, row, meta) {
-                        data = "";
-                        // if (row.name != null) {
-                        //     data = "<span class='badge bg-label-danger'>" + row.data.date + "</span> <strong title='" + row.data.title + "'>" + row.data.title +
-                        //         "</strong><br>";
-                        // }
-                        return data + $("<textarea/>").html(row.name).text();
-                    },
-                    // render: function (data, type, row, meta) {
-                    //     return $('<code>' + row.name + '</code>');
-                    // },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = row.indicator.name;
+                        var x = row.name;
                         return x;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
+                    // Check if row.category exists and has an id
+                    if (row.criteria && row.criteria.id) {
+                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        return html;
+                    } else {
+                        return ''; // Return empty string or handle the case where category.title is missing
+                    }
+                },
+            },
+            {
+                    render: function (data, type, row, meta) {
+                    // Check if row.category exists and has an id
+                        var html = `<a class="text-info" title="${row.criteria.category.description}" href="">${row.criteria.category.description}</a>`;
+                        return html;
+                },
+            },
+                {
+                    render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="badge bg-warning badge-icon" title="Edit Sub Indicator" style="cursor:pointer"
-                            href="{{ url('setting/manage_standard/criteria/edit_sub/sub_indicator/') }}/${row.id}">
-                            <i class="bx bx-pencil"></i></a>
-
-                            <a class="badge bg-danger badge-icon" title="Delete Sub Indicator" style="cursor:pointer"
+                            `<a class="badge bg-warning badge-icon" title="Edit standard_statement" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/standard_statement/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            <a class="badge bg-danger badge-icon" title="Delete standard_statement" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
                             <i class='bx bx-trash icon-white'></i></a>`;
                         return html;
@@ -212,7 +212,7 @@
                 }
             ]
         });
-        $('#select_indicator').change(function () {
+        $('#select_criteria').change(function () {
             table.draw();
         });
     });
@@ -228,7 +228,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('delete_sub.sub_indicator') }}",
+                        url: "{{ route('delete_standard_statement') }}",
                         type: "DELETE",
                         data: {
                             "id": id,

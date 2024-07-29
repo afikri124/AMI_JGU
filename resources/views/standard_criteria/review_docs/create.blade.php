@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Create List Document')
+@section('title', 'Create Review Document')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
@@ -11,12 +11,10 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
-<div class="row">
+
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+    <div class="row">
       <div class="col-md-12">
             @if(session('msg'))
             <div class="alert alert-primary alert-dismissible" role="alert">
@@ -30,34 +28,47 @@
                   <div class="card-body">
                   <form id="form-add-new-record" method="POST" action="{{ route('store_docs.review_docs') }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group col-md-4">
-                              <label for="indicator_id" class="form-label">Select Indicator<i class="text-danger">*</i></label>
-                              <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
-                                    name="indicator_id" id="indicator_id" data-placeholder="Select">
-                              <option value="" selected disabled>Select Indicator</option>
-                              @foreach($indicators as $c)
-                                    <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
-                                    {{ $c->id }} - {{ $c->name }}
-                                    </option>
-                              @endforeach
-                              </select>
-                              @error('indicator_id')
-                              <span class="invalid-feedback" role="alert">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="standard_criteria_id" class="form-label">Select Criteria<i class="text-danger">*</i></label>
+                                <div class="form-group">
+                                    <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
+                                        <option value="">Select Criteria</option>
+                                        @foreach($criterias as $c)
+                                            <option value="{{ $c->id }}" {{ old('standard_criteria_id') == $c->id ? 'selected' : '' }}>
+                                                {{ $c->id }} - {{ $c->title }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="standard_statement_id" class="form-label">Select Standard Statement<i class="text-danger">*</i></label>
+                                <div class="form-group">
+                                <select class="form-select input-sm select2" name="standard_statement_id" id="standard_statement_id">
+                                    <option value="" selected disabled>Select Standard Statement</option>
+                                    @foreach($statement as $c)
+                                        <option value="{{ $c->id }}" {{ old('standard_statement_id') == $c->id ? 'selected' : '' }}>
+                                            {{ $c->id }} - {{ $c->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('standard_statement_id')
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
-                              </span>
-                              @enderror
+                                </span>
+                                @enderror
+                            </div>
                         </div>
-
-
+<p></p>
                         <div class="form-group col-md-4">
                               <label for="numForms">Number of Forms</label>
                               <input type="number" class="form-control" id="numForms" name="numForms" min="1">
                         </div>
-
                         <div id="dynamic-form-container"></div>
-
                         <div class="col-sm-12 mt-4">
-                              <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1">Create</button>
+                              <button type="submit" class="btn btn-primary data-submit me-sm-1">Create</button>
                               <a href="{{ route('standard_criteria.review_docs')}}">
                               <span class="btn btn-outline-secondary">Back</span>
                               </a>
@@ -104,17 +115,27 @@
       });
 });
 </script>
-<!-- <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputField${i + 1}_2">Sub Indikator</label>
-                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_2" name="indicators[${i}][sub_indicator]"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="inputField${i + 1}_3">Review Document</label>
-                            <textarea type="text-danger" class="form-control" id="inputField${i + 1}_3" name="indicators[${i}][review_document]"></textarea>
-                        </div>
-                    </div> -->
+<script>
+    $('#standard_criteria_id').change(function() {
+                var categoryId = this.value;
+                $("#standard_statement_id").html('');
+                $.ajax({
+                    url: "{{ route('DOC.get_standard_statement_id_by_id') }}",
+                    type: "GET",
+                    data: {
+                        id: categoryId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#standard_statement_id').html('<option value="">Select Standard Statement</option>');
+                        $.each(result, function(key, value) {
+                            $("#standard_statement_id").append('<option value="' + value.id +
+                                '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            });
+</script>
 @endsection
 @endsection

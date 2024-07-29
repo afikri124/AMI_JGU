@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
+<style>
+
+</style>
+
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -39,8 +44,8 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="mt-2">
-                                <button type="submit" class="btn btn-success me-2">Update</button>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary me-1">Update</button>
                                 <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.criteria') }}">Back</a>
                             </div>
                         </div>

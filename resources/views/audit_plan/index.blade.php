@@ -43,12 +43,9 @@
     {
         color: white;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
+
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
             <div class="card-datatable table-responsive">
@@ -62,14 +59,14 @@
                                 </div>
                             </div>
                 <div class="col-md-3">
-                    <select id="select_auditee" name="select2" class="select form-select">
+                    <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
                         <option value="">Select Auditee</option>
                         @foreach($auditee as $d)
                         <option value="{{ $d->id }}">{{ $d->name }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="container">
+                <div class="container-fluid flex-grow-1 container-p-y">
                     <table class="table" id="datatable">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
                             <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
@@ -81,10 +78,9 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
                     <thead>
                             <th><b>No</b></th>
-                            <th width="25%"><b>Auditee</b></th>
+                            <th width="20%"><b>Auditee</b></th>
                             <th width="35%"><b>Schedule</b></th>
                             <th width="10%"><b>Status</b></th>
                             <th width="20%"><b>Location</b></th>
@@ -93,7 +89,6 @@
                     </thead>
                 </table>
             </div>
-
 @endsection
 
 @section('script')
@@ -121,7 +116,18 @@
     });
 </script>
 @endif
-
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+</script>
 <script type="text/javascript">
     $(document).ready(function () {
         var table = $('#datatable').DataTable({
@@ -242,5 +248,4 @@
     }
 
 </script>
-
 @endsection

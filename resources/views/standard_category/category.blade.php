@@ -23,11 +23,6 @@
 .icon-white {
         color: #ffffff; /* Warna putih */
     }
-
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -60,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-            <div class="container">
+            <div class="container-fluid flex-grow-1 container-p-y">
                 <table class="table" id="datatable">
                     <div class="col-md d-flex justify-content-center justify-content-md-end">
                         <a class="btn btn-primary btn-block btn-mail" title="Add new"
@@ -68,7 +63,6 @@
                             <i data-feather="plus"></i>+ Add
                         </a>
                     </div>
-                        <div class="container">
                             <thead>
                                 <tr>
                                     <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>
@@ -143,7 +137,8 @@
             },
             columns: [{
                     render: function (data, type, row, meta) {
-                        var x =  row.id ;
+                        console.log(row);
+                        var x = row.id.toString();
                         return x;
                     },
                     className: "text-center"

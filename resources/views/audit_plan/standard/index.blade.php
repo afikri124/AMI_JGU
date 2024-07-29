@@ -68,10 +68,6 @@
     .auditor-name a.text-muted:hover {
         color: #d81515; /* Mengubah warna teks saat hover */
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -87,17 +83,17 @@
                                 </div>
                             </div>
                         <div class="row">
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-            <div class="container">
-                    <thead>
-                        <tr>
-                            <th width="5%"><b>No</b></th>
-                            <th width="35%"><b>Auditor</b></th>
-                            <th width="5%"><b>Action</b></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+                        <div class="container-fluid flex-grow-1 container-p-y">
+                            <table class="table table-hover table-sm" id="datatable" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="5%"><b>No</b></th>
+                                        <th width="35%"><b>Auditor</b></th>
+                                        <th width="5%"><b>Action</b></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
 
 @endsection
 
@@ -171,10 +167,7 @@
                 {
                     render: function (data, type, row, meta) {
                         var html =
-                            `<a class="badge bg-danger badge-icon" title="Create Auditor Standard" href="{{ url('audit_plan/standard/create/') }}/${row.id}">
-                            <i class="bx bx-plus"></i></a>
-
-                            <a class="badge bg-warning badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
+                            `<a class="badge bg-warning badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>`;
                         return html;
                     },

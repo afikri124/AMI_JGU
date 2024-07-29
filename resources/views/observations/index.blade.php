@@ -13,18 +13,31 @@
 @endsection
 @section('style')
 <style>
+    .modal-header .modal-title {
+            font-weight: normal; /* Ensure the modal title is not bold */
+    }
+    .modal-body {
+        font-weight: normal; /* Ensure modal body text is not bold */
+    }
+    .modal-footer {
+        font-weight: normal; /* Ensure modal footer text is not bold */
+    }
+    body, h1, h2, h3, h4, h5, h6, p, span, a, div {
+        font-weight: normal; /* Ensure these elements are not bold */
+    }
+
+    table.dataTable tbody tr {
+        height: 50px; /* Adjust the height as needed */
+    }
+    /* Increase padding for table cells */
     table.dataTable tbody td {
-        vertical-align: middle;
+        padding: 0.6rem; /* Adjust padding for more space within cells */
+        vertical-align: middle; /* Vertically align text */
     }
-
-    table.dataTable td:nth-child(2) {
-        max-width: 120px;
+    /* Optional: Adjust font size if necessary */
+    table.dataTable tbody td, table.dataTable tbody th {
+        font-size: 0.97rem; /* Increase font size if the text appears too small */
     }
-
-    table.dataTable td:nth-child(3) {
-        max-width: 100px;
-    }
-
     table.dataTable td {
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -42,10 +55,6 @@
     {
         color: white;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -60,23 +69,67 @@
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
                                 </div>
-                           
-                <div class="container">
+                                </div>
+                <div class="col-md-3">
+                    <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
+                        <option value="">Select Auditee</option>
+                        @foreach($auditee as $d)
+                        <option value="{{ $d->id }}">{{ $d->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="container-fluid flex-grow-1 container-p-y">
                     <table class="table table-hover table-sm" id="datatable" width="100%">
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th><b>Lecture</b></th>
-                                <th width="35%"><b>Schedule</b></th>
-                                <th><b>Location</b></th>
-                                <th><b>Status</b></th>
-                                <th><b>Doc</b></th>
+                                <th width="15%"><b>Lecture</b></th>
+                                <th width="25%"><b>Schedule</b></th>
+                                <th width="15%"><b>Location</b></th>
+                                <th width="10%"><b>Status</b></th>
+                                <th width="10%"><b>Doc</b></th>
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                @endsection
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel"><b>Please Review  and Comments Auditee Documents.</b></h4>
+                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="link"><b>Link Drive</b></label>
+                    <br>
+                    <a id="modal-link" href="#" target="_blank"></a>
+                </div>
+                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group mb-3">
+                        <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
+                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" placeholder="MAX 250 characters..."></textarea>
+                        <i class="text-danger"><b>* Give a note, if the Auditee Document is not complete!</b></i>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-primary me-1" type="submit">Submit</button>
+                        <a href="">
+                            <span class="btn btn-outline-secondary">Back</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
 
 @section('script')
 <script src="{{asset('assets/vendor/libs/datatables/jquery.dataTables.js')}}"></script>
@@ -89,7 +142,7 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> <!-- Memuat lokal Indonesia untuk moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -101,9 +154,20 @@
             }
         });
     });
-
 </script>
 @endif
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -118,7 +182,8 @@
             ajax: {
                 url: "{{ route('observations.data') }}",
                 data: function (d) {
-                    d.search = $('input[type="search"]').val()
+                    d.search = $('input[type="search"]').val(),
+                    d.select_auditee = $('#select_auditee').val()
                 },
             },
             columnDefs: [{
@@ -136,10 +201,10 @@
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.auditee.name + `</a>`;
+                            row.idd + `') }}" style="display: block; margin-bottom: 0.1em;">` + row.auditee.name + `</a>`;
 
                         if (row.auditee.no_phone) {
-                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                            html += `<a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
                                     `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
                         }
                         return html;
@@ -185,13 +250,17 @@
 
                         // Check if auditstatus is '1' or '2'
                         if (row.auditstatus.id === 10 ) {
-                            x = `<a class="badge bg-warning" title="Remark Document" href="{{ url('observations/edit/${row.id}') }}">
-                                        <i class="bx bx-pencil"></i></a>`;
+                            x = `<a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
+                            data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
+                            <i class="bx bx-pencil icon-white"></i></a>`;
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
-                            x = `<a class="badge bg-danger" title="Observations" href="{{ url('observations/create/${row.id}') }}">
-                                        <i class="bx bx-pencil"></i></a>`;
+                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('observations/create/${row.id}') }}">
+                                        <i class="bx bx-search-alt"></i></a>
+                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
+                                        <i class="bx bx-printer"></i></a>
+                                        `;
                         }
                         return x;
                     },
@@ -199,6 +268,9 @@
                     className: "text-md-center"
                 }
             ]
+        });
+        $('#select_auditee').change(function () {
+            table.draw();
         });
     });
 
@@ -280,6 +352,14 @@
     //         })
     // }
 
+    function showModal(element) {
+        var id = $(element).data('id');
+        var link = $(element).data('link');
+        var remark_docs = $(element).data('remark_docs');
+        $('#modal-link').text(link).attr('href', link);
+        $('#modal-remark_docs').text(remark_docs).attr('href', remark_docs);
+        $('#upload-form').attr('action', '/observations/update/' + id);
+        $('#uploadModal').modal('show');
+    }
 </script>
-
 @endsection

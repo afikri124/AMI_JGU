@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_indicators', function (Blueprint $table) {
+        Schema::create('standard_statements', function (Blueprint $table) {
             $table->id('id');
             $table->text('name');
             $table->unsignedBigInteger('standard_criteria_id')->nullable();
             $table->foreign('standard_criteria_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
-            $table->unsignedBigInteger('indicator_id')->nullable();
-            $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_indicators');
+        Schema::dropIfExists('standard_statements');
     }
 };

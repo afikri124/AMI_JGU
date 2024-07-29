@@ -33,24 +33,37 @@
             object-fit: cover;
             background: #dfdfdf
         }
+.btn-primary {
+    background-color: #c72c2c;
+    border-color: #dfdfdf;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.bx-user-check {
+    font-size: 1.2em; /* Adjust icon size */
+}
+
 </style>
 @endsection
 
 
 @section('content')
-
+<!-- <div class="container-fluid flex-grow-1 container-p-y"> -->
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+    <div class="card">
 <div class="content-wrapper">
-        <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <!-- Header -->
             <div class="row">
                 <div class="col-12">
-                    <div class="card mb-4">
                         <div class="user-profile-header-banner">
                         <h3 class="card-header">Profile Details</h3>
                         </div>
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-                            <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                            <div class="flex-shrink-3 mx-sm-4">
                                 @if (Auth::user()->image)
                                 <img src="{{ asset(Auth::user()->image) }}" alt="user-avatar" class="img" >
                                 @else
@@ -63,16 +76,19 @@
                                     <div class="user-profile-info">
                                         <h5>{{ Auth::user()->name }}</h5>
                                         <ul
-                                            class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+                                            class="list-inline mb-1 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                             <li class="list-inline-item fw-semibold">
                                                 {{ Auth::user()->email }}
                                             </li>
                                         </ul>
                                     </div>
-                                    <a href="{{ route('profile.edit') }}"
-                                        class="btn btn-primary text-nowrap">
-                                        <i class='bx bx-user-check'></i> {{ Auth::user()->username }}
-                                    </a>
+                                    <div class="d-flex align-items-center">
+                                        <a href="{{ route('profile.edit') }}" class="btn btn-primary d-flex align-items-center me-2">
+                                            <i class="bx bx-user-check me-2"></i>
+                                            Edit Profile
+                                        </a>
+                                        <!-- <span>{{ Auth::user()->username }}</span> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +137,7 @@
                                 <li class="d-flex align-items-center mb-3"><i class="bx bx-buildings"></i>
                                 <span class="fw-semibold mx-2">Department:</span>
                                 <div class="col-sm-6">
-                                <b>{{ Auth::user()->departments ? Auth::user()->departments->name : 'No Department' }}</b>
+                                <b>{{ Auth::user()->departments ? Auth::user()->departments->name : '' }}</b>
                                 </div>
                             </div>
                             <div class="mb-1 row">
@@ -148,7 +164,7 @@
                                             administrator!</p>
                                         @else
                                             @foreach(Auth::user()->roles as $x)
-                                        <i class="text-white role-name"">{{ $x->name }}</i>
+                                        <i class="text-white role-name">{{ $x->name }}</i>
                                             @endforeach
                                         @endif
                                     </span>
@@ -161,9 +177,7 @@
             <!--/ Header -->
         </div>
         <!-- / Content -->
-</div>
-
-
+        </div>
     </div>
 </div>
 @endsection

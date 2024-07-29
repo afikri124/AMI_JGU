@@ -10,12 +10,9 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 
+<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -57,8 +54,8 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="mt-2">
-                                <button type="submit" class="btn btn-success me-2">Update</button>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary me-1">Update</button>
                                 <a class="btn btn-outline-secondary" href="{{ route('standard_category.category') }}">Back</a>
                             </div>
                         </div>

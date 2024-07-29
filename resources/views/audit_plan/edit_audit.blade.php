@@ -1,19 +1,13 @@
 @extends('layouts.master')
 @section('content')
-@section('title', ' Edit Data Audit Plan')
+@section('title', ' Edit Audit Plan')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endsection
 
-<style>
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
-</style>
-
+<!-- <div class="container-fluid flex-grow-1 container-p-y"> -->
 <div class="row">
     <div class="col-md-12">
         @if(session('msg'))
@@ -23,10 +17,10 @@
         </div>
         @endif
         <div class="card mb-4">
-            <div class="card-header">
+            <!-- <div class="card-header">
                 <h4 class="card-header"><b>Update Audit Plan</b></h4>
                 <hr class="my-0">
-            </div>
+            </div> -->
             <div class="card-body">
                 <form action="{{ route('update_audit', $data->id) }}" method="POST">
                     <div class="row">
@@ -74,7 +68,7 @@
                                 <select name="location_id" id="location_id" class="form-select select2" required>
                                     <option value="">Select Location</option>
                                     @foreach($locations as $d)
-                                        <option value="{{ $d->id }}" {{ $d->id == $data->location_id ? 'selected' : '' }}>
+                                        <option value="{{ $d->id }}" {{ old('location_id', $data->location_id) == $d->id ? 'selected' : '' }}>
                                             {{ $d->title }}
                                         </option>
                                     @endforeach
@@ -82,7 +76,7 @@
                             </div>
                     <p></p>
                     <div class="mt-2 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <button type="submit" class="btn btn-primary me-1">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
                     </div>
                 </form>

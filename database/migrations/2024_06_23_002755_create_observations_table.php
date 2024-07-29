@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('audit_plan_id');
             $table->foreign('audit_plan_id')->references('id')->on('audit_plans');
-            $table->unsignedBigInteger('auditor_id');
-            $table->foreign('auditor_id')->references('id')->on('users');
+            $table->unsignedBigInteger('audit_plan_auditor_id');
+            $table->foreign('audit_plan_auditor_id')->references('id')->on('audit_plan_auditors');
             $table->unsignedBigInteger('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
             $table->string('remark_plan')->nullable();
+            $table->string('person_in_charge')->nullable();
+            $table->string('plan_complated')->nullable();
             $table->timestamps();
         });
     }

@@ -14,23 +14,18 @@ class StandardCategory extends Model
         'id', 'title', 'description', 'is_required', 'status'
     ];
 
-    public function category()
-    {
-        return $this->hasMany(StandardCategory::class);
-    }
-
     public function criterias()
     {
-        return $this->hasMany(StandardCriteria::class, 'id');
+        return $this->hasMany(StandardCriteria::class, 'standard_category_id');
     }
 
     public function auditPlan()
     {
-        return $this->hasMany(AuditPlan::class, 'id');
+        return $this->hasMany(AuditPlan::class, 'audit_plan_id');
     }
 
     public function observations()
     {
-        return $this->hasMany(Observation::class, 'id');
+        return $this->hasMany(Observation::class, 'observation_id');
     }
 }

@@ -41,10 +41,6 @@
     {
         color: white;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -57,17 +53,17 @@
 
 
 @section('content')
-    <div class="col-md-12">
+<div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
                         class="bx bx-chart me-1"></i>
-                    Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
+                    Standard Statement</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator.index') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Sub Indicator</a></li>
+                    Indicator</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
                     Review Document</a></li>
@@ -88,20 +84,22 @@
                             </div>
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_category" class="form-control input-sm  select2" data-placeholder="Categories">
+                            <select id="select_category" class="form-control input-sm select2" data-placeholder="Category">
                                 <option value="">Select Category</option>
                                 @foreach($category as $d)
                                 <option value="{{ $d->id }}">{{$d->id}} - {{ $d->description }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select id="select2" class="form-control input-sm select2" data-placeholder="Status">
                                 <option value="">Status</option>
                                 <option value='true'>ON</option>
                                 <option value='false'>OFF</option>
                             </select>
                         </div>
+                        </div>
+                        <div class="container-fluid">
                             <div class="col-md d-flex justify-content-center justify-content-md-end">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
@@ -161,15 +159,15 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-        <table class="table table-hover table-sm" id="datatable" width="100%">
+        <div class="container-fluid">
+            <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>
                     <th width="5%"><b>No</b></th>
-                    <th width="25%"><b>Criteria</b></th>
-                    <th width="5%"><b>Category</b></th>
-                    <th width="5%"><b>Status</b></th>
-                    <th width="5%"><b>Action</b></th>
+                    <th><b>Criteria</b></th>
+                    <th width="30%"><b>Category</b></th>
+                    <th width="2%"><b>Status</b></th>
+                    <th width="15%"><b>Action</b></th>
                 </tr>
             </thead>
         </table>
@@ -209,16 +207,16 @@
             });
         })(jQuery);
     }, 350);
-    setTimeout(function () {
-        (function ($) {
-            "use strict";
-            $(".select2-modal").select2({
-                dropdownParent: $('#newrecord'),
-                allowClear: true,
-                minimumResultsForSearch: 5
-            });
-        })(jQuery);
-    }, 350);
+    // setTimeout(function () {
+    //     (function ($) {
+    //         "use strict";
+    //         $(".select2-modal").select2({
+    //             dropdownParent: $('#newrecord'),
+    //             allowClear: true,
+    //             minimumResultsForSearch: 5
+    //         });
+    //     })(jQuery);
+    // }, 350);
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -242,10 +240,9 @@
             },
             columns: [{
                 render: function (data, type, row, meta) {
-                        var no = (meta.row + meta.settings._iDisplayStart + 1);
+                        var no = row.id;
                         return no;
                     },
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -257,13 +254,14 @@
                     render: function (data, type, row, meta) {
                     // Check if row.category exists and has an id
                     if (row.category && row.category.id) {
-                        var html = `<a class="text-primary" title="${row.category.id}" href="">${row.category.id}</a>`;
+                        var html = `<a class="text-info" title="${row.category.description}" href="">${row.category.description}</a>`;
                         return html;
                     } else {
-                        return ''; // Return empty string or handle the case where category.id is missing
+                        return ''; // Return empty string or handle the case where category.title is missing
                     }
                 },
-                },
+                className: "text-center"
+            },
                 {
                     render: function (data, type, row, meta) {
                         if(row.status == 1){

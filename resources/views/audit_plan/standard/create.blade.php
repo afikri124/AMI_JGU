@@ -10,10 +10,6 @@
     .input-validation-error~.select2 .select2-selection {
         border: 1px solid red;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -22,6 +18,7 @@
 @endsection
 
 @section('content')
+<div class="container-fluid flex-grow-1 container-p-y">
 <div class="row">
     <div class="col-md-12">
       <form class="card" action="{{ route('update_std', $data->id) }}"  method="POST" enctype="multipart/form-data">
@@ -70,9 +67,9 @@
                 </div>
             </div>
             <div class="card-footer text-end">
-                <button class="btn btn-primary" type="submit">Create</button>
+                <button class="btn btn-primary me-1" type="submit">Create</button>
                 <a href="{{ url()->previous() }}">
-                    <span class="btn btn-secondary">Back</span>
+                    <span class="btn btn-outline-secondary">Back</span>
                 </a>
             </div>
         </form>

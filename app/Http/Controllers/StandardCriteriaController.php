@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Indicator;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
-use App\Models\SubIndicator;
 use App\Models\ReviewDocs;
+use App\Models\StandardStatement;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,12 +27,12 @@ class StandardCriteriaController extends Controller
             ]);
 
             if ($data) {
-                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') berhasil ditambahkan');
+                return redirect()->route('standard_criteria.criteria')->with('msg', 'Data ('.$request->title.') added successfully');
             }
         }
 
-        $category = StandardCategory::all();
         $data = StandardCriteria::all();
+        $category = StandardCategory::all();
         return view('standard_criteria.criteria', compact('data', 'category'));
     }
 
@@ -54,7 +54,7 @@ class StandardCriteriaController extends Controller
             'status'=> $request->status,
             'title'=> $request->title,
         ]);
-        return redirect()->route('standard_criteria.criteria')->with('msg', 'Standard Criteria berhasil diperbarui.');
+        return redirect()->route('standard_criteria.criteria')->with('msg', 'Standard Criteria updated successfully.');
     }
 
     public function delete(Request $request){
@@ -63,12 +63,12 @@ class StandardCriteriaController extends Controller
             $data->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil dihapus!'
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }
@@ -102,16 +102,11 @@ class StandardCriteriaController extends Controller
     }
 
 
-
-
-
-
-
-    //INDICATOR
-    public function indicator(){
-        $data = Indicator::all();
+    // Standard Statement
+    public function standard_statement(){
+        $data = StandardStatement::all();
         $criteria = StandardCriteria::all();
-        return view('standard_criteria.indicator.index', compact('data', 'criteria'));
+        return view('standard_criteria.standard_statement.index', compact('data', 'criteria'));
     }
 
     public function create(Request $request){
@@ -120,8 +115,8 @@ class StandardCriteriaController extends Controller
         $validatedData = $request->validate([
             'standard_criteria_id' => ['required'],
             'numForms' => ['required', 'integer', 'min:1'],
-            'indicators' => ['required', 'array', 'min:1'],
-            'indicators.*.name' => ['required', 'string'],
+            'standard_statements' => ['required', 'array', 'min:1'],
+            'standard_statements.*.name' => ['required', 'string'],
         ]);
 
         // Retrieve the specific Standard Criteria by ID
@@ -131,41 +126,41 @@ class StandardCriteriaController extends Controller
             return redirect()->back()->with('error', 'Standard Criteria not found.');
         }
 
-        // Create the indicators
-        foreach ($validatedData['indicators'] as $indicatorData) {
-            Indicator::create([
-                'name' => $indicatorData['name'],
+        // Create the standard_statements
+        foreach ($validatedData['standard_statements'] as $standard_statementData) {
+            StandardStatement::create([
+                'name' => $standard_statementData['name'],
                 'standard_criteria_id' => $validatedData['standard_criteria_id'],
             ]);
         }
 
-        return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicators added successfully.');
+        return redirect()->route('standard_criteria.standard_statement')->with('msg', 'Standard Statement added successfully.');
     }
 
     // Retrieve all Standard Criteria for the dropdown
     $allCriteria = StandardCriteria::all();
     $criterias = StandardCriteria::orderBy('title')->get();
 
-    return view('standard_criteria.indicator.create', compact('allCriteria','criterias'));
+    return view('standard_criteria.standard_statement.create', compact('allCriteria','criterias'));
 }
 
     public function edit($id){
-        $data = Indicator::find($id);
+        $data = StandardStatement::findOrFail($id);
 
         // Fetch all criteria
         $criteria = StandardCriteria::all();
-        return view('standard_criteria.indicator.edit', compact('data', 'criteria'));
+        return view('standard_criteria.standard_statement.edit', compact('data', 'criteria'));
     }
 
-    public function update_indicator(Request $request, $id){
+    public function update_standard_statement(Request $request, $id){
     // Validate the request
     $request->validate([
         'standard_criteria_id' => ['required', 'string'],
         'name' => ['required','string','max:512'],
     ]);
 
-    // Find the indicator data
-    $data = Indicator::findOrFail($id);
+    // Find the standard_statement data
+    $data = StandardStatement::findOrFail($id);
 
     $data->update([
         'standard_criteria_id'=> $request->standard_criteria_id,
@@ -173,32 +168,34 @@ class StandardCriteriaController extends Controller
     ]);
 
     // Redirect back with a success message
-    return redirect()->route('standard_criteria.indicator')->with('msg', 'Indicator updated successfully.');
+    return redirect()->route('standard_criteria.standard_statement')->with('msg', 'Standard Statement updated successfully.');
 }
 
-    public function delete_indicator(Request $request){
-        $data = Indicator::find($request->id);
+    public function delete_standard_statement(Request $request){
+        $data = StandardStatement::find($request->id);
         if($data){
             $data->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil dihapus!'
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }
 
-    // function untuk menampilakan data indicator
-    public function data_indicator(Request $request){
-    $data = Indicator::with([
+    // function untuk menampilakan data standard_statement
+    public function data_standard_statement(Request $request){
+    $data = StandardStatement::with([
         'criteria' => function ($query) {
-            $query->select('id', 'title');
-        }
-    ])->select('*')->orderBy("id");
+            $query->select('id', 'title', 'standard_category_id')
+                  ->with(['category' => function ($query) {
+                      $query->select('id', 'title', 'description');
+                  }]);
+        }])->select('*')->orderBy("id");
 
     return DataTables::of($data)
         ->filter(function ($instance) use ($request) {
@@ -219,21 +216,36 @@ class StandardCriteriaController extends Controller
 
 
 
-
-
-    //SUB INDICATOR
-    public function sub_indicator(){
-        $data = SubIndicator::all();
-        $indicator = Indicator::orderBy('name')->get();
-        return view('standard_criteria.sub_indicator.index', compact('data', 'indicator'));
+    //INDICATOR
+    public function indicator(){
+        $data = Indicator::all();
+        $criteria = StandardCriteria::all();
+        $statement = StandardStatement::orderBy('name')->get();
+        return view('standard_criteria.indicator.index', compact('data', 'criteria', 'statement'));
     }
 
-    // perubahan logic add sub_indicator
-    public function create_sub(Request $request){
+<<<<<<< HEAD
+    // public function getStandardCriteria()
+    //     {
+    //         $criteria = StandardCriteria::all(); // Mengambil semua data dari tabel 'standard_criteria'
+    //         return view('standard_criteria.index', compact('criteria')); // Mengirim data ke view 'standard_criteria.index'
+    //     }
+
+    // public function getStandardStatements()
+    //     {
+    //         $statement = StandardStatement::orderBy('name')->get(); // Mengambil semua data dari tabel 'standard_statements' dan mengurutkannya berdasarkan kolom 'name'
+    //         return view('standard_statements.index', compact('statement')); // Mengirim data ke view 'standard_statements.index'
+    //     }
+
+=======
+>>>>>>> 483980c5fce62e137b00d80f2d70574c50f64a49
+    // perubahan logic add indicator
+    public function create_indicator(Request $request){
     if ($request->isMethod('POST')) {
         // Validate the request data
         $validatedData = $request->validate([
-            'standard_criteria_id' => ['required', 'uuid'],
+            'standard_criteria_id' => ['required'],
+            'standard_statement_id' => ['required'],
             'numForms' => ['required', 'integer', 'min:1'],
             'indicators' => ['required', 'array', 'min:1'],
             'indicators.*.name' => ['required', 'string'],
@@ -241,94 +253,102 @@ class StandardCriteriaController extends Controller
 
         // Retrieve the specific Standard Criteria by ID
         $criteria = StandardCriteria::find($validatedData['standard_criteria_id']);
+        $statement = StandardStatement::find($validatedData['standard_statement_id']);
 
-        if (!$criteria) {
+        if (!$statement) {
             return redirect()->back()->with('error', 'Standard Criteria not found.');
         }
 
-        return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Indicators added successfully.');
+        return redirect()->route('standard_criteria.indicator.index')->with('msg', 'Indicators added successfully.');
     }
 
     // Retrieve all Standard Criteria and Indicator for the dropdown
     $allCriteria = StandardCriteria::all();
     $criterias = StandardCriteria::orderBy('title')->get();
-    $indicators = Indicator::orderBy('name')->get();
+    $statement = StandardStatement::orderBy('name')->get();
 
-    return view('standard_criteria.sub_indicator.create', compact('allCriteria', 'criterias','indicators'));
+    return view('standard_criteria.indicator.create', compact('allCriteria', 'criterias','statement'));
 }
 
-    public function store_sub(Request $request){
+    public function store_indicator(Request $request){
     $validatedData = $request->validate([
-        'indicator_id' => 'required|exists:indicators,id',
+        'standard_criteria_id' => ['required'],
+        'standard_statement_id' => 'required|exists:standard_statements,id',
         'numForms' => 'required|integer|min:1',
-        'sub_indicators' => 'required|array|min:1',
-        'sub_indicators.*.name' => 'required|string',
+        'indicators' => 'required|array|min:1',
+        'indicators.*.name' => 'required|string',
     ]);
 
-    foreach ($request->sub_indicators as $sub_indicatorData) {
-        SubIndicator::create([
-            'name' => $sub_indicatorData['name'],
-            'indicator_id' => $validatedData['indicator_id'],
+    foreach ($request->indicators as $indicatorData) {
+        Indicator::create([
+            'name' => $indicatorData['name'],
+            'standard_criteria_id' => $validatedData['standard_criteria_id'],
+            'standard_statement_id' => $validatedData['standard_statement_id'],
         ]);
     }
 
-    return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicators added successfully.');
+    return redirect()->route('standard_criteria.indicator.index')->with('msg', 'Indicators added successfully.');
 }
 
-        public function edit_sub($id){
-            $data = SubIndicator::findOrFail($id);
-
-            // Fetch all criteria
-            $indicator = Indicator::orderBy('name')->get();
-            return view('standard_criteria.sub_indicator.edit', compact('data', 'indicator'));
+        public function edit_indicator($id){
+            $data = Indicator::findOrFail($id);
+            $criteria = StandardCriteria::all();
+            $statement = StandardStatement::orderBy('name')->get();
+            return view('standard_criteria.indicator.edit', compact('data', 'criteria', 'statement'));
         }
 
-        public function update_sub(Request $request, $id){
+        public function update_indicator(Request $request, $id){
         // Validate the request
         $request->validate([
-            'indicator_id' => ['required', 'string'],
+            'standard_criteria_id' => ['required', 'string'],
+            'standard_statement_id' => ['required', 'string'],
             'name' => ['required','string','max:512'],
         ]);
 
         // Find the indicator data
-        $data = SubIndicator::findOrFail($id);
+        $data = Indicator::findOrFail($id);
 
         $data->update([
-            'indicator_id'=> $request->indicator_id,
+            'standard_criteria_id'=> $request->standard_criteria_id,
+            'standard_statement_id'=> $request->standard_statement_id,
             'name'=> $request->name,
         ]);
 
         // Redirect back with a success message
-        return redirect()->route('standard_criteria.sub_indicator')->with('msg', 'Sub Indicator updated successfully.');
+        return redirect()->route('standard_criteria.indicator.index')->with('msg', 'Indicator updated successfully.');
         }
 
-        public function delete_sub(Request $request){
-            $data = SubIndicator::find($request->id);
+        public function delete_indicator(Request $request){
+            $data = Indicator::find($request->id);
             if($data){
                 $data->delete();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Berhasil dihapus!'
+                    'message' => 'Successfully deleted!'
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal dihapus!'
+                    'message' => 'Failed to delete! Data not found'
                 ]);
             }
         }
 
-    public function data_sub(Request $request){
-        $data = SubIndicator::
-        with(['indicator' => function ($query) {
+    public function data_indicator(Request $request){
+        $data = Indicator::
+        with([
+            'statement' => function ($query) {
             $query->select('id','name');
-        }])->
-        select('*')->orderBy("id");
+        },
+            'criteria' => function ($query) {
+            $query->select('id', 'title');
+        }
+        ])->select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('select_indicator'))) {
-                    $instance->whereHas('indicator', function ($q) use ($request) {
-                        $q->where('indicator_id', $request->get('select_indicator'));
+                if (!empty($request->get('select_statement'))) {
+                    $instance->whereHas('statement', function ($q) use ($request) {
+                        $q->where('standard_statement_id', $request->get('select_statement'));
                     });
                 }
                 if (!empty($request->get('search'))) {
@@ -346,8 +366,9 @@ class StandardCriteriaController extends Controller
     // REVIEW DOCUMENT
     public function review_docs(){
         $data = ReviewDocs::all();
-        $indicator = Indicator::orderBy('name')->get();
-        return view('standard_criteria.review_docs.index',compact('data', 'indicator'));
+        $criteria = StandardCriteria::all();
+        $statement = StandardStatement::orderBy('name')->get();
+        return view('standard_criteria.review_docs.index',compact('data', 'criteria', 'statement'));
     }
 
     public function create_docs(Request $request){
@@ -355,13 +376,15 @@ class StandardCriteriaController extends Controller
             // Validate the request data
             $validatedData = $request->validate([
                 'standard_criteria_id' => ['required', 'uuid'],
+                'standard_statement_id' => ['required'],
                 'numForms' => ['required', 'integer', 'min:1'],
-                'indicators' => ['required', 'array', 'min:1'],
-                'indicators.*.name' => ['required', 'string'],
+                'review_docs' => ['required', 'array', 'min:1'],
+                'review_docs.*.name' => ['required', 'string'],
             ]);
 
             // Retrieve the specific Standard Criteria by ID
             $criteria = StandardCriteria::find($validatedData['standard_criteria_id']);
+            $statement = StandardStatement::find($validatedData['standard_statement_id']);
 
             if (!$criteria) {
                 return redirect()->back()->with('error', 'Standard Criteria not found.');
@@ -373,26 +396,28 @@ class StandardCriteriaController extends Controller
         // Retrieve all Standard Criteria and Indicator for the dropdown
         $allCriteria = StandardCriteria::all();
         $criterias = StandardCriteria::orderBy('title')->get();
-        $indicators = Indicator::orderBy('name')->get();
+        $statement = StandardStatement::orderBy('name')->get();
 
-        return view('standard_criteria.review_docs.create', compact('allCriteria', 'criterias','indicators'));
+        return view('standard_criteria.review_docs.create', compact('allCriteria', 'criterias','statement'));
     }
 
         public function store_docs(Request $request){
         $validatedData = $request->validate([
-            'indicator_id' => 'required|exists:indicators,id',
+            'standard_criteria_id' => ['required'],
+            'standard_statement_id' => 'required|exists:standard_statements,id',
             'numForms' => 'required|integer|min:1',
             'review_docs' => 'required|array|min:1',
             'review_docs.*.name' => 'required|string',
         ]);
 
-        $indicator_id = $request->indicator_id;
+        $standard_statement_id = $request->standard_statement_id;
 
         //Create the Sub_indicators
         foreach ($request->review_docs as $reviewDocsData) {
             ReviewDocs::create([
                 'name' => $reviewDocsData['name'],
-                'indicator_id' => $indicator_id,
+                'standard_criteria_id' => $validatedData['standard_criteria_id'],
+                'standard_statement_id' => $validatedData['standard_statement_id'],
             ]);
         }
 
@@ -403,17 +428,17 @@ class StandardCriteriaController extends Controller
     // Edit docs Document
     public function edit_docs($id){
         $data = ReviewDocs::findOrFail($id);
-
-       // Fetch all criteria
-        $indicator = Indicator::orderBy('name')->get();
-        return view('standard_criteria.review_docs.edit', compact('data', 'indicator'));
+        $criteria = StandardCriteria::all();
+       $statement = StandardStatement::orderBy('name')->get();
+       return view('standard_criteria.review_docs.edit', compact('data', 'criteria', 'statement'));
     }
 
     public function update_docs(Request $request, $id)
 {
     // Validasi permintaan
     $request->validate([
-        'indicator_id' => ['required', 'exists:indicators,id'], // Pastikan indicator_id ada di tabel indicators
+        'standard_criteria_id' => ['required', 'string'],
+        'standard_statement_id' => ['required', 'exists:indicators,id'], // Pastikan standard_statement_id ada di tabel indicators
         'name' => ['required', 'string', 'max:512'],
     ]);
 
@@ -422,7 +447,8 @@ class StandardCriteriaController extends Controller
 
     // Pembaruan data
     $data->update([
-        'indicator_id' => $request->indicator_id,
+        'standard_criteria_id'=> $request->standard_criteria_id,
+        'standard_statement_id' => $request->standard_statement_id,
         'name' => $request->name,
     ]);
 
@@ -436,13 +462,13 @@ class StandardCriteriaController extends Controller
         if($data){
             $data->delete();
             return response()->json([
-                'status' => true,
-                'message' => 'Berhasil dihapus!'
+                'success' => true,
+                'message' => 'Successfully deleted!'
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal dihapus!'
+                'message' => 'Failed to delete! Data not found'
             ]);
         }
     }
@@ -450,15 +476,19 @@ class StandardCriteriaController extends Controller
     // Retrieve and filter data for Dist Document
     public function data_docs(Request $request){
         $data = ReviewDocs::
-        with(['indicator' => function ($query) {
+        with([
+            'statement' => function ($query) {
             $query->select('id','name');
-        }])->
-        select('*')->orderBy("id");
+        },
+        'criteria' => function ($query) {
+        $query->select('id', 'title');
+        }
+        ])->select('*')->orderBy("id");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('select_indicator'))) {
-                    $instance->whereHas('indicator', function ($q) use ($request) {
-                        $q->where('indicator_id', $request->get('select_indicator'));
+                if (!empty($request->get('select_statement'))) {
+                    $instance->whereHas('statement', function ($q) use ($request) {
+                        $q->where('standard_statement_id', $request->get('select_statement'));
                     });
                 }
                 if (!empty($request->get('search'))) {
@@ -468,6 +498,12 @@ class StandardCriteriaController extends Controller
                     });
                 }
             })->make(true);
+    }
+
+    public function getStandardStatementId(Request $request)
+    {
+        $statement = StandardStatement::where('standard_criteria_id', $request->id)->get();
+        return response()->json($statement);
     }
 }
 

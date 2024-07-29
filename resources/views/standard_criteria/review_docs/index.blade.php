@@ -44,10 +44,6 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -65,12 +61,12 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
                         class="bx bx-chart me-1"></i>
-                    Indicator</a></li>
-        <li class="nav-item"><a class="nav-link " href="{{ route('standard_criteria.sub_indicator') }}"><i
+                    Standard Statement</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator.index') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Sub Indicator</a></li>
+                    Indicator</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
                     Review Document</a></li>
@@ -85,32 +81,36 @@
                     <div class="col-12"> -->
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_indicator" class="form-control input-sm select2" data-placeholder="Indicator">
-                                <option value="">Select Sub Indicator</option>
-                                @foreach($indicator as $d)
+                            <select id="select_statement" class="form-control input-sm select2" data-placeholder="Standard Statement">
+                                <option value="">Select Standard Statement</option>
+                                @foreach($statement as $d)
                                 <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <div class="container-fluid">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Sub Indicator"
+                            <a class="btn btn-primary btn-block btn-mail" title="Add Standard Statement"
                                 href="{{ route('standard_criteria.review_docs.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
-
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-            <thead>
-                <tr>
-                    <th width="20px">No</th>
-                    <th>Review Document</th>
-                    <th>Indicator</th>
-                    <th width="40px">Action</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+                        </div>
+                    <div class="container-fluid">
+                        <table class="table table-hover table-sm" id="datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="20px">No</th>
+                                    <th>Review Document</th>
+                                    <th >Standard Statement</th>
+                                    <th width="15px">Standard Criteria</th>
+                                    <th width="40px">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+        </div>
 @endsection
 
 @section('script')
@@ -119,7 +119,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -163,7 +162,7 @@
                 url: "{{ route('standard_criteria.data_docs') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_indicator = $('#select_indicator').val()
+                    d.select_statement = $('#select_statement').val()
                 },
             },
             columns: [{
@@ -189,10 +188,21 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.indicator.name;
-                        return x;
+                        var html = `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        return html;
                     },
                 },
+                {
+                    render: function (data, type, row, meta) {
+                    // Check if row.category exists and has an id
+                    if (row.criteria && row.criteria.title) {
+                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        return html;
+                    } else {
+                        return ''; // Return empty string or handle the case where category.title is missing
+                    }
+                },
+            },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;
@@ -211,7 +221,7 @@
                 }
             ]
         });
-        $('#select_indicator').change(function () {
+        $('#select_statement').change(function () {
             table.draw();
         });
     });

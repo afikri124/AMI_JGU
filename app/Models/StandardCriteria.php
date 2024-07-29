@@ -28,6 +28,10 @@ class StandardCriteria extends Model
     {
         return $this->belongsTo(AuditStatus::class, 'audit_status_id');
     }
+    public function statements()
+    {
+        return $this->hasMany(StandardStatement::class, 'standard_criteria_id');
+    }
 
     public function indicators()
     {

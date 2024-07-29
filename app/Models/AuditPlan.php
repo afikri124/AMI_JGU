@@ -59,6 +59,11 @@ class AuditPlan extends Model
         return $this->hasMany(AuditPlanAuditor::class, 'audit_plan_id');
     }
 
+    public function observation()
+    {
+        return $this->hasMany(Observation::class, 'audit_plan_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(AuditPlanCategory::class, 'standard_category_id');
@@ -74,11 +79,6 @@ class AuditPlan extends Model
         return $this->hasMany(Indicator::class, 'indicator_id');
     }
 
-    public function sub_indicator()
-    {
-        return $this->hasMany(SubIndicator::class, 'sub_indicator_id');
-    }
-    
     public function review_document()
     {
         return $this->hasMany(ReviewDocs::class, 'review_document_id');

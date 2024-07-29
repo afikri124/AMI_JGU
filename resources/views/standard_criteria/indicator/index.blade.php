@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert2.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 @endsection
 
 @section('style')
@@ -34,7 +33,7 @@
     .badge-icon {
         display: inline-block;
         font-size: 1em;
-        padding: 0.3em;
+        padding: 0.4em;
         margin-right: 0.1em;
     }
 
@@ -45,10 +44,6 @@
     .checkbox label::before {
         border: 1px solid #333;
     }
-    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 </style>
 @endsection
 
@@ -61,17 +56,17 @@
 
 
 @section('content')
-<div class="col-md-12">
+    <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
                         class="bx bx-add-to-queue me-1"></i>
                     Data Standard</a></li>
-        <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator') }}"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
                         class="bx bx-chart me-1"></i>
-                    Indicator</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.sub_indicator') }}"><i
+                    Standard Statement</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator.index') }}"><i
                         class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Sub Indicator</a></li>
+                    Indicator</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
                     Review Document</a></li>
@@ -81,38 +76,41 @@
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
-                    <div class="row">
+                    <div class="col-12"> -->
+                        <div class="row">
                         <div class="col-md-4">
-                            <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
-                                <option value="">Select Criteria</option>
-                                @foreach($criteria as $d)
-                                <option value="{{ $d->id }}">{{ $d->id }} - {{ $d->title }}</option>
+                            <select id="select_statement" class="form-control input-sm select2" data-placeholder="Standard Statement">
+                                <option value="">Select Standard Statement</option>
+                                @foreach($statement as $d)
+                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <div class="container-fluid">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Indicator"
+                            <a class="btn btn-primary btn-block btn-mail" title="Add statement"
                                 href="{{ route('standard_criteria.indicator.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
                         </div>
-
-        <table class="table table-hover table-sm" id="datatable" width="100%">
-            <thead>
-                <tr>
-                    <th width="10px"><b>No</b></th>
-                    <th><b>Indicator</b></th>
-                    <th width="10px"><b>Criteria</b></th>
-                    <th><b>Action</b></th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+                    <div class="container-fluid">
+                        <table class="table table-hover table-sm" id="datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="15px">No</th>
+                                    <th>Indicator</th>
+                                    <th >Standard Statement</th>
+                                    <th width="15px">Standard Criteria</th>
+                                    <th width="5px">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+        </div>
 @endsection
 
 @section('script')
@@ -121,7 +119,6 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/js/sweet-alert/sweetalert.min.js')}}"></script>
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -162,10 +159,10 @@
                 lengthMenu: '<span>Show:</span> _MENU_',
             },
             ajax: {
-                url: "{{ route('standard_criteria.indicator.data_indicator')}}",
+                url: "{{ route('standard_criteria.data_indicator') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_criteria = $('#select_criteria').val()
+                    d.select_statement = $('#select_statement').val()
                 },
             },
             columns: [{
@@ -173,30 +170,42 @@
                         var no = (meta.row + meta.settings._iDisplayStart + 1);
                         return no;
                     },
+                    orderable: false,
 
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var x = row.name;
-                        return x;
+                        data = "";
+                        // if (row.name != null) {
+                        //     data = "<span class='badge bg-label-danger'>" + row.data.date + "</span> <strong title='" + row.data.title + "'>" + row.data.title +
+                        //         "</strong><br>";
+                        // }
+                        return data + $("<textarea/>").html(row.name).text();
+                    },
+                    // render: function (data, type, row, meta) {
+                    //     return $('<code>' + row.name + '</code>');
+                    // },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var html = `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        return html;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                    // Check if row.category exists and has an id
-                    if (row.criteria && row.criteria.title) {
-                        var html = `<a class="text-primary" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
                         return html;
-                    } else {
-                        return ''; // Return empty string or handle the case where category.title is missing
-                    }
+                    },
                 },
-            },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;
                         var html =
-                            `<a class="badge bg-warning badge-icon" title="Edit Indicator" style="cursor:pointer" href="{{ url('setting/manage_standard/criteria/edit/indicator/') }}/${row.id}"><i class="bx bx-pencil"></i></a>
+                            `<a class="badge bg-warning badge-icon" title="Edit Indicator" style="cursor:pointer"
+                            href="{{ url('setting/manage_standard/criteria/edit_indicator/indicator/') }}/${row.id}">
+                            <i class="bx bx-pencil"></i></a>
+
                             <a class="badge bg-danger badge-icon" title="Delete Indicator" style="cursor:pointer"
                             onclick="DeleteId(\'` + row.id + `\',\'` + row.name + `\')" >
                             <i class='bx bx-trash icon-white'></i></a>`;
@@ -207,7 +216,7 @@
                 }
             ]
         });
-        $('#select_criteria').change(function () {
+        $('#select_statement').change(function () {
             table.draw();
         });
     });
@@ -223,7 +232,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "{{ route('delete_indicator.indicator') }}",
+                        url: "{{ route('indicator.delete_indicator') }}",
                         type: "DELETE",
                         data: {
                             "id": id,
