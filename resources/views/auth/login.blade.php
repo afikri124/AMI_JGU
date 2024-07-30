@@ -269,19 +269,7 @@ form {
                                 @endif
                 </div>
             </form>
-            <h6 class="text-muted or">Or sign in with</h6>
-        <div class="d-flex justify-content-center">
-            <div class="btn-showcase me-2">
-                <button class="btn btn-light btn-block" onclick="Klas2Login()">
-                    <img style="max-height: 20px;" src="../assets/img/logo-icon.png" alt="SSO JGU">
-                    <span>SSO JGU</span>
-                </button>
-            </div>
-            <div class="btn-showcase ms-2">
-                <a class="btn btn-light btn-block" href="login/google">
-                    <img style="max-height: 20px;" src="https://avatars.githubusercontent.com/u/19180220?s=200&v=4" alt="Google">
-                    <span>Google</span>
-                </a>
+
             </div>
         </div>
     </div>
