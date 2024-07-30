@@ -278,7 +278,7 @@ form {
                 </button>
             </div>
             <div class="btn-showcase ms-2">
-                <a class="btn btn-light btn-block" href="login/google">
+                <a class="btn btn-light btn-block" href="{{ url('login/google') }}">
                     <img style="max-height: 20px;" src="https://avatars.githubusercontent.com/u/19180220?s=200&v=4" alt="Google">
                     <span>Google</span>
                 </a>
