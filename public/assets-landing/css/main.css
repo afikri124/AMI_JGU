@@ -842,13 +842,94 @@
   }
 
   /*--------------------------------------------------------------
+  # vision-mission section
+  --------------------------------------------------------------*/
+  .vision-mission {
+    background-color: #ffffff;
+    padding: 70px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .vision-mission h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #000000;
+  }
+  
+  .content-container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .vision, .mission {
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #2c2c2c; /* Warna kotak teks lebih gelap */
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid #e74c3c;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title-decorator {
+    height: 5px;
+    width: 60px;
+    background-color: #e74c3c;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  .vision h3, .mission h3 {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 20px 0;
+    color: #e74c3c;
+  }
+  
+  .vision p, .mission ul {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #f1f1f1; /* Warna teks yang lebih terang untuk kontras */
+  }
+  
+  .mission ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mission li {
+    margin-bottom: 15px;
+    padding-left: 25px;
+    position: relative;
+  }
+  
+  .mission li::before {
+    content: '•';
+    color: #e74c3c;
+    position: absolute;
+    left: 0;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+
+  /*--------------------------------------------------------------
   # Call To Action Section
   --------------------------------------------------------------*/
   .call-to-action {
     --background-color: #000000;
     --default-color: #ffffff;
     --contrast-color: #fd0a0a;
-    padding: 120px 0;
+    padding: 210px 0;
     position: relative;
     clip-path: inset(0);
   }
@@ -861,7 +942,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 1;
+    z-index: 2;
   }
 
   .call-to-action:before {
@@ -905,136 +986,62 @@
     background: var(--accent-color);
     border: 2px solid var(--accent-color);
   }
+  
   /*--------------------------------------------------------------
   # Contact Section
   --------------------------------------------------------------*/
-  .contact .info-item {
-    padding: 20px 0 30px 0;
-    box-shadow: 0px 0px 20px color-mix(in srgb, var(--default-color), transparent 90%);
+  .contact {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
   }
-
-  .contact .info-item i {
-    color: var(--accent-color);
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease-in-out;
-    border-radius: 50%;
-    border: 2px dotted color-mix(in srgb, var(--accent-color), transparent 40%);
-  }
-
-  .contact .info-item h3 {
-    font-size: 18px;
+  
+  .contact h2 {
+    font-size: 36px;
     font-weight: 700;
-    margin: 10px 0;
+    color: #333;
+    margin-bottom: 20px;
   }
-
-  .contact .info-item p {
-    padding: 0;
-    margin-bottom: 0;
-    font-size: 14px;
+  
+  .contact p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
   }
-
-  .contact .php-email-form {
-    height: 100%;
-    padding: 30px;
-    box-shadow: 0px 0px 20px color-mix(in srgb, var(--default-color), transparent 90%);
+  
+  .social-media {
+    margin-bottom: 40px;
   }
-
-  @media (max-width: 575px) {
-    .contact .php-email-form {
-      padding: 20px;
-    }
-  }
-
-  .contact .php-email-form .error-message {
-    display: none;
-    background: #df1529;
-    color: #ffffff;
-    text-align: left;
-    padding: 15px;
-    margin-bottom: 24px;
-    font-weight: 600;
-  }
-
-  .contact .php-email-form .sent-message {
-    display: none;
-    color: #ffffff;
-    background: #059652;
-    text-align: center;
-    padding: 15px;
-    margin-bottom: 24px;
-    font-weight: 600;
-  }
-
-  .contact .php-email-form .loading {
-    display: none;
-    background: var(--background-color);
-    text-align: center;
-    padding: 15px;
-    margin-bottom: 24px;
-  }
-
-  .contact .php-email-form .loading:before {
-    content: "";
+  
+  .social-link {
     display: inline-block;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px -6px 0;
-    border: 3px solid var(--accent-color);
-    border-top-color: var(--background-color);
-    animation: animate-loading 1s linear infinite;
+    margin: 0 15px;
+    text-decoration: none;
+    transition: transform 0.3s, opacity 0.3s;
   }
-
-  .contact .php-email-form input[type=text],
-  .contact .php-email-form input[type=email],
-  .contact .php-email-form textarea {
-    font-size: 14px;
-    padding: 10px 15px;
-    box-shadow: none;
-    border-radius: 0;
-    color: var(--default-color);
-    background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-    border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+  
+  .social-link img {
+    width: 40px; /* Ubah ukuran sesuai kebutuhan */
+    height: 40px;
   }
-
-  .contact .php-email-form input[type=text]:focus,
-  .contact .php-email-form input[type=email]:focus,
-  .contact .php-email-form textarea:focus {
-    border-color: var(--accent-color);
+  
+  .social-link:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
   }
-
-  .contact .php-email-form input[type=text]::placeholder,
-  .contact .php-email-form input[type=email]::placeholder,
-  .contact .php-email-form textarea::placeholder {
-    color: color-mix(in srgb, var(--default-color), transparent 70%);
+  
+  .map {
+    max-width: 100%;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
-
-  .contact .php-email-form button[type=submit] {
-    color: var(--contrast-color);
-    background: var(--accent-color);
-    border: 0;
-    padding: 8px 30px 10px 30px;
-    transition: 0.4s;
-    border-radius: 0;
-  }
-
-  .contact .php-email-form button[type=submit]:hover {
-    background: color-mix(in srgb, var(--accent-color), transparent 20%);
-  }
-
-  @keyframes animate-loading {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
+  
+  footer {  
+    color: white;
+    padding: 10px 0;
+    text-align: left;
   }
 
   /*--------------------------------------------------------------
