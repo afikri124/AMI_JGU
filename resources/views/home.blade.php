@@ -105,7 +105,14 @@
           <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
             <h3>Tujuan</h3>
             <ul>
-              
+              <li><i class="bi bi-check-circle"></i> <span>Terwujudnya sistem penjaminan mutu internal di lingkungan JGU yang meliputi
+              penetapan standar, pelaksanaan, evaluasi, peningkatan, dan pengendalian standar.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Menjamin terlaksananya pelayanan dan pelatihan penjaminan mutu internal dan
+              eksternal pada semua unit di lingkungan JGU.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Terbentuknya budaya mutu bagi civitas akademika dan tenaga kependidikan di
+              lingkungan JGU.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span> Mempermudah akses data perguruan tinggi yang terintegrasi bagi semua unit di
+              lingkungan JGU.</span></li>
             </ul>
         </div>
         </div>
@@ -126,7 +133,10 @@
                         <div class="card-body new-update pt-0">
                             <div class="activity-timeline">
                                 <div class="media">
-
+                                    <div class="media-body"><i><mark>"Menjadikan Lembaga Penjaminan Mutu JGU sebagai pelopor
+                                            dalam menerapkan sistem dan budaya mutu tridharma perguruan tinggi yang
+                                            dapat mengantarkan JGU menjadi institusi unggul dalam bidang teknologi dan
+                                            Kesehatan."</mark>
                                         </i>
                                     </div>
                                 </div>
@@ -138,7 +148,18 @@
             <div class="card-body new-update pt-0">
                             <div class="activity-timeline">
                                 <div class="media">
-                                    
+                                    <div class="media-body"><i><mark>"Menyusun, menerapkan, dan melakukan perbaikan secara
+                                    berkelanjutan terhadap Sistem Penjaminan Mutu Internal (SPMI)."</mark>
+                                        </i>
+                                        <div class="media-body"><i><mark>"Membangun dan mengembangkan pelayanan dan pelatihan sistem
+                                        penjaminan mutu internal dan eksternal pada semua unit di lingkungan JGU."</mark>
+                                        </i>
+                                        <div class="media-body"><i><mark>"Mendorong terbentuknya budaya mutu tridharma perguruan tinggi
+                                        bagi civitas akademika dan tenaga kependidikan di lingkungan JGU."</mark>
+                                        </i>
+                                        <div class="media-body"><i><mark>"Membangun pangkalan data perguruan tinggi JGU yang
+                                        terintegrasi untuk semua unit di lingkungan JGU."</mark>
+                                        </i>
                                     </div>
                                 </div>
                             </div>
