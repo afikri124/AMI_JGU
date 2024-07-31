@@ -32,4 +32,8 @@ class AuditPlanAuditor extends Model
         return $this->belongsTo(AuditPlanCategory::class, 'audit_plan_auditor_id');
     }
 
+    public function observations()
+    {
+        return $this->belongsTo(Observation::class, 'audit_plan_auditor_id');
+    }
 }

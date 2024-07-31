@@ -31,4 +31,9 @@ class Indicator extends Model
     {
         return $this->belongsTo(StandardStatement::class, 'standard_statement_id');
     }
+
+    public function obs_c()
+    {
+        return $this->belongsTo(ObservationChecklist::class, 'indicator_id');
+    }
 }

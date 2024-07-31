@@ -21,7 +21,7 @@ class ObservationChecklist extends Model
         'remark_upgrade_repair',
     ];
 
-    public function obs_checklist()
+    public function obs_c()
     {
         return $this->belongsTo(Observation::class, 'observation_id');
     }

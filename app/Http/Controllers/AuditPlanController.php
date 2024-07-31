@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AuditPlanController extends Controller
 {
+    //Tampilan Audit Plan
     public function index(Request $request)
     {
         $data = AuditPlan::all();
@@ -34,6 +35,7 @@ class AuditPlanController extends Controller
         return view('audit_plan.index', compact('data', 'auditee'));
     }
 
+    //Tambah Audit Plan
     public function add(Request $request)
     {
         if ($request->isMethod('POST')) {
@@ -105,7 +107,7 @@ class AuditPlanController extends Controller
         return view("audit_plan.add", compact("data", "category", "criterias", "auditee", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
     }
 
-
+    //Edit Audit Plan
     public function edit(Request $request, $id)
     {
         // Mendapatkan data audit plan berdasarkan id
@@ -129,7 +131,7 @@ class AuditPlanController extends Controller
         return view('audit_plan.edit_audit', compact('data', 'locations', 'auditors', 'selectedAuditors'));
     }
 
-
+    //Proses Edit Audit Plan
     public function update(Request $request, $id)
     {
     $request->validate([
@@ -144,6 +146,7 @@ class AuditPlanController extends Controller
         'date_start' => $request->date_start,
         'date_end' => $request->date_end,
         'location_id' => $request->location_id,
+        'audit_status_id' => '2',
     ];
 
     $data->update($updateData);
@@ -173,32 +176,41 @@ class AuditPlanController extends Controller
 
     // Delete Audit Plan
     public function delete(Request $request)
-    {
-        // Find the AuditPlan by ID
-        $auditPlan = AuditPlan::find($request->id);
+{
+    $data = AuditPlan::find($request->id);
 
-        if ($auditPlan) {
-            // First, delete related AuditPlanAuditor records
-            $auditPlan->auditor()->delete();
+    if ($data) {
+        // Hapus entri terkait di AuditPlanAuditor
+        $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $data->id)->get();
 
-            // Then, delete related Observation records
-            $auditPlan->observation()->delete();
-
-            // Finally, delete the AuditPlan itself
-            $auditPlan->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully deleted!'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to delete! Data not found'
-            ]);
+        foreach ($auditPlanAuditors as $auditPlanAuditor) {
+            // Hapus Observasi yang terkait dengan AuditPlanAuditor
+            Observation::where('audit_plan_auditor_id', $auditPlanAuditor->id)->delete();
         }
-    }
 
+        // Hapus AuditPlanAuditor
+        AuditPlanAuditor::where('audit_plan_id', $data->id)->delete();
+
+        // Hapus Observasi yang terkait dengan AuditPlan
+        Observation::where('audit_plan_id', $data->id)->delete();
+
+        // Hapus AuditPlan itu sendiri
+        $data->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil dihapus!'
+        ]);
+    } else {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal dihapus! Data tidak ditemukan.'
+        ]);
+    }
+}
+
+
+    //Data Audit Plan
     public function data(Request $request)
     {
         $data = AuditPlan::with([

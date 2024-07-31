@@ -3,6 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditPlan;
+use App\Models\Department;
+use App\Models\Observation;
+use App\Models\AuditPlanAuditor;
+use App\Models\AuditPlanCategory;
+use App\Models\AuditPlanCriteria;
+use App\Models\Location;
+use App\Models\StandardCategory;
+use App\Models\StandardCriteria;
+use App\Models\ObservationChecklist;
+use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
@@ -11,17 +22,13 @@ use Illuminate\Support\Facades\File;
 
 
 class MyAuditController extends Controller{
+    //Tampilan My Audit
     public function index(Request $request){
         $data = AuditPlan::all();
         return view('my_audit.index', compact('data'));
     }
 
-    public function add($id)
-    {
-        $data = AuditPlan::findOrFail($id);
-        return view('my_audit.add', compact('data'));
-    }
-
+    //Upload Document Audit
     public function update(Request $request, $id){
         $request->validate([
             'doc_path' => 'mimes:pdf|max:10000|',
@@ -52,36 +59,134 @@ class MyAuditController extends Controller{
         return redirect()->route('my_audit.index')->with('msg', 'Thank you for uploading the document ');
     }
 
-    public function reupload(Request $request, $id){
-        //document upload
-        $data = AuditPlan::findOrFail($id);
-        $data->update([
-        'audit_status_id'   => '11',
-    ]);
-        return redirect()->route('my_audit.index')->with('msg', 'Thank you for reuploading the document ');
-    }
-
-    public function show($id)
+    //Narik data untuk Observations
+    public function obs(Request $request, $id)
     {
+        $locations = Location::orderBy('title')->get();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
         $data = AuditPlan::findOrFail($id);
-        return view('my_audit.show', compact('data'));
-    }
 
-    public function delete(Request $request){
-        $data = AuditPlan::find($request->id);
-        if($data){
-            $data->delete();
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully deleted!'
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        // dd($standardCriterias);
+
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+                                    ->with('auditor:id,name')
+                                    ->firstOrFail();
+
+        $department = Department::where('id', $data->department_id)->orderBy('name')->get();
+
+        $observations = Observation::with([
+            'observations' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
+        $obs_c = ObservationChecklist::with([
+            'obs_c' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+        // dd($obs_c);
+        if ($data->audit_status_id == 3) {
+            return view('my_audit.show', [
+                'standardCategories' => $standardCategories,
+                'standardCriterias' => $standardCriterias,
+                'auditorData' => $auditorData,
+                'auditor' => $auditor,
+                'data' => $data,
+                'category' => $category,
+                'criteria' => $criteria,
+                'observations' => $observations,
+                'obs_c' => $obs_c,
+                'hodLPM' => $hodLPM,
+                'hodBPMI' => $hodBPMI
             ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to delete! Data not found'
+        } elseif ($data->audit_status_id == 4) {
+            return view('my_audit.add', [
+                'standardCategories' => $standardCategories,
+                'standardCriterias' => $standardCriterias,
+                'auditorData' => $auditorData,
+                'auditor' => $auditor,
+                'data' => $data,
+                'category' => $category,
+                'criteria' => $criteria,
+                'observations' => $observations,
+                'obs_c' => $obs_c,
+                'hodLPM' => $hodLPM,
+                'hodBPMI' => $hodBPMI
             ]);
         }
     }
+
+    //Proses update Observations
+    public function show(Request $request, $id)
+{
+    $data = AuditPlan::findOrFail($id);
+    $auditorId = Auth::user()->id;
+
+    // Retrieve the observation using the ID
+    $observation = Observation::where('audit_plan_id', $id)
+        ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
+        ->firstOrFail();
+
+    if ($request->isMethod('POST')) {
+        // Validate the request
+        $this->validate($request, [
+            'person_in_charge' => ['required'],
+            'plan_complated' => ['required'],
+            'remark_upgrade_repair' => ['required', 'array'],
+        ]);
+
+        // Update the Observation
+        $observation->update([
+            'person_in_charge' => $request->person_in_charge,
+            'plan_complated' => $request->plan_complated,
+        ]);
+
+        // Update Observation Checklists
+        foreach ($request->remark_upgrade_repair as $key => $remark) {
+            $checklist = ObservationChecklist::where('observation_id', $observation->id)
+                ->where('indicator_id', $key)
+                ->first();
+
+            if ($checklist) {
+                $checklist->update([
+                    'remark_upgrade_repair' => $remark,
+                ]);
+            }
+        }
+
+        return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
+    }
+
+    // Pass data to view if needed
+    return view('my_audit.show', [
+        'data' => $data,
+        'observation' => $observation,
+    ]);
+}
+
+
+    //Data My Audit
     public function data(Request $request){
         $data = AuditPlan::
         with(['auditee' => function ($query) {
@@ -117,6 +222,23 @@ class MyAuditController extends Controller{
                 }
             })->make(true);
     }
+
+        // public function reupload(Request $request, $id){
+    //     //document upload
+    //     $data = AuditPlan::findOrFail($id);
+    //     $data->update([
+    //     'audit_status_id'   => '11',
+    // ]);
+    //     return redirect()->route('my_audit.index')->with('msg', 'Thank you for reuploading the document ');
+    // }
+
+    // public function add($id)
+    // {
+    //     $data = AuditPlan::findOrFail($id);
+    //     return view('my_audit.add', compact('data'));
+    // }
+
+
 
 //Json
     public function getData(){

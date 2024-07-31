@@ -83,4 +83,9 @@ class AuditPlan extends Model
     {
         return $this->hasMany(ReviewDocs::class, 'review_document_id');
     }
+
+    public function obs_c()
+    {
+        return $this->hasMany(ObservationChecklist::class, 'observation_id');
+    }
 }

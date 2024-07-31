@@ -13,6 +13,7 @@ class Observation extends Model
     protected $fillable = [
         'id',
         'audit_plan_id',
+        'audit_status_id',
         'audit_plan_auditor_id',
         'location_id',
         'remark_plan',
@@ -25,6 +26,11 @@ class Observation extends Model
         return $this->belongsTo(AuditPlan::class, 'audit_plan_id');
     }
 
+    public function auditStatus()
+    {
+        return $this->belongsTo(AuditStatus::class, 'audit_status_id');
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
@@ -32,7 +38,7 @@ class Observation extends Model
 
     public function auditor()
     {
-        return $this->belongsTo(AuditPlanAuditor::class, 'auditor_id');
+        return $this->belongsTo(AuditPlanAuditor::class, 'audit_plan_auditor_id');
     }
 
     public function category()
@@ -45,7 +51,12 @@ class Observation extends Model
         return $this->belongsTo(StandardCriteria::class, 'standard_criterias_id');
     }
 
-    public function obs_checklist()
+    public function observations()
+    {
+        return $this->hasMany(Observation::class, 'audit_plan_auditor_id');
+    }
+
+    public function obs_c()
     {
         return $this->hasMany(ObservationChecklist::class, 'observation_id');
     }

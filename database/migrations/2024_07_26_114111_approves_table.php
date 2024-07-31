@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
             $table->text('remark_by_lpm')->nullable();
             $table->text('remark_by_approver')->nullable();
+            $table->text('validate_by_lpm')->nullable();
+            $table->text('validate_by_approver')->nullable();
             $table->timestamps();
 
         });

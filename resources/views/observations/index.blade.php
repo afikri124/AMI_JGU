@@ -111,7 +111,6 @@
                 </div>
                 <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <div class="form-group mb-3">
                         <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
                         <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" placeholder="MAX 250 characters..."></textarea>
@@ -255,12 +254,13 @@
                             <i class="bx bx-pencil icon-white"></i></a>`;
                         }
                         // Check if auditstatus is '10'
-                        else if (row.auditstatus.id === 3 || row.auditstatus.id === 11 ) {
+                        else if (row.auditstatus.id === 3 || row.auditstatus.id === 4 ) {
                             x = `<a class="badge bg-dark" title="Observations" href="{{ url('observations/create/${row.id}') }}">
                                         <i class="bx bx-search-alt"></i></a>
+                                <a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a>
                                 <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
-                                        <i class="bx bx-printer"></i></a>
-                                        `;
+                                        <i class="bx bx-printer"></i></a>`;
                         }
                         return x;
                     },

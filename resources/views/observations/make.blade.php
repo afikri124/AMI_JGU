@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Observations')
+@section('title', 'Observations | Auditor')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -208,33 +208,33 @@
                 <td style="width: 60%">
                     <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                 </td>
-                <td style="width: 35%">
-                    <div id="data-sets">
-                        <div id="data-set">
-                        <div class="checkbox-group">
-                            <input type="radio" id="ks_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KS" required />
-                            <label for="ks_{{ $statement->id }}">KS</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="radio" id="obs_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="OBS" required />
-                            <label for="obs_{{ $statement->id }}">OBS</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="radio" id="kts_minor_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KTS MINOR" required />
-                            <label for="kts_minor_{{ $statement->id }}">KTS MINOR</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="radio" id="kts_mayor_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KTS MAYOR" required />
-                            <label for="kts_mayor_{{ $statement->id }}">KTS MAYOR</label>
-                        </div>
-                        </div>
-                    </div>
-                </td>
             </tr>
             <tr>
                 <td style="width: 60%">
                     <strong>Indicator</strong>
                     <ul>{!! $indicator->name !!}</ul>
+                </td>
+                <td style="width: 35%">
+                    <div id="data-sets">
+                        <div id="data-set">
+                        <div class="checkbox-group">
+                            <input type="radio" id="ks_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" required />
+                            <label for="ks_{{ $indicator->id }}">KS</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="obs_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" required />
+                            <label for="obs_{{ $indicator->id }}">OBS</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="kts_minor_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" required />
+                            <label for="kts_minor_{{ $indicator->id }}">KTS MINOR</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="radio" id="kts_mayor_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" required />
+                            <label for="kts_mayor_{{ $indicator->id }}">KTS MAYOR</label>
+                        </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -248,20 +248,20 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_description" name="remark_description[{{ $statement->id }}]" class="form-control" maxlength="250"
-                              placeholder="MAX 250 characters..." value="{{ old( 'remark_description' ) }}"></textarea>
-                              @error('remark_description')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                    <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]" class="form-control" maxlength="250"
+                        placeholder="MAX 250 characters..."></textarea>
+                        @error('remark_description')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $statement->id }}]"
-                              class="form-control" maxlength="250" placeholder="MAX 250 characters..." value="{{ old( 'remark_success_failed' ) }}"></textarea>
+                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
+                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
                               @error('remark_success_failed')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -272,8 +272,8 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea name="remark_recommend[{{ $statement->id }}]" class="form-control" maxlength="250"
-                              placeholder="MAX 250 characters..." value="{{ old( 'remark_recommend' ) }}"></textarea>
+                    <textarea name="remark_recommend[{{ $indicator->id }}]" class="form-control" maxlength="250"
+                              placeholder="MAX 250 characters..."></textarea>
                               @error('remark_recommend')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -281,31 +281,28 @@
                             @enderror
                 </td>
             </tr>
-            <tr>
+            <tr class="hidden">
                 <td colspan="3">
                     <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
                     <textarea type="text" id="remark_upgrade_repair" class="form-control"
-                              name="remark_upgrade_repair[{{ $statement->id }}]" maxlength="250"
-                              placeholder="MAX 250 characters..." value="{{ old( 'remark_upgrade_repair' ) }}"></textarea>
-                              @error('remark_upgrade_repair')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                        name="remark_upgrade_repair[{{ $indicator->id }}]" maxlength="250"
+                        placeholder="MAX 250 characters..."></textarea>
+                        @error('remark_upgrade_repair')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
             </tr>
         </table>
     @endforeach
-
 @endforeach
-<hr class="text-dark">
 @endforeach
-
-            <div class="row">
+            <div class="hidden">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
                     <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
-                            placeholder="Pihak Bertanggung Jawab..." value="{{ old( 'person_in_charge' ) }}">
+                            placeholder="Pihak Bertanggung Jawab...">
                             @error('person_in_charge')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -315,7 +312,7 @@
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
                     <input type="date" class="form-control" name="plan_complated" id="plan_complated"
-                            placeholder="YYYY-MM-DD" value="{{ old( 'plan_complated' ) }}">
+                            placeholder="YYYY-MM-DD">
                             @error('plan_complated')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -323,7 +320,7 @@
                             @enderror
                 </div>
             </div>
-            <div class="col-sm-12 fv-plugins-icon-container">
+            <!-- <div class="col-sm-12 fv-plugins-icon-container">
                 <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
                     <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
@@ -334,7 +331,7 @@
                         </span>
                     @enderror
                 </div>
-            </div>
+            </div> -->
             <div class="row mt-3">
                 <div class="col-12 d-flex justify-content-between">
                     <button class="btn btn-primary btn-prev">

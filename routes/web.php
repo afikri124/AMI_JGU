@@ -66,7 +66,7 @@ Route::group(['prefix' => 'audit_plan'], function () {
 });
 
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
-Route::put('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
+Route::any('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
 //Observations
 Route::group(['prefix' => 'observations'], function () {
@@ -74,8 +74,10 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
     Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
     Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
-    Route::put('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
     Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
+    Route::any('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
+    Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
+    Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
 });
 
 //MY Audit
@@ -83,6 +85,8 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
     Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
     Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
+    Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
+    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
     Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
 });
 

@@ -17,6 +17,7 @@ use App\Models\Setting;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
@@ -88,15 +89,15 @@ class ObservationController extends Controller
             // dd($request);
 
             $this->validate($request, [
-                'location_id' => ['required'],
-                'remark_plan' => ['required'],
-                'remark_description' => ['required', 'array'],
-                'obs_checklist_option' => ['required', 'array'],
-                'remark_success_failed' => ['required', 'array'],
-                'remark_recommend' => ['required', 'array'],
-                'remark_upgrade_repair' => ['required', 'array'],
-                'person_in_charge' => ['required'],
-                'plan_complated' => ['required'],
+                'location_id' => [],
+                'remark_plan' => [],
+                'remark_description' => [],
+                'obs_checklist_option' => [],
+                'remark_success_failed' => [],
+                'remark_recommend' => [],
+                'remark_upgrade_repair' => [],
+                'person_in_charge' => [],
+                'plan_complated' => [],
             ]);
 
             // dd($request);
@@ -104,6 +105,7 @@ class ObservationController extends Controller
 
             // Create Observation
             $obs = Observation::create([
+                'audit_status_id' => '3',
                 'audit_plan_id' => $id,
                 'audit_plan_auditor_id' => $auditPlanAuditorId,
                 'location_id' => $request->location_id,
@@ -115,8 +117,8 @@ class ObservationController extends Controller
             // Create Observation Checklists
             foreach ($request->obs_checklist_option as $key => $obs_c) {
                 ObservationChecklist::create([
-                    'observation_id' => $obs->id,
                     'indicator_id' => $key,
+                    'observation_id' => $obs->id,
                     'remark_description' => $request->remark_description[$key] ?? '',
                     'obs_checklist_option' => $obs_c ?? '',
                     'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
@@ -133,8 +135,9 @@ class ObservationController extends Controller
     {
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-        ->with('auditor:id,name')
-        ->firstOrFail();
+                                    ->with('auditor:id,name')
+                                    ->firstOrFail();
+
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
 
@@ -154,32 +157,116 @@ class ObservationController extends Controller
                         ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+
+        $observations = Observation::with([
+            'observations' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
+        $obs_c = ObservationChecklist::with([
+            'obs_c' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+        // dd($obs_c);
+
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
+
         return view('observations.print',
         compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+        'auditorData', 'auditor', 'data', 'category', 'criteria',
+        'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
-    // public function print($id)
-    // {
-    //     $data = AuditPlan::findOrFail($id);
-    //     return view('observations.edit', compact('data'));
-    // }
+    public function remark($id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+                                    ->with('auditor:id,name')
+                                    ->firstOrFail();
+
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+
+        $observations = Observation::with([
+            'observations' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
+        $obs_c = ObservationChecklist::with([
+            'obs_c' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
+        // dd($obs_c);
+
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+
+        return view('observations.remark',
+        compact('standardCategories', 'standardCriterias',
+        'auditorData', 'auditor', 'data', 'category', 'criteria',
+        'observations', 'obs_c','hodLPM', 'hodBPMI'));
+    }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'remark_docs'    => '',
-        ]);
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'remark_docs' => '',
+            ]);
 
+            $data = AuditPlan::findOrFail($id);
+            $data->update([
+                'remark_docs' => $request->remark_docs,
+                'audit_status_id' => '3',
+            ]);
+
+        return redirect()->route('observations.index')->with('msg', 'Document reviewed, you are ready for Observation');
+    }
+}
+
+    public function update_remark(Request $request, $id)
+    {
         $data = AuditPlan::findOrFail($id);
-        $data->update([
-            'remark_docs' => $request->remark_docs,
-            'audit_status_id' => '3',
-        ]);
+        $auditorId = Auth::user()->id;
+
+        // Retrieve the observation using the ID
+        $observation = Observation::where('audit_plan_id', $id)
+            ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
+            ->firstOrFail();
+
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'remark_plan' => '',
+            ]);
+
+            $observation->update([
+                'audit_status_id' => '4',
+                'remark_plan' => $request->remark_plan,
+            ]);
+
 
         // if ($data) {
         //     // Cari pengguna dan departemen berdasarkan ID yang ada dalam request
@@ -209,8 +296,9 @@ class ObservationController extends Controller
         //     // Redirect dengan pesan error jika data tidak berhasil diupdate
         //     return redirect()->route('observations.index')->with('msg', 'Data gagal diupdate');
         // }
-        return redirect()->route('observations.index')->with('msg', 'Document reviewed, you are ready for Observation');
+        return redirect()->route('observations.index')->with('msg', 'Document reviewed, thanks for your time');
     }
+}
 
 
     public function data(Request $request)

@@ -250,7 +250,9 @@
                 </p>
             </td>
             @foreach($obs_c as $c)
-                <ul>{{ $loop->iteration }}. {{ $c->remark_description }}</ul>
+                @if(in_array($c->obs_checklist_option, ['OBS', 'KTS MINOR', 'KTS MAYOR']))
+                    <ul>{{ $loop->iteration }}. {{ $c->remark_description }}</ul>
+                @endif
             @endforeach
         </tr>
         <tr>
@@ -558,11 +560,14 @@
     </tr>
     <tr>
     @foreach ($obs_c as $no => $c)
-        <td class="center">{{ $loop->iteration }}.</td>
-        <td><center>{{ $c->remark_description }}</center></td>
-        <td><center>{!! $c->obs_checklist_option !!}</center></td>
-        <td><center>{!! $c->remark_success_failed !!}</center></td>
-    </tr>
+        @if ($c->obs_checklist_option == "KS")
+            <tr>
+                <td class="center">{{ $loop->iteration }}.</td>
+                <td><center>{{ $c->remark_description }}</center></td>
+                <td><center>{!! $c->obs_checklist_option !!}</center></td>
+                <td><center>{!! $c->remark_success_failed !!}</center></td>
+            </tr>
+        @endif
     @endforeach
 </table>
 
@@ -683,11 +688,14 @@
     </tr>
     <tr>
     @foreach ($obs_c as $no => $c)
-        <td class="center">{{ $loop->iteration }}.</td>
-        <td><center>{{ $c->remark_description }}</center></td>
-        <td><center>{!! $c->obs_checklist_option !!}</center></td>
-        <td><center>{!! $c->remark_success_failed !!}</center></td>
-    </tr>
+        @if (in_array($c->obs_checklist_option, ['OBS', 'KTS MINOR', 'KTS MAYOR']))
+            <tr>
+                <td class="center">{{ $loop->iteration }}.</td>
+                <td><center>{{ $c->remark_description }}</center></td>
+                <td><center>{!! $c->obs_checklist_option !!}</center></td>
+                <td><center>{!! $c->remark_success_failed !!}</center></td>
+            </tr>
+        @endif
     @endforeach
 </table>
 
@@ -848,15 +856,15 @@
                 <div class="form-group">
                     <div class="checkbox-container">
                         <div class="checkbox-group">
-                            <input type="checkbox" id="observasi" value="OBSERVASI" />
+                            <input type="checkbox" id="observasi" value="OBSERVASI" disabled/>
                             <label for="observasi">Observasi</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="kts_minor" value="KTS MINOR" />
+                            <input type="checkbox" id="kts_minor" value="KTS MINOR" disabled/>
                             <label for="kts_minor">KTS Minor</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="kts_mayor" value="KTS MAYOR" />
+                            <input type="checkbox" id="kts_mayor" value="KTS MAYOR" disabled/>
                             <label for="kts_mayor">KTS Mayor</label>
                         </div>
                     </div>
@@ -881,16 +889,19 @@
     </tr>
     <tr>
     @foreach ($obs_c as $no => $c)
-        <td class="center">{{ $loop->iteration }}.</td>
-        <td><center>{{ $c->remark_description }}</center></td>
-        <td><center>{!! $c->remark_success_failed !!}</center></td>
-        <td><center>{!! $c->remark_recommend !!}</center></td>
-        <td><center>{{ $c->remark_upgrade_repair }}</center></td>
+    @if (in_array($c->obs_checklist_option, ['OBS', 'KTS MINOR', 'KTS MAYOR']))
+        <tr>
+            <td class="center">{{ $loop->iteration }}.</td>
+            <td><center>{{ $c->remark_description }}</center></td>
+            <td><center>{!! $c->remark_success_failed !!}</center></td>
+            <td><center>{!! $c->remark_recommend !!}</center></td>
+            <td><center>{{ $c->remark_upgrade_repair }}</center></td>
     @foreach ($observations as $o)
     <td><center>{!! $o->plan_complated !!}</center></td>
         <td><center>{!! $o->person_in_charge !!}</center></td>
     </tr>
     @endforeach
+    @endif
     @endforeach
     <tr style="height: 20px">
     </tr>
@@ -1073,16 +1084,19 @@
     </tr>
     <tr>
     @foreach ($obs_c as $no => $c)
-        <td class="center">{{ $loop->iteration }}.</td>
-        <td><center>{{ $c->remark_description }}</center></td>
-        <td><center>{!! $c->remark_success_failed !!}</center></td>
-        <td><center>{!! $c->remark_recommend !!}</center></td>
-        <td><center>{{ $c->remark_upgrade_repair }}</center></td>
+    @if (in_array($c->obs_checklist_option, ['KS']))
+        <tr>
+            <td class="center">{{ $loop->iteration }}.</td>
+            <td><center>{{ $c->remark_description }}</center></td>
+            <td><center>{!! $c->remark_success_failed !!}</center></td>
+            <td><center>{!! $c->remark_recommend !!}</center></td>
+            <td><center>{{ $c->remark_upgrade_repair }}</center></td>
     @foreach ($observations as $o)
     <td><center>{!! $o->plan_complated !!}</center></td>
         <td><center>{!! $o->person_in_charge !!}</center></td>
     </tr>
     @endforeach
+    @endif
     @endforeach
     <tr style="height: 20px">
     </tr>

@@ -258,11 +258,27 @@
                 },
                 {
                     render: function(data, type, row, meta) {
-                        var html =
-                            `<a class="badge bg-primary badge-icon" title="Document" data-id="${row.id}"
+                        var x = '';
+
+                        // Check if auditstatus is '1' or '2'
+                        if (row.auditstatus.id === 1 || row.auditstatus.id === 2) {
+                            x = `<a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
                             data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
-                            <i class="bx bx-show icon-white"></i></a>`;
-                        return html;
+                            <i class="bx bx-pencil icon-white"></i></a>`;
+                        }
+                        // Check if auditstatus is '10'
+                        else if (row.auditstatus.id === 3 || row.auditstatus.id === 10 ) {
+                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('my_audit/obs/${row.id}') }}">
+                                    <i class="bx bx-search-alt"></i></a>
+                                <a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
+                                    data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
+                                    <i class="bx bx-pencil icon-white"></i></a`;
+                        }
+                        else if (row.auditstatus.id === 4 ) {
+                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('my_audit/obs/${row.id}') }}">
+                                    <i class="bx bx-printer"></i></a>`;
+                        }
+                        return x;
                     },
                     "orderable": false,
                     className: "text-md-center"
@@ -278,7 +294,6 @@
         $('#modal-link').text(link).attr('href', link);
         $('#modal-remark_docs').text(remark_docs).attr('href', remark_docs);
         $('#upload-form').attr('action', '/my_audit/update/' + id);
-        $('#reupload-form').attr('action', '/my_audit/reupload/' + id);
         $('#uploadModal').modal('show');
     }
 

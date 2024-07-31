@@ -25,7 +25,6 @@
                 <form action="{{ route('update_audit', $data->id) }}" method="POST">
                     <div class="row">
                         @csrf
-                        @method('PUT')
                         <div class="form-group">
                     <div class="col-sm-12 fv-plugins-icon-container">
                         <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
@@ -75,7 +74,7 @@
                                 </select>
                             </div>
                     <p></p>
-                    <div class="mt-2 d-flex justify-content-end">
+                    <div class="text-end">
                         <button type="submit" class="btn btn-primary me-1">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('audit_plan.index') }}">Back</a>
                     </div>

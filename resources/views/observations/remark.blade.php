@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Observations | Auditee')
+@section('title', 'Remark Auditor | Make Report')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -73,7 +73,7 @@
         word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
     }
     .bg-user {
-        background-color: #ddd;
+        background-color: #F5F7F8;
     }
     .hidden {
         display: none;
@@ -85,20 +85,9 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-    @if ($errors->any())
-    <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"
-            data-bs-original-title="" title=""></button>
-    </div>
-@endif
 <div class="card mb-5">
     <div class="card-body">
-    <form method="POST" action="{{ route('show', $data->id) }}"
+    <form method="POST" action="{{ route('observations.update_remark', $data->id) }}"
     enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->
@@ -179,9 +168,8 @@
                 <td colspan="3">
                     <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
                     <textarea id="remark_description" name="remark_description[{{ $statement->id }}]" class="form-control bg-user" maxlength="250"
-                        placeholder="MAX 250 characters..."
-                        readonly></textarea>
-                    @error('remark_description')
+                        placeholder="MAX 250 characters..." readonly></textarea>
+                        @error('remark_description')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -192,35 +180,32 @@
                 <td colspan="3">
                     <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
                     <textarea id="remark_success_failed" name="remark_success_failed[{{ $statement->id }}]"
-                        class="form-control bg-user" maxlength="250"
-                        placeholder="MAX 250 characters..."
-                        readonly></textarea>
-                        @error('remark_success_failed')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                              class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly></textarea>
+                              @error('remark_success_failed')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
                     <textarea name="remark_recommend[{{ $statement->id }}]" class="form-control bg-user" maxlength="250"
-                        placeholder="MAX 250 characters..."
-                        readonly></textarea>
-                        @error('remark_recommend')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                              placeholder="MAX 250 characters..." readonly></textarea>
+                              @error('remark_recommend')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
-                    <textarea type="text" id="remark_upgrade_repair" class="form-control"
+                    <textarea type="text" id="remark_upgrade_repair" class="form-control bg-user"
                         name="remark_upgrade_repair[{{ $statement->id }}]" maxlength="250"
-                        placeholder="MAX 250 characters..." ></textarea>
+                        placeholder="MAX 250 characters..." readonly></textarea>
                         @error('remark_upgrade_repair')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -236,8 +221,8 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
-                            placeholder="Pihak Bertanggung Jawab...">
+                    <input type="text" id="person_in_charge" class="form-control bg-user" name="person_in_charge"
+                            placeholder="Pihak Bertanggung Jawab..." readonly>
                             @error('person_in_charge')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -246,8 +231,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated" id="plan_complated"
-                            placeholder="YYYY-MM-DD">
+                    <input type="date" class="form-control bg-user" name="plan_complated" id="plan_complated"
+                            placeholder="YYYY-MM-DD" readonly>
                             @error('plan_complated')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -255,18 +240,18 @@
                             @enderror
                 </div>
             </div>
-            <!-- <div>
+            <div>
                 <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
                     <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
-                    name="remark_plan" placeholder="MAX 250 characters..." readonly></textarea>
+                    name="remark_plan" placeholder="MAX 250 characters..."></textarea>
                     @error('remark_plan')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-            </div> -->
+            </div>
             <p></p>
             <div class="text-end">
                 <button class="btn btn-primary me-1" type="submit">Submit</button>
@@ -283,23 +268,6 @@
 
 @section('script')
     <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-    <!-- <script>
-        var quill = new Quill('#editor-container', {
-            theme: 'snow'
-        });
-
-        // Sync the content of the Quill editor with the textarea
-        quill.on('text-change', function() {
-            var notes = document.querySelector('textarea[name=notes]');
-            notes.value = quill.root.innerHTML;
-        });
-
-        // If the textarea already has content, load it into Quill
-        var notes = document.querySelector('textarea[name=notes]').value;
-        if (notes) {
-            quill.root.innerHTML = notes;
-        }
-    </script> -->
     <script type="text/javascript">
     "use strict";
     setTimeout(function () {

@@ -83,7 +83,7 @@
                                 <th width="10%"><b>Location</b></th>
                                 <th width="5%"><b>Auditor</b></th>
                                 <th width="10%"><b>Status</b></th>
-                                <th width="5%"><b>Doc</b></th>
+                                <!-- <th width="5%"><b>Doc</b></th> -->
                                 <th width="10%"><b>Action</b></th>
                             </tr>
                         </thead>
@@ -199,24 +199,28 @@
                         return html;
                     }
                 },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = "";
-                        if (row.doc_path != null && row.doc_path != "") {
-                            x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
-                        }
-                        if (row.link != null) {
-                            x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
-                        }
-                        return x;
-                    },
-                },
+                // {
+                //     render: function (data, type, row, meta) {
+                //         var x = "";
+                //         if (row.doc_path != null && row.doc_path != "") {
+                //             x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                //         }
+                //         if (row.link != null) {
+                //             x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
+                //         }
+                //         return x;
+                //     },
+                // },
                 {
                     render: function(data, type, row, meta) {
-                        var html =
-                            `<a class="badge bg-primary" title="Print Make Report" href="{{ url('lpm/lpm_edit/${row.id}') }}">
-                                <i class="bx bx-printer"></i></a>`;
-                        return html;
+                        var x = '';
+
+                        // Check if auditstatus is '1' or '2'
+                        if (row.auditstatus.id === 4 ) {
+                            x = `<a class="badge bg-warning" title="Remark Make Report By LPM" href="{{ url('lpm/lpm_edit/${row.id}') }}">
+                                <i class="bx bx-pencil"></i></a>`;
+                        }
+                        return x;
                     },
                     "orderable": false,
                     className: "text-md-center"
