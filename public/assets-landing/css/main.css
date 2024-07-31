@@ -2,7 +2,8 @@
 * Template Name: Day
 * Template URL: https://bootstrapmade.com/day-multipurpose-html-template-for-free/
 * Updated: Jun 14 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
+* Author: BootstrapMade.
+com
 * License: https://bootstrapmade.com/license/
 */
 
@@ -28,7 +29,7 @@
 
   /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
   :root {
-    --nav-color: #fff;  /* The default color of the main navmenu links */
+    --nav-color: #191919;  /* The default color of the main navmenu links */
     --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
     --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
     --nav-dropdown-hover-color: #cc1616; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
@@ -524,9 +525,8 @@
     right: 15px;
     bottom: 15px;
     z-index: 99999;
-    background-color: var(--accent-color);
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     transition: all 0.4s;
   }
 
@@ -958,34 +958,6 @@
     z-index: 3;
   }
 
-  .call-to-action h3 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--default-color);
-  }
-
-  .call-to-action p {
-    color: var(--default-color);
-  }
-
-  .call-to-action .cta-btn {
-    font-family: var(--heading-font);
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: 1px;
-    display: inline-block;
-    padding: 12px 40px;
-    border-radius: 5px;
-    transition: 0.5s;
-    margin: 10px;
-    border: 2px solid var(--contrast-color);
-    color: var(--contrast-color);
-  }
-
-  .call-to-action .cta-btn:hover {
-    background: var(--accent-color);
-    border: 2px solid var(--accent-color);
-  }
   
   /*--------------------------------------------------------------
   # Contact Section
@@ -1042,65 +1014,4 @@
     color: white;
     padding: 10px 0;
     text-align: left;
-  }
-
-  /*--------------------------------------------------------------
-  # Portfolio Details Section
-  --------------------------------------------------------------*/
-  .portfolio-details .portfolio-details-slider img {
-    width: 100%;
-  }
-
-  .portfolio-details .portfolio-details-slider .swiper-pagination {
-    margin-top: 20px;
-    position: relative;
-  }
-
-  .portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet {
-    width: 12px;
-    height: 12px;
-    background-color: color-mix(in srgb, var(--default-color), transparent 85%);
-    opacity: 1;
-  }
-
-  .portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
-    background-color: var(--accent-color);
-  }
-
-  .portfolio-details .portfolio-info {
-    padding: 30px;
-    box-shadow: 0px 0 30px color-mix(in srgb, var(--default-color), transparent 90%);
-  }
-
-  .portfolio-details .portfolio-info h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-  }
-
-  .portfolio-details .portfolio-info ul {
-    list-style: none;
-    padding: 0;
-    font-size: 15px;
-  }
-
-  .portfolio-details .portfolio-info ul li+li {
-    margin-top: 10px;
-  }
-
-  .portfolio-details .portfolio-description {
-    padding-top: 30px;
-  }
-
-  .portfolio-details .portfolio-description h2 {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-
-  .portfolio-details .portfolio-description p {
-    padding: 0;
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
   }

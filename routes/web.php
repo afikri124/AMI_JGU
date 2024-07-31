@@ -16,8 +16,10 @@ use App\Http\Controllers\StandardCategoryController;
 use App\Http\Controllers\StandardCriteriaController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
-|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------composer require laravel/socialite
+
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -35,6 +37,8 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/login/google', [App\Http\Controllers\GoogleController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback', [App\Http\Controllers\GoogleController::class, 'handleCallback']);
 //Profile
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');

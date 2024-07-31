@@ -44,12 +44,11 @@
                 <a class="navbar-brand" href="#page-top"><img src="assets-landing/img/logo-white.png" height="55" width="115" /></a>
 
         </a>
-
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="#hero" >HOME</a></li>
+            <li><a href="#hero" class="active">HOME</a></li>
             <li><a href="#about">ABOUT</a></li>
-            <li><a href="#visi&misi">VISI & MISI</a></li>
+            <li><a href="#vision-mission">VISI & MISI</a></li>
             <li><a href="#contact">CONTACT</a></li>
             <li><a href="login-ami"><button type="button" class="btn btn-danger">Login </button></a></li>
           </ul>
@@ -95,7 +94,6 @@
       </div><!-- End Section Title -->
 
       <div class="container">
-
         <div class="row gy-4">
 
           <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
@@ -120,13 +118,13 @@
     </section><!-- /About Section -->
 
     <!-- Visi & Misi Section -->
-    <section id="visi&misi" class="Clients Section">
+    <section id="vision-mission" class="vision-mission Section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <span>VISI & MISI</span>
         <h2><u>VISI & MISI</u></h2>
-      </div><!-- End Section Title -->
+
       <section class="vision-mission">
         <div class="content-container">
           <div class="vision">
@@ -188,14 +186,14 @@
                     <iframe src="https://maps.google.com/maps?q=Jakarta%20Global%20University%2C%20Jalan%20Boulevard%20Grand%20Depok%20City%2C%20Tirtajaya%2C%20Depok%20City%2C%20West%20Java%2C%20Indonesia&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
                     width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                   </div>
-                </section>
+                
               
                 <footer>
                   <p> Copyright © {{ (date('Y')=="2022"?date('Y'):"2022-".date('Y')) }} made with ❤️ by <a href="https://itic.jgu.ac.id">ITIC JGU</a>.<br><small class="ml-4 text-center text-sm text-light sm:text-right sm:ml-0">
                     v{{ Illuminate\Foundation\Application::VERSION }}p{{ PHP_VERSION }} - All rights reserved.</small>
 </p>
-                </footer>
-           
+</footer>
+</section>
 
 
   <!-- Scroll Top -->

@@ -262,11 +262,11 @@ form {
 
         <button type="submit" class="btn">Login</button>
             <div class="links">
-                 @if (Route::has('password.request'))
-                                <a class="link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Password?') }}
-                                </a>
-                                @endif
+                @if (Route::has('password.request'))
+                <a class="link" href="{{ route('password.request') }}">
+                    {{ __('Forgot Password?') }}
+                </a>
+                @endif
                 </div>
             </form>
             <h6 class="text-muted or">Or sign in with</h6>

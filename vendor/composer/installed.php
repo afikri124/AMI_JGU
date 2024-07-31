@@ -3,11 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< HEAD
-        'reference' => '7f47359bf81ee5beb626d2e6bacd9707f6c398c5',
-=======
-        'reference' => '7e13a687acb9553f1cccdfa453381ab9789881d2',
->>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
+        'reference' => '59b4d56c04eb2c56369c7bdfb8d1fe9023a6465d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -15,9 +11,9 @@
     ),
     'versions' => array(
         'brianium/paratest' => array(
-            'pretty_version' => 'v7.3.1',
-            'version' => '7.3.1.0',
-            'reference' => '551f46f52a93177d873f3be08a1649ae886b4a30',
+            'pretty_version' => 'v7.4.3',
+            'version' => '7.4.3.0',
+            'reference' => '64fcfd0e28a6b8078a19dbf9127be2ee645b92ec',
             'type' => 'library',
             'install_path' => __DIR__ . '/../brianium/paratest',
             'aliases' => array(),
@@ -133,6 +129,15 @@
             'install_path' => __DIR__ . '/../filp/whoops',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'firebase/php-jwt' => array(
+            'pretty_version' => 'v6.10.1',
+            'version' => '6.10.1.0',
+            'reference' => '500501c2ce893c824c801da135d02661199f60c5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'fruitcake/php-cors' => array(
             'pretty_version' => 'v1.3.0',
@@ -431,11 +436,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< HEAD
-            'reference' => '7f47359bf81ee5beb626d2e6bacd9707f6c398c5',
-=======
-            'reference' => '7e13a687acb9553f1cccdfa453381ab9789881d2',
->>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
+            'reference' => '59b4d56c04eb2c56369c7bdfb8d1fe9023a6465d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -483,6 +484,15 @@
             'reference' => '3dbf8a8e914634c48d389c1234552666b3d43754',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/serializable-closure',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'laravel/socialite' => array(
+            'pretty_version' => 'v5.15.1',
+            'version' => '5.15.1.0',
+            'reference' => 'cc02625f0bd1f95dc3688eb041cce0f1e709d029',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel/socialite',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -546,6 +556,15 @@
             'reference' => 'ce0f4d1e8a6f4eb0ddff33f57c69c50fd09f4301',
             'type' => 'library',
             'install_path' => __DIR__ . '/../league/mime-type-detection',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'league/oauth1-client' => array(
+            'pretty_version' => 'v1.10.1',
+            'version' => '1.10.1.0',
+            'reference' => 'd6365b901b5c287dd41f143033315e2f777e1167',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/oauth1-client',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -636,6 +655,24 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'paragonie/constant_time_encoding' => array(
+            'pretty_version' => 'v3.0.0',
+            'version' => '3.0.0.0',
+            'reference' => 'df1e7fde177501eee2037dd159cf04f5f301a512',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/constant_time_encoding',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'paragonie/random_compat' => array(
+            'pretty_version' => 'v9.99.100',
+            'version' => '9.99.100.0',
+            'reference' => '996434e5492cb4c3edcb9168db6fbb1359ef965a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/random_compat',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'pestphp/pest' => array(
             'pretty_version' => 'v2.34.8',
             'version' => '2.34.8.0',
@@ -723,6 +760,15 @@
             'reference' => '80735db690fe4fc5c76dfa7f9b770634285fa820',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpoption/phpoption',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpseclib/phpseclib' => array(
+            'pretty_version' => '3.0.39',
+            'version' => '3.0.39.0',
+            'reference' => '211ebc399c6e73c225a018435fe5ae209d1d1485',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -1160,15 +1206,9 @@
             'dev_requirement' => false,
         ),
         'symfony/css-selector' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.1.1',
             'version' => '7.1.1.0',
             'reference' => '1c7cee86c6f812896af54434f8ce29c8d94f9ff4',
-=======
-            'pretty_version' => 'v6.4.8',
-            'version' => '6.4.8.0',
-            'reference' => '4b61b02fe15db48e3687ce1c45ea385d1780fe08',
->>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/css-selector',
             'aliases' => array(),
@@ -1193,15 +1233,9 @@
             'dev_requirement' => false,
         ),
         'symfony/event-dispatcher' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.1.1',
             'version' => '7.1.1.0',
             'reference' => '9fa7f7a21beb22a39a8f3f28618b29e50d7a55a7',
-=======
-            'pretty_version' => 'v6.4.8',
-            'version' => '6.4.8.0',
-            'reference' => '8d7507f02b06e06815e56bb39aa0128e3806208b',
->>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/event-dispatcher',
             'aliases' => array(),
@@ -1376,15 +1410,9 @@
             'dev_requirement' => false,
         ),
         'symfony/string' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.1.1',
             'version' => '7.1.1.0',
             'reference' => '60bc311c74e0af215101235aa6f471bcbc032df2',
-=======
-            'pretty_version' => 'v6.4.8',
-            'version' => '6.4.8.0',
-            'reference' => 'a147c0f826c4a1f3afb763ab8e009e37c877a44d',
->>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/string',
             'aliases' => array(),
@@ -1433,15 +1461,9 @@
             'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.1.1',
             'version' => '7.1.1.0',
             'reference' => 'fa34c77015aa6720469db7003567b9f772492bf2',
-=======
-            'pretty_version' => 'v6.4.8',
-            'version' => '6.4.8.0',
-            'reference' => '52903de178d542850f6f341ba92995d3d63e60c9',
->>>>>>> a53c86f615264806fb2a624489b2f1dfe466f1bb
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/yaml',
             'aliases' => array(),
