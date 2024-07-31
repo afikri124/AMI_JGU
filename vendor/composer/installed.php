@@ -3,7 +3,11 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => 'c1ffb1ddf3ba272a6b0afba77ce4c5e4100678d1',
+=======
+        'reference' => '59b4d56c04eb2c56369c7bdfb8d1fe9023a6465d',
+>>>>>>> b516e20244afdf491467e8f0520000973c37586d
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -147,6 +151,15 @@
             'install_path' => __DIR__ . '/../filp/whoops',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'firebase/php-jwt' => array(
+            'pretty_version' => 'v6.10.1',
+            'version' => '6.10.1.0',
+            'reference' => '500501c2ce893c824c801da135d02661199f60c5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'fruitcake/php-cors' => array(
             'pretty_version' => 'v1.3.0',
@@ -445,7 +458,11 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => 'c1ffb1ddf3ba272a6b0afba77ce4c5e4100678d1',
+=======
+            'reference' => '59b4d56c04eb2c56369c7bdfb8d1fe9023a6465d',
+>>>>>>> b516e20244afdf491467e8f0520000973c37586d
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -493,6 +510,15 @@
             'reference' => '3dbf8a8e914634c48d389c1234552666b3d43754',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/serializable-closure',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'laravel/socialite' => array(
+            'pretty_version' => 'v5.15.1',
+            'version' => '5.15.1.0',
+            'reference' => 'cc02625f0bd1f95dc3688eb041cce0f1e709d029',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel/socialite',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -559,12 +585,21 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'masterminds/html5' => array(
             'pretty_version' => '2.9.0',
             'version' => '2.9.0.0',
             'reference' => 'f5ac2c0b0a2eefca70b2ce32a5809992227e75a6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../masterminds/html5',
+=======
+        'league/oauth1-client' => array(
+            'pretty_version' => 'v1.10.1',
+            'version' => '1.10.1.0',
+            'reference' => 'd6365b901b5c287dd41f143033315e2f777e1167',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/oauth1-client',
+>>>>>>> b516e20244afdf491467e8f0520000973c37586d
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -652,6 +687,24 @@
             'reference' => '8ab0b32c8caa4a2e09700ea32925441385e4a5dc',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nunomaduro/termwind',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'paragonie/constant_time_encoding' => array(
+            'pretty_version' => 'v3.0.0',
+            'version' => '3.0.0.0',
+            'reference' => 'df1e7fde177501eee2037dd159cf04f5f301a512',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/constant_time_encoding',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'paragonie/random_compat' => array(
+            'pretty_version' => 'v9.99.100',
+            'version' => '9.99.100.0',
+            'reference' => '996434e5492cb4c3edcb9168db6fbb1359ef965a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/random_compat',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -760,6 +813,15 @@
             'reference' => '80735db690fe4fc5c76dfa7f9b770634285fa820',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpoption/phpoption',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpseclib/phpseclib' => array(
+            'pretty_version' => '3.0.39',
+            'version' => '3.0.39.0',
+            'reference' => '211ebc399c6e73c225a018435fe5ae209d1d1485',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

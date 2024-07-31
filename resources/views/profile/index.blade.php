@@ -83,7 +83,7 @@
                                         </ul>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <a href="{{ route('profile.edit') }}" class="btn btn-primary d-flex align-items-center me-2">
+                                        <a href="{{ route('profile.edit') }}" class="btn btn-info d-flex align-items-center me-2">
                                             <i class="bx bx-user-check me-2"></i>
                                             Edit Profile
                                         </a>

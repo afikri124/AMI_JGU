@@ -44,12 +44,11 @@
                 <a class="navbar-brand" href="#page-top"><img src="assets-landing/img/logo-white.png" height="55" width="115" /></a>
 
         </a>
-
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="#hero" >HOME</a></li>
+            <li><a href="#hero" class="active">HOME</a></li>
             <li><a href="#about">ABOUT</a></li>
-            <li><a href="#visi&misi">VISI & MISI</a></li>
+            <li><a href="#vision-mission">VISI & MISI</a></li>
             <li><a href="#contact">CONTACT</a></li>
             <li><a href="login-ami"><button type="button" class="btn btn-danger">Login </button></a></li>
           </ul>
@@ -95,7 +94,6 @@
       </div><!-- End Section Title -->
 
       <div class="container">
-
         <div class="row gy-4">
 
           <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
@@ -105,9 +103,9 @@
           <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
             <h3>Tujuan</h3>
             <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Terwujudnya sistem penjaminan mutu internal di lingkungan JGU yang meliputi
+              <li><i class="bi bi-check-circle"></i> <span>Terwujudnya sistem audit mutu internal di lingkungan JGU yang meliputi
               penetapan standar, pelaksanaan, evaluasi, peningkatan, dan pengendalian standar.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Menjamin terlaksananya pelayanan dan pelatihan penjaminan mutu internal dan
+              <li><i class="bi bi-check-circle"></i> <span>Menjamin terlaksananya pelayanan dan pelatihan audit mutu internal dan
               eksternal pada semua unit di lingkungan JGU.</span></li>
               <li><i class="bi bi-check-circle"></i> <span>Terbentuknya budaya mutu bagi civitas akademika dan tenaga kependidikan di
               lingkungan JGU.</span></li>
@@ -120,139 +118,82 @@
     </section><!-- /About Section -->
 
     <!-- Visi & Misi Section -->
-    <section id="visi&misi" class="Clients Section">
+    <section id="vision-mission" class="vision-mission Section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <span>VISI & MISI</span>
         <h2><u>VISI & MISI</u></h2>
-      </div><!-- End Section Title -->
 
-      <div class="container section-title" data-aos="fade-up" data-aos-delay="200">
-            <h3><strong>VISI</strong></h3>
-                        <div class="card-body new-update pt-0">
-                            <div class="activity-timeline">
-                                <div class="media">
-                                    <div class="media-body"><i><mark>"Menjadikan Lembaga Penjaminan Mutu JGU sebagai pelopor
-                                            dalam menerapkan sistem dan budaya mutu tridharma perguruan tinggi yang
-                                            dapat mengantarkan JGU menjadi institusi unggul dalam bidang teknologi dan
-                                            Kesehatan."</mark>
-                                        </i>
-                                    </div>
-                                </div>
-                            </div>
-
-
-             <div class="container section-title" data-aos="fade-up" data-aos-delay="200">
-            <h3><strong>MISI</strong></h3>
-            <div class="card-body new-update pt-0">
-                            <div class="activity-timeline">
-                                <div class="media">
-                                    <div class="media-body"><i><mark>"Menyusun, menerapkan, dan melakukan perbaikan secara
-                                    berkelanjutan terhadap Sistem Penjaminan Mutu Internal (SPMI)."</mark>
-                                        </i>
-                                        <div class="media-body"><i><mark>"Membangun dan mengembangkan pelayanan dan pelatihan sistem
-                                        penjaminan mutu internal dan eksternal pada semua unit di lingkungan JGU."</mark>
-                                        </i>
-                                        <div class="media-body"><i><mark>"Mendorong terbentuknya budaya mutu tridharma perguruan tinggi
-                                        bagi civitas akademika dan tenaga kependidikan di lingkungan JGU."</mark>
-                                        </i>
-                                        <div class="media-body"><i><mark>"Membangun pangkalan data perguruan tinggi JGU yang
-                                        terintegrasi untuk semua unit di lingkungan JGU."</mark>
-                                        </i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-    </section><!-- /Visi & Misi Section -->
-
+      <section class="vision-mission">
+        <div class="content-container">
+          <div class="vision">
+            <div class="title-decorator"></div>
+            <h3>Visi</h3>
+            <p>Menjadikan Lembaga Audit Mutu JGU sebagai pelopor dalam menerapkan sistem dan budaya mutu tridharma perguruan tinggi yang dapat mengantarkan JGU menjadi institusi unggul dalam bidang teknologi dan Kesehatan.</p>
+          </div>
+          <div class="mission">
+            <div class="title-decorator"></div>
+            <h3>Misi</h3>
+            <ul>
+              <li>Menyusun, menerapkan, dan melakukan perbaikan secara berkelanjutan terhadap Sistem Audit Mutu Internal (SAMI).</li>
+              <li>Membangun dan mengembangkan pelayanan dan pelatihan sistem audit mutu internal dan eksternal pada semua unit di lingkungan JGU.</li>
+              <li>Mendorong terbentuknya budaya mutu tridharma perguruan tinggi bagi civitas akademika dan tenaga kependidikan di lingkungan JGU.</li>
+              <li>Membangun pangkalan data perguruan tinggi JGU yang terintegrasi untuk semua unit di lingkungan JGU.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    <!-- /Visi & Misi Section -->
+<br>
+<br>
+<br>
     <!-- Call To Action Section -->
     <section id="call-to-action" class="call-to-action section">
 
       <img src="assets-landing/img/logo-white.png" alt="JGU">
 
     </section>
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
+    <br>
+    <br>
+    <br>
 
-      <!-- Section Title -->
-
+     <!-- Contact Section -->
+     <section id="contact" class="contact section">
             <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <span>CONTACT</span>
         <h2><u>CONTACT</u></h2>
-      </div><!-- End Section Title -->
-      <div class="text-center"><a class="social-media-item socail_media_facebook mx-3" target="_blank"
-                                    href="https://www.facebook.com/jakartaglobaluniversity" title="Facebook"
-                                    rel="noopener"><span class="socail-media-itemcontent"></span><button type="button" class="btn btn-outline-primary">Facebook</button>
-
-                                <a class="social-media-item socail_mediainstagram mx-3" target="_blank"
-                                    href="https://www.instagram.com/jg_university/" title="Instagram"
-                                    rel="noopener"><span class="socail-media-itemcontent"></span><button type="button" class="btn btn-outline-danger">Instagram</button>
-                                </a>
-                                <a class="social-media-item socail_mediayoutube mx-3" target="_blank"
-                                    href="https://www.youtube.com/channel/UCoU56BRZyVCaDJiSI2TpR0g" title="Youtube"
-                                    rel="noopener"><span class="socail-media-itemcontent"></span><button type="button" class="btn btn-outline-danger">Youtube</button>
-                                </a>
-                                <a class="social-media-item socail_mediatwitter mx-3" target="_blank"
-                                    href="https://twitter.com/jg_university" title="Twitter"
-                                    rel="noopener"><span class="socail-media-itemcontent"></span><button type="button" class="btn btn-outline-info">Twitter</button>
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="row">
-                     <div class="container section-title" data-aos="fade-up" data-aos-delay="200">
-                        <div class="card-body new-update pt-0">
-                            <div class="activity-timeline">
-                        <i><b><mark>MENGUBAH HIDUP</mark></b><br>
-                            <b><mark>MEMPERKAYA MASA DEPAN!</mark></b><br><br></i>
-                        <b>Kampus Utama</b>
-                        <br>
-                        Grand Depok City, Jl. Boulevard Raya No.2 Kota Depok<br>
-                        16412, Jawa Barat Indonesia
-                        <br>
-                        <br>
-                        <b>Kampus A</b>
-                        <br>
-                        Jl. Jatiwaringin Raya No. 278 Pondok Gede 17411, Jakarta
-                        <br>
-                        Telp: 021-846-1155 <br> Fax: 021-846-3692
-                        <br>
-                        <br>
-                        <b>Kampus B</b>
-                        <br>
-                        Jl. Inspeksi Kalimalang No.204-205, Cibuntu, Kec. Cibitung,
-                        Bekasi,<br>Jawa Barat 17520
-                        <br>
-                        Telp : 021-8837-5585
-                        <br>
-                        Fax : 021-8837-5587
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                    <div class="text-center">
-                        <iframe
-                            src="https://maps.google.com/maps?q=Jakarta%20Global%20University%2C%20Jalan%20Boulevard%20Grand%20Depok%20City%2C%20Tirtajaya%2C%20Depok%20City%2C%20West%20Java%2C%20Indonesia&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
-                            width="100%" height="350px" frameborder="0">
-                        </iframe>
-                    </div>
-                </div>
-            </div>
-        <hr>
-        </footer>
-        </div>
-            Copyright © {{ (date('Y')=="2022"?date('Y'):"2022-".date('Y')) }} made with ❤️ by <a href="https://itic.jgu.ac.id">ITIC JGU</a>.<br><small class="ml-4 text-center text-sm text-light sm:text-right sm:ml-0">
+                <section class="contact">
+                  <div class="social-media">
+                    <a href="https://www.facebook.com/jakartaglobaluniversity" target="_blank" class="social-link facebook">
+                      <img src="../assets-landing/img/icon/fb.png" alt="Facebook">
+                    </a>
+                    <a href="https://www.instagram.com/jg_university/" target="_blank" class="social-link instagram">
+                      <img src="../assets-landing/img/icon/ig.png" alt="Instagram">
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCoU56BRZyVCaDJiSI2TpR0g" target="_blank" class="social-link youtube">
+                      <img src="../assets-landing/img/icon/yt.png" alt="YouTube">
+                    </a>
+                    <a href="https://twitter.com/jg_university" target="_blank" class="social-link twitter">
+                      <img src="../assets-landing/img/icon/twt.png" alt="Twitter">
+                    </a>
+                  <h2></h2>
+                  <p>Untuk informasi lebih lanjut, jangan ragu untuk menghubungi kami melalui media sosial atau kunjungi lokasi kami.</p>
+                 
+                  </div>
+                  <div class="map">
+                    <iframe src="https://maps.google.com/maps?q=Jakarta%20Global%20University%2C%20Jalan%20Boulevard%20Grand%20Depok%20City%2C%20Tirtajaya%2C%20Depok%20City%2C%20West%20Java%2C%20Indonesia&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                  </div>
+                
+              
+                <footer>
+                  <p> Copyright © {{ (date('Y')=="2022"?date('Y'):"2022-".date('Y')) }} made with ❤️ by <a href="https://itic.jgu.ac.id">ITIC JGU</a>.<br><small class="ml-4 text-center text-sm text-light sm:text-right sm:ml-0">
                     v{{ Illuminate\Foundation\Application::VERSION }}p{{ PHP_VERSION }} - All rights reserved.</small>
-
+</p>
+</footer>
+</section>
 
 
   <!-- Scroll Top -->

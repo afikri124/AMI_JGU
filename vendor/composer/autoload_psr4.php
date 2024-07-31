@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'voku\\' => array($vendorDir . '/voku/portable-ascii/src/voku'),
+    'phpseclib3\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
     'Yajra\\DataTables\\' => array($vendorDir . '/yajra/laravel-datatables-oracle/src'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
@@ -66,13 +67,18 @@ return array(
     'Pest\\Laravel\\' => array($vendorDir . '/pestphp/pest-plugin-laravel/src'),
     'Pest\\Arch\\' => array($vendorDir . '/pestphp/pest-plugin-arch/src'),
     'Pest\\' => array($vendorDir . '/pestphp/pest/src'),
+    'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'ParaTest\\' => array($vendorDir . '/brianium/paratest/src'),
     'PHPUnit\\Architecture\\' => array($vendorDir . '/ta-tikoma/phpunit-architecture-test/src'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),
     'NunoMaduro\\Collision\\' => array($vendorDir . '/nunomaduro/collision/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Mockery\\' => array($vendorDir . '/mockery/mockery/library/Mockery'),
+<<<<<<< HEAD
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
+=======
+    'League\\OAuth1\\Client\\' => array($vendorDir . '/league/oauth1-client/src'),
+>>>>>>> b516e20244afdf491467e8f0520000973c37586d
     'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\Local\\' => array($vendorDir . '/league/flysystem-local'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
@@ -80,6 +86,7 @@ return array(
     'League\\CommonMark\\' => array($vendorDir . '/league/commonmark/src'),
     'Laravel\\Ui\\' => array($vendorDir . '/laravel/ui/src'),
     'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),
+    'Laravel\\Socialite\\' => array($vendorDir . '/laravel/socialite/src'),
     'Laravel\\SerializableClosure\\' => array($vendorDir . '/laravel/serializable-closure/src'),
     'Laravel\\Sanctum\\' => array($vendorDir . '/laravel/sanctum/src'),
     'Laravel\\Sail\\' => array($vendorDir . '/laravel/sail/src'),
@@ -95,7 +102,11 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Fruitcake\\Cors\\' => array($vendorDir . '/fruitcake/php-cors/src'),
+<<<<<<< HEAD
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
+=======
+    'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+>>>>>>> b516e20244afdf491467e8f0520000973c37586d
     'Fidry\\CpuCoreCounter\\' => array($vendorDir . '/fidry/cpu-core-counter/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
     'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/src'),

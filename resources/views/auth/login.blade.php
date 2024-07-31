@@ -262,11 +262,11 @@ form {
 
         <button type="submit" class="btn">Login</button>
             <div class="links">
-                 @if (Route::has('password.request'))
-                                <a class="link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Password?') }}
-                                </a>
-                                @endif
+                @if (Route::has('password.request'))
+                <a class="link" href="{{ route('password.request') }}">
+                    {{ __('Forgot Password?') }}
+                </a>
+                @endif
                 </div>
             </form>
             <h6 class="text-muted or">Or sign in with</h6>
@@ -278,7 +278,7 @@ form {
                 </button>
             </div>
             <div class="btn-showcase ms-2">
-                <a class="btn btn-light btn-block" href="login/google">
+                <a class="btn btn-light btn-block" href="{{ url('login/google') }}">
                     <img style="max-height: 20px;" src="https://avatars.githubusercontent.com/u/19180220?s=200&v=4" alt="Google">
                     <span>Google</span>
                 </a>

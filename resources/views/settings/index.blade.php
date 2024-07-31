@@ -17,11 +17,11 @@
 
         .form-container {
             width: 100%;
-            max-width: 515px;
+            max-width: 610px;
             padding: 33px;
-            border: 3px solid #ccc;
+            border: 1px solid #ccc;
             border-radius: 15px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
         }
         .text-right {
             text-align: right;
@@ -75,7 +75,7 @@
                 </div>
 <br>
                 <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary">Change</button>
+                <button type="submit" class="btn btn-success">Change</button>
             </form>
         </div>
     </div>
