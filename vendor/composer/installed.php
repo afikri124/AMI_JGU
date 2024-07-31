@@ -3,11 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< HEAD
-        'reference' => 'c1ffb1ddf3ba272a6b0afba77ce4c5e4100678d1',
-=======
-        'reference' => '59b4d56c04eb2c56369c7bdfb8d1fe9023a6465d',
->>>>>>> b516e20244afdf491467e8f0520000973c37586d
+        'reference' => 'a328179936e1d19db440e2864d734c241cc6e7a8',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -458,11 +454,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< HEAD
-            'reference' => 'c1ffb1ddf3ba272a6b0afba77ce4c5e4100678d1',
-=======
-            'reference' => '59b4d56c04eb2c56369c7bdfb8d1fe9023a6465d',
->>>>>>> b516e20244afdf491467e8f0520000973c37586d
+            'reference' => 'a328179936e1d19db440e2864d734c241cc6e7a8',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -585,21 +577,21 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
-        'masterminds/html5' => array(
-            'pretty_version' => '2.9.0',
-            'version' => '2.9.0.0',
-            'reference' => 'f5ac2c0b0a2eefca70b2ce32a5809992227e75a6',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../masterminds/html5',
-=======
         'league/oauth1-client' => array(
             'pretty_version' => 'v1.10.1',
             'version' => '1.10.1.0',
             'reference' => 'd6365b901b5c287dd41f143033315e2f777e1167',
             'type' => 'library',
             'install_path' => __DIR__ . '/../league/oauth1-client',
->>>>>>> b516e20244afdf491467e8f0520000973c37586d
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'masterminds/html5' => array(
+            'pretty_version' => '2.9.0',
+            'version' => '2.9.0.0',
+            'reference' => 'f5ac2c0b0a2eefca70b2ce32a5809992227e75a6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../masterminds/html5',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

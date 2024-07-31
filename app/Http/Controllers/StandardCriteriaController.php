@@ -236,10 +236,6 @@ class StandardCriteriaController extends Controller
     //         return view('standard_statements.index', compact('statement')); // Mengirim data ke view 'standard_statements.index'
     //     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b516e20244afdf491467e8f0520000973c37586d
     // perubahan logic add indicator
     public function create_indicator(Request $request){
     if ($request->isMethod('POST')) {

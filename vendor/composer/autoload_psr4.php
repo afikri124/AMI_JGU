@@ -74,11 +74,8 @@ return array(
     'NunoMaduro\\Collision\\' => array($vendorDir . '/nunomaduro/collision/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Mockery\\' => array($vendorDir . '/mockery/mockery/library/Mockery'),
-<<<<<<< HEAD
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
-=======
     'League\\OAuth1\\Client\\' => array($vendorDir . '/league/oauth1-client/src'),
->>>>>>> b516e20244afdf491467e8f0520000973c37586d
     'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\Local\\' => array($vendorDir . '/league/flysystem-local'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
@@ -102,11 +99,8 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Fruitcake\\Cors\\' => array($vendorDir . '/fruitcake/php-cors/src'),
-<<<<<<< HEAD
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
-=======
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
->>>>>>> b516e20244afdf491467e8f0520000973c37586d
     'Fidry\\CpuCoreCounter\\' => array($vendorDir . '/fidry/cpu-core-counter/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
     'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/src'),
