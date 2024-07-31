@@ -18,6 +18,7 @@ use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\CommentDocs;
 
 class AuditPlanController extends Controller
 {
@@ -35,18 +36,18 @@ class AuditPlanController extends Controller
     }
 
     public function add(Request $request)
-    {
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'auditee_id'      => ['required'],
-                'date_start'      => ['required'],
-                'date_end'        => ['required'],
-                'location_id'     => ['required'],
-                'link'            => ['string'],
-                'department_id'   => ['required'],
-                'type_audit'   => ['required'],
-                'periode'   => ['required'],
-            ]);
+{
+    if ($request->isMethod('POST')) {
+        $this->validate($request, [
+            'auditee_id'      => ['required'],
+            'date_start'      => ['required'],
+            'date_end'        => ['required'],
+            'location_id'     => ['required'],
+            'link'            => ['string'],
+            'department_id'   => ['required'],
+            'type_audit'      => ['required'],
+            'periode'         => ['required'],
+        ]);
 
         $auditee = User::find($request->auditee_id);
 
@@ -72,11 +73,38 @@ class AuditPlanController extends Controller
         }
 
         if ($data) {
-            return redirect()->route('audit_plan.standard', ['id' => $data->id])
-            ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added!!');
+            // Tambahkan email notification
+            $department = Department::find($request->department_id);
+
+            if ($auditee) {
+                // Data untuk email
+                $emailData = [
+                    'lecture_id'    => $auditee->name,
+                    'remark_docs'   => $request->remark_docs ?? 'N/A', // Pastikan remark_docs ada atau berikan nilai default
+                    'date_start'    => $request->date_start,
+                    'date_end'      => $request->date_end,
+                    'department_id' => $department ? $department->name : null,
+                ];
+
+                // Kirim email ke pengguna yang ditemukan
+                Mail::to($auditee->email)->send(new CommentDocs($emailData));
+
+                // Redirect dengan pesan sukses
+                return redirect()->route('audit_plan.standard', ['id' => $data->id])
+                    ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
+            } else {
+                // Redirect dengan pesan error jika pengguna tidak ditemukan
+                return redirect()->route('audit_plan.standard', ['id' => $data->id])
+                    ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added, but email not sent - user not found.');
             }
+        }
+
         return redirect()->back()->with('msg', 'Failed to add data.');
     }
+
+
+
+
 
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
