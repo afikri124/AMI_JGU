@@ -216,9 +216,17 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 4 ) {
-                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('lpm/lpm_edit/${row.id}') }}">
-                                <i class="bx bx-printer"></i></a>`;
+                        if (row.auditstatus.id === 6 ) {
+                            x = `<a class="badge bg-dark" title="Print Make Report By LPM" href="{{ url('approver/approver_edit/${row.id}') }}">
+                                    <i class="bx bx-printer"></i></a>
+                                <a class="badge bg-warning badge-icon" title="Approve Make Report By LPM" style="cursor:pointer" onclick="approveId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
+                                    <i class="bx bx-check icon-white"></i></a>
+                                <a class="badge bg-danger badge-icon" title="Revised Make Report By LPM" style="cursor:pointer" onclick="revisedId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
+                                    <i class="bx bx-x icon-white"></i></a>`;
+                        }
+                        else if(row.auditstatus.id === 8){
+                                x = `<a class="badge bg-danger" title="Print Make Report By LPM" href="{{ url('approver/approver_edit/${row.id}') }}">
+                                    <i class="bx bx-printer"></i></a>`
                         }
                         return x;
                     },
@@ -228,5 +236,83 @@
             ]
         });
     });
+
+    function approveId(id, data) {
+        swal({
+                title: "Cek kembali document!",
+                text: "Apakah Make Report ("+data+") sudah sesuai?!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willApprove) => {
+                if (willApprove) {
+                    $.ajax({
+                        url: "{{route('approve_by_approver')}}",
+                        type: "POST",
+                        data: {
+                            "id": id,
+                            "_token": $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                swal({
+                                    icon: 'success',
+                                    title: 'Acc!',
+                                    text: 'Document ('+data+') berhasil di Acc',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                });
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                swal({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: data.error,
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    }
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+    }
+
+    function revisedId(id, data) {
+        swal({
+                title: "Apa kamu yakin?",
+                text: "Periksa kembali, apakah Make Report ("+data+") kurang sesuai?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willRevised) => {
+                if (willRevised) {
+                    $.ajax({
+                        url: "{{route('revised_by_approver')}}",
+                        type: "POST",
+                        data: {
+                            "id": id,
+                            "_token": $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function (data) {
+                            if (data['success']) {
+                                swal(data['message'], {
+                                    icon: "success",
+                                });
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                swal(data['message'], {
+                                    icon: "error",
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+    }
 </script>
 @endsection

@@ -37,6 +37,23 @@ class ObservationController extends Controller
         return view('observations.index', compact('data', 'auditee'));
     }
 
+    public function update(Request $request, $id)
+    {
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'remark_docs' => '',
+            ]);
+
+            $data = AuditPlan::findOrFail($id);
+            $data->update([
+                'remark_docs' => $request->remark_docs,
+                'audit_status_id' => '3',
+            ]);
+
+        return redirect()->route('observations.index')->with('msg', 'Document reviewed, you are ready for Observation');
+    }
+}
+
     public function create(Request $request, $id)
     {
         $locations = Location::orderBy('title')->get();
@@ -117,8 +134,8 @@ class ObservationController extends Controller
             // Create Observation Checklists
             foreach ($request->obs_checklist_option as $key => $obs_c) {
                 ObservationChecklist::create([
-                    'indicator_id' => $key,
                     'observation_id' => $obs->id,
+                    'indicator_id' => $key,
                     'remark_description' => $request->remark_description[$key] ?? '',
                     'obs_checklist_option' => $obs_c ?? '',
                     'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
@@ -179,6 +196,13 @@ class ObservationController extends Controller
         'auditorData', 'auditor', 'data', 'category', 'criteria',
         'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
+    // $pdf = PDF::loadView('observations.print', compact(
+    //     'standardCriterias','auditor', 'data',
+    //      'obs_c', 'hodLPM', 'hodBPMI'
+    // ));
+    // dd( $standardCriterias, $auditor, $data, $criteria, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    // return $pdf->download('observations' . $id . 'print');
 
     public function remark($id)
     {
@@ -229,23 +253,6 @@ class ObservationController extends Controller
         'auditorData', 'auditor', 'data', 'category', 'criteria',
         'observations', 'obs_c','hodLPM', 'hodBPMI'));
     }
-
-    public function update(Request $request, $id)
-    {
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'remark_docs' => '',
-            ]);
-
-            $data = AuditPlan::findOrFail($id);
-            $data->update([
-                'remark_docs' => $request->remark_docs,
-                'audit_status_id' => '3',
-            ]);
-
-        return redirect()->route('observations.index')->with('msg', 'Document reviewed, you are ready for Observation');
-    }
-}
 
     public function update_remark(Request $request, $id)
     {

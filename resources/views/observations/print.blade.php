@@ -272,13 +272,13 @@
             <p>Auditor</p>
             <br>
             <p>{{ $auditor->auditor->name }}
-            <br>NIK. {{ $data->nidn }}
+            <br>NIK.
         </div>
         <div class="signature">
             <p>Auditee</p>
             <br>
             <p>{{ $data->auditee->name }}
-            <br>NIK. {{ $data->nidn }}
+            <br>NIK.
         </div>
     </div>
 

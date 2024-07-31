@@ -98,8 +98,7 @@
 @endif
 <div class="card mb-5">
     <div class="card-body">
-    <form method="POST" action="{{ route('show', $data->id) }}"
-    enctype="multipart/form-data">
+    <form action="{{ route('show', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->
       <strong class="text-primary">Category Standard</strong>
@@ -148,20 +147,20 @@
                     <div id="data-sets">
                         <div id="data-set">
                         <div class="checkbox-group">
-                            <input type="radio" id="ks_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KS" required />
-                            <label for="ks_{{ $statement->id }}">KS</label>
+                            <input type="radio" id="ks_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" required />
+                            <label for="ks_{{ $indicator->id }}">KS</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" id="obs_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="OBS" required />
-                            <label for="obs_{{ $statement->id }}">OBS</label>
+                            <input type="radio" id="obs_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" required />
+                            <label for="obs_{{ $indicator->id }}">OBS</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" id="kts_minor_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KTS MINOR" required />
-                            <label for="kts_minor_{{ $statement->id }}">KTS MINOR</label>
+                            <input type="radio" id="kts_minor_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" required />
+                            <label for="kts_minor_{{ $indicator->id }}">KTS MINOR</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="radio" id="kts_mayor_{{ $statement->id }}" name="obs_checklist_option[{{ $statement->id }}]" value="KTS MAYOR" required />
-                            <label for="kts_mayor_{{ $statement->id }}">KTS MAYOR</label>
+                            <input type="radio" id="kts_mayor_{{ $indicator->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" required />
+                            <label for="kts_mayor_{{ $indicator->id }}">KTS MAYOR</label>
                         </div>
                         </div>
                     </div>
@@ -178,7 +177,7 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_description" name="remark_description[{{ $statement->id }}]" class="form-control bg-user" maxlength="250"
+                    <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]" class="form-control bg-user" maxlength="250"
                         placeholder="MAX 250 characters..."
                         readonly></textarea>
                     @error('remark_description')
@@ -191,7 +190,7 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $statement->id }}]"
+                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
                         class="form-control bg-user" maxlength="250"
                         placeholder="MAX 250 characters..."
                         readonly></textarea>
@@ -205,7 +204,7 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea name="remark_recommend[{{ $statement->id }}]" class="form-control bg-user" maxlength="250"
+                    <textarea name="remark_recommend[{{ $indicator->id }}]" class="form-control bg-user" maxlength="250"
                         placeholder="MAX 250 characters..."
                         readonly></textarea>
                         @error('remark_recommend')
@@ -219,7 +218,7 @@
                 <td colspan="3">
                     <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
                     <textarea type="text" id="remark_upgrade_repair" class="form-control"
-                        name="remark_upgrade_repair[{{ $statement->id }}]" maxlength="250"
+                        name="remark_upgrade_repair[{{ $indicator->id }}]" maxlength="250"
                         placeholder="MAX 250 characters..." ></textarea>
                         @error('remark_upgrade_repair')
                         <span class="invalid-feedback" role="alert">

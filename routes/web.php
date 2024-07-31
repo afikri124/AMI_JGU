@@ -55,8 +55,6 @@ Route::group(['prefix' => 'audit_plan'], function () {
     Route::get('/data', [AuditPlanController::class, 'data'])->name('audit_plan.data');
     Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
     Route::any('/add', [AuditPlanController::class, 'add'])->name('audit_plan.add');
-    // Route::post('/approve', [AuditPlanController::class, 'approve'])->name('audit_plan.approve');
-    // Route::post('/revised', [AuditPlanController::class, 'revised'])->name('audit_plan.revised');
 
     //Add Audit Plan Auditor Standard
     Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
@@ -92,16 +90,20 @@ Route::group(['prefix' => 'my_audit'], function () {
 
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
-    Route::get('/data', [ApproveController::class, 'data'])->name('lpm.data');
-    Route::put('/update/{id}', [ApproveController::class, 'update'])->name('my_audit.update');
+    Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
+    Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+    Route::any('/approve', [ApproveController::class, 'approve'])->name('approve');
+    // Route::any('/revised', [ApproveController::class, 'revised'])->name('revised');
 });
 
 Route::group(['prefix' => 'approver'], function () {
     Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
-    Route::get('/data', [ApproveController::class, 'data'])->name('approver.data');
-    Route::put('/update/{id}', [ApproveController::class, 'update'])->name('my_audit.update');
-    Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+    Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');
+    Route::any('/approve_update/{id}', [ApproveController::class, 'approve_update'])->name('approve_update');
+    Route::get('/approver_edit/{id}', [ApproveController::class, 'approver_edit'])->name('approver.approver_edit');
+    Route::any('/approve_by_approver', [ApproveController::class, 'approve_by_approver'])->name('approve_by_approver');
+    Route::any('/revised_by_approver', [ApproveController::class, 'revised_by_approver'])->name('revised_by_approver');
 });
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);

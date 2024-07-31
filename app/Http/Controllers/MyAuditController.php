@@ -174,7 +174,7 @@ class MyAuditController extends Controller{
                 ]);
             }
         }
-
+// dd($request);
         return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
     }
 

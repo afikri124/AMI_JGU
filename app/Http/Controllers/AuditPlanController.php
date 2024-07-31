@@ -368,38 +368,3 @@ class AuditPlanController extends Controller
         return DataTables::of($data)->make(true);
     }
 }
-
- // public function approve(Request $request)
-    // {
-    //     $data = AuditPlan::find($request->id);
-    //     if ($data) {
-    //         $data->audit_status_id = "4";
-    //         $data->save();
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Status berhasil diubah!'
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Gagal mengubah status!'
-    //         ]);
-    //     }
-    // }
-
-    // public function revised(Request $request){
-    //     $data = AuditPlan::find($request->id);
-    //     if($data){
-    //         $data->audit_status_id ="5";
-    //         $data->save();
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => ' Status berhasil diubah!'
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Gagal mengubah status!'
-    //         ]);
-    //     }
-    // }
