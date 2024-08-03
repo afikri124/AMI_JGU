@@ -21,11 +21,11 @@ class AuditPlan extends Model
         'location_id',
         'department_id',
         'auditor_id',
-        'doc_path',
         'link',
         'remark_docs',
         'periode',
-        'type_audit'
+        'type_audit',
+        'remark_standard_lpm'
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)

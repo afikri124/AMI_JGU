@@ -104,10 +104,6 @@ class AuditPlanController extends Controller
         return redirect()->back()->with('msg', 'Failed to add data.');
     }
 
-
-
-
-
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
         $departments = Department::orderBy('name')->get();
@@ -343,6 +339,11 @@ class AuditPlanController extends Controller
             'standard_criteria_id' => $criteriaId,
         ]);
     }
+
+    // $data = AuditPlan::findOrFail($id);
+    //     $data->update([
+    //         'audit_status_id' => '13',
+    //     ]);
     // Redirect with a success message
     return redirect()->route('audit_plan.standard', ['id' => $id])
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');

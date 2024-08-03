@@ -19,6 +19,7 @@ class ObservationChecklist extends Model
         'remark_success_failed',
         'remark_recommend',
         'remark_upgrade_repair',
+        'doc_path',
     ];
 
     public function obs_c()

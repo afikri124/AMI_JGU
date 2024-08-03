@@ -70,6 +70,17 @@ Route::group(['prefix' => 'audit_plan'], function () {
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::any('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
+//MY Audit
+Route::group(['prefix' => 'my_audit'], function () {
+    Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
+    Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
+    Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
+    Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
+    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
+    Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
+    // Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
+});
+
 //Observations
 Route::group(['prefix' => 'observations'], function () {
     Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
@@ -80,27 +91,27 @@ Route::group(['prefix' => 'observations'], function () {
     Route::any('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
     Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
     Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
+
+    //Print PDF
+    Route::get('/make_report/{id}', [ObservationController::class, 'make_report'])->name('observations.make_report');
+    Route::get('/observations/make_report/{id}/{type}', [ObservationController::class, 'att'])->name('observations.make_report.att');
 });
 
-//MY Audit
-Route::group(['prefix' => 'my_audit'], function () {
-    Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
-    Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
-    Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
-    Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
-    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
-    Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
-});
 
+//LPM
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
     Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+    Route::any('/lpm_as/{id}', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
+    Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
     Route::any('/approve', [ApproveController::class, 'approve'])->name('approve');
     // Route::any('/revised', [ApproveController::class, 'revised'])->name('revised');
+    // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
 });
 
+//Warek
 Route::group(['prefix' => 'approver'], function () {
     Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');

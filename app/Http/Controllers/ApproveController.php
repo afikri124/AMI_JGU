@@ -26,6 +26,78 @@ class ApproveController extends Controller
         return view('lpm.index', compact('data'));
     }
 
+    public function lpm_as(Request $request, $id){
+        $data = AuditPlan::findOrFail($id);
+            $data->update([
+                'audit_status_id' => '4',
+            ]);
+        return redirect()->route('lpm.index')->with('msg', 'Standard Approved by LPM.');
+
+        }
+
+    // public function lpm_rs(Request $request, $id){
+    //     if ($request->isMethod('POST')) {
+    //         $this->validate($request, [
+    //             'remark_standard_lpm' => '',
+    //         ]);
+
+    //         $data = AuditPlan::findOrFail($id);
+    //         $data->update([
+    //             'remark_standard_lpm' => $request->remark_standard_lpm,
+    //             'audit_status_id' => '4',
+    //         ]);
+    //     }
+
+    //     return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
+    // }
+
+    public function lpm_standard(Request $request, $id){
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'remark_standard_lpm' => '',
+            ]);
+
+            $data = AuditPlan::findOrFail($id);
+            $data->update([
+                'remark_standard_lpm' => $request->remark_standard_lpm,
+                'audit_status_id' => '5',
+            ]);
+
+        return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
+        }
+
+        $data = AuditPlan::findOrFail($id);
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with('auditor:id,name')
+        ->firstOrFail();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+        return view('lpm.check',
+        compact('standardCategories', 'standardCriterias',
+        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
+
     public function lpm_edit(Request $request, $id){
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
