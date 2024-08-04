@@ -263,10 +263,9 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 1 || row.auditstatus.id === 2) {
-                            x = `<a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
-                            data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
-                            <i class="bx bx-pencil icon-white"></i></a>`;
+                        if (row.auditstatus.id === 4) {
+                            x = `<a class="badge bg-warning" title="Determine Standard" href="{{ url('my_audit/my_standard/${row.id}') }}">
+                            <i class="bx bx-pencil"></i></a>`;
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 || row.auditstatus.id === 10 ) {
@@ -276,7 +275,7 @@
                                     data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
                                     <i class="bx bx-pencil icon-white"></i></a`;
                         }
-                        else if (row.auditstatus.id === 4 ) {
+                        else if (row.auditstatus.id === 6 ) {
                             x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('my_audit/obs/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`;
                         }

@@ -342,6 +342,11 @@ class AuditPlanController extends Controller
             'standard_criteria_id' => $criteriaId,
         ]);
     }
+
+    // $data = AuditPlan::findOrFail($id);
+    //     $data->update([
+    //         'audit_status_id' => '13',
+    //     ]);
     // Redirect with a success message
     return redirect()->route('audit_plan.standard', ['id' => $id])
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');

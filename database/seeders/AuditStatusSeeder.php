@@ -29,39 +29,43 @@ class AuditStatusSeeder extends Seeder
             "color" => "warning"],
 
             ["id" => "4",
-            "title" => "Approved by Auditor",
+            "title" => "Approved Standard\nby LPM",
             "color" => "secondary"],
 
             ["id" => "5",
-            "title" => "Revised by Auditor",
+            "title" => "Revised Standard\nby LPM",
             "color" => "primary"],
 
             ["id" => "6",
-            "title" => "Approved by LPM",
+            "title" => "Approved\nby Auditor",
             "color" => "success"],
 
             ["id" => "7",
-            "title" => "Request note by LPM",
-            "color" => "primary"],
+            "title" => "Approved by LPM",
+            "color" => "success"],
 
             ["id" => "8",
-            "title" => "Approved by Approver",
-            "color" => "dark"],
-
-            ["id" => "9",
-            "title" => "Request note by Approver",
+            "title" => "Request Note\nby LPM",
             "color" => "primary"],
 
+            ["id" => "9",
+            "title" => "Approved\nby Approver",
+            "color" => "dark"],
+
             ["id" => "10",
+            'title' => "Request Note\nby Approver",
+            "color" => "primary"],
+
+            ["id" => "11",
             "title" => "Uploaded",
             "color" => "dark"],
 
-            ["id" => "11",
+            ["id" => "12",
             "title" => "Reuploaded",
             "color" => "secondary"],
 
-            ["id" => "12",
-            "title" => "Success",
+            ["id" => "13",
+            "title" => "Standard\nUpdated",
             "color" => "secondary"],
         ];
 

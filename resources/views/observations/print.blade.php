@@ -99,6 +99,10 @@
         background-color: black;
         display: inline-block;
       }
+      .page-break{
+        page-break-before: always;
+    }
+
     </style>
   </head>
   <body>
@@ -109,8 +113,7 @@
             use Carbon\Carbon;
             Carbon::setLocale('id');
         @endphp
-
-    <tbody>
+    <body>
       <tr style="height: 20px">
         <td class="s0" colspan="2" rowspan="6"><center><img src="/assets/img/logo/logo_small.png" alt=""></center></td>
         <td class="s0" colspan="2"><center>ABSENSI KEGIATAN</center></td>
@@ -174,7 +177,7 @@
       </tr>
       <tr style="height: 35px">
       </tr>
-      </tbody>
+      </body>
       </thead>
   </table>
 </div>
@@ -193,116 +196,116 @@
         </div>
     </div>
 
+    
+<div class="page-break">
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+    <center>
+            <h5><u>BERITA ACARA <i>AUDIT MUTU INTERNAL</i></u></h5>
+        </center>
+            <tr>
+                <td colspan="3">
+                    <br style="text-align: justify; margin-top:20px">Dalam rangka Pelaksanaan Penjaminan Mutu di lingkungan
+                        Universitas
+                        Global Jakarta, maka pada hari ini:</br>
+                </td>
+            </tr>
+            <tr>
+                <td width="30%" valign="top">Hari/Tanggal</td>
+                <td width="70%" valign="top">: {{ Carbon::parse($data->date_start)->translatedFormat('l, d F Y') }}</td>
+            </tr>
+            <br>
+            <tr>
+                <td width="30%" valign="top">Jam</td>
+                <td width="70%" valign="top">: {{ Carbon::parse($data->date_start)->format('H:i') }} WIB</td>
+            </tr>
+            <br>
+            <tr>
+                <td width="30%" valign="top">Tempat</td>
+                <td width="70%" valign="top">: {{$data->locations->title}}</td>
+            </tr>
+            <br>
+            <tr>
+                <td colspan="2">
+                    <br style="text-align: justify;padding-top:5px">Telah diselenggarakan kegiatan <i>Audit Mutu Internal</i>
+                        di lingkungan Program Studi
+                        sebagaimana
+                        tercantum dalam daftar hadir terlampir. Unsur kegiatan pada hari ini antara lain:</br>
+                <td width="30%" valign="top">Ketua Audit</td>
+                <td width="70%" valign="top">: {{ $auditor->auditor->name }}</td>
+            </tr>
+            <br>
+            <tr>
+                <td width="30%" valign="top">Anggota Audit</td>
+                <td width="70%" valign="top">: Auditor 2</td>
+            </tr>
+            <br>
+            <tr>
+                <td width="30%" valign="top">Auditee</td>
+                <td width="70%" valign="top">: {{$data->auditee->name}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p style="text-align: justify;padding-top:15px">Setelah dilakukan Audit Dokumen dan Audit Lapangan, selanjutnya
+                        semua unsur terlibat dalam kegiatan tersebut menyimpulkan beberapa hal antara lain:
+                    </p>
+                </td>
+                @foreach($obs_c as $c)
+                    @if(in_array($c->obs_checklist_option, ['OBS', 'KTS MINOR', 'KTS MAYOR']))
+                        <ul>{{ $loop->iteration }}. {{ $c->remark_description }}</ul>
+                    @endif
+                @endforeach
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p style="text-align: justify;padding-top:15px">Demikian berita acara ini dibuat dan disahkan dengan
+                        sebenar-benarnya dan tanggung jawab agar dapat dipergunakan sebagaimana mestinya.</p>
+                </td>
+            </tr>
+        </table>
+            <tr>
+                <td width="50%"></td>
+                <td width="50%" style="text-align: center;">Depok, {{ Carbon::parse($data->date_start)->translatedFormat('l, d F Y') }}</td>
+            </tr>
+            <br>
+        <div class="signature-container">
+            <div class="signature">
+                <p>Auditor</p>
+                <br>
+                <p>{{ $auditor->auditor->name }}
+                <br>NIK.
+            </div>
+            <div class="signature">
+                <p>Auditee</p>
+                <br>
+                <p>{{ $data->auditee->name }}
+                <br>NIK.
+            </div>
+        </div>
+
+        <div class="signature-container">
+            <div class="signature-1">
+                <p>Mengetahui,</p>
+                <p>Kepala LPM</p>
+                <br>
+                <p>{{ $hodLPM->title }}
+                <br>NIK. {{ $hodLPM->content }}
+            </div>
+            <div class="signature-1">
+                <p>Ketua BPMI</p>
+                <br>
+                <p>{{ $hodBPMI->title }}
+                <br>NIK. {{ $hodBPMI->content }}
+            </div>
+        </div>
+    </body>
+    </html>
+</div>
+
 <p></p>
 <br>
-<div class="colored-border" style="border-top: 5px solid red ; margin: 20px 0;"></div>
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<center>
-        <h5><u>BERITA ACARA <i>AUDIT MUTU INTERNAL</i></u></h5>
-    </center>
-        <tr>
-            <td colspan="3">
-                <br style="text-align: justify; margin-top:20px">Dalam rangka Pelaksanaan Penjaminan Mutu di lingkungan
-                    Universitas
-                    Global Jakarta, maka pada hari ini:</br>
-            </td>
-        </tr>
-        <tr>
-            <td width="30%" valign="top">Hari/Tanggal</td>
-            <td width="70%" valign="top">: {{ Carbon::parse($data->date_start)->translatedFormat('l, d F Y') }}</td>
-        </tr>
-        <br>
-        <tr>
-            <td width="30%" valign="top">Jam</td>
-            <td width="70%" valign="top">: {{ Carbon::parse($data->date_start)->format('H:i') }} WIB</td>
-        </tr>
-        <br>
-        <tr>
-            <td width="30%" valign="top">Tempat</td>
-            <td width="70%" valign="top">: {{$data->locations->title}}</td>
-        </tr>
-        <br>
-        <tr>
-            <td colspan="2">
-                <br style="text-align: justify;padding-top:5px">Telah diselenggarakan kegiatan <i>Audit Mutu Internal</i>
-                    di lingkungan Program Studi
-                    sebagaimana
-                    tercantum dalam daftar hadir terlampir. Unsur kegiatan pada hari ini antara lain:</br>
-            <td width="30%" valign="top">Ketua Audit</td>
-            <td width="70%" valign="top">: {{ $auditor->auditor->name }}</td>
-        </tr>
-        <br>
-        <tr>
-            <td width="30%" valign="top">Anggota Audit</td>
-            <td width="70%" valign="top">: Auditor 2</td>
-        </tr>
-        <br>
-        <tr>
-            <td width="30%" valign="top">Auditee</td>
-            <td width="70%" valign="top">: {{$data->auditee->name}}</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <p style="text-align: justify;padding-top:15px">Setelah dilakukan Audit Dokumen dan Audit Lapangan, selanjutnya
-                    semua unsur terlibat dalam kegiatan tersebut menyimpulkan beberapa hal antara lain:
-                </p>
-            </td>
-            @foreach($obs_c as $c)
-                @if(in_array($c->obs_checklist_option, ['OBS', 'KTS MINOR', 'KTS MAYOR']))
-                    <ul>{{ $loop->iteration }}. {{ $c->remark_description }}</ul>
-                @endif
-            @endforeach
-        </tr>
-        <tr>
-            <td colspan="2">
-                <p style="text-align: justify;padding-top:15px">Demikian berita acara ini dibuat dan disahkan dengan
-                    sebenar-benarnya dan tanggung jawab agar dapat dipergunakan sebagaimana mestinya.</p>
-            </td>
-        </tr>
-    </table>
-        <tr>
-            <td width="50%"></td>
-            <td width="50%" style="text-align: center;">Depok, {{ Carbon::parse($data->date_start)->translatedFormat('l, d F Y') }}</td>
-        </tr>
-        <br>
-    <div class="signature-container">
-        <div class="signature">
-            <p>Auditor</p>
-            <br>
-            <p>{{ $auditor->auditor->name }}
-            <br>NIK.
-        </div>
-        <div class="signature">
-            <p>Auditee</p>
-            <br>
-            <p>{{ $data->auditee->name }}
-            <br>NIK.
-        </div>
-    </div>
-
-    <div class="signature-container">
-        <div class="signature-1">
-            <p>Mengetahui,</p>
-            <p>Kepala LPM</p>
-            <br>
-            <p>{{ $hodLPM->title }}
-            <br>NIK. {{ $hodLPM->content }}
-        </div>
-        <div class="signature-1">
-            <p>Ketua BPMI</p>
-            <br>
-            <p>{{ $hodBPMI->title }}
-            <br>NIK. {{ $hodBPMI->content }}
-        </div>
-    </div>
-</body>
-</html>
-
-<p></p>
-<br>
-<div class="colored-border" style="border-top: 5px solid red ; margin: 20px 0;"></div>
+<div class="page-break">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -500,7 +503,6 @@
 
 <p></p>
 <br>
-<div class="colored-border" style="border-top: 5px solid red ; margin: 20px 0;"></div>
 <table class="audit-report">
     <tr>
         <td colspan="" rowspan="2" class="center">
@@ -625,10 +627,11 @@
 </table>
 </body>
 </html>
+</div>
 
 <p></p>
 <br>
-<div class="colored-border" style="border-top: 5px solid red ; margin: 20px 0;"></div>
+<div class="page-break">
 <table class="audit-report">
     <tr>
         <td colspan="" rowspan="2" class="center">
@@ -754,10 +757,11 @@
 </table>
 </body>
 </html>
+</div>
 
 <p></p>
 <br>
-<div class="colored-border" style="border-top: 5px solid red ; margin: 20px 0;"></div>
+<div class="page-break">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -905,7 +909,7 @@
     @endforeach
     <tr style="height: 20px">
     </tr>
-      </tbody>
+      </body>
       </thead>
   </table>
   <table class="audit-report">
@@ -972,11 +976,11 @@
 </table>
 </body>
 </html>
-
+</div>
 
 <p></p>
 <br>
-<div class="colored-border" style="border-top: 5px solid red ; margin: 20px 0;"></div>
+<div class="page-break">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1100,7 +1104,7 @@
     @endforeach
     <tr style="height: 20px">
     </tr>
-      </tbody>
+      </body>
       </thead>
   </table>
   <table class="audit-report">
@@ -1167,3 +1171,4 @@
 </table>
 </body>
 </html>
+</div>

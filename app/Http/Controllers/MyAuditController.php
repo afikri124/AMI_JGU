@@ -28,6 +28,96 @@ class MyAuditController extends Controller{
         return view('my_audit.index', compact('data'));
     }
 
+    public function my_standard(Request $request, $id)
+{
+    $data = AuditPlan::findOrFail($id);
+    $auditorId = Auth::user()->id;
+
+    if ($request->isMethod('POST')) {
+        $this->validate($request, [
+            'doc_path.*' => 'mimes:pdf|max:10000', // Validate each file
+        ]);
+
+        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+
+        // Create Observation
+        $obs = Observation::create([
+            'audit_plan_id' => $id,
+            'audit_plan_auditor_id' => $auditPlanAuditorId,
+        ]);
+
+        $files = $request->file('doc_path');
+        $filePaths = [];
+
+        if ($files) {
+            foreach ($files as $index => $file) {
+                $ext = $file->extension();
+                $name = str_replace(' ', '_', $file->getClientOriginalName());
+                $fileName = Auth::user()->id . '_' . $name;
+                $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
+                $path = public_path($folderName);
+
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0755, true); // Create folder if not exists
+                }
+
+                $upload = $file->move($path, $fileName);
+                if ($upload) {
+                    $filePaths[$index] = $folderName . "/" . $fileName;
+                } else {
+                    $filePaths[$index] = null;
+                }
+            }
+        }
+
+        // Create Observation Checklists
+        foreach ($request->indicator_ids as $index => $indicatorId) {
+            ObservationChecklist::create([
+                'observation_id' => $obs->id,
+                'indicator_id' => $indicatorId,
+                'doc_path' => $filePaths[$index] ?? null,
+            ]);
+        }
+
+        $data->update([
+            'audit_status_id'   => '11',
+        ]);
+
+        return redirect()->route('my_audit.index')->with('msg', 'Document Success Uploaded');
+    }
+
+        $data = AuditPlan::findOrFail($id);
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with('auditor:id,name')
+        ->firstOrFail();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+        return view('my_audit.view',
+        compact('standardCategories', 'standardCriterias',
+        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
+
     //Upload Document Audit
     public function update(Request $request, $id){
         $request->validate([
@@ -60,7 +150,7 @@ class MyAuditController extends Controller{
     }
 
     //Narik data untuk Observations
-    public function obs(Request $request, $id)
+    public function obs( $id)
     {
         $locations = Location::orderBy('title')->get();
         $category = StandardCategory::orderBy('description')->get();
@@ -91,17 +181,9 @@ class MyAuditController extends Controller{
 
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();
 
-        $observations = Observation::with([
-            'observations' => function ($query) use ($id) {
-                $query->select('*')->where('id', $id);
-            },
-        ])->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
-        $obs_c = ObservationChecklist::with([
-            'obs_c' => function ($query) use ($id) {
-                $query->select('*')->where('id', $id);
-            },
-        ])->get();
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
 
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
@@ -120,7 +202,7 @@ class MyAuditController extends Controller{
                 'hodLPM' => $hodLPM,
                 'hodBPMI' => $hodBPMI
             ]);
-        } elseif ($data->audit_status_id == 4) {
+        } elseif ($data->audit_status_id == 6) {
             return view('my_audit.add', [
                 'standardCategories' => $standardCategories,
                 'standardCriterias' => $standardCriterias,
@@ -145,7 +227,8 @@ class MyAuditController extends Controller{
 
     // Retrieve the observation using the ID
     $observation = Observation::where('audit_plan_id', $id)
-        ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
+        ->where('audit_plan_auditor_id', $data->auditor()
+        ->where('auditor_id', $auditorId)->first()->id)
         ->firstOrFail();
 
     if ($request->isMethod('POST')) {
@@ -153,7 +236,7 @@ class MyAuditController extends Controller{
         $this->validate($request, [
             'person_in_charge' => ['required'],
             'plan_complated' => ['required'],
-            'remark_upgrade_repair' => ['required', 'array'],
+            'remark_upgrade_repair' => ['required'],
         ]);
 
         // Update the Observation

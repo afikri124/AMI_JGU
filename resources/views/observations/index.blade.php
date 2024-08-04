@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Observations')
+@section('title', 'Auditing')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -248,18 +248,21 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 10 ) {
+                        if (row.auditstatus.id === 11 ) {
                             x = `<a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
                             data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
                             <i class="bx bx-pencil icon-white"></i></a>`;
                         }
                         // Check if auditstatus is '10'
-                        else if (row.auditstatus.id === 3 || row.auditstatus.id === 4 ) {
+                        else if (row.auditstatus.id === 3 ) {
                             x = `<a class="badge bg-dark" title="Observations" href="{{ url('observations/create/${row.id}') }}">
                                         <i class="bx bx-search-alt"></i></a>
                                 <a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
-                                        <i class="bx bx-pencil"></i></a>
-                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a>`;
+                        }
+                        else if (row.auditstatus.id === 6 ) {
+                            x = `
+                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/make_report/${row.id}') }}">
                                         <i class="bx bx-printer"></i></a>`;
                         }
                         return x;
