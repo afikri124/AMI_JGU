@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApproveController;
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -90,6 +91,11 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
     Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
     Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
+});
+
+// Follow Up
+Route::group(['prefix' => 'follow_up'], function () {
+    Route::get('/', [FollowUpController::class, 'index'])->name('follow_ups.index');
 });
 
 Route::group(['prefix' => 'lpm'], function () {

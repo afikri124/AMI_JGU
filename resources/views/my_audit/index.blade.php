@@ -74,20 +74,22 @@
                     </div>
                 </div>
                     <div class="container-fluid flex-grow-1 container-p-y">
+                        <div class="">
                         <table class="table table-hover table-sm" id="datatable" width="100%">
-                        <thead>
-                            <tr>
-                                <th width="5%"><b>No</b></th>
-                                <th width="15%"><b>Auditee</b></th>
-                                <th width="25%"><b>Schedule</b></th>
-                                <th width="10%"><b>Location</b></th>
-                                <th width="5%"><b>Auditor</b></th>
-                                <th width="10%"><b>Status</b></th>
-                                <th width="5%"><b>Doc</b></th>
-                                <th width="10%"><b>Action</b></th>
-                            </tr>
-                        </thead>
-                    </table>
+                            <thead>
+                                <tr>
+                                    <th scope="col" data-priority="1" width="20px">No</th>
+                                    <th scope="col" data-priority="2">Lecturer</th>
+                                    <th scope="col">Date Start</th>
+                                    <th scope="col">Date End</th>
+                                    <th scope="col" data-priority="4">Attendance</th>
+                                    <th scope="col">Follow-Up by</th>
+                                    <th scope="col">Doc.</th>
+                                    <th scope="col" data-priority="3" width="65px">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
 
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
