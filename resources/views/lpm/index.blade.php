@@ -196,21 +196,6 @@
                     },
                 },
                 {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
-                    render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
-                        return formattedStartDate + ' - ' + formattedEndDate;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.location;
-                    },
-                },
-                {
                     render: function (data, type, row, meta) {
                         var html = '';
                         if (row.auditor) {
@@ -227,6 +212,22 @@
                             });
                         }
                         return html;
+                    },
+                },
+
+                {
+                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
+                    render: function (data, type, row, meta) {
+                        // Menggunakan moment.js untuk memformat tanggal
+                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        return formattedStartDate + ' - ' + formattedEndDate;
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.location;
                     },
                 },
                 {

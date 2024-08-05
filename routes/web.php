@@ -99,15 +99,8 @@ Route::group(['prefix' => 'observations'], function () {
 });
 
 
-<<<<<<< HEAD
-// Follow Up
-Route::group(['prefix' => 'follow_up'], function () {
-    Route::get('/', [FollowUpController::class, 'index'])->name('follow_ups.index');
-});
 
-=======
-//LPM
->>>>>>> 2118643fb03ba9559b53cd94f9b589b400ff61a2
+
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
