@@ -40,6 +40,12 @@
                 <div data-i18n="Dashboards">My Audit</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->segment(1) == 'follow_up' ? 'active' : '' }}">
+            <a href="{{ route('follow_ups.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user-check"></i>
+                <div data-i18n="Dashboards">Follow Up</div>
+            </a>
+        </li>
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Approve</span>
         </li>

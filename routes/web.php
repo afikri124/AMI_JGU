@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApproveController;
 use App\Http\Controllers\AuditPlanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -98,7 +99,8 @@ Route::group(['prefix' => 'observations'], function () {
 });
 
 
-//LPM
+
+
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');

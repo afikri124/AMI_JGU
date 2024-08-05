@@ -88,4 +88,6 @@ class AuditPlan extends Model
     {
         return $this->hasMany(ObservationChecklist::class, 'observation_id');
     }
+
+    
 }
