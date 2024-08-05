@@ -196,21 +196,6 @@
                     },
                 },
                 {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
-                    render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
-                        return formattedStartDate + ' - ' + formattedEndDate;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.location;
-                    },
-                },
-                {
                     render: function (data, type, row, meta) {
                         var html = '';
                         if (row.auditor) {
@@ -227,6 +212,22 @@
                             });
                         }
                         return html;
+                    },
+                },
+
+                {
+                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
+                    render: function (data, type, row, meta) {
+                        // Menggunakan moment.js untuk memformat tanggal
+                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        return formattedStartDate + ' - ' + formattedEndDate;
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.location;
                     },
                 },
                 {
@@ -253,7 +254,7 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 3 || row.auditstatus.id === 4) {
+                        if (row.auditstatus.id === 6) {
                             x = `<a class="badge bg-dark" title="Print Make Report By LPM" href="{{ url('lpm/lpm_edit/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>
                                 <a class="badge bg-warning badge-icon" title="Approve Make Report By LPM" style="cursor:pointer" onclick="approveId(\'` + row.id + `\',\'` + row.auditee.name + `\')" >
@@ -262,9 +263,13 @@
                                      data-link="${row.link}" data-remark_by_lpm="${row.remark_by_lpm}" data-validate_by_lpm="${row.validate_by_lpm}" onclick="showModal(this)" style="cursor:pointer">
                                     <i class="bx bx-x icon-white"></i></a>`;
                         }
-                        else if(row.auditstatus.id === 3 || row.auditstatus.id === 3 || row.auditstatus.id === 8){
+                        else if(row.auditstatus.id === 6){
                                 x = `<a class="badge bg-danger" title="Print Make Report By LPM" href="{{ url('lpm/lpm_edit/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`
+                        }
+                        else if(row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 13 || row.auditstatus.id === 5 ){
+                                x = `<a class="badge bg-warning" title="Determine Standard" href="{{ url('lpm/lpm_standard/${row.id}') }}">
+                                    <i class="bx bx-pencil"></i></a>`
                         }
                         return x;
                     },

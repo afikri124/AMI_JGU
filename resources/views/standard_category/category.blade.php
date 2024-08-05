@@ -135,7 +135,7 @@
                     d.status = $('#Select_2').val()
                 },
             },
-            columns: [{
+                columns: [{
                     render: function (data, type, row, meta) {
                         console.log(row);
                         var x = row.id.toString();

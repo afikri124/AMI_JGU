@@ -25,19 +25,25 @@
         <li class="menu-item {{ request()->segment(1) == 'audit_plan' ? 'active' : '' }}">
             <a href="{{ route('audit_plan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar-edit"></i>
-                <div data-i18n="Dashboards">Audit Plans</div>
+                <div data-i18n="Dashboards">Audit Plan</div>
             </a>
         </li>
         <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
             <a href="{{ route('observations.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-search"></i>
-                <div data-i18n="Dashboards">Observation</div>
+                <div data-i18n="Dashboards">Auditing</div>
             </a>
         </li>
         <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
             <a href="{{ route('my_audit.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-bell"></i>
                 <div data-i18n="Dashboards">My Audit</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->segment(1) == 'follow_up' ? 'active' : '' }}">
+            <a href="{{ route('follow_ups.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user-check"></i>
+                <div data-i18n="Dashboards">Follow Up</div>
             </a>
         </li>
         <li class="menu-header small text-uppercase">
@@ -52,7 +58,7 @@
         <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
             <a href="{{ route('approver.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>
-                <div data-i18n="Dashboards">Approver</div>
+                <div data-i18n="Dashboards">Wakil Rektor</div>
             </a>
         </li>
         {{-- <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">

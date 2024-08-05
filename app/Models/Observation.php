@@ -13,7 +13,6 @@ class Observation extends Model
     protected $fillable = [
         'id',
         'audit_plan_id',
-        'audit_status_id',
         'audit_plan_auditor_id',
         'location_id',
         'remark_plan',
