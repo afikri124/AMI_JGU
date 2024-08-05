@@ -191,18 +191,13 @@
         <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
     @foreach ($criteria->statements as $no => $statement)
-    @foreach ($statement->indicators as $indicator)
+        @foreach ($statement->indicators as $indicator)
+        @foreach ($observations as $observation)
+                @foreach ($obs_c as $obsChecklist)
+                    @if ($obsChecklist->observation_id == $observation->id)
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
-                <td>
-                    <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                    @error('link')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
             </tr>
             <tr>
                 <td style="width: 60%">
@@ -244,6 +239,14 @@
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
                 </td>
+                <td>
+                    <a href="{{ $observation->id }}{{ $obsChecklist->indicator_id }}" target="_blank">{{ $obsChecklist->doc_path ?? '' }}</a><br>
+                    @error('doc_path')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
@@ -273,12 +276,12 @@
                 <td colspan="3">
                     <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
                     <textarea name="remark_recommend[{{ $indicator->id }}]" class="form-control" maxlength="250"
-                              placeholder="MAX 250 characters..."></textarea>
-                              @error('remark_recommend')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                        placeholder="MAX 250 characters..."></textarea>
+                        @error('remark_recommend')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
             </tr>
             <tr class="hidden">
@@ -294,20 +297,24 @@
                     @enderror
                 </td>
             </tr>
-        </table>
+            @break
+            @endif
+        @endforeach
     @endforeach
+        </table>
+@endforeach
 @endforeach
 @endforeach
             <div class="hidden">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
                     <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
-                            placeholder="Pihak Bertanggung Jawab...">
-                            @error('person_in_charge')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                    placeholder="Pihak Bertanggung Jawab...">
+                    @error('person_in_charge')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>

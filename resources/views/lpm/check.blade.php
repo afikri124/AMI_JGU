@@ -138,10 +138,11 @@
             </tr>
         </div>
       </div>
+      </table>
+      <hr>
+      @endforeach
       @endforeach
     @endforeach
-    @endforeach
-</table>
     <div class="card-footer text-end">
         <button class="btn btn-primary me-1" type="submit" name="remark_standard_lpm" value="Approve">Approve</button>
         <button id="submitButton" class="btn btn-dark me-1" type="submit">Revised</button>

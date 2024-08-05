@@ -92,10 +92,22 @@ class ObservationController extends Controller
 
         $department = Department::where('id', $data->department_id)->orderBy('name')->get();
 
+        $observations = Observation::with([
+            'observations' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
+        $obs_c = ObservationChecklist::with([
+            'obs_c' => function ($query) use ($id) {
+                $query->select('*')->where('id', $id);
+            },
+        ])->get();
+
         return view('observations.make',
         compact('standardCategories', 'standardCriterias',
-        //  'indicators', 'subIndicators', 'reviewDocs',
-        'auditorData', 'auditor', 'data', 'locations', 'department', 'category', 'criteria'));
+        'observations', 'obs_c', 'auditorData', 'auditor', 'data',
+        'locations', 'department', 'category', 'criteria'));
     }
 
     //make report audit lapangan
