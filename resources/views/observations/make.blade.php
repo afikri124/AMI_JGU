@@ -240,7 +240,7 @@
                     @endforeach
                 </td>
                 <td>
-                    <a href="{{ $observation->id }}{{ $obsChecklist->indicator_id }}" target="_blank">{{ $obsChecklist->doc_path ?? '' }}</a><br>
+                    <a href="{{ $obsChecklist->doc_path }}" target="_blank">{{ $obsChecklist->doc_path ?? '' }}</a><br>
                     @error('doc_path')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

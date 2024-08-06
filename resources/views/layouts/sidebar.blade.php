@@ -18,7 +18,7 @@
         </li>
         <li class="menu-item {{ request()->segment(1) == 'dashboard' ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-home-alt"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
             </a>
         </li>
@@ -40,10 +40,10 @@
                 <div data-i18n="Dashboards">My Audit</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'follow_up' ? 'active' : '' }}">
-            <a href="{{ route('follow_ups.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user-check"></i>
-                <div data-i18n="Dashboards">Follow Up</div>
+        <li class="menu-item {{ request()->segment(1) == 'rtm' ? 'active' : '' }}">
+            <a href="{{ route('rtm.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-book-bookmark"></i>
+                <div data-i18n="Dashboards">RTM</div>
             </a>
         </li>
         <li class="menu-header small text-uppercase">

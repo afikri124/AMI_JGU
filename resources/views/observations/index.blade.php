@@ -83,7 +83,7 @@
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th width="15%"><b>Lecture</b></th>
+                                <th width="15%"><b>Auditee</b></th>
                                 <th width="25%"><b>Schedule</b></th>
                                 <th width="15%"><b>Location</b></th>
                                 <th width="10%"><b>Status</b></th>
@@ -262,7 +262,7 @@
                         }
                         else if (row.auditstatus.id === 6 ) {
                             x = `
-                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/make_report/${row.id}') }}">
+                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
                                         <i class="bx bx-printer"></i></a>`;
                         }
                         return x;

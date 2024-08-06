@@ -11,22 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approves', function (Blueprint $table) {
-            $table->id('id');
+        Schema::create('rtm', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('observation_id')->nullable();
             $table->foreign('observation_id')->references('id')->on('observations')->nullable()->onUpdate('cascade')->onDelete('cascade');
-            $table->text('remark_by_lpm')->nullable();
-            $table->text('remark_by_approver')->nullable();
-            $table->text('validate_by_lpm')->nullable();
-            $table->text('validate_by_approver')->nullable();
+            $table->unsignedBigInteger('indicator_id')->nullable();
+            $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
+            $table->string('doc_path_rtm')->nullable();
+            $table->dateTime('plan_complated_end')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
-
         });
-    }    /**
+    }
+
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('approves');
+        Schema::dropIfExists('rtm');
     }
 };

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Observations | Auditee')
+@section('title', 'RTM Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -98,7 +98,7 @@
 @endif
 <div class="card mb-5">
     <div class="card-body">
-    <form action="{{ route('show', $data->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('my_audit.edit_rtm', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->
       <strong class="text-primary">Category Standard</strong>
@@ -127,24 +127,10 @@
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
-                <td>
-                    <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                    @error('link')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
             </tr>
             <tr>
                 <td style="width: 60%">
                     <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 60%">
-                    <strong>Indicator</strong>
-                    <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td style="width: 35%">
                     <div id="data-sets">
@@ -170,11 +156,37 @@
                 </td>
             </tr>
             <tr>
+                <td style="width: 60%">
+                    <strong>Indicator</strong>
+                    <ul>{!! $indicator->name !!}</ul>
+                </td>
+                <td>
+                <div class="form-group mb-3">
+                    <label for="plan_complated_end" class="form-label"><b>Target Akhir</b><i class="text-danger">*</i></label>
+                    <input type="date" class="form-control" name="plan_complated_end" id="plan_complated_end" value=""
+                            placeholder="YYYY-MM-DD">
+                            @error('plan_complated_end')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                </div>
+            </div>
+                </td>
+            </tr>
+            <tr>
                 <td style="width: 60%" id="review-docs">
                     <strong>Review Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
+                </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
+                        <input type="file" class="form-control" name="doc_path[]" accept=".pdf">
+                        <input type="hidden" name="indicator_ids[]" value="{{ $obsChecklist->doc_path }}">
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -222,9 +234,9 @@
             <tr>
             <td colspan="3">
                 <label for="remark_upgrade_repair_{{ $indicator->id }}" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
-                <textarea type="text" id="remark_upgrade_repair_{{ $indicator->id }}" class="form-control"
+                <textarea type="text" id="remark_upgrade_repair_{{ $indicator->id }}" class="form-control bg-user"
                     name="remark_upgrade_repair[{{ $indicator->id }}]" maxlength="250"
-                    placeholder="MAX 250 characters...">{{ $obsChecklist->remark_upgrade_repair ?? '' }}</textarea>
+                    placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_upgrade_repair ?? '' }}</textarea>
                 @error('remark_upgrade_repair.' . $indicator->id)
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -239,42 +251,8 @@
 </table>
     @endforeach
         @endforeach
+        <hr class="text-dark">
             @endforeach
-            <hr class="text-dark">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" value="{{$observation->person_in_charge}}"
-                            placeholder="Pihak Bertanggung Jawab...">
-                            @error('person_in_charge')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                </div>
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated" id="plan_complated" value="{{$observation->plan_complated}}"
-                            placeholder="YYYY-MM-DD">
-                            @error('plan_complated')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                </div>
-            </div>
-            <!-- <div>
-                <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
-                <div class="input-group input-group-merge has-validation">
-                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
-                    name="remark_plan" placeholder="MAX 250 characters..." readonly></textarea>
-                    @error('remark_plan')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div> -->
             <p></p>
             <div class="text-end">
                 <button class="btn btn-primary me-1" type="submit">Submit</button>

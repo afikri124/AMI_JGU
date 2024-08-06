@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Approve extends Model
+class RTM extends Model
 {
     use HasFactory;
     public $timestamps = true;
@@ -13,12 +13,19 @@ class Approve extends Model
     protected $fillable = [
         'id',
         'observation_id',
-        'remark_by_lpm',
-        'remark_by_approver',
+        'indicator_id',
+        'doc_path_rtm',
+        'plan_complated_end',
+        'status'
     ];
 
-    public function approve()
+    public function obs_c()
     {
         return $this->belongsTo(Observation::class, 'observation_id');
+    }
+
+    public function indicator()
+    {
+        return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 }

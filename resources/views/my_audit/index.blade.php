@@ -79,11 +79,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col" data-priority="1" width="20px">No</th>
-                                    <th scope="col" data-priority="2">Lecturer</th>
-                                    <th scope="col">Date Start</th>
-                                    <th scope="col">Date End</th>
-                                    <th scope="col" data-priority="4">Attendance</th>
-                                    <th scope="col">Follow-Up by</th>
+                                    <th scope="col" data-priority="2">Auditee</th>
+                                    <th scope="col">Schedule</th>
+                                    <th scope="col" data-priority="4">Location</th>
+                                    <th scope="col">Auditor</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Doc.</th>
                                     <th scope="col" data-priority="3" width="65px">Action</th>
                                 </tr>
@@ -264,7 +264,7 @@
 
                         // Check if auditstatus is '1' or '2'
                         if (row.auditstatus.id === 4) {
-                            x = `<a class="badge bg-warning" title="Determine Standard" href="{{ url('my_audit/my_standard/${row.id}') }}">
+                            x = `<a class="badge bg-warning" title="My Determine Standard" href="{{ url('my_audit/my_standard/${row.id}') }}">
                             <i class="bx bx-pencil"></i></a>`;
                         }
                         // Check if auditstatus is '10'
@@ -278,6 +278,12 @@
                         else if (row.auditstatus.id === 6 ) {
                             x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('my_audit/obs/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`;
+                        }
+                        else if (row.auditstatus.id === 7 ) {
+                            x = `<a class="badge bg-primary" title="Print RTM Report" href="{{ url('my_audit/rtm/${row.id}') }}">
+                            <i class="bx bx-printer"></i></a>
+                            <a class="badge bg-warning" title="Edit RTM Report" href="{{ url('my_audit/obs/${row.id}') }}">
+                                    <i class="bx bx-pencil"></i></a>`;
                         }
                         return x;
                     },

@@ -178,6 +178,7 @@ class ObservationController extends Controller
     //print pdf audit report
     public function edit($id)
     {
+        $locations = Location::orderBy('title')->get();
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
                                     ->with('auditor:id,name')
@@ -203,43 +204,50 @@ class ObservationController extends Controller
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
 
-        $observations = Observation::with([
-            'observations' => function ($query) use ($id) {
-                $query->select('*')->where('id', $id);
-            },
-        ])->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
-        $obs_c = ObservationChecklist::with([
-            'obs_c' => function ($query) use ($id) {
-                $query->select('*')->where('id', $id);
-            },
-        ])->get();
-        // dd($obs_c);
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
 
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
 
-        return view('observations.print',
-        compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria',
-        'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
-    }
-//     $pdf = PDF::loadView('observations.print',
-//     $data = [
-//         'data' => $data,
-//         'auditor' => $auditor,
-//         'category' => $category,
-//         'criteria' => $criteria,
-//         'standardCriterias' => $standardCriterias,
-//         'observations' => $observations,
-//         'obs_c' => $obs_c,
-//         'hodLPM' => $hodLPM,
-//         'hodBPMI' => $hodBPMI
-//     ]);
-//     // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+        $pdf = PDF::loadView('pdf.audit_report',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
 
-//     return $pdf->download('make-report.pdf');
-// }
+    return $pdf->stream('make-report.pdf');
+        // $observations = Observation::with([
+        //     'observations' => function ($query) use ($id) {
+        //         $query->select('*')->where('id', $id);
+        //     },
+        // ])->get();
+
+        // $obs_c = ObservationChecklist::with([
+        //     'obs_c' => function ($query) use ($id) {
+        //         $query->select('*')->where('id', $id);
+        //     },
+        // ])->get();
+        // // dd($obs_c);
+
+        // $hodLPM = Setting::find('HODLPM');
+        // $hodBPMI = Setting::find('HODBPMI');
+
+        // return view('observations.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category', 'criteria',
+        // 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
 
     //remark audit report
     public function remark($id)
@@ -448,21 +456,21 @@ class ObservationController extends Controller
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
 
-        $pdf = PDF::loadView('observations.make_report.attendance',
-        $data = [
-            'data' => $data,
-            'locations' => $locations,
-            'auditor' => $auditor,
-            'category' => $category,
-            'criteria' => $criteria,
-            'standardCriterias' => $standardCriterias,
-            'observations' => $observations,
-            'obs_c' => $obs_c,
-            'hodLPM' => $hodLPM,
-            'hodBPMI' => $hodBPMI
-        ]);
-    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+    //     $pdf = PDF::loadView('observations.make_report.attendance',
+    //     $data = [
+    //         'data' => $data,
+    //         'locations' => $locations,
+    //         'auditor' => $auditor,
+    //         'category' => $category,
+    //         'criteria' => $criteria,
+    //         'standardCriterias' => $standardCriterias,
+    //         'observations' => $observations,
+    //         'obs_c' => $obs_c,
+    //         'hodLPM' => $hodLPM,
+    //         'hodBPMI' => $hodBPMI
+    //     ]);
+    // // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
 
-    return $pdf->stream('make-report-absensi.pdf');
+    // return $pdf->stream('make-report-absensi.pdf');
 }
     }

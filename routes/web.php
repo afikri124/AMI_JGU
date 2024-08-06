@@ -79,7 +79,8 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
     Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
     Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
-    // Route::put('/reupload/{id}', [MyAuditController::class, 'reupload'])->name('my_audit.reupload');
+    Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
+    Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
 });
 
 //Observations
@@ -94,22 +95,17 @@ Route::group(['prefix' => 'observations'], function () {
     Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
 
     //Print PDF
-    Route::get('/make_report/{id}', [ObservationController::class, 'make_report'])->name('observations.make_report');
-    Route::get('/observations/make_report/{id}/{type}', [ObservationController::class, 'att'])->name('observations.make_report.att');
+    Route::get('/audit_report/{id}', [PDFController::class, 'audit_report'])->name('pdf.audit_report');
 });
 
-
-
-
+//LPM
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
     Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
-    Route::any('/lpm_as/{id}', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
+    Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
     Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-    Route::any('/approve', [ApproveController::class, 'approve'])->name('approve');
-    // Route::any('/revised', [ApproveController::class, 'revised'])->name('revised');
     // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
 });
 
@@ -117,10 +113,21 @@ Route::group(['prefix' => 'lpm'], function () {
 Route::group(['prefix' => 'approver'], function () {
     Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');
-    Route::any('/approve_update/{id}', [ApproveController::class, 'approve_update'])->name('approve_update');
-    Route::get('/approver_edit/{id}', [ApproveController::class, 'approver_edit'])->name('approver.approver_edit');
-    Route::any('/approve_by_approver', [ApproveController::class, 'approve_by_approver'])->name('approve_by_approver');
-    Route::any('/revised_by_approver', [ApproveController::class, 'revised_by_approver'])->name('revised_by_approver');
+    // Route::any('/approve_update/{id}', [ApproveController::class, 'approve_update'])->name('approve_update');
+    // Route::get('/approver_edit/{id}', [ApproveController::class, 'approver_edit'])->name('approver.approver_edit');
+    // Route::any('/approve_by_approver', [ApproveController::class, 'approve_by_approver'])->name('approve_by_approver');
+    // Route::any('/revised_by_approver', [ApproveController::class, 'revised_by_approver'])->name('revised_by_approver');
+});
+
+//RTM
+Route::group(['prefix' => 'rtm'], function () {
+    Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
+    Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
+    // Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
+    // Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+    // Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
+    // Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
+    // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
 });
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);

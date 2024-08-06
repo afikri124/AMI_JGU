@@ -12,8 +12,10 @@ use App\Models\Location;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\ObservationChecklist;
+use App\Models\RTM;
 use App\Models\User;
 use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
@@ -203,7 +205,23 @@ class MyAuditController extends Controller{
                 'hodBPMI' => $hodBPMI
             ]);
         } elseif ($data->audit_status_id == 6) {
-            return view('my_audit.add', [
+            $pdf = Pdf::loadView('pdf.audit_report',
+            $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+        // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+        return $pdf->stream('rtm-report.pdf');
+        } elseif ($data->audit_status_id == 7) {
+            return view('my_audit.edit_rtm', [
                 'standardCategories' => $standardCategories,
                 'standardCriterias' => $standardCriterias,
                 'auditorData' => $auditorData,
@@ -268,6 +286,120 @@ class MyAuditController extends Controller{
     ]);
 }
 
+    public function edit_rtm(Request $request, $id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        $auditorId = Auth::user()->id;
+
+        $files = $request->file('doc_path');
+        $filePaths = [];
+
+        if ($files) {
+            foreach ($files as $index => $file) {
+                $ext = $file->extension();
+                $name = str_replace(' ', '_', $file->getClientOriginalName());
+                $fileName = Auth::user()->id . '_' . $name;
+                $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
+                $path = public_path($folderName);
+
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0755, true); // Create folder if not exists
+                }
+
+                $upload = $file->move($path, $fileName);
+                if ($upload) {
+                    $filePaths[$index] = $folderName . "/" . $fileName;
+                } else {
+                    $filePaths[$index] = null;
+                }
+            }
+        }
+
+        // Retrieve the observation using the ID
+        $observation = Observation::where('audit_plan_id', $id)
+            ->where('audit_plan_auditor_id', $data->auditor()
+            ->where('auditor_id', $auditorId)->first()->id)
+            ->firstOrFail();
+
+        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+
+        if ($request->isMethod('POST')) {
+            // Validate the request
+            $this->validate($request, [
+                'plan_complated_end' => ['required'],
+                'status' => ['required'],
+            ]);
+            $observation->update([
+                'audit_plan_id' => $id,
+                'audit_plan_auditor_id' => $auditPlanAuditorId,
+            ]);
+
+            foreach ($request->indicator_ids as $index => $indicatorId) {
+                RTM::create([
+                    'observation_id' => $observation->id,
+                    'indicator_id' => $indicatorId,
+                    'plan_complated_end' => $request->plan_complated_end[$index] ?? null,
+                    'status' => $request->status[$index] ?? null,
+                    'doc_path_rtm' => $filePaths[$index] ?? null,
+                ]);
+            }
+
+    // dd($request);
+            return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
+        }
+    }
+
+    public function rtm($id){
+        $data = AuditPlan::findOrFail($id);
+        $locations = Location::orderBy('title')->get();
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with('auditor:id,name')
+        ->firstOrFail();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+
+        $pdf = Pdf::loadView('pdf.rtm',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    return $pdf->stream('rtm-report.pdf');
+        // return view('lpm.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category',
+        // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
 
     //Data My Audit
     public function data(Request $request){
