@@ -140,7 +140,8 @@
                         <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
                         <input type="file" class="form-control" name="doc_path[]" accept=".pdf">
                         <input type="hidden" name="indicator_ids[]" value="{{ $indicator->id }}">
-                    </div>
+                        <br>
+                        </div>
                 </td>
             </tr>
         </div>

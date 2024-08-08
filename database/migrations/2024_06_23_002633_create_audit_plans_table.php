@@ -24,7 +24,6 @@ return new class extends Migration
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments');
             $table->string('link')->nullable();
-            $table->text('remark_docs')->nullable();
             $table->text('remark_standard_lpm')->nullable();
             $table->string('periode')->nullable();
             $table->string('type_audit')->nullable();

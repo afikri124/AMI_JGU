@@ -22,25 +22,16 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PDFController extends Controller
 {
-    public function view(Request $request, $id)
-    {
-        $data = AuditPlan::findOrFail($id);
-        $auditee = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-            ->whereHas('roles', function ($q) use ($request) {
-                $q->where('name', 'auditee');
-            })
-            ->orderBy('name')->get();
-        return view('make_report.view', compact('data', 'auditee'));
-    }
-
-    public function att(Request $request, $id)
+    public function audit_report($id)
     {
         $locations = Location::orderBy('title')->get();
+        $data = AuditPlan::findOrFail($id);
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+                                    ->with('auditor:id,name')
+                                    ->firstOrFail();
+
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
-        $data = AuditPlan::findOrFail($id);
 
         $auditorId = Auth::user()->id;
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
@@ -58,60 +49,50 @@ class PDFController extends Controller
                         ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
-        // dd($standardCriterias);
 
-        $auditor = User::with(['roles' => function ($query) {
-                $query->select('id', 'name');
-            }])
-            ->whereHas('roles', function ($q) {
-                $q->where('name', 'auditor');
-            })
-            ->where('id', $auditorId)
-            ->orderBy('name')
-            ->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
-        $department = Department::where('id', $data->department_id)->orderBy('name')->get();
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
 
-        return view('make_report.att',
-        compact('standardCategories', 'standardCriterias',
-        //  'indicators', 'subIndicators', 'reviewDocs',
-        'auditorData', 'auditor', 'data', 'locations', 'department', 'category', 'criteria'));
-    }
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
 
-    public function data(Request $request){
-        $data = AuditPlan::
-        with(['auditee' => function ($query) {
-                $query->select('id','name', 'no_phone');
-            },
-            'auditstatus' => function ($query) {
-                $query->select('id', 'title', 'color');
-            },
-            'auditor.auditor' => function ($query) {
-                $query->select('id', 'name', 'no_phone');
-            },
-            ])->leftJoin('locations', 'locations.id' , '=', 'location_id')
-            ->select('audit_plans.*',
-            'locations.title as location'
-            )
-            // ->where('auditee_id', Auth::user()->id)
-            ->orderBy("id");
-            return DataTables::of($data)
-            ->filter(function ($instance) use ($request) {
-                if (!empty($request->get('auditee_id'))) {
-                    $instance->where("auditee_id", $request->get('auditee_id'));
-                }
-                if (!empty($request->get('search'))) {
-                    $search = $request->get('search');
-                    $instance->where('auditee_id', 'LIKE', "%$search%");
-                }
-                if (!empty($request->get('search'))) {
-                    $instance->where(function($w) use($request){
-                        $search = $request->get('search');
-                            $w->orWhere('date_start', 'LIKE', "%$search%")
-                            ->orWhere('date_end', 'LIKE', "%$search%");
-                    });
-                }
-            })->make(true);
+        $pdf = PDF::loadView('pdf.audit_report',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    return $pdf->stream('make-report.pdf');
+        // $observations = Observation::with([
+        //     'observations' => function ($query) use ($id) {
+        //         $query->select('*')->where('id', $id);
+        //     },
+        // ])->get();
+
+        // $obs_c = ObservationChecklist::with([
+        //     'obs_c' => function ($query) use ($id) {
+        //         $query->select('*')->where('id', $id);
+        //     },
+        // ])->get();
+        // // dd($obs_c);
+
+        // $hodLPM = Setting::find('HODLPM');
+        // $hodBPMI = Setting::find('HODBPMI');
+
+        // return view('observations.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category', 'criteria',
+        // 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
 }

@@ -292,52 +292,5 @@
             });
         })(jQuery);
     }, 350);
-
-    // $(document).ready(function() {
-
-    //             $("#remark_description").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark Descripstion data is required');
-    //             $("#obs_checklist_option").prop('disabled', true).attr('data-placeholder',
-    //                 'Form Checklist data is required');
-    //             $("#remark_success_failed").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark success failed data is required');
-    //             $("#remark_recommend").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark Recommend data is required');
-    //             $("#remark_upgrade_repair").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark Upgrade Repair data is required');
-    //             $("#person_in_charge").prop('disabled', true).attr('data-placeholder',
-    //                 'Person In Charge data is required');
-    //             $("#plan_completed").prop('disabled', true).attr('data-placeholder',
-    //                 'Plan Complated data is required');
-    //         });
 </script>
-<!-- <script>
-    const wizardIcons = document.querySelector('.wizard-icons-example');
-
-    if (typeof wizardIcons !== undefined && wizardIcons !== null) {
-        const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
-              wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
-              wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
-
-        const iconsStepper = new Stepper(wizardIcons, {
-            linear: false
-        });
-
-        if (wizardIconsBtnNextList) {
-            wizardIconsBtnNextList.forEach(wizardIconsBtnNext => {
-                wizardIconsBtnNext.addEventListener('click', event => {
-                    iconsStepper.next();
-                });
-            });
-        }
-
-        if (wizardIconsBtnPrevList) {
-            wizardIconsBtnPrevList.forEach(wizardIconsBtnPrev => {
-                wizardIconsBtnPrev.addEventListener('click', event => {
-                    iconsStepper.previous();
-                });
-            });
-        }
-    }
-    </script> -->
 @endsection

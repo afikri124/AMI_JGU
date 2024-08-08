@@ -41,7 +41,7 @@ class AuditStatusSeeder extends Seeder
             "color" => "success"],
 
             ["id" => "7",
-            "title" => "Approved by LPM",
+            "title" => "Approved Audit Report by LPM",
             "color" => "success"],
 
             ["id" => "8",
@@ -65,6 +65,10 @@ class AuditStatusSeeder extends Seeder
             "color" => "secondary"],
 
             ["id" => "13",
+            "title" => "Standard\nUpdated",
+            "color" => "secondary"],
+
+            ["id" => "14",
             "title" => "Standard\nUpdated",
             "color" => "secondary"],
         ];

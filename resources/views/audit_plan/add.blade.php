@@ -146,15 +146,6 @@
                             </select>
                         </div>
                     </div>
-                    <p></p>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label for="link" class="form-label"><b>Link Document</b><i class="text-danger">*</i></label>
-                            <input type="text" class="form-control" id="link" name="link" placeholder="Input Link Document" value="{{ old('link') }}">
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="card-footer text-end">
                 <button class="btn btn-primary me-1" type="submit">Create</button>
                 <a href="{{ url()->previous() }}">
