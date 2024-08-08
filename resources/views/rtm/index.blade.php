@@ -84,7 +84,7 @@
                                     <th scope="col" data-priority="4">Location</th>
                                     <th scope="col">Auditor</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Doc.</th>
+                                    <!-- <th scope="col">Doc.</th> -->
                                     <th scope="col" data-priority="3" width="65px">Action</th>
                                 </tr>
                             </thead>
@@ -246,18 +246,18 @@
                         return html;
                     }
                 },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = "";
-                        if (row.doc_path != null && row.doc_path != "") {
-                            x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
-                        }
-                        if (row.link != null) {
-                            x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
-                        }
-                        return x;
-                    },
-                },
+                // {
+                //     render: function (data, type, row, meta) {
+                //         var x = "";
+                //         if (row.doc_path != null && row.doc_path != "") {
+                //             x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                //         }
+                //         if (row.link != null) {
+                //             x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
+                //         }
+                //         return x;
+                //     },
+                // },
                 {
                     render: function(data, type, row, meta) {
                         var x = '';

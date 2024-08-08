@@ -90,7 +90,7 @@ Route::group(['prefix' => 'observations'], function () {
     Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
     Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
     Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
-    Route::any('/update/{id}', [ObservationController::class, 'update'])->name('observations.update');
+    Route::any('/remark_doc/{id}', [ObservationController::class, 'remark_doc'])->name('observations.remark_doc');
     Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
     Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
 
@@ -104,9 +104,9 @@ Route::group(['prefix' => 'lpm'], function () {
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
     Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
-    Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
+    Route::any('/lpm_as/{id}', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
     Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-    // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
+    Route::any('/approve_audit', [ApproveController::class, 'approve_audit'])->name('approve_audit');
 });
 
 //Warek

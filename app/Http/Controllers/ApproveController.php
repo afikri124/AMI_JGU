@@ -31,36 +31,12 @@ class ApproveController extends Controller
         {
             $data = AuditPlan::find($request->id);
             if ($data) {
-                $data->audit_status_id = "7";
+                $data->audit_status_id = "4";
                 $data->save();
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Status berhasil diubah!'
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengubah status!'
-                ]);
             }
+            return redirect()->route('lpm.index')->with('msg', 'Standard Approved by LPM.');
         }
     }
-
-    // public function lpm_rs(Request $request, $id){
-    //     if ($request->isMethod('POST')) {
-    //         $this->validate($request, [
-    //             'remark_standard_lpm' => '',
-    //         ]);
-
-    //         $data = AuditPlan::findOrFail($id);
-    //         $data->update([
-    //             'remark_standard_lpm' => $request->remark_standard_lpm,
-    //             'audit_status_id' => '4',
-    //         ]);
-    //     }
-
-    //     return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
-    // }
 
     public function lpm_standard(Request $request, $id){
         if ($request->isMethod('POST')) {
@@ -160,6 +136,24 @@ class ApproveController extends Controller
         // 'auditorData', 'auditor', 'data', 'category',
         // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
+
+    public function approve_audit(Request $request)
+        {
+            $data = AuditPlan::find($request->id);
+            if ($data) {
+                $data->audit_status_id = "7";
+                $data->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Status berhasil diubah!'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengubah status!'
+                ]);
+            }
+        }
 
     public function lpm_update(Request $request, $id){
         $request->validate([

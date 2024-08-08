@@ -290,7 +290,7 @@
             .then((willApprove) => {
                 if (willApprove) {
                     $.ajax({
-                        url: "{{route('lpm.lpm_as')}}",
+                        url: "{{route('approve_audit')}}",
                         type: "POST",
                         data: {
                             "id": id,
