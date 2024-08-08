@@ -6,16 +6,13 @@
         <tr>
             <td style="font-size: 10pt;">
                 <p><i>Assalamu'alaikum Warahmatullaahi Wabarakaatuh.</i></p><br>
-                <p>Dear Mr/Mrs, You have a new audit plan. Here are the details:</p><br>
+                <p>Dear Mr/Mrs, Your audit plan is rescheduled. Here are the details:</p><br>
                 <p style="text-align: justify;"></p>
             </td>
         </tr>
     </tbody>
 </table>
 <tbody>
-            <tr class="pad-left-right-space">
-                <td  ><p>Auditee <b><b>:</b> {{ $data['auditee_id'] }}</b></p></td>
-            </tr>
             <tr class="pad-left-right-space">
                 <td ><p>Auditor <b><b>:</b> {{ $data['auditor_id'] }}</b></p></td>
             </tr>
@@ -26,21 +23,8 @@
                 <td ><p>Date End  <b><b>:</b> {{ $data['date_end'] }}</b></p></td>
             </tr>
             <tr class="pad-left-right-space">
-                <td ><p>Department <b><b>:</b> {{ $data['department_id'] }}</b></p></td>
-            </tr>
-            <tr class="pad-left-right-space">
                 <td ><p>Location <b><b>:</b> {{ $data['location_id'] }}</b></p></td>
                 <td ></td>
-            </tr>
-            <tr class="pad-left-right-space">
-                <td ><p>Link  <b>:</b><b><a href="{{ $data['link'] }}"> {{ $data['link'] }}</a></b></p></td>
-            </tr>
-            <tr class="pad-left-right-space">
-                <td ><p>Type Audit <b>:</b><b> {{ $data['type_audit'] }}</b></p></td>
-
-            </tr>
-            <tr class="pad-left-right-space">
-                <td ><p>Periode <b>:</b><b> {{ $data['periode'] }}</b></p></td>
             </tr>
         </tbody>
 
