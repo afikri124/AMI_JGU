@@ -87,7 +87,7 @@
     <div class="col-md-12">
 <div class="card mb-5">
     <div class="card-body">
-    <form method="POST" action="{{ route('make', $data->id) }}"
+    <form method="POST" action="{{ route('observations.update_remark', $data->id) }}"
     enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->

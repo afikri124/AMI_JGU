@@ -133,9 +133,7 @@
                 </td>
                 <td>
                     <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path[]" accept=".pdf">
-                        <input type="hidden" name="indicator_ids[]" value="{{ $indicator->id }}">
+                        <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
                         <br>
                         <a href="{{ url($obsChecklist->doc_path) }}" target="_blank">{{ $obsChecklist->doc_path ?? '' }}</a><br>
                         </div>

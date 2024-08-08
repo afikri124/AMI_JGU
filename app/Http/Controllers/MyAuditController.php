@@ -120,37 +120,6 @@ class MyAuditController extends Controller{
         'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
-    //Upload Document Audit
-    public function update(Request $request, $id){
-        $request->validate([
-            'doc_path' => 'mimes:pdf|max:10000|',
-        ]);
-        $fileName = null;
-        if ($request->hasFile('doc_path')) {
-            $ext = $request->doc_path->extension();
-            $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
-            $fileName = Auth::user()->id . '_' . $name;
-            $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
-            $path = public_path() . "/" . $folderName;
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0755, true); //create folder
-            }
-            $upload = $request->doc_path->move($path, $fileName); //upload file to folder
-            if ($upload) {
-                $fileName = $folderName . "/" . $fileName;
-            } else {
-                $fileName = null;
-            }
-        }
-        //document upload
-        $data = AuditPlan::findOrFail($id);
-        $data->update([
-        'doc_path'          => $fileName,
-        'audit_status_id'   => '10',
-    ]);
-        return redirect()->route('my_audit.index')->with('msg', 'Thank you for uploading the document ');
-    }
-
     //Narik data untuk Observations
     public function obs( $id)
     {
@@ -453,6 +422,36 @@ class MyAuditController extends Controller{
     //     return view('my_audit.add', compact('data'));
     // }
 
+    // Upload Document Audit
+    // public function update(Request $request, $id){
+    //     $request->validate([
+    //         'doc_path' => 'mimes:pdf|max:10000|',
+    //     ]);
+    //     $fileName = null;
+    //     if ($request->hasFile('doc_path')) {
+    //         $ext = $request->doc_path->extension();
+    //         $name = str_replace(' ', '_', $request->doc_path->getClientOriginalName());
+    //         $fileName = Auth::user()->id . '_' . $name;
+    //         $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
+    //         $path = public_path() . "/" . $folderName;
+    //         if (!File::exists($path)) {
+    //             File::makeDirectory($path, 0755, true); //create folder
+    //         }
+    //         $upload = $request->doc_path->move($path, $fileName); //upload file to folder
+    //         if ($upload) {
+    //             $fileName = $folderName . "/" . $fileName;
+    //         } else {
+    //             $fileName = null;
+    //         }
+    //     }
+    //     //document upload
+    //     $data = AuditPlan::findOrFail($id);
+    //     $data->update([
+    //     'doc_path'          => $fileName,
+    //     'audit_status_id'   => '10',
+    // ]);
+    //     return redirect()->route('my_audit.index')->with('msg', 'Thank you for uploading the document ');
+    // }
 
 
 //Json

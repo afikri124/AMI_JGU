@@ -75,7 +75,7 @@ Route::any('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('
 Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
     Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
-    Route::put('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
+    Route::any('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
     Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
     Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
     Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');

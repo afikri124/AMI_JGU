@@ -90,44 +90,6 @@
                     </table>
                 </div>
             </div>
-
-            <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><b>Remark Make Report By LPM </b></h4>
-                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="link"><b>Link Drive</b></label>
-                    <br>
-                    <a id="modal-link" href="#" target="_blank"></a>
-                </div>
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="validate_by_lpm" class="form-label large-text"><b>Tanggal Approve</b></label>
-                        <input type="date" class="form-control" id="modal-validate_by_lpm" name="validate_by_lpm"></input>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="remark_by_lpm" class="form-label large-text"><b>Remark By Auditor</b></label>
-                        <textarea class="form-control" id="modal-remark_by_lpm" name="remark_by_lpm" rows="3" placeholder="MAX 250 characters..."></textarea>
-                        <i class="text-danger"><b>* Please give comments and suggestions from the make report results</b></i>
-                    </div>
-                    <div class="text-end">
-                        <button class="btn btn-primary me-1" type="submit">Submit</button>
-                        <a href="">
-                            <span class="btn btn-outline-secondary">Back</span>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('script')
