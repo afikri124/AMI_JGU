@@ -90,44 +90,6 @@
                     </table>
                 </div>
             </div>
-
-            <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><b>Remark Make Report By LPM </b></h4>
-                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="link"><b>Link Drive</b></label>
-                    <br>
-                    <a id="modal-link" href="#" target="_blank"></a>
-                </div>
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="validate_by_lpm" class="form-label large-text"><b>Tanggal Approve</b></label>
-                        <input type="date" class="form-control" id="modal-validate_by_lpm" name="validate_by_lpm"></input>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="remark_by_lpm" class="form-label large-text"><b>Remark By Auditor</b></label>
-                        <textarea class="form-control" id="modal-remark_by_lpm" name="remark_by_lpm" rows="3" placeholder="MAX 250 characters..."></textarea>
-                        <i class="text-danger"><b>* Please give comments and suggestions from the make report results</b></i>
-                    </div>
-                    <div class="text-end">
-                        <button class="btn btn-primary me-1" type="submit">Submit</button>
-                        <a href="">
-                            <span class="btn btn-outline-secondary">Back</span>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('script')
@@ -196,6 +158,21 @@
                     },
                 },
                 {
+                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
+                    render: function (data, type, row, meta) {
+                        // Menggunakan moment.js untuk memformat tanggal
+                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        return formattedStartDate + ' - ' + formattedEndDate;
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                            return row.location;
+                    },
+                },
+                {
                     render: function (data, type, row, meta) {
                         var html = '';
                         if (row.auditor) {
@@ -212,22 +189,6 @@
                             });
                         }
                         return html;
-                    },
-                },
-
-                {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
-                    render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
-                        return formattedStartDate + ' - ' + formattedEndDate;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.location;
                     },
                 },
                 {
@@ -263,7 +224,7 @@
                                      data-link="${row.link}" data-remark_by_lpm="${row.remark_by_lpm}" data-validate_by_lpm="${row.validate_by_lpm}" onclick="showModal(this)" style="cursor:pointer">
                                     <i class="bx bx-x icon-white"></i></a>`;
                         }
-                        else if(row.auditstatus.id === 6){
+                        else if(row.auditstatus.id === 7){
                                 x = `<a class="badge bg-danger" title="Print Make Report By LPM" href="{{ url('lpm/lpm_edit/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`
                         }
@@ -291,7 +252,7 @@
             .then((willApprove) => {
                 if (willApprove) {
                     $.ajax({
-                        url: "{{route('approve')}}",
+                        url: "{{route('approve_audit')}}",
                         type: "POST",
                         data: {
                             "id": id,

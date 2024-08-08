@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('observation_checklists', function (Blueprint $table) {
             $table->id('id');
+            $table->string('doc_path')->nullable();
+            $table->string('remark_docs')->nullable();
             $table->unsignedBigInteger('observation_id')->nullable();
             $table->unsignedBigInteger('indicator_id')->nullable();
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
@@ -22,7 +24,6 @@ return new class extends Migration
             $table->string('remark_description')->nullable();
             $table->string('remark_recommend')->nullable();
             $table->string('remark_upgrade_repair')->nullable();
-            $table->string('doc_path')->nullable();
             $table->timestamps();
 
         });

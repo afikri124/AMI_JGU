@@ -12,6 +12,8 @@ class ObservationChecklist extends Model
     public $incrementing = true;
     protected $fillable = [
         'id',
+        'doc_path',
+        'remark_docs',
         'observation_id',
         'indicator_id',
         'remark_description',
@@ -19,7 +21,6 @@ class ObservationChecklist extends Model
         'remark_success_failed',
         'remark_recommend',
         'remark_upgrade_repair',
-        'doc_path',
     ];
 
     public function obs_c()

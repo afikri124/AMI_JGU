@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('observation_id')->nullable();
             $table->foreign('observation_id')->references('id')->on('observations')->nullable()->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('audit_status_id');
-            $table->foreign('audit_status_id')->references('id')->on('audit_statuses');
             $table->text('remark_by_lpm')->nullable();
             $table->text('remark_by_approver')->nullable();
             $table->text('validate_by_lpm')->nullable();

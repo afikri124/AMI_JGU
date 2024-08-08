@@ -13,7 +13,6 @@ class Approve extends Model
     protected $fillable = [
         'id',
         'observation_id',
-        'audit_status_id',
         'remark_by_lpm',
         'remark_by_approver',
     ];

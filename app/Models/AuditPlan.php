@@ -22,7 +22,6 @@ class AuditPlan extends Model
         'department_id',
         'auditor_id',
         'link',
-        'remark_docs',
         'periode',
         'type_audit',
         'remark_standard_lpm'
@@ -89,5 +88,5 @@ class AuditPlan extends Model
         return $this->hasMany(ObservationChecklist::class, 'observation_id');
     }
 
-    
+
 }

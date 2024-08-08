@@ -15,6 +15,7 @@ use App\Models\Setting;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -26,30 +27,16 @@ class ApproveController extends Controller
         return view('lpm.index', compact('data'));
     }
 
-    public function lpm_as(Request $request, $id){
-        $data = AuditPlan::findOrFail($id);
-            $data->update([
-                'audit_status_id' => '4',
-            ]);
-        return redirect()->route('lpm.index')->with('msg', 'Standard Approved by LPM.');
-
+    public function lpm_as(Request $request){
+        {
+            $data = AuditPlan::find($request->id);
+            if ($data) {
+                $data->audit_status_id = "4";
+                $data->save();
+            }
+            return redirect()->route('lpm.index')->with('msg', 'Standard Approved by LPM.');
         }
-
-    // public function lpm_rs(Request $request, $id){
-    //     if ($request->isMethod('POST')) {
-    //         $this->validate($request, [
-    //             'remark_standard_lpm' => '',
-    //         ]);
-
-    //         $data = AuditPlan::findOrFail($id);
-    //         $data->update([
-    //             'remark_standard_lpm' => $request->remark_standard_lpm,
-    //             'audit_status_id' => '4',
-    //         ]);
-    //     }
-
-    //     return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
-    // }
+    }
 
     public function lpm_standard(Request $request, $id){
         if ($request->isMethod('POST')) {
@@ -98,8 +85,9 @@ class ApproveController extends Controller
         'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
-    public function lpm_edit(Request $request, $id){
+    public function lpm_edit($id){
         $data = AuditPlan::findOrFail($id);
+        $locations = Location::orderBy('title')->get();
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
         ->with('auditor:id,name')
         ->firstOrFail();
@@ -126,10 +114,46 @@ class ApproveController extends Controller
         $obs_c = ObservationChecklist::where('observation_id', $id)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-        return view('lpm.print',
-        compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+
+        $pdf = Pdf::loadView('pdf.audit_report',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    return $pdf->stream('make-report.pdf');
+        // return view('lpm.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category',
+        // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
+
+    public function approve_audit(Request $request)
+        {
+            $data = AuditPlan::find($request->id);
+            if ($data) {
+                $data->audit_status_id = "7";
+                $data->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Status berhasil diubah!'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengubah status!'
+                ]);
+            }
+        }
 
     public function lpm_update(Request $request, $id){
         $request->validate([
@@ -156,13 +180,14 @@ class ApproveController extends Controller
     }
 
 
-    public function approver(Request $request){
+    public function rtm(Request $request){
         $data = AuditPlan::all();
-        return view('approver.index', compact('data'));
+        return view('rtm.index', compact('data'));
     }
 
-    public function approver_edit(Request $request, $id){
+    public function rtm_edit($id){
         $data = AuditPlan::findOrFail($id);
+        $locations = Location::orderBy('title')->get();
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
         ->with('auditor:id,name')
         ->firstOrFail();
@@ -189,10 +214,29 @@ class ApproveController extends Controller
         $obs_c = ObservationChecklist::where('observation_id', $id)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-        return view('approver.print',
-        compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+
+        $pdf = Pdf::loadView('pdf.rtm',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    return $pdf->stream('rtm-report.pdf');
+        // return view('lpm.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category',
+        // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
+
 
     // public function approver_edit(Request $request, $id){
     //     $request->validate([
@@ -206,23 +250,23 @@ class ApproveController extends Controller
     //     ]);
     // }
 
-    public function approve(Request $request)
-        {
-            $data = AuditPlan::find($request->id);
-            if ($data) {
-                $data->audit_status_id = "6";
-                $data->save();
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Status berhasil diubah!'
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengubah status!'
-                ]);
-            }
-        }
+    // public function approve(Request $request)
+    //     {
+    //         $data = AuditPlan::find($request->id);
+    //         if ($data) {
+    //             $data->audit_status_id = "6";
+    //             $data->save();
+    //             return response()->json([
+    //                 'success' => true,
+    //                 'message' => 'Status berhasil diubah!'
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Gagal mengubah status!'
+    //             ]);
+    //         }
+    //     }
 
         // public function revised(Request $request){
         //     $data = AuditPlan::find($request->id);
@@ -241,41 +285,6 @@ class ApproveController extends Controller
         //     }
         // }
 
-
-        public function approve_by_approver(Request $request)
-        {
-            $data = AuditPlan::find($request->id);
-            if ($data) {
-                $data->audit_status_id = "8";
-                $data->save();
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Status berhasil diubah!'
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengubah status!'
-                ]);
-            }
-        }
-
-        public function revised_by_approver(Request $request){
-            $data = AuditPlan::find($request->id);
-            if($data){
-                $data->audit_status_id ="9";
-                $data->save();
-                return response()->json([
-                    'success' => true,
-                    'message' => ' Status berhasil diubah!'
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengubah status!'
-                ]);
-            }
-        }
     public function approve_data(Request $request){
         $data = AuditPlan::
         with(['auditee' => function ($query) {

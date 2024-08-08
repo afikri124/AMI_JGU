@@ -83,51 +83,16 @@
                         <thead>
                             <tr>
                                 <th><b>No</b></th>
-                                <th width="15%"><b>Lecture</b></th>
+                                <th width="15%"><b>Auditee</b></th>
                                 <th width="25%"><b>Schedule</b></th>
                                 <th width="15%"><b>Location</b></th>
                                 <th width="10%"><b>Status</b></th>
-                                <th width="10%"><b>Doc</b></th>
+                                <!-- <th width="10%"><b>Doc</b></th> -->
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
                     </table>
                 </div>
-
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><b>Please Review  and Comments Auditee Documents.</b></h4>
-                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="link"><b>Link Drive</b></label>
-                    <br>
-                    <a id="modal-link" href="#" target="_blank"></a>
-                </div>
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
-                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" placeholder="MAX 250 characters..."></textarea>
-                        <i class="text-danger"><b>* Give a note, if the Auditee Document is not complete!</b></i>
-                    </div>
-                    <div class="text-end">
-                        <button class="btn btn-primary me-1" type="submit">Submit</button>
-                        <a href="">
-                            <span class="btn btn-outline-secondary">Back</span>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 
 @section('script')
@@ -231,27 +196,26 @@
                         return html;
                     }
                 },
-                {
-                    render: function (data, type, row, meta) {
-                        var x = "";
-                        if (row.doc_path != null) {
-                            x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
-                        }
-                        if (row.link != null) {
-                            x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
-                        }
-                        return x;
-                    },
-                },
+                // {
+                //     render: function (data, type, row, meta) {
+                //         var x = "";
+                //         if (row.doc_path != null) {
+                //             x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
+                //         }
+                //         if (row.link != null) {
+                //             x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
+                //         }
+                //         return x;
+                //     },
+                // },
                 {
                     render: function(data, type, row, meta) {
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
                         if (row.auditstatus.id === 11 ) {
-                            x = `<a class="badge bg-warning badge-icon" title="Remark Document" data-id="${row.id}"
-                            data-link="${row.link}" data-remark_docs="${row.remark_docs}" onclick="showModal(this)" style="cursor:pointer">
-                            <i class="bx bx-pencil icon-white"></i></a>`;
+                            x = `<a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark_doc/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a>`;
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 ) {
@@ -262,7 +226,7 @@
                         }
                         else if (row.auditstatus.id === 6 ) {
                             x = `
-                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/make_report/${row.id}') }}">
+                                <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
                                         <i class="bx bx-printer"></i></a>`;
                         }
                         return x;
@@ -276,93 +240,5 @@
             table.draw();
         });
     });
-
-    // function approveId(id, data) {
-    //     swal({
-    //             title: "Cek kembali document!",
-    //             text: "Apakah document ("+data+") sudah sesuai?!",
-    //             icon: "warning",
-    //             buttons: true,
-    //             dangerMode: true,
-    //         })
-    //         .then((willApprove) => {
-    //             if (willApprove) {
-    //                 $.ajax({
-    //                     url: "",
-    //                     type: "POST",
-    //                     data: {
-    //                         "id": id,
-    //                         "_token": $("meta[name='csrf-token']").attr("content"),
-    //                     },
-    //                     success: function(response) {
-    //                         if (response.success) {
-    //                             swal({
-    //                                 icon: 'success',
-    //                                 title: 'Acc!',
-    //                                 text: 'Document ('+data+') berhasil di Acc',
-    //                                 customClass: {
-    //                                     confirmButton: 'btn btn-success'
-    //                                 }
-    //                             });
-    //                             $('#datatable').DataTable().ajax.reload();
-    //                         } else {
-    //                             swal({
-    //                                 icon: 'error',
-    //                                 title: 'Error!',
-    //                                 text: data.error,
-    //                                 customClass: {
-    //                                     confirmButton: 'btn btn-danger'
-    //                                 }
-    //                             });
-    //                         }
-    //                     }
-    //                 })
-    //             }
-    //         })
-    // }
-
-    // function revisedId(id, data) {
-    //     swal({
-    //             title: "Apa kamu yakin?",
-    //             text: "Periksa kembali, apakah data ("+data+") kurang sesuai?",
-    //             icon: "warning",
-    //             buttons: true,
-    //             dangerMode: true,
-    //         })
-    //         .then((willRevised) => {
-    //             if (willRevised) {
-    //                 $.ajax({
-    //                     url: "",
-    //                     type: "POST",
-    //                     data: {
-    //                         "id": id,
-    //                         "_token": $("meta[name='csrf-token']").attr("content"),
-    //                     },
-    //                     success: function (data) {
-    //                         if (data['success']) {
-    //                             swal(data['message'], {
-    //                                 icon: "success",
-    //                             });
-    //                             $('#datatable').DataTable().ajax.reload();
-    //                         } else {
-    //                             swal(data['message'], {
-    //                                 icon: "error",
-    //                             });
-    //                         }
-    //                     }
-    //                 })
-    //             }
-    //         })
-    // }
-
-    function showModal(element) {
-        var id = $(element).data('id');
-        var link = $(element).data('link');
-        var remark_docs = $(element).data('remark_docs');
-        $('#modal-link').text(link).attr('href', link);
-        $('#modal-remark_docs').text(remark_docs).attr('href', remark_docs);
-        $('#upload-form').attr('action', '/observations/update/' + id);
-        $('#uploadModal').modal('show');
-    }
 </script>
 @endsection
