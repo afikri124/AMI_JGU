@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\sendEmail;
 use App\Mail\reschedule;
+use App\Mail\deletedAuditPlan;
 use App\Models\AuditPlan;
 use App\Models\AuditPlanAuditor;
 use App\Models\AuditPlanCategory;
@@ -75,32 +76,41 @@ class AuditPlanController extends Controller
         // Send Email
         if ($auditee) {
             $department = Department::find($request->department_id);
+            $location = Location::find($request->location_id);
+            // Assuming $request->auditor_id contains IDs of the auditors
+            $auditorNames = [];
+            foreach ($request->auditor_id as $auditorId) {
+                $auditor = User::find($auditorId);
+                if ($auditor) {
+                    $auditorNames[] = $auditor->name;
+                }
+            }
+            // Data untuk email
+            $emailData = [
+                'auditee_id'    => $auditee->name,
+                'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
+                'date_start'    => $request->date_start,
+                'date_end'      => $request->date_end,
+                'department_id' => $department ? $department->name : null,
+                'location_id'   => $location ? $location->title : null,
+                'link'          => $request->link,
+                'type_audit'    => $request->type_audit,
+                'periode'       => $request->periode,
+                'subject'       => 'Notification Audit Mutu Internal' // Add the subject here
 
-            if ($auditee) {
-                // Data untuk email
-                $emailData = [
-                    'lecture_id'           => (string) $request['lecture_id'],
-                    'date_start'           => (string) $request['date_start'],
-                    'date_end'             => (string) $request['date_end'],
-                    'department_id'        => (string) $request['department_id'],
-                    'location_id'          => (string) $request['location_id'],
-                    'auditor_id'           => (string) $request['auditor_id'],
-                    'standard_categories_id' => (string) $request['standard_categories_id'],
-                    'standard_criterias_id' => (string) $request['standard_criterias_id'],
-                    'link'                 => (string) $request['link'],
-                ];
-
+            ];
             // Kirim email ke pengguna yang ditemukan
             Mail::to($auditee->email)->send(new sendEmail($emailData));
             Mail::to($auditor->email)->send(new sendEmail($emailData));
-
             // Redirect dengan pesan sukses
-            return redirect()->route('observations.index')->with('msg', 'Document telah di Review, Siap untuk Audit Lapangan');
-        } else {
-            // Redirect dengan pesan error jika pengguna tidak ditemukan
-            return redirect()->route('observations.index')->with('msg', 'Pengguna tidak ditemukan');
+            return redirect()->route('audit_plan.standard', ['id' => $data->id])
+                    ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
+            } else {
+                // Redirect dengan pesan error jika pengguna tidak ditemukan
+                return redirect()->route('audit_plan.standard', ['id' => $data->id])
+                    ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added, but email not sent - user not found.');
+            }
         }
-    }
 
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
@@ -254,6 +264,7 @@ class AuditPlanController extends Controller
 
         // Hapus AuditPlan itu sendiri
         $data->delete();
+
 
         return response()->json([
             'success' => true,
