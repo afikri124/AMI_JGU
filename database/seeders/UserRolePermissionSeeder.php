@@ -26,7 +26,7 @@ class UserRolePermissionSeeder extends Seeder
         // try {
             //create user adminb
             $admin = User::create(array_merge([
-                'email' => 'admin@gmail.com',
+                'email' => '092023090187@student.jgu.ac.id',
                 'name' => 'Admin',
                 'username' => 'admin',
             ], $default_user_value));
