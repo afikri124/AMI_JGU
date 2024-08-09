@@ -41,9 +41,11 @@ class MyAuditController extends Controller{
         ]);
 
         $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
-
+        $observation = Observation::where('audit_plan_id', $id)
+        ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
+        ->firstOrFail();
         // Create Observation
-        $obs = Observation::create([
+        $observation->update([
             'audit_plan_id' => $id,
             'audit_plan_auditor_id' => $auditPlanAuditorId,
         ]);
@@ -75,7 +77,7 @@ class MyAuditController extends Controller{
         // Create Observation Checklists
         foreach ($request->indicator_ids as $index => $indicatorId) {
             ObservationChecklist::create([
-                'observation_id' => $obs->id,
+                'observation_id' => $observation->id,
                 'indicator_id' => $indicatorId,
                 'doc_path' => $filePaths[$index] ?? null,
             ]);
@@ -110,7 +112,7 @@ class MyAuditController extends Controller{
         $obs_c = ObservationChecklist::where('observation_id', $id)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-        return view('my_audit.show',
+        return view('my_audit.view',
         compact('standardCategories', 'standardCriterias',
         'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }

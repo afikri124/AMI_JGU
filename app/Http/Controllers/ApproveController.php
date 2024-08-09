@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Approve;
 use App\Models\AuditPlan;
 use App\Models\Observation;
 use App\Models\AuditPlanAuditor;
 use App\Models\AuditPlanCategory;
 use App\Models\AuditPlanCriteria;
-use App\Models\Department;
 use App\Models\Location;
 use App\Models\ObservationChecklist;
 use App\Models\Setting;
@@ -39,17 +37,26 @@ class ApproveController extends Controller
     }
 
     public function lpm_standard(Request $request, $id){
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'remark_standard_lpm' => '',
-            ]);
+    $data = AuditPlan::findOrFail($id);
+    $auditorId = Auth::user()->id;
 
-            $data = AuditPlan::findOrFail($id);
-            $data->update([
-                'remark_standard_lpm' => $request->remark_standard_lpm,
-                'audit_status_id' => '5',
-            ]);
+    if ($request->isMethod('POST')) {
+        $this->validate($request, [
+            'remark_standard_lpm' => ['required'], // Validate each file
+        ]);
 
+        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+
+        // Create Observation
+        Observation::create([
+            'audit_plan_id' => $id,
+            'audit_plan_auditor_id' => $auditPlanAuditorId,
+            'remark_standard_lpm' => $request->remark_standard_lpm,
+        ]);
+
+        $data->update([
+            'audit_status_id'   => '5',
+        ]);
         return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
         }
 
