@@ -96,7 +96,6 @@ class AuditPlanController extends Controller
                 'date_end'      => $request->date_end,
                 'department_id' => $department ? $department->name : null,
                 'location_id'   => $location ? $location->title : null,
-                'link'          => $request->link,
                 'type_audit'    => $request->type_audit,
                 'periode'       => $request->periode,
                 'subject'       => 'Notification Audit Mutu Internal' // Add the subject here

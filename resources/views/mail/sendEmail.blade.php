@@ -33,9 +33,6 @@
                 <td ></td>
             </tr>
             <tr class="pad-left-right-space">
-                <td ><p>Link  <b>:</b><b><a href="{{ $data['link'] }}"> {{ $data['link'] }}</a></b></p></td>
-            </tr>
-            <tr class="pad-left-right-space">
                 <td ><p>Type Audit <b>:</b><b> {{ $data['type_audit'] }}</b></p></td>
 
             </tr>

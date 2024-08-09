@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\documenUploded;
 use App\Models\AuditPlan;
 use App\Models\Department;
 use App\Models\Observation;
@@ -21,6 +22,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 
 class MyAuditController extends Controller{
@@ -85,6 +87,25 @@ class MyAuditController extends Controller{
             'audit_status_id'   => '11',
         ]);
 
+        // Send Email Notification
+        $auditee = User::find($data->auditee_id);
+        $auditors = $data->auditors ?? collect();
+
+        $emailData = [
+            'audit_plan_id' => $data->id,
+            'auditee' => $auditee ? $auditee->name : 'N/A',
+            'auditors' => $auditors->pluck('name')->implode(', '),
+            'doc_path' => is_array($filePaths) ? implode(', ', $filePaths) : $filePaths,
+            'subject' => 'Notification: Documents Uploaded for Audit Plan'
+        ];
+
+        if ($auditee) {
+            Mail::to($auditee->email)->send(new documenUploded($emailData));
+        }
+
+        foreach ($auditors as $auditor) {
+            Mail::to($auditor->email)->send(new documenUploded($emailData));
+        }
         return redirect()->route('my_audit.index')->with('msg', 'Document Success Uploaded');
     }
 
