@@ -25,39 +25,43 @@ class ApproveController extends Controller
         return view('lpm.index', compact('data'));
     }
 
-    public function lpm_as(Request $request){
-        {
-            $data = AuditPlan::find($request->id);
-            if ($data) {
-                $data->audit_status_id = "4";
-                $data->save();
-            }
-            return redirect()->route('lpm.index')->with('msg', 'Standard Approved by LPM.');
-        }
-    }
-
     public function lpm_standard(Request $request, $id){
-    $data = AuditPlan::findOrFail($id);
-    $auditorId = Auth::user()->id;
+        $data = AuditPlan::findOrFail($id);
+        $auditorId = Auth::user()->id;
 
-    if ($request->isMethod('POST')) {
-        $this->validate($request, [
-            'remark_standard_lpm' => ['required'], // Validate each file
-        ]);
+        if ($request->isMethod('POST')) {
+            // Menentukan aksi berdasarkan tombol yang diklik
+            $action = $request->input('action');
 
-        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+            if ($action === 'Approve') {
+                $remark = 'Approve';
+                $status = 4;
+            } elseif ($action === 'Revised') {
+                $this->validate($request, [
+                    'remark_standard_lpm' => ['required'],
+                ]);
+                $remark = $request->input('remark_standard_lpm');
+                $status = 5;
+            } else {
+                return redirect()->route('lpm.index')->with('error', 'Aksi tidak valid.');
+            }
 
-        // Create Observation
-        Observation::create([
-            'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditorId,
-            'remark_standard_lpm' => $request->remark_standard_lpm,
-        ]);
+            // Mendapatkan ID auditor terkait
+            $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
 
-        $data->update([
-            'audit_status_id'   => '5',
-        ]);
-        return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
+            // Membuat Observation
+            Observation::create([
+                'audit_plan_id' => $id,
+                'audit_plan_auditor_id' => $auditPlanAuditorId,
+                'remark_standard_lpm' => $remark,
+            ]);
+
+            // Memperbarui status audit plan
+            $data->update([
+                'audit_status_id' => $status,
+            ]);
+
+            return redirect()->route('lpm.index')->with('msg', 'Standard diperbarui.');
         }
 
         $data = AuditPlan::findOrFail($id);

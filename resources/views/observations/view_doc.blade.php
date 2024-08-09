@@ -117,9 +117,6 @@
 
     @foreach ($criteria->statements as $no => $statement)
     @foreach ($statement->indicators as $indicator)
-    @foreach ($observations as $observation)
-                @foreach ($obs_c as $obsChecklist)
-                    @if ($obsChecklist->observation_id == $observation->id)
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
@@ -135,7 +132,6 @@
                     <div class="form-group mb-3">
                         <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
                         <br>
-                        <a href="{{ url($obsChecklist->doc_path) }}" target="_blank">{{ $obsChecklist->doc_path ?? '' }}</a><br>
                         </div>
                 </td>
             <tr>
@@ -150,17 +146,13 @@
                         <label class="form-label" for="basicDate"><b>Remark Document</b><i class="text-danger">*</i></label></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
-                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters...">{{$obsChecklist->remark_docs}}</textarea>
+                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
                         </div>
                     </div>
                 </td>
             </tr>
         </div>
       </div>
-      @break
-            @endif
-        @endforeach
-    @endforeach
     </table>
     <hr>
     @endforeach

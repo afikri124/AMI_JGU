@@ -79,7 +79,7 @@ class MyAuditController extends Controller{
             ObservationChecklist::create([
                 'observation_id' => $observation->id,
                 'indicator_id' => $indicatorId,
-                'doc_path' => $filePaths[$index] ?? null,
+                'doc_path' => $filePaths[$index] ?? '',
             ]);
         }
 
