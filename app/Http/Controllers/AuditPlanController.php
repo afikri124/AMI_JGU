@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\sendEmail;
 use App\Mail\reschedule;
+use App\Mail\deletedAuditPlan;
 use App\Models\AuditPlan;
 use App\Models\AuditPlanAuditor;
 use App\Models\AuditPlanCategory;
@@ -264,6 +265,7 @@ class AuditPlanController extends Controller
 
         // Hapus AuditPlan itu sendiri
         $data->delete();
+
 
         return response()->json([
             'success' => true,
