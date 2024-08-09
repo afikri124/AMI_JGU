@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class sendEmail extends Mailable
+class reschedule  extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,7 +31,7 @@ class sendEmail extends Mailable
     public function build()
     {
         return $this->subject('📅 AMI | '. $this->data['subject']
-        )->view('mail.sendEmail',[
+        )->view('mail.reschedule',[
             'data' => $this->data
         ]);
     }

@@ -46,6 +46,7 @@
                 <div data-i18n="Dashboards">RTM</div>
             </a>
         </li>
+
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Approve</span>
         </li>

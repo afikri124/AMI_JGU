@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class sendEmail extends Mailable
+class documenUploded  extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,8 +30,8 @@ class sendEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('📅 AMI | '. $this->data['subject']
-        )->view('mail.sendEmail',[
+        return $this->subject(' AMI | '. $this->data['subject']
+        )->view('mail.documenUploded',[
             'data' => $this->data
         ]);
     }
