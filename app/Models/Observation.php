@@ -17,7 +17,10 @@ class Observation extends Model
         'location_id',
         'remark_plan',
         'person_in_charge',
-        'plan_complated'
+        'plan_complated',
+        'date_prepared',
+        'date_checked',
+        'date_validated'
     ];
 
     public function auditPlan()

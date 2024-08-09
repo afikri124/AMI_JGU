@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Remark Auditor | Make Report')
+@section('title', 'Remark Audit Report By Auditor')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -140,19 +140,19 @@
                     <div id="data-sets">
                         <div id="data-set">
                             <div class="checkbox-group">
-                                <input type="radio" id="ks_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} disabled />
+                                <input type="radio" id="ks_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
                                 <label for="ks_{{ $observation->id }}">KS</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" id="obs_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} disabled />
+                                <input type="radio" id="obs_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
                                 <label for="obs_{{ $observation->id }}">OBS</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" id="kts_minor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} disabled />
+                                <input type="radio" id="kts_minor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
                                 <label for="kts_minor_{{ $observation->id }}">KTS MINOR</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" id="kts_mayor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} disabled />
+                                <input type="radio" id="kts_mayor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
                                 <label for="kts_mayor_{{ $observation->id }}">KTS MAYOR</label>
                             </div>
                         </div>
@@ -172,8 +172,8 @@
                     <label for="remark_description_{{ $observation->id }}" class="form-label">
                         <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_description_{{ $observation->id }}" name="remark_description[{{ $obsChecklist->indicator_id }}]"
-                    class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_description ?? '' }}</textarea>
+                    <textarea id="remark_description_{{ $observation->id }}" name="remark_description"
+                    class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
                     @error('remark_description.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -186,8 +186,8 @@
                     <label for="remark_success_failed_{{ $observation->id }}" class="form-label">
                         <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_success_failed_{{ $observation->id }}" name="remark_success_failed[{{ $obsChecklist->indicator_id }}]"
-                    class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
+                    <textarea id="remark_success_failed_{{ $observation->id }}" name="remark_success_failed"
+                    class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
                     @error('remark_success_failed.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -200,8 +200,8 @@
                     <label for="remark_recommend_{{ $observation->id }}" class="form-label">
                         <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_recommend_{{ $observation->id }}" name="remark_recommend[{{ $obsChecklist->indicator_id }}]"
-                    class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
+                    <textarea id="remark_recommend_{{ $observation->id }}" name="remark_recommend"
+                    class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
                     @error('remark_recommend.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -226,11 +226,11 @@
             @endif
         @endforeach
     @endforeach
-</table>
+</table>0
     @endforeach
         @endforeach
             @endforeach
-            <hr class="text-dark">
+            <br>
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
@@ -253,11 +253,23 @@
                             @enderror
                 </div>
             </div>
+<hr class="text-dark">
+            <div class="row">
+                <div class="col-lg-12 col-md-6 mb-3">
+                    <label for="date_checked" class="form-label"><b>Date Checked By Auditor</b><i class="text-danger">*</i></label>
+                    <input type="date" class="form-control" name="date_checked" id="date_checked" value="{{$observation->date_checked}}">
+                    @error('date_checked')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
             <div>
-                <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
+                <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
                     <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
-                    name="remark_plan" placeholder="MAX 250 characters..." value="{{$observation->remark_plan}}"></textarea>
+                    name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>
                     @error('remark_plan')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

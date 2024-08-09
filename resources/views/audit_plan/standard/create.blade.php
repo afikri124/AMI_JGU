@@ -18,10 +18,9 @@
 @endsection
 
 @section('content')
-<div class="container-fluid flex-grow-1 container-p-y">
 <div class="row">
     <div class="col-md-12">
-      <form class="card" action="{{ route('update_std', $data->id) }}"  method="POST" enctype="multipart/form-data">
+      <form class="card" action="{{ route('create_auditor_std', $data->id) }}"  method="POST" enctype="multipart/form-data">
         @csrf
             <div class="card-header">
                 <h3 class="card-header"><b>Create Auditor Standard</b></h3>
@@ -130,7 +129,7 @@
                 var categoryId = this.value;
                 $("#standard_criteria_id").html('');
                 $.ajax({
-                    url: "{{ route('DOC.get_standard_criteria_id_by_id') }}",
+                    url: "",
                     type: "GET",
                     data: {
                         id: categoryId,

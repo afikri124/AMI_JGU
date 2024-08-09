@@ -21,7 +21,6 @@ class AuditPlan extends Model
         'location_id',
         'department_id',
         'auditor_id',
-        'link',
         'periode',
         'type_audit',
         'remark_standard_lpm'

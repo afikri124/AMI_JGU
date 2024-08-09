@@ -89,35 +89,30 @@ class MyAuditController extends Controller{
     }
 
         $data = AuditPlan::findOrFail($id);
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-        ->with('auditor:id,name')
-        ->firstOrFail();
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $auditPlanAuditorIds = $auditor->pluck('id');
 
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+        $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCategoryIds = $category->pluck('standard_category_id');
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
 
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
+        $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
+                            ->with('statements')
+                            ->with('statements.indicators')
+                            ->with('statements.reviewDocs')
+                            ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                            ->orderBy('title')
+                            ->get();
 
-        $standardCategoryIds = $categories->pluck('standard_category_id');
-        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
-
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
         $obs_c = ObservationChecklist::where('observation_id', $id)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         return view('my_audit.view',
         compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
     //Narik data untuk Observations
@@ -223,6 +218,7 @@ class MyAuditController extends Controller{
         $this->validate($request, [
             'person_in_charge' => ['required'],
             'plan_complated' => ['required'],
+            'date_prepared' => ['required'],
             'remark_upgrade_repair' => ['required'],
         ]);
 
@@ -230,6 +226,7 @@ class MyAuditController extends Controller{
         $observation->update([
             'person_in_charge' => $request->person_in_charge,
             'plan_complated' => $request->plan_complated,
+            'date_prepared' => $request->date_prepared,
         ]);
 
         // Update Observation Checklists
@@ -244,7 +241,6 @@ class MyAuditController extends Controller{
                 ]);
             }
         }
-// dd($request);
         return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
     }
 

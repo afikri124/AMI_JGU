@@ -86,8 +86,8 @@
                                 <th width="15%"><b>Auditee</b></th>
                                 <th width="25%"><b>Schedule</b></th>
                                 <th width="15%"><b>Location</b></th>
+                                <th width="15%"><b>Auditor</b></th>
                                 <th width="10%"><b>Status</b></th>
-                                <!-- <th width="10%"><b>Doc</b></th> -->
                                 <th><b>Action</b></th>
                             </tr>
                         </thead>
@@ -190,6 +190,25 @@
                     },
                 },
                 {
+                    render: function (data, type, row, meta) {
+                        var html = '';
+                        if (row.auditor) {
+                            row.auditor.forEach(function (auditor) {
+                                if (auditor.auditor) {
+                                    html += `<code><span title="` + auditor.auditor.name +
+                                        `" style="font-size: 1.2em;">` + auditor.auditor.name + `</span></code><br>`;
+
+                                    if (auditor.auditor.no_phone) {
+                                        html += `<a href="tel:` + auditor.auditor.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
+                                                `<i class="fas fa-phone-alt"></i> ` + auditor.auditor.no_phone + `</a><br>`;
+                                    }
+                                }
+                            });
+                        }
+                        return html;
+                    },
+                },
+                {
                     render: function(data, type, row, meta) {
                         var html =
                             `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
@@ -228,6 +247,10 @@
                             x = `
                                 <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
                                         <i class="bx bx-printer"></i></a>`;
+                        }
+                        else if (row.auditstatus.id === 8 ) {
+                            x = `<a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a>`;
                         }
                         return x;
                     },

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', ' Edit Audit Plan')
+@section('title', 'Edit Audit Plan')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />

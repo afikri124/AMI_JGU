@@ -73,43 +73,33 @@ class ObservationController extends Controller
     }
 
 
-        $data = AuditPlan::findOrFail($id);
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-                                    ->with('auditor:id,name')
-                                    ->firstOrFail();
+    $data = AuditPlan::findOrFail($id);
+    $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+    $auditPlanAuditorIds = $auditor->pluck('id');
 
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
+    $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+    $standardCategoryIds = $category->pluck('standard_category_id');
+    $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
 
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
-
-        $standardCategoryIds = $categories->pluck('standard_category_id');
-        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
-
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
+    $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+    $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
+    $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
+                        ->with('statements')
                         ->with('statements.indicators')
                         ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->orderBy('title')
                         ->get();
 
-        $observations = Observation::where('audit_plan_id', $id)->get();
-
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
-
-        // dd($obs_c);
-
-        $hodLPM = Setting::find('HODLPM');
-        $hodBPMI = Setting::find('HODBPMI');
+    // Fetch other data needed
+    $observations = Observation::where('audit_plan_id', $id)->get();
+    $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+    $hodLPM = Setting::find('HODLPM');
+    $hodBPMI = Setting::find('HODBPMI');
 
         return view('observations.view_doc',
         compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria',
+        'auditor', 'data', 'category', 'criteria',
         'observations', 'obs_c','hodLPM', 'hodBPMI'));
 }
 
@@ -170,11 +160,11 @@ class ObservationController extends Controller
         if ($request->isMethod('POST')) {
             // dd($request);
             $this->validate($request, [
-                'location_id' => [],
-                'remark_description' => [],
-                'obs_checklist_option' => [],
-                'remark_success_failed' => [],
-                'remark_recommend' => [],
+                'location_id' => [''],
+                'remark_description' => [''],
+                'obs_checklist_option' => [''],
+                'remark_success_failed' => [''],
+                'remark_recommend' => [''],
             ]);
 
             $observation = Observation::where('audit_plan_id', $id)
@@ -233,7 +223,7 @@ class ObservationController extends Controller
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
 
-        $observations = Observation::where('audit_plan_id', $id)->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
 
         $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
 
@@ -306,11 +296,9 @@ class ObservationController extends Controller
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
 
-        $observations = Observation::where('audit_plan_id', $id)->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
 
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
-
-        // dd($obs_c);
+        $obs_c = ObservationChecklist::where('observation_id', $observations->pluck('id'))->get();
 
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
@@ -333,13 +321,33 @@ class ObservationController extends Controller
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-                'remark_plan' => '',
+                'remark_plan' => [''],
+                'date_checked' => [''],
+                'remark_description' => [''],
+                'obs_checklist_option' => [''],
+                'remark_success_failed' => [''],
+                'remark_recommend' => [''],
             ]);
 
             $observation->update([
                 'remark_plan' => $request->remark_plan,
-
+                'date_checked' => $request->date_checked,
             ]);
+
+            foreach ($request->obs_checklist_option as $key => $obs_c) {
+                $checklist = ObservationChecklist::where('observation_id', $observation->id)
+                    ->where('indicator_id', $key)
+                    ->firstOrFail();
+
+                if ($checklist) {
+                    $checklist->update([
+                    'remark_description' => $request->remark_description[$key] ?? '',
+                    'obs_checklist_option' => $obs_c ?? '',
+                    'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
+                    'remark_recommend' => $request->remark_recommend[$key] ?? '',
+                    ]);
+                }
+            }
 
             $data->update([
                 'audit_status_id'   => '6',
@@ -359,14 +367,8 @@ class ObservationController extends Controller
             'auditstatus' => function ($query) {
                 $query->select('id', 'title', 'color');
             },
-            'auditorId' => function ($query) {
-                $query->select('id', 'name');
-            },
-            'category' => function ($query) {
-                $query->select('id', 'description');
-            },
-            'departments' => function ($query) {
-                $query->select('id', 'name');
+            'auditor.auditor' => function ($query) {
+                $query->select('id', 'name', 'no_phone');
             },
         ])->leftJoin('locations', 'locations.id', '=', 'location_id')
             ->select(

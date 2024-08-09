@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('remark_plan')->nullable();
             $table->string('person_in_charge')->nullable();
             $table->string('plan_complated')->nullable();
+            $table->string('date_prepared')->nullable();
+            $table->string('date_checked')->nullable();
+            $table->string('date_validated')->nullable();
             $table->timestamps();
         });
     }

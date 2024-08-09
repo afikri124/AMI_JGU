@@ -64,8 +64,10 @@ Route::group(['prefix' => 'audit_plan'], function () {
     //Add Audit Plan Auditor Standard
     Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
     Route::get('/data_auditor/{id}', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
+    Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
+    Route::any('/standard/create_auditor_std/{id}', [AuditPlanController::class, 'create_auditor_std'])->name('create_auditor_std');
     Route::get('/standard/edit/{id}', [AuditPlanController::class, 'edit_auditor_std'])->name('audit_plan.standard.edit');
-    Route::PUT('/standard/update/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
+    Route::put('/standard/update/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
 });
 
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
@@ -102,7 +104,7 @@ Route::group(['prefix' => 'observations'], function () {
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
-    Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
+    Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm_update');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
     Route::any('/lpm_as/{id}', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
     Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');

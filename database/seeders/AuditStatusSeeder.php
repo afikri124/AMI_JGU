@@ -67,10 +67,6 @@ class AuditStatusSeeder extends Seeder
             ["id" => "13",
             "title" => "Standard\nUpdated",
             "color" => "secondary"],
-
-            ["id" => "14",
-            "title" => "Standard\nUpdated",
-            "color" => "secondary"],
         ];
 
 
