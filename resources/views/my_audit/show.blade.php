@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Observations | Auditee')
+@section('title', 'Observations Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -179,10 +179,10 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <label for="remark_description_{{ $observation->id }}" class="form-label">
+                    <label for="remark_description" class="form-label">
                         <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_description_{{ $observation->id }}" name="remark_description[{{ $obsChecklist->indicator_id }}]"
+                    <textarea id="remark_description" name="remark_description"
                     class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_description ?? '' }}</textarea>
                     @error('remark_description.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -272,7 +272,6 @@
                         </span>
                     @enderror
                 </div>
-            </div>
             <!-- <div>
                 <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
@@ -291,6 +290,7 @@
                 <a href="{{ url()->previous() }}">
                     <span class="btn btn-outline-secondary">Back</span>
                 </a>
+            </div>
             </div>
         </div>
       </div>

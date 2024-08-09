@@ -222,9 +222,9 @@
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3) {
-                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('my_audit/obs/${row.id}') }}">
+                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('my_audit/my_standard/${row.id}') }}">
                                     <i class="bx bx-search-alt"></i></a>
-                                <a class="badge bg-warning" title="My Audit Remark" href="{{ url('my_audit/my_standard/${row.id}') }}">
+                                <a class="badge bg-warning" title="My Audit Remark" href="{{ url('my_audit/my_remark/${row.id}') }}">
                                     <i class="bx bx-pencil"></i></a>`;
                         }
                         else if (row.auditstatus.id === 6 ) {

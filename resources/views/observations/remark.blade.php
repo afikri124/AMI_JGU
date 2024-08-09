@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Remark Audit Report By Auditor')
+@section('title', 'Edit Report By Auditor')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -226,7 +226,7 @@
             @endif
         @endforeach
     @endforeach
-</table>0
+</table>
     @endforeach
         @endforeach
             @endforeach
