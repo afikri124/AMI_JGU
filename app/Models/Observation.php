@@ -16,6 +16,7 @@ class Observation extends Model
         'audit_plan_auditor_id',
         'location_id',
         'remark_plan',
+        'remark_standard_lpm',
         'person_in_charge',
         'plan_complated',
         'date_prepared',

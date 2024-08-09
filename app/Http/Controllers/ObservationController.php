@@ -296,7 +296,7 @@ class ObservationController extends Controller
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
 
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
         $obs_c = ObservationChecklist::where('observation_id', $observations->pluck('id'))->get();
 
@@ -315,9 +315,9 @@ class ObservationController extends Controller
         $auditorId = Auth::user()->id;
 
         // Retrieve the observation using the ID
-        $observation = Observation::where('audit_plan_id', $id)
-            ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
-            ->firstOrFail();
+            $observation = Observation::where('audit_plan_id', $id)
+                ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
+                ->firstOrFail();
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [

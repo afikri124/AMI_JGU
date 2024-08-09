@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\documenUploded;
 use App\Models\AuditPlan;
 use App\Models\Department;
 use App\Models\Observation;
@@ -22,7 +21,6 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
 
 
 class MyAuditController extends Controller{
@@ -43,9 +41,11 @@ class MyAuditController extends Controller{
         ]);
 
         $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
-
+        $observation = Observation::where('audit_plan_id', $id)
+        ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
+        ->firstOrFail();
         // Create Observation
-        $obs = Observation::create([
+        $observation->update([
             'audit_plan_id' => $id,
             'audit_plan_auditor_id' => $auditPlanAuditorId,
         ]);
@@ -77,7 +77,7 @@ class MyAuditController extends Controller{
         // Create Observation Checklists
         foreach ($request->indicator_ids as $index => $indicatorId) {
             ObservationChecklist::create([
-                'observation_id' => $obs->id,
+                'observation_id' => $observation->id,
                 'indicator_id' => $indicatorId,
                 'doc_path' => $filePaths[$index] ?? null,
             ]);
@@ -87,25 +87,6 @@ class MyAuditController extends Controller{
             'audit_status_id'   => '11',
         ]);
 
-        // Send Email Notification
-        $auditee = User::find($data->auditee_id);
-        $auditors = $data->auditors ?? collect();
-
-        $emailData = [
-            'audit_plan_id' => $data->id,
-            'auditee' => $auditee ? $auditee->name : 'N/A',
-            'auditors' => $auditors->pluck('name')->implode(', '),
-            'doc_path' => is_array($filePaths) ? implode(', ', $filePaths) : $filePaths,
-            'subject' => 'Notification: Documents Uploaded for Audit Plan'
-        ];
-
-        if ($auditee) {
-            Mail::to($auditee->email)->send(new documenUploded($emailData));
-        }
-
-        foreach ($auditors as $auditor) {
-            Mail::to($auditor->email)->send(new documenUploded($emailData));
-        }
         return redirect()->route('my_audit.index')->with('msg', 'Document Success Uploaded');
     }
 
@@ -129,6 +110,46 @@ class MyAuditController extends Controller{
 
         $observations = Observation::where('audit_plan_id', $id)->get();
         $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+        return view('my_audit.view',
+        compact('standardCategories', 'standardCriterias',
+        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
+
+    public function my_remark( $id)
+        {
+        $locations = Location::orderBy('title')->get();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+        $data = AuditPlan::findOrFail($id);
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        // dd($standardCriterias);
+
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+                                    ->with('auditor:id,name')
+                                    ->firstOrFail();
+
+        $observations = Observation::where('audit_plan_id', $id)->get();
+
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
+
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         return view('my_audit.view',

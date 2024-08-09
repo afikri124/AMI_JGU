@@ -81,6 +81,7 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
     Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
     Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
+    Route::get  ('/my_remark/{id}', [MyAuditController::class, 'my_remark'])->name('my_audit.my_remark');
     Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
     Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
 });

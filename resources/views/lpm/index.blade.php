@@ -225,7 +225,7 @@
                                 x = `<a class="badge bg-danger" title="Print Make Report By LPM" href="{{ url('lpm/lpm_edit/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`
                         }
-                        else if(row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 5 || row.auditstatus.id === 13 ){
+                        else if(row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 13 ){
                                 x = `<a class="badge bg-warning" title="Determine Standard" href="{{ url('lpm/lpm_standard/${row.id}') }}">
                                     <i class="bx bx-pencil"></i></a>`
                         }

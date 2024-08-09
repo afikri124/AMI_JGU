@@ -24,9 +24,9 @@ class UserRolePermissionSeeder extends Seeder
         ];
         // DB::beginTransaction();
         // try {
-            //create user admin
+            //create user adminb
             $admin = User::create(array_merge([
-                'email' => 'no-reply@jgu.ac.id',
+                'email' => '092023090187@student.jgu.ac.id',
                 'name' => 'Admin',
                 'username' => 'admin',
             ], $default_user_value));

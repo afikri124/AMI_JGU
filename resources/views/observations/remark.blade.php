@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Remark Audit Report By Auditor')
+@section('title', 'Edit Report By Auditor')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -169,10 +169,10 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <label for="remark_description_{{ $observation->id }}" class="form-label">
+                    <label for="remark_description" class="form-label">
                         <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_description_{{ $observation->id }}" name="remark_description"
+                    <textarea id="remark_description" name="remark_description_{{ $observation->id }}"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
                     @error('remark_description.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -183,10 +183,10 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <label for="remark_success_failed_{{ $observation->id }}" class="form-label">
+                    <label for="remark_success_failed" class="form-label">
                         <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_success_failed_{{ $observation->id }}" name="remark_success_failed"
+                    <textarea id="remark_success_failed" name="remark_success_failed_{{ $observation->id }}"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
                     @error('remark_success_failed.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -200,7 +200,7 @@
                     <label for="remark_recommend_{{ $observation->id }}" class="form-label">
                         <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_recommend_{{ $observation->id }}" name="remark_recommend"
+                    <textarea id="remark_recommend" name="remark_recommend_{{ $observation->id }}"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
                     @error('remark_recommend.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -226,7 +226,7 @@
             @endif
         @endforeach
     @endforeach
-</table>0
+</table>
     @endforeach
         @endforeach
             @endforeach

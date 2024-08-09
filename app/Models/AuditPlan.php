@@ -23,7 +23,6 @@ class AuditPlan extends Model
         'auditor_id',
         'periode',
         'type_audit',
-        'remark_standard_lpm'
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
