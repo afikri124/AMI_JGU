@@ -14,6 +14,9 @@
 </table>
 <tbody>
             <tr class="pad-left-right-space">
+                <td ><p>Auditee <b><b>:</b> {{ $data['auditee_id'] }}</b></p></td>
+            </tr>
+            <tr class="pad-left-right-space">
                 <td ><p>Auditor <b><b>:</b> {{ $data['auditor_id'] }}</b></p></td>
             </tr>
             <tr class="pad-left-right-space">

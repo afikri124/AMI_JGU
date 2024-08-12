@@ -45,9 +45,7 @@
                         <label for="numForms">Number of Forms</label>
                         <input type="number" class="form-control" id="numForms" name="numForms" min="1">
                     </div>
-
                     <div id="dynamic-form-container"></div>
-
                     <div class="col-sm-12 mt-4">
                         <button type="submit" class="btn btn-primary data-submit me-sm-1">Create</button>
                         <a href="{{ url()->previous() }}">
