@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rtm', function (Blueprint $table) {
+        Schema::create('rtms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('observation_id')->nullable();
             $table->foreign('observation_id')->references('id')->on('observations')->nullable()->onUpdate('cascade')->onDelete('cascade');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rtm');
+        Schema::dropIfExists('rtms');
     }
 };

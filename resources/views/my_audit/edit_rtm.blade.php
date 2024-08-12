@@ -161,17 +161,11 @@
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td>
-                <div class="form-group mb-3">
-                    <label for="plan_complated_end" class="form-label"><b>Target Akhir</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated_end" id="plan_complated_end" value=""
-                            placeholder="YYYY-MM-DD">
-                            @error('plan_complated_end')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                </div>
-            </div>
+                    <div class="form-group mb-3">
+                        <label for="doc_path_rtm" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
+                        <input type="file" class="form-control" name="doc_path_rtm[]" accept=".pdf">
+                        <input type="hidden" name="indicator_ids[]" value="{{ old('indicator_ids[]', $indicator->id) }}">
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -182,10 +176,12 @@
                     @endforeach
                 </td>
                 <td>
-                    <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path[]" accept=".pdf">
-                        <input type="hidden" name="indicator_ids[]" value="{{ $obsChecklist->doc_path }}">
+                    <div>
+                        <label class="form-label" for="basicDate"><b>Remark Document</b></label>
+                        <div class="input-group input-group-merge has-validation">
+                            <textarea type="text" class="form-control @error('remark_rtm_auditee') is-invalid @enderror"
+                            name="remark_rtm_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -253,6 +249,20 @@
         @endforeach
         <hr class="text-dark">
             @endforeach
+            <tr>
+                <td>
+                    <div class="form-group mb-3">
+                        <label for="plan_complated_end_{{ $indicator->id }}" class="form-label"><b>Target Akhir</b><i class="text-danger">*</i></label>
+                        <input type="date" class="form-control" name="plan_complated_end[{{ $indicator->id }}]" id="plan_complated_end_{{ $indicator->id }}"
+                            value="{{ old('plan_complated_end.' . $indicator->id) }}" placeholder="YYYY-MM-DD">
+                        @error('plan_complated_end.' . $indicator->id)
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </td>
+            </tr>
             <p></p>
             <div class="text-end">
                 <button class="btn btn-primary me-1" type="submit">Submit</button>

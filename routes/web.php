@@ -81,7 +81,6 @@ Route::group(['prefix' => 'my_audit'], function () {
     Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
     Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
     Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
-    Route::get('/my_remark/{id}', [MyAuditController::class, 'my_remark'])->name('my_audit.my_remark');
     Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
     Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
 });
@@ -108,7 +107,7 @@ Route::group(['prefix' => 'lpm'], function () {
     Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm_update');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
     Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-    Route::any('/approve_audit', [ApproveController::class, 'approve_audit'])->name('approve_audit');
+    Route::any('/approve_audit/{id}', [ApproveController::class, 'approve_audit'])->name('lpm.approve_audit');
 });
 
 //Warek

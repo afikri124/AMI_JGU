@@ -335,14 +335,14 @@ class AuditPlanController extends Controller
     // ------------- CHOOSE STANDARD AUDITOR ---------------
     public function standard(Request $request, $id)
     {
-        $data = AuditPlanAuditor::findOrFail($id);
+        $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         return view('audit_plan.standard.index', compact('data', 'auditor'));
     }
 
     public function create(Request $request, $id)
     {
-        $data = AuditPlanAuditor::findOrFail($id);
+        $auditors = AuditPlanAuditor::findOrFail($id);
         $category = StandardCategory::where('status', true)->get();
         $criteria = StandardCriteria::where('status', true)->get();
         $auditor = User::with(['roles' => function ($query) {
@@ -351,14 +351,14 @@ class AuditPlanController extends Controller
         ->whereHas('roles', function ($q) use ($request) {
             $q->where('name', 'auditor');
         })
-        ->where('id', $data->auditor_id)
+        ->where('id', $auditors->auditor_id)
         ->orderBy('name')
         ->get();
 
         $selectedCategory = AuditPlanCategory::where('audit_plan_auditor_id', $id)->pluck('standard_category_id')->toArray();
         $selectedCriteria = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->pluck('standard_criteria_id')->toArray();
 
-        return view("audit_plan.standard.create", compact("data", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
+        return view("audit_plan.standard.create", compact("auditors", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
     }
 
     public function create_auditor_std(Request $request, $id)
@@ -368,6 +368,8 @@ class AuditPlanController extends Controller
             'standard_category_id' => 'required|array',
             'standard_criteria_id' => 'required|array',
         ]);
+
+        $auditors = AuditPlanAuditor::findOrFail($id);
 
         // Find the AuditPlanAuditor record by ID
         foreach ($request->standard_category_id as $categoryId) {
@@ -385,13 +387,13 @@ class AuditPlanController extends Controller
             ]);
 
         }
-        return redirect()->route('audit_plan.standard', ['id' => $id])
+        return redirect()->route('audit_plan.standard', ['id' => $auditors->id])
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');
     }
 
     public function edit_auditor_std(Request $request, $id)
     {
-        $data = AuditPlanAuditor::findOrFail($id);
+        $auditors = AuditPlanAuditor::findOrFail($id);
         $category = StandardCategory::where('status', true)->get();
         $criteria = StandardCriteria::where('status', true)->get();
         $auditor = User::with(['roles' => function ($query) {
@@ -400,14 +402,14 @@ class AuditPlanController extends Controller
         ->whereHas('roles', function ($q) use ($request) {
             $q->where('name', 'auditor');
         })
-        ->where('id', $data->auditor_id)
+        ->where('id', $auditors->auditor_id)
         ->orderBy('name')
         ->get();
 
         $selectedCategory = AuditPlanCategory::where('audit_plan_auditor_id', $id)->pluck('standard_category_id')->toArray();
         $selectedCriteria = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->pluck('standard_criteria_id')->toArray();
 
-        return view("audit_plan.standard.edit", compact("data", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
+        return view("audit_plan.standard.edit", compact("auditors", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
     }
 
     public function update_auditor_std(Request $request, $id)
@@ -455,7 +457,7 @@ class AuditPlanController extends Controller
             'audit_status_id' => '13',
         ]);
         // Redirect with a success message
-        return redirect()->route('audit_plan.standard', ['id' => $data->                                                                                                                                                                                                                                                                            id])
+        return redirect()->route('audit_plan.standard', ['id' => $id])
             ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
     }
 
@@ -467,8 +469,8 @@ class AuditPlanController extends Controller
 
     public function data_auditor(Request $request, $id)
     {
-        $data = AuditPlanAuditor::where('audit_plan_id',$id)->
-        with([
+        $data = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with([
             'auditor' => function ($query) {
                 $query->select('id', 'name', 'no_phone');
             }

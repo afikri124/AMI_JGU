@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('remark_description')->nullable();
             $table->string('remark_recommend')->nullable();
             $table->string('remark_upgrade_repair')->nullable();
-            $table->string('remark_by_lpm')->nullable();
             $table->timestamps();
 
         });

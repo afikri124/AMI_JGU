@@ -21,7 +21,7 @@
 <!-- <div class="container-fluid flex-grow-1 container-p-y"> -->
 <div class="row">
     <div class="col-md-12">
-      <form class="card" action="{{ route('update_auditor_std', $data->id) }}" method="POST" enctype="multipart/form-data">
+      <form class="card" action="{{ route('update_auditor_std', $auditors->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
             <div class="card-header">
@@ -35,7 +35,7 @@
                         <select name="auditor_id" id="auditor_id" class="form-select select2">
                             <option value="">Select Auditor</option>
                             @foreach($auditor as $role)
-                                <option value="{{$role->id}}" {{ $role->id == $data->auditor_id ? 'selected' : '' }}>
+                                <option value="{{$role->id}}" {{ $role->id == $auditors->auditor_id ? 'selected' : '' }}>
                                     {{$role->name}}</option>
                             @endforeach
                         </select>

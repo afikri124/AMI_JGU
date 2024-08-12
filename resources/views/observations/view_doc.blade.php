@@ -66,7 +66,7 @@
         overflow: hidden;
     }
         .text-wrapper {
-        width: 200px; /* set a width for the wrapping container */
+        width: 100px; /* set a width for the wrapping container */
         word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
     }
     .bg-user {
@@ -115,7 +115,7 @@
     @foreach ($standardCriterias as $criteria)
         <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
-    @foreach ($criteria->statements as $no => $statement)
+        @foreach ($criteria->statements as $no => $statement)
     @foreach ($statement->indicators as $indicator)
         <table class="table table-bordered">
             <tr>
@@ -124,18 +124,37 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 60%">
+                <td style="width: 10%">
                     <strong>Indicator</strong>
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td>
-                    <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
-                        <br>
-                        </div>
+                    <label class="form-label"><b>Audit Document</b></label>
+                    <br>
+                    @foreach ($observations as $observation)
+                        @php
+                            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                            $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                                 ->where('indicator_id', $indicator->id);
+                        @endphp
+                        @foreach ($filteredObs as $checklist)
+                            @if ($checklist->doc_path)
+                                <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                    {{ basename($checklist->doc_path) }}
+                                </a>
+                                <br>
+                            @endif
+                        @endforeach
+                    @endforeach
+                    @error('doc_path')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
+            </tr>
             <tr>
-                <td style="width: 60%" id="review-docs">
+                <td style="width: 10%" id="review-docs">
                     <strong>Review Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
@@ -143,7 +162,7 @@
                 </td>
                 <td>
                     <div>
-                        <label class="form-label" for="basicDate"><b>Remark Document</b><i class="text-danger">*</i></label></label>
+                        <label class="form-label" for="basicDate"><b>Remark Document</b></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
                             name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
@@ -151,13 +170,11 @@
                     </div>
                 </td>
             </tr>
-        </div>
-      </div>
-    </table>
-    <hr>
+        </table>
+        <hr>
     @endforeach
-    @endforeach
-    @endforeach
+@endforeach
+@endforeach
     <div class="card-footer text-end">
         <button class="btn btn-primary me-1" type="submit">Submit</button>
         <a href="{{ url()->previous() }}">

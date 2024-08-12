@@ -96,7 +96,7 @@
 <div class="card mb-5">
     <div class="card-body">
     <form action="{{ route('lpm.lpm_standard', $data->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf3
+    @csrf
       <strong class="text-primary">Category Standard</strong>
         @foreach ($standardCategories as $category)
             <h6 class="mb-0" name="standard_category_id" id="standard_category_id">

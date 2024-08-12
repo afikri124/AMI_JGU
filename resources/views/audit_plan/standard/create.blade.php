@@ -20,8 +20,8 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-      <form class="card" action="{{ route('create_auditor_std', $data->id) }}"  method="POST" enctype="multipart/form-data">
-        @csrf
+        <form class="card" action="{{ route('create_auditor_std', $auditors->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="card-header">
                 <h3 class="card-header"><b>Create Auditor Standard</b></h3>
                 <hr class="my-0">
@@ -30,23 +30,24 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12">
                         <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id" id="auditor_id" class="form-select select2" @readonly(true)>
+                        <select name="auditor_id" id="auditor_id" class="form-select select2" @readonly(true)>
                             <option value="">Select Auditor</option>
                             @foreach($auditor as $role)
-                                <option value="{{$role->id}}" {{ $data->auditor_id ? 'selected' : '' }}>
-                                    {{$role->name}}</option>
-                                @endforeach
-                            </select>
+                                <option value="{{ $role->id }}" {{ old('auditor_id', $auditors->auditor_id) == $role->id ? 'selected' : '' }}>
+                                    {{ $role->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <p></p>
-                  <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label for="standard_category_id" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
                             <select name="standard_category_id[]" id="standard_category_id" class="form-select select2" multiple required>
                                 @foreach($category as $c)
-                                <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_category_id', [])) ? 'selected' : '' }}>
-                                    {{ $c->id }} - {{ $c->description }}
-                                </option>
+                                    <option value="{{ $c->id }}" {{ in_array($c->id, old('standard_category_id', [])) ? 'selected' : '' }}>
+                                        {{ $c->id }} - {{ $c->description }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -83,21 +84,17 @@
             placeholder: "Select an option",
             allowClear: true
         });
-    });
-</script>
-<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script>
-    $(document).ready(function() {
+
         $('#standard_category_id').select2({
-            placeholder: " Select Category",
+            placeholder: "Select Category",
             allowClear: true
         });
         $('#standard_criteria_id').select2({
-            placeholder: " Select Criteria",
+            placeholder: "Select Criteria",
             allowClear: true
         });
 
-        // // Fungsi untuk menonaktifkan opsi yang sudah dipilih
+        // Function to disable selected options
         function disableSelectedOptions() {
             $('#standard_criteria_id option').each(function() {
                 if ($(this).is(':selected')) {
@@ -108,43 +105,20 @@
             });
         }
 
-        // // Panggil fungsi saat halaman dimuat
+        // Call function on page load
         disableSelectedOptions();
 
-        // // Panggil fungsi saat opsi dipilih atau dihapus
+        // Call function on option select or deselect
         $('#standard_criteria_id').on('change', function() {
             disableSelectedOptions();
             $(this).select2('close');
         });
 
-        //Pastikan opsi nonaktif tidak dihapus saat mengirimkan formulir
+        // Ensure disabled options are not removed when submitting the form
         $('form').on('submit', function() {
             $('#standard_criteria_id option').removeAttr('disabled');
         });
     });
 </script>
-<!-- <script>
-    // ketika tema dirubah, topic di isi
-    $('#standard_category_id').change(function() {
-                var categoryId = this.value;
-                $("#standard_criteria_id").html('');
-                $.ajax({
-                    url: "",
-                    type: "GET",
-                    data: {
-                        id: categoryId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#standard_criteria_id').html('<option value="">Select Topic</option>');
-                        $.each(result, function(key, value) {
-                            $("#standard_criteria_id").append('<option value="' + value.id +
-                                '">' + value.title + '</option>');
-                        });
-                    }
-                });
-            });
-    </script>
-</script> -->
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 @endsection

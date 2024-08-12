@@ -98,7 +98,6 @@
             </h6>
         @endforeach
         <p></p>
-
         <strong class="text-primary">Criteria Standard</strong>
         @foreach ($standardCriterias as $criteria)
             <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">

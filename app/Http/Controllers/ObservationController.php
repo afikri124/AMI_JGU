@@ -72,28 +72,47 @@ class ObservationController extends Controller
         return redirect()->route('observations.index')->with('msg', 'Observation updated successfully!!');
     }
 
+        $locations = Location::orderBy('title')->get();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+        $data = AuditPlan::findOrFail($id);
 
-    $data = AuditPlan::findOrFail($id);
-    $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
-    $auditPlanAuditorIds = $auditor->pluck('id');
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
 
-    $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
-    $standardCategoryIds = $category->pluck('standard_category_id');
-    $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
 
-    $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
-    $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
-    $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
-                        ->with('statements')
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
                         ->with('statements.indicators')
                         ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->orderBy('title')
                         ->get();
+        // dd($standardCriterias);
 
+        $auditor = User::with(['roles' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->whereHas('roles', function ($q) {
+                $q->where('name', 'auditor');
+            })
+            ->where('id', $auditorId)
+            ->orderBy('name')
+            ->get();
     // Fetch other data needed
     $observations = Observation::where('audit_plan_id', $id)->get();
-    $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+
+    // Ambil daftar observation_id dari koleksi observations
+    $observationIds = $observations->pluck('id');
+
+    // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
+    $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
+    // dd($observations, $obs_c);
     $hodLPM = Setting::find('HODLPM');
     $hodBPMI = Setting::find('HODBPMI');
 
@@ -157,42 +176,47 @@ class ObservationController extends Controller
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
+        // Retrieve the observation using the ID
+        $observation = Observation::findOrFail($id);
+
         if ($request->isMethod('POST')) {
-            // dd($request);
             $this->validate($request, [
                 'location_id' => [''],
+                'remark_plan' => [''],
+                'date_checked' => [''],
                 'remark_description' => [''],
                 'obs_checklist_option' => [''],
                 'remark_success_failed' => [''],
                 'remark_recommend' => [''],
             ]);
 
-            $observation = Observation::where('audit_plan_id', $id)
-            ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
-            ->firstOrFail();
-
+            // Update the observation details
             $observation->update([
                 'location_id' => $request->location_id,
+                'remark_plan' => $request->remark_plan,
+                'date_checked' => $request->date_checked,
             ]);
 
-            // Update Observation Checklists
+            // Update all relevant ObservationChecklist records
             foreach ($request->obs_checklist_option as $key => $obs_c) {
-                $checklist = ObservationChecklist::where('observation_id', $observation->id)
+                $checklists = ObservationChecklist::where('observation_id', $observation->id)
                     ->where('indicator_id', $key)
-                    ->first();
+                    ->get(); // Use get() instead of firstOrFail()
 
-                if ($checklist) {
+                foreach ($checklists as $checklist) {
                     $checklist->update([
-                    'remark_description' => $request->remark_description[$key] ?? '',
-                    'obs_checklist_option' => $obs_c ?? '',
-                    'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
-                    'remark_recommend' => $request->remark_recommend[$key] ?? '',
+                        'remark_description' => $request->remark_description[$key] ?? '',
+                        'obs_checklist_option' => $obs_c ?? '',
+                        'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
+                        'remark_recommend' => $request->remark_recommend[$key] ?? '',
                     ]);
                 }
             }
-            return redirect()->route('observations.index')->with('msg', 'Observasition succeeded!!');
+
+            return redirect()->route('observations.index')->with('msg', 'Observation succeeded!!');
         }
     }
+
 
     //print pdf audit report
     public function edit($id)

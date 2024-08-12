@@ -12,7 +12,7 @@ use App\Models\Location;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
 use App\Models\ObservationChecklist;
-use App\Models\RTM;
+use App\Models\Rtm;
 use App\Models\User;
 use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -40,15 +40,13 @@ class MyAuditController extends Controller{
             'doc_path.*' => 'mimes:pdf|max:10000', // Validate each file
         ]);
 
-        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
-        $observation = Observation::where('audit_plan_id', $id)
-        ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
-        ->firstOrFail();
-        // Create Observation
-        $observation->update([
-            'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditorId,
-        ]);
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $obs = Observation::create([
+                    'audit_plan_id' => $id,
+                    'audit_plan_auditor_id' => $auditorId,
+                ]);
 
         $files = $request->file('doc_path');
         $filePaths = [];
@@ -77,7 +75,7 @@ class MyAuditController extends Controller{
         // Create Observation Checklists
         foreach ($request->indicator_ids as $index => $indicatorId) {
             ObservationChecklist::create([
-                'observation_id' => $observation->id,
+                'observation_id' => $obs->id,
                 'indicator_id' => $indicatorId,
                 'doc_path' => $filePaths[$index] ?? '',
             ]);
@@ -110,46 +108,6 @@ class MyAuditController extends Controller{
 
         $observations = Observation::where('audit_plan_id', $id)->get();
         $obs_c = ObservationChecklist::where('observation_id', $id)->get();
-        $hodLPM = Setting::find('HODLPM');
-        $hodBPMI = Setting::find('HODBPMI');
-        return view('my_audit.view',
-        compact('standardCategories', 'standardCriterias',
-        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
-    }
-
-    public function my_remark( $id)
-        {
-        $locations = Location::orderBy('title')->get();
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
-        $data = AuditPlan::findOrFail($id);
-
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
-
-        $standardCategoryIds = $categories->pluck('standard_category_id');
-        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
-
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
-        // dd($standardCriterias);
-
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-                                    ->with('auditor:id,name')
-                                    ->firstOrFail();
-
-        $observations = Observation::where('audit_plan_id', $id)->get();
-
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
-
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         return view('my_audit.view',
@@ -196,21 +154,7 @@ class MyAuditController extends Controller{
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         // dd($obs_c);
-        if ($data->audit_status_id == 3) {
-            return view('my_audit.show', [
-                'standardCategories' => $standardCategories,
-                'standardCriterias' => $standardCriterias,
-                'auditorData' => $auditorData,
-                'auditor' => $auditor,
-                'data' => $data,
-                'category' => $category,
-                'criteria' => $criteria,
-                'observations' => $observations,
-                'obs_c' => $obs_c,
-                'hodLPM' => $hodLPM,
-                'hodBPMI' => $hodBPMI
-            ]);
-        } elseif ($data->audit_status_id == 6) {
+        if ($data->audit_status_id == 6) {
             $pdf = Pdf::loadView('pdf.audit_report',
             $data = [
             'data' => $data,
@@ -224,22 +168,7 @@ class MyAuditController extends Controller{
             'hodLPM' => $hodLPM,
             'hodBPMI' => $hodBPMI
         ]);
-        // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
-        return $pdf->stream('rtm-report.pdf');
-        } elseif ($data->audit_status_id == 7) {
-            return view('my_audit.edit_rtm', [
-                'standardCategories' => $standardCategories,
-                'standardCriterias' => $standardCriterias,
-                'auditorData' => $auditorData,
-                'auditor' => $auditor,
-                'data' => $data,
-                'category' => $category,
-                'criteria' => $criteria,
-                'observations' => $observations,
-                'obs_c' => $obs_c,
-                'hodLPM' => $hodLPM,
-                'hodBPMI' => $hodBPMI
-            ]);
+            return $pdf->stream('rtm-report.pdf');
         }
     }
 
@@ -249,11 +178,7 @@ class MyAuditController extends Controller{
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
-    // Retrieve the observation using the ID
-    $observation = Observation::where('audit_plan_id', $id)
-        ->where('audit_plan_auditor_id', $data->auditor()
-        ->where('auditor_id', $auditorId)->first()->id)
-        ->firstOrFail();
+    $observation = Observation::findOrFail($id);
 
     if ($request->isMethod('POST')) {
         // Validate the request
@@ -273,32 +198,58 @@ class MyAuditController extends Controller{
 
         // Update Observation Checklists
         foreach ($request->remark_upgrade_repair as $key => $remark) {
-            $checklist = ObservationChecklist::where('observation_id', $observation->id)
+            // Temukan checklist berdasarkan observation_id dan indicator_id
+            $checklists = ObservationChecklist::where('observation_id', $observation->id)
                 ->where('indicator_id', $key)
-                ->first();
+                ->get();
 
-            if ($checklist) {
+            foreach ($checklists as $checklist) {
+                // Perbarui setiap entri checklist
                 $checklist->update([
                     'remark_upgrade_repair' => $remark,
                 ]);
             }
         }
+
+        $data->update([
+            'audit_status_id'   => '6',
+        ]);
         return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
     }
 
-    // Pass data to view if needed
-    return view('my_audit.show', [
-        'data' => $data,
-        'observation' => $observation,
-    ]);
-}
+        $data = AuditPlan::findOrFail($id);
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $auditPlanAuditorIds = $auditor->pluck('id');
+
+        $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCategoryIds = $category->pluck('standard_category_id');
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
+
+        $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
+        $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
+                            ->with('statements')
+                            ->with('statements.indicators')
+                            ->with('statements.reviewDocs')
+                            ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                            ->orderBy('title')
+                            ->get();
+
+
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+
+        return view('my_audit.show',
+        compact('standardCategories', 'standardCriterias',
+        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
 
     public function edit_rtm(Request $request, $id)
     {
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
-        $files = $request->file('doc_path');
+        $files = $request->file('doc_path_rtm');
         $filePaths = [];
 
         if ($files) {
@@ -331,29 +282,57 @@ class MyAuditController extends Controller{
         $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
 
         if ($request->isMethod('POST')) {
-            // Validate the request
             $this->validate($request, [
-                'plan_complated_end' => ['required'],
-                'status' => ['required'],
+                'plan_complated_end' => ['array', 'nullable'],
+                'plan_complated_end.*' => ['nullable', 'date'],
             ]);
+
             $observation->update([
                 'audit_plan_id' => $id,
                 'audit_plan_auditor_id' => $auditPlanAuditorId,
             ]);
 
-            foreach ($request->indicator_ids as $index => $indicatorId) {
-                RTM::create([
-                    'observation_id' => $observation->id,
-                    'indicator_id' => $indicatorId,
-                    'plan_complated_end' => $request->plan_complated_end[$index] ?? null,
-                    'status' => $request->status[$index] ?? null,
-                    'doc_path_rtm' => $filePaths[$index] ?? null,
-                ]);
+            foreach ($request->indicator_ids as $indicatorId) {
+                Rtm::updateOrCreate(
+                    [
+                        'observation_id' => $observation->id,
+                        'indicator_id' => $indicatorId,
+                    ],
+                    [
+                        'plan_complated_end' => $request->plan_complated_end[$indicatorId] ?? null,
+                        'doc_path_rtm' => $filePaths[$index] ?? null,
+                    ]
+                );
             }
 
-    // dd($request);
             return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
         }
+
+        $data = AuditPlan::findOrFail($id);
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $auditPlanAuditorIds = $auditor->pluck('id');
+
+        $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCategoryIds = $category->pluck('standard_category_id');
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
+
+        $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
+        $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
+                            ->with('statements')
+                            ->with('statements.indicators')
+                            ->with('statements.reviewDocs')
+                            ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                            ->orderBy('title')
+                            ->get();
+
+        $observations = Observation::where('audit_plan_id', $id)->get();
+        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+        return view('my_audit.edit_rtm',
+        compact('standardCategories', 'standardCriterias',
+        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
     public function rtm($id){
