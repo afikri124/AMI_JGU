@@ -21,7 +21,6 @@ class ObservationChecklist extends Model
         'remark_success_failed',
         'remark_recommend',
         'remark_upgrade_repair',
-        'remark_by_lpm'
     ];
 
     public function obs_c()

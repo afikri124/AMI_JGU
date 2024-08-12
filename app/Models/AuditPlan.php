@@ -23,6 +23,7 @@ class AuditPlan extends Model
         'auditor_id',
         'periode',
         'type_audit',
+        'remark_standard_lpm',
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)
@@ -56,7 +57,7 @@ class AuditPlan extends Model
         return $this->hasMany(AuditPlanAuditor::class, 'audit_plan_id');
     }
 
-    public function observation()
+    public function observations()
     {
         return $this->hasMany(Observation::class, 'audit_plan_id');
     }

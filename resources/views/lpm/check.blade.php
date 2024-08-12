@@ -95,7 +95,7 @@
 @endif
 <div class="card mb-5">
     <div class="card-body">
-    <form action="{{ route('lpm.lpm_as', $data->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('lpm.lpm_standard', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
       <strong class="text-primary">Category Standard</strong>
         @foreach ($standardCategories as $category)
@@ -144,36 +144,33 @@
       @endforeach
     @endforeach
     <div class="card-footer text-end">
-        <button class="btn btn-primary me-1" type="submit" name="remark_standard_lpm" value="Approve">Approve</button>
-        <button id="submitButton" class="btn btn-dark me-1" type="submit">Revised</button>
+        <button class="btn btn-primary me-1" type="submit" name="action" value="Approve">Approve</button>
+        <button id="submitButton" class="btn btn-dark me-1" type="button">Revised</button>
     </div>
-    </form>
+</form>
   </div>
   </div>
 
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><i><b>Standard approval comment by LPM</b></i></h4>
+                <h4 class="modal-title" id="exampleModalLabel"><i><b>Komentar Persetujuan Standar oleh LPM</b></i></h4>
                 <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
             </div>
             <div class="modal-body">
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data" style="display: inline;">
+                <form id="upload-form" method="POST" action="{{ route('lpm.lpm_standard', $data->id) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="remark_standard_lpm" class="form-label large-text"><b>Remark Standard By LPM</b></label>
-                        <textarea class="form-control" id="modal-remark_standard_lpm" name="remark_standard_lpm" rows="3" placeholder="MAX 350 character..."></textarea>
-                        <i class="text-danger"><b>* Please comment on why you disagree with this standard</b></i>
+                        <label for="remark_standard_lpm" class="form-label large-text"><b>Komentar Standar oleh LPM</b></label>
+                        <textarea class="form-control" id="modal-remark_standard_lpm" name="remark_standard_lpm" rows="3" placeholder="MAX 350 karakter..."></textarea>
+                        <i class="text-danger"><b>* Harap komentari mengapa Anda tidak setuju dengan standar ini</b></i>
                     </div>
                     <div class="text-end" id="button-container">
-                        <button class="btn btn-primary me-1" type="submit">Revised</button>
-                    </form>
-                        <a href="">
-                            <span class="btn btn-outline-secondary">Back</span>
-                        </a>
+                        <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revised</button>
+                        <a href="" class="btn btn-outline-secondary">Kembali</a>
                     </div>
                 </form>
             </div>
@@ -183,8 +180,8 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-    <script type="text/javascript">
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script type="text/javascript">
     "use strict";
     setTimeout(function () {
         (function ($) {
@@ -197,22 +194,14 @@
     }, 350);
 
     document.addEventListener('DOMContentLoaded', function() {
-    // Menangani klik tombol submit
-    document.getElementById('submitButton').addEventListener('click', function(event) {
-        // Mencegah form dari pengiriman default
-        event.preventDefault();
+        // Menangani klik tombol submit untuk Revised
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            // Mencegah form dari pengiriman default
+            event.preventDefault();
 
-        // Menampilkan modal
-        $('#uploadModal').modal('show');
+            // Menampilkan modal
+            $('#uploadModal').modal('show');
+        });
     });
-});
-
-    function showModal(element) {
-        var id = $(element).data('id');
-        var remark_standard_lpm = $(element).data('remark_standard_lpm');
-        $('#modal-remark_standard_lpm').text(remark_standard_lpm).attr('href', remark_standard_lpm);
-        $('#upload-form').attr('action', '/lpm/lpm_standard/' + id);
-        $('#uploadModal').modal('show');
-    }
 </script>
 @endsection

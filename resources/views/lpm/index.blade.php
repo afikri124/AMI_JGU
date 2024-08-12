@@ -249,7 +249,7 @@
             .then((willApprove) => {
                 if (willApprove) {
                     $.ajax({
-                        url: "{{route('approve_audit')}}",
+                        url: "",
                         type: "POST",
                         data: {
                             "id": id,

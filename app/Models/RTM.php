@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RTM extends Model
+class Rtm extends Model
 {
     use HasFactory;
     public $timestamps = true;
@@ -19,7 +19,7 @@ class RTM extends Model
         'status'
     ];
 
-    public function obs_c()
+    public function rtm()
     {
         return $this->belongsTo(Observation::class, 'observation_id');
     }

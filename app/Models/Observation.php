@@ -16,7 +16,7 @@ class Observation extends Model
         'audit_plan_auditor_id',
         'location_id',
         'remark_plan',
-        'remark_standard_lpm',
+        'remark_audit_lpm',
         'person_in_charge',
         'plan_complated',
         'date_prepared',
@@ -56,11 +56,16 @@ class Observation extends Model
 
     public function observations()
     {
-        return $this->hasMany(Observation::class, 'audit_plan_auditor_id');
+        return $this->hasMany(AuditPlanAuditor::class, 'audit_plan_auditor_id');
     }
 
     public function obs_c()
     {
         return $this->hasMany(ObservationChecklist::class, 'observation_id');
+    }
+
+    public function rtm()
+    {
+        return $this->hasMany(Rtm::class, 'observation_id');
     }
 }
