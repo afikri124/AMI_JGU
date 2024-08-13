@@ -37,11 +37,11 @@ class AuditStatusSeeder extends Seeder
             "color" => "primary"],
 
             ["id" => "6",
-            "title" => "Approved\nby Auditor",
+            "title" => "Audit Finished",
             "color" => "success"],
 
             ["id" => "7",
-            "title" => "Approved Audit Report by LPM",
+            "title" => "Approved Report by LPM",
             "color" => "success"],
 
             ["id" => "8",
@@ -49,12 +49,12 @@ class AuditStatusSeeder extends Seeder
             "color" => "primary"],
 
             ["id" => "9",
-            "title" => "Approved\nby Approver",
+            "title" => "RTM Process",
             "color" => "dark"],
 
             ["id" => "10",
-            'title' => "Request Note\nby Approver",
-            "color" => "primary"],
+            "title" => "Uploaded RTM",
+            "color" => "dark"],
 
             ["id" => "11",
             "title" => "Uploaded",
@@ -69,10 +69,9 @@ class AuditStatusSeeder extends Seeder
             "color" => "secondary"],
 
             ["id" => "14",
-            "title" => "Uploaded RTM",
+            "title" => "RTM Finished",
             "color" => "dark"],
         ];
-
 
         foreach ($data as $x) {
             if(!AuditStatus::where('id', $x['id'])->first()){

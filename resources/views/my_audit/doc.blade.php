@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Upload Document Audit')
+@section('title', 'Review Standard Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -115,8 +115,15 @@
     @foreach ($standardCriterias as $criteria)
         <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
-    @foreach ($criteria->statements as $no => $statement)
-    @foreach ($statement->indicators as $indicator)
+        @foreach ($criteria->statements as $no => $statement)
+        @foreach ($statement->indicators as $indicator)
+        @foreach ($observations as $observation)
+            @php
+                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                        ->where('indicator_id', $indicator->id);
+            @endphp
+            @foreach ($filteredObs as $obsChecklist)
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
@@ -130,10 +137,11 @@
                 </td>
                 <td>
                 <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path[]" accept=".pdf">
-                        <input type="hidden" name="indicator_ids[]" value="{{ $indicator->id }}">
+                        <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
                         <br>
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ basename($obsChecklist->doc_path) }}
+                        </a>
                     </div>
                 </td>
             <tr>
@@ -143,27 +151,29 @@
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
                 </td>
-                <!-- <td>
+                <td>
                     <div>
                         <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control bg-user @error('remark_docs') is-invalid @enderror"
-                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly></textarea>
+                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_docs }}</textarea>
                         </div>
                     </div>
-                </td> -->
+                </td>
             </tr>
         </div>
       </div>
     </table>
+    @endforeach
+    @endforeach
     <hr>
-    @endforeach
-    @endforeach
-    @endforeach
+        @endforeach
+        @endforeach
+        @endforeach
     <div class="card-footer text-end">
-        <button class="btn btn-primary me-1" type="submit">Submit</button>
+        <!-- <button class="btn btn-primary me-1" type="submit">Submit</button> -->
         <a href="{{ url()->previous() }}">
-            <span class="btn btn-outline-secondary">Back</span>
+            <span class="btn btn-outline-primary">Back</span>
         </a>
     </div>
     </form>

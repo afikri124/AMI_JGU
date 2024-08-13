@@ -95,7 +95,8 @@ Route::group(['prefix' => 'observations'], function () {
     Route::any('/remark_doc/{id}', [ObservationController::class, 'remark_doc'])->name('observations.remark_doc');
     Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
     Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
-
+    Route::any('/remark_rtm/{id}', [ObservationController::class, 'remark_rtm'])->name('observations.remark_rtm');
+    Route::get('/rtm/{id}', [ObservationController::class, 'rtm'])->name('observations.rtm');
     //Print PDF
     Route::get('/audit_report/{id}', [PDFController::class, 'audit_report'])->name('pdf.audit_report');
 });
@@ -104,26 +105,23 @@ Route::group(['prefix' => 'observations'], function () {
 Route::group(['prefix' => 'lpm'], function () {
     Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
-    Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm_update');
+    Route::any('/lpm_apv_audit/{id}', [ApproveController::class, 'lpm_apv_audit'])->name('lpm.lpm_apv_audit');
     Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
     Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-    Route::any('/approve_audit/{id}', [ApproveController::class, 'approve_audit'])->name('lpm.approve_audit');
+    Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('lpm.rtm_edit');
 });
 
 //Warek
 Route::group(['prefix' => 'approver'], function () {
     Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
     Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');
-    // Route::any('/approve_update/{id}', [ApproveController::class, 'approve_update'])->name('approve_update');
-    // Route::get('/approver_edit/{id}', [ApproveController::class, 'approver_edit'])->name('approver.approver_edit');
-    // Route::any('/approve_by_approver', [ApproveController::class, 'approve_by_approver'])->name('approve_by_approver');
-    // Route::any('/revised_by_approver', [ApproveController::class, 'revised_by_approver'])->name('revised_by_approver');
+    Route::get('/app_rtm/{id}', [ApproveController::class, 'app_rtm'])->name('approver.app_rtm');
 });
 
 //RTM
 Route::group(['prefix' => 'rtm'], function () {
     Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
-    Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
+    // Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
     // Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
     // Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
     // Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');

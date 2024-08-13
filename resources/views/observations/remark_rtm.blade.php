@@ -98,7 +98,7 @@
 @endif
 <div class="card mb-5">
     <div class="card-body">
-    <form action="{{ route('my_audit.edit_rtm', $data->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('observations.remark_rtm', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->
       <strong class="text-primary">Category Standard</strong>
@@ -122,12 +122,8 @@
         @foreach ($criteria->statements as $no => $statement)
         @foreach ($statement->indicators as $indicator)
         @foreach ($observations as $observation)
-            @php
-                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
-                $filteredObs = $obs_c->where('observation_id', $observation->id)
-                                        ->where('indicator_id', $indicator->id);
-            @endphp
-            @foreach ($filteredObs as $obsChecklist)
+        @foreach ($obs_c as $obsChecklist)
+                    @if ($obsChecklist->observation_id == $observation->id)
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
@@ -165,11 +161,32 @@
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td>
-                    <div class="form-group mb-3">
-                        <label for="doc_path_rtm" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path_rtm[]" accept=".pdf">
-                        <input type="hidden" name="indicator_ids[]" value="{{ old('indicator_ids[]', $indicator->id) }}">
-                    </div>
+                    <label class="form-label"><b>RTM Document :</b></label>
+                        @php
+                            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                            $filteredRtm = $rtm->where('observation_id', $observation->id)
+                                                 ->where('indicator_id', $indicator->id);
+                        @endphp
+                        @foreach ($filteredRtm as $r)
+                            @if ($r->doc_path_rtm)
+                                <a href="{{ asset($r->doc_path_rtm) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                    {{ basename($r->doc_path_rtm) }}
+                                </a>
+                                <br>
+                            @endif
+                            <div>
+                            <label class="form-label" for="basicDate"><b>Remark RTM Auditee</b></label>
+                            <div class="input-group input-group-merge has-validation">
+                                <textarea type="text" class="form-control @error('remark_rtm_auditee') is-invalid @enderror"
+                                name="remark_rtm_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..." disabled>{{$r->remark_rtm_auditee}}</textarea>
+                            </div>
+                        </div>
+                        @endforeach
+                    @error('doc_path_rtm')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
             </tr>
             <tr>
@@ -181,10 +198,18 @@
                 </td>
                 <td>
                     <div>
-                        <label class="form-label" for="basicDate"><b>Remark RTM Auditee</b></label>
+                        <label class="form-label" for="basicDate"><b>Remark RTM Auditor</b></label>
                         <div class="input-group input-group-merge has-validation">
-                            <textarea type="text" class="form-control @error('remark_rtm_auditee') is-invalid @enderror"
-                            name="remark_rtm_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
+                            <textarea type="text" class="form-control @error('remark_rtm_auditor') is-invalid @enderror"
+                            name="remark_rtm_auditor[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div>
+                        <label class="form-label" for="basicDate"><b>Status Akhir</b></label>
+                        <div class="input-group input-group-merge has-validation">
+                            <input type="text" class="form-control @error('status') is-invalid @enderror"
+                            name="status[{{ $indicator->id }}]" placeholder="Input status akhir">
                         </div>
                     </div>
                 </td>
@@ -245,7 +270,9 @@
             </td>
         </tr>
 </table>
-@endforeach
+    @break
+    @endif
+    @endforeach
     @endforeach
     @endforeach
     <hr class="text-dark">

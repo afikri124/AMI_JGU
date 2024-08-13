@@ -99,11 +99,17 @@ class AuditPlanController extends Controller
         //         'type_audit'    => $request->type_audit,
         //         'periode'       => $request->periode,
         //         'subject'       => 'Notification Audit Mutu Internal' // Add the subject here
+<<<<<<< HEAD
 
             // Kirim email ke pengguna yang ditemukan
             // Mail::to($auditee->email)->send(new sendEmail($emailData));
             // Mail::to($auditor->email)->send(new sendEmail($emailData));
         //     ];
+=======
+        //     // Kirim email ke pengguna yang ditemukan
+        //     Mail::to($auditee->email)->send(new sendEmail($emailData));
+        //     Mail::to($auditor->email)->send(new sendEmail($emailData));
+>>>>>>> 6bb8089b3dc5b4bd394ae070caf242bf5b0b4172
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -118,7 +124,7 @@ class AuditPlanController extends Controller
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
         $departments = Department::orderBy('name')->get();
-        $auditStatus = AuditStatus::get();
+        $auditStatus = AuditStatus::orderBy('title')->get();
         $category = StandardCategory::where('status', true)->get();
         $criterias = StandardCriteria::where('status', true)->get();
         $auditee = User::with(['roles' => function ($query) {
@@ -266,10 +272,10 @@ class AuditPlanController extends Controller
         // Hapus Observasi yang terkait dengan AuditPlan
         Observation::where('audit_plan_id', $data->id)->delete();
 
-        
+
         // Hapus AuditPlan itu sendiri
         $data->delete();
-        
+
         // Ambil data email dari audit plan
         // $auditeeEmail = $data->auditee->email;
         // $auditorEmails = $data->auditorId->pluck('email')->toArray();
@@ -400,7 +406,10 @@ class AuditPlanController extends Controller
 
         $auditors = AuditPlanAuditor::findOrFail($id);
 
+<<<<<<< HEAD
         // Find the AuditPlanAuditor record by ID
+=======
+>>>>>>> 6bb8089b3dc5b4bd394ae070caf242bf5b0b4172
         foreach ($request->standard_category_id as $categoryId) {
             AuditPlanCategory::create([
                 'audit_plan_auditor_id' => $id,
@@ -408,7 +417,6 @@ class AuditPlanController extends Controller
             ]);
         }
 
-        // Create records for standard criteria
         foreach ($request->standard_criteria_id as $criteriaId) {
             AuditPlanCriteria::create([
                 'audit_plan_auditor_id' => $id,
@@ -431,7 +439,7 @@ class AuditPlanController extends Controller
         }
 
         }
-        return redirect()->route('audit_plan.standard', ['id' => $auditors->id])
+        return redirect()->route('audit_plan.standard', ['id' => $id])
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');
     }
 

@@ -87,7 +87,7 @@
     <div class="col-md-12">
 <div class="card mb-5">
     <div class="card-body">
-    <form method="POST" action="{{ route('lpm.approve_audit', $data->id) }}"
+    <form method="POST" action="{{ route('lpm.lpm_apv_audit', $data->id) }}"
     enctype="multipart/form-data">
     @csrf
     <!-- Account Details -->
@@ -181,9 +181,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <label for="remark_description_{{ $observation->id }}" class="form-label">
-                        <b>Deskripsi Audit:</b><i class="text-danger">*</i>
-                    </label>
+                    <label for="remark_description_{{ $observation->id }}" class="form-label"><b>Audit Description:</b></label>
                     <textarea id="remark_description_{{ $observation->id }}" name="remark_description[{{ $obsChecklist->indicator_id }}]"
                     class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_description ?? '' }}</textarea>
                     @error('remark_description.' . $obsChecklist->indicator_id)
@@ -196,7 +194,7 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_success_failed_{{ $observation->id }}" class="form-label">
-                        <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
+                        <b>Faktor Pendukung Keberhasilan/Kegagalan:</b>
                     </label>
                     <textarea id="remark_success_failed_{{ $observation->id }}" name="remark_success_failed[{{ $obsChecklist->indicator_id }}]"
                     class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
@@ -210,7 +208,7 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_recommend_{{ $observation->id }}" class="form-label">
-                        <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
+                        <b>Rekomendasi Audit:</b>
                     </label>
                     <textarea id="remark_recommend_{{ $observation->id }}" name="remark_recommend_{{ $observation->id }}"
                     class="form-control bg-user" maxlength="250" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
@@ -223,7 +221,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
+                    <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b></label>
                     <textarea type="text" id="remark_upgrade_repair" class="form-control bg-user"
                         name="remark_upgrade_repair_{{ $observation->id }}" maxlength="250"
                         placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_upgrade_repair ?? '' }}</textarea>
@@ -241,10 +239,10 @@
     <hr class="text-dark">
     @endforeach
         @endforeach
-        
+
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
+                    <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b></label>
                     <input type="text" id="person_in_charge" class="form-control bg-user" name="person_in_charge" value="{{$observation->person_in_charge}}"
                             placeholder="Pihak Bertanggung Jawab..." readonly>
                             @error('person_in_charge')
@@ -254,7 +252,7 @@
                             @enderror
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
+                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b></label>
                     <input type="date" class="form-control bg-user" name="plan_complated" id="plan_complated" value="{{$observation->plan_complated}}"
                             placeholder="YYYY-MM-DD" readonly>
                             @error('plan_complated')
@@ -264,11 +262,20 @@
                             @enderror
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col-lg-12 col-md-6 mb-3">
-                    <label for="date_validated" class="form-label"><b>Date Validated By LPM</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="date_validated" id="date_validated" value="{{$observation->date_validated}}">
-                    @error('date_validated')
+            <div class="row">
+            <div class="col-lg-6 col-md-6 mb-3">
+                <label for="date_prepared" class="form-label"><b>Date Prepared</b></label>
+                <input type="date" class="form-control bg-user" name="date_prepared" id="date_prepared" value="{{$observation->date_prepared}}">
+                @error('date_prepared')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+                <div class="col-lg-6 col-md-6 mb-3">
+                    <label for="date_checked" class="form-label"><b>Date Checked By Auditor</b></label>
+                    <input type="date" class="form-control bg-user" name="date_checked" id="date_checked" value="{{$observation->date_checked}}">
+                    @error('date_checked')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -276,15 +283,25 @@
                 </div>
             </div>
             <div class="col-lg-12 col-md-6 mb-3">
-                <label class="form-label" for="basicDate"><b>Remark Audit Report By LPM</b></label></label>
-                    <textarea type="text" class="form-control @error('remark_audit_lpm') is-invalid @enderror" id="remark_audit_lpm"
-                    name="remark_audit_lpm[{{ $indicator->id }}]" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_audit_lpm ?? '' }}</textarea>
-                    @error('remark_audit_lpm')
+            <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b></label>
+                    <textarea type="text" class="form-control bg-user @error('remark_plan') is-invalid @enderror"
+                    name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>
+                    @error('remark_plan')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-            </div> -->
+            </div>
+            <hr class="text-dark">
+            <div class="form-group mb-3">
+                <label for="date_validated" class="form-label large-text"><b>Date Validate By LPM</b><i class="text-danger">*</i></label>
+                <input type="date" class="form-control" name="date_validated" id="date_validated" value="{{$observation->date_validated}}">
+                @error('date_validated')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
             <p></p>
             <div class="card-footer text-end">
                 <button class="btn btn-primary me-1" type="submit" name="action" value="Approve">Approve</button>
@@ -304,17 +321,8 @@
                 </a>
             </div>
             <div class="modal-body">
-                <form id="upload-form" method="POST" action="{{ route('lpm.approve_audit', $data->id) }}" enctype="multipart/form-data">
+                <form id="upload-form" method="POST" action="{{ route('lpm.lpm_apv_audit', $data->id) }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group mb-3">
-                        <label for="date_validated" class="form-label large-text"><b>Date Validate By LPM</b></label>
-                        <input type="date" class="form-control" name="date_validated" id="date_validated" value="{{$observation->date_validated}}">
-                        @error('date_validated')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
                     <div class="form-group mb-3">
                         <label for="remark_audit_lpm" class="form-label large-text"><b>Komentar Standar oleh LPM</b></label>
                         <textarea class="form-control" id="modal-remark_audit_lpm" name="remark_audit_lpm" rows="3" placeholder="MAX 350 karakter..."></textarea>

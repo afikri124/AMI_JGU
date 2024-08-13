@@ -207,13 +207,15 @@ class ApproveController extends Controller
         // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
-    public function approve_audit(Request $request, $id){
+
+    public function lpm_apv_audit(Request $request, $id){
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
         if ($request->isMethod('POST')) {
             // dd($request);
             $this->validate($request, [
+                'date_validated' => [''],
                 'remark_audit_lpm' => [''],
             ]);
 
@@ -221,44 +223,7 @@ class ApproveController extends Controller
 
             if ($action === 'Approve') {
                 $remark = 'Approve';
-                $status = 7;
-            } elseif ($action === 'Revised') {
-                $this->validate($request, [
-                    'remark_audit_lpm' => ['required'],
-                ]);
-                $remark = $request->input('remark_audit_lpm');
-                $status = 8;
-            }
-
-            $observation = Observation::findOrFail($id);
-
-            $observation->update([
-                'remark_audit_lpm' => $remark,
-            ]);
-
-            $data->update([
-                'audit_status_id' => $status,
-            ]);
-        }
-        return redirect()->route('lpm.index')->with('msg', 'Observasition succeeded!!');
-    }
-
-    public function lpm_update(Request $request, $id){
-        $data = AuditPlan::findOrFail($id);
-        $auditorId = Auth::user()->id;
-
-        if ($request->isMethod('POST')) {
-            // dd($request);
-            $this->validate($request, [
-                'date_validated' => ['required'],
-                'remark_audit_lpm' => ['required'],
-            ]);
-
-            $action = $request->input('action');
-
-            if ($action === 'Approve') {
-                $remark = 'Approve';
-                $status = 7;
+                $status = 9;
             } elseif ($action === 'Revised') {
                 $this->validate($request, [
                     'remark_audit_lpm' => ['required'],
@@ -278,7 +243,7 @@ class ApproveController extends Controller
                     'audit_status_id' => $status,
                 ]);
             }
-            return redirect()->route('lpm.index')->with('msg', 'Observasition succeeded!!');
+            return redirect()->route('lpm.index')->with('msg', 'Audit Report Updated by LPM!!');
         }
 
     public function rtm(Request $request){
@@ -338,6 +303,62 @@ class ApproveController extends Controller
         // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
+    public function approver(Request $request){
+        $data = AuditPlan::all();
+        return view('approver.index', compact('data'));
+    }
+
+    public function app_rtm($id){
+        $data = AuditPlan::findOrFail($id);
+        $locations = Location::orderBy('title')->get();
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with('auditor:id,name')
+        ->firstOrFail();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+
+        $pdf = Pdf::loadView('pdf.rtm',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    return $pdf->stream('rtm-report.pdf');
+        // return view('lpm.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category',
+        // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
 
     // public function approver_edit(Request $request, $id){
     //     $request->validate([
