@@ -1,5 +1,4 @@
 @extends('mail.template')
-@section('title', $data['subject'])
 @section('content')
 <table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left;" width="100%">
     <tbody>
@@ -13,18 +12,10 @@
     </tbody>
 </table>
 <tbody>
-        <tr class="pad-left-right-space">
-            <td ><p>Audit Plane <b><b>:</b> {{ $data['audit_plan_id'] ?? 'N/A'}}</b></p></td>
-        </tr>
-        <tr class="pad-left-right-space">
-            <td ><p>Auditee <b><b>:</b> {{ $data['auditee_id'] ?? 'N/A'}}</b></p></td>
-        </tr>
-        <tr class="pad-left-right-space">
-            <td ><p>Auditor  <b><b>:</b> {{ $data['auditor_id'] ?? 'N/A'}}</b></p></td>
-        </tr>
-        <tr class="pad-left-right-space">
-            <td  href="{{ url('/dashboard') }}"><p>Documen Uplod  <b><b>:</b> {{ is_array($data['doc_path']) ? implode(', ', $data['doc_path']) : $data['doc_path'] ?? 'N/A' }}</b></p></td>
-        </tr>
+    <h1>New Auditor Standards Created</h1>
+    <p>Standar auditor telah berhasil ditambahkan untuk Rencana Audit dengan ID:.</p>
+    <p>Silakan periksa detailnya di sistem.</p>
+        
 </tbody>
 
 <table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left; margin-bottom:50px;"

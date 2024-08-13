@@ -45,14 +45,14 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '082258485039'
             ], $default_user_value));
             $lpm = User::create(array_merge([
-                'email' => 'lpm@example',
+                'email' => 'abdulahmad9564@gmail.com',
                 'name' => 'Feni Dwi Lestari',
                 'username' => 'lpm',
                 'gender' => 'L',
                 'no_phone' => '089602928926'
             ], $default_user_value));
             $approver = User::create(array_merge([
-                'email' => 'approver@example',
+                'email' => 'approver@gmail.com',
                 'name' => 'Wakil Rektor',
                 'username' => 'approver',
             ], $default_user_value));
@@ -66,6 +66,8 @@ class UserRolePermissionSeeder extends Seeder
             $admin->assignRole('admin');
             $admin->assignRole('auditor');
             $admin->assignRole('auditee');
+            $admin->assignRole('lpm');
+            $admin->assignRole('approver');
 
             $auditee->assignRole('auditee');
             $auditee->assignRole('auditor');
@@ -74,10 +76,10 @@ class UserRolePermissionSeeder extends Seeder
             $auditor->assignRole('auditee');
 
             $lpm->assignRole('lpm');
-            $lpm->assignRole('auditee');
+            $lpm->assignRole('admin');
 
             $approver->assignRole('approver');
-            $approver->assignRole('admin');
+            
             //create permission
             $permission = Permission::create(['name' => 'log-viewers.read']);
             //set direct permissions

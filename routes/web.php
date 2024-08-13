@@ -200,8 +200,9 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::get('/edit_docs/review_docs/{id}', [StandardCriteriaController::class, 'edit_docs'])->name('edit_docs.review_docs');
             Route::put('/update_docs/review_docs/{id}', [StandardCriteriaController::class, 'update_docs'])->name('update_docs.review_docs');
             Route::delete('/delete_docs', [StandardCriteriaController::class, 'delete_docs'])->name('delete_docs.review_docs');
-         });
+            });
     Route::get('/get_standard_statement_id_by_id', [StandardCriteriaController::class, 'getStandardStatementId'])->name('DOC.get_standard_statement_id_by_id');
+    Route::get('/get_indicator_id_by_id', [StandardCriteriaController::class, 'getIndicatorId'])->name('DOC.get_indicator_id_by_id');
 
         Route::group(['prefix' => 'hod_ami'], function () {
             Route::any('/', [SettingController::class, 'hod_ami'])->name('hod_ami.index');

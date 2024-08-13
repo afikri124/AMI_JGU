@@ -11,7 +11,7 @@ class ReviewDocs extends Model
     public $timestamps = true;
     public $incrementing = true;
     protected $fillable = [
-        'id', 'name', 'standard_statement_id', 'standard_criteria_id'
+        'id', 'name', 'standard_statement_id', 'standard_criteria_id','indicator_id'
     ];
 
     public function criteria()
@@ -22,5 +22,10 @@ class ReviewDocs extends Model
     public function statement()
     {
         return $this->belongsTo(StandardStatement::class, 'standard_statement_id');
+    }
+
+    public function indicator()
+    {
+        return $this->belongsTo(Indicator::class, 'indicator_id');
     }
 }
