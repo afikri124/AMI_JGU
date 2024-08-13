@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class sendStandardToLpm extends Mailable
+class revisedStandardToAdmin extends Mailable
 {
       use Queueable, SerializesModels;
 
@@ -30,8 +30,8 @@ class sendStandardToLpm extends Mailable
        */
       public function build()
       {
-      return $this->subject('🔔 AMI | Auditor Standards Have Been Created by Admin'
-      )->view('mail.sendStandardToLpm',[
+      return $this->subject('🔔 AMI | '. $this->data['subject']
+      )->view('mail.revisedStandardToAdmin',[
             'data' => $this->data
       ]);
       }

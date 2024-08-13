@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\sendEmail;
 use App\Mail\reschedule;
 use App\Mail\sendStandardToLpm;
+use App\Mail\sendStandardUpdateToLpm;
 use App\Mail\deletedAuditPlan;
 use App\Models\AuditPlan;
 use App\Models\AuditPlanAuditor;
@@ -99,18 +100,10 @@ class AuditPlanController extends Controller
         //         'periode'       => $request->periode,
         //         'subject'       => 'Notification Audit Mutu Internal' // Add the subject here
 
-<<<<<<< HEAD
-            ];
             // Kirim email ke pengguna yang ditemukan
-            Mail::to($auditee->email)->send(new sendEmail($emailData));
-            Mail::to($auditor->email)->send(new sendEmail($emailData));
-            
-=======
+            // Mail::to($auditee->email)->send(new sendEmail($emailData));
+            // Mail::to($auditor->email)->send(new sendEmail($emailData));
         //     ];
-        //     // Kirim email ke pengguna yang ditemukan
-        //     Mail::to($auditee->email)->send(new sendEmail($emailData));
-        //     Mail::to($auditor->email)->send(new sendEmail($emailData));
->>>>>>> a36bd828ac91af9504118db01b5acaa278179e9f
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -292,7 +285,7 @@ class AuditPlanController extends Controller
         //     'link'          => null, // Link tidak diperlukan saat menghapus, atau sesuaikan jika ada
         //     'type_audit'    => $data->type_audit,
         //     'periode'       => $data->periode,
-        //     'subject'       => 'Notification Audit Mutu Internal Deletion'
+        //     'subject'       => 'Notification Audit Mutu Internal cancelled'
         // ];
 
         // // Kirim email ke auditee
@@ -405,12 +398,8 @@ class AuditPlanController extends Controller
             'standard_criteria_id' => 'required|array',
         ]);
 
-<<<<<<< HEAD
-        
-=======
         $auditors = AuditPlanAuditor::findOrFail($id);
 
->>>>>>> a36bd828ac91af9504118db01b5acaa278179e9f
         // Find the AuditPlanAuditor record by ID
         foreach ($request->standard_category_id as $categoryId) {
             AuditPlanCategory::create([
@@ -511,6 +500,23 @@ class AuditPlanController extends Controller
         $data->update([
             'audit_status_id' => '13',
         ]);
+
+        // notification Email 
+        // Get users with 'lpm' role
+        $lpm = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
+            $q->where('name', 'lpm');
+        })
+        ->orderBy('name')
+        ->get();
+
+        // Send email Update Standard notification to LPM users
+        foreach ($lpm as $user) {
+            Mail::to($user->email)->send(new sendStandardUpdateToLpm($id));
+        }
+        
         // Redirect with a success message
         return redirect()->route('audit_plan.standard', ['id' => $id])
             ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
