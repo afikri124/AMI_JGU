@@ -116,7 +116,7 @@ class AuditPlanController extends Controller
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
         $departments = Department::orderBy('name')->get();
-        $auditStatus = AuditStatus::get();
+        $auditStatus = AuditStatus::orderBy('title')->get();
         $category = StandardCategory::where('status', true)->get();
         $criterias = StandardCriteria::where('status', true)->get();
         $auditee = User::with(['roles' => function ($query) {
@@ -369,9 +369,6 @@ class AuditPlanController extends Controller
             'standard_criteria_id' => 'required|array',
         ]);
 
-        $auditors = AuditPlanAuditor::findOrFail($id);
-
-        // Find the AuditPlanAuditor record by ID
         foreach ($request->standard_category_id as $categoryId) {
             AuditPlanCategory::create([
                 'audit_plan_auditor_id' => $id,
@@ -379,7 +376,6 @@ class AuditPlanController extends Controller
             ]);
         }
 
-        // Create records for standard criteria
         foreach ($request->standard_criteria_id as $criteriaId) {
             AuditPlanCriteria::create([
                 'audit_plan_auditor_id' => $id,
@@ -387,7 +383,7 @@ class AuditPlanController extends Controller
             ]);
 
         }
-        return redirect()->route('audit_plan.standard', ['id' => $auditors->id])
+        return redirect()->route('audit_plan.standard', ['id' => $id])
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');
     }
 

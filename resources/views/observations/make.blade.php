@@ -136,8 +136,8 @@
         </div>
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label" for="auditee"><b>Auditee</b><i class="text-danger">*</i></label>
-            <input class="form-control bg-user" type="text" value="{{ $data->auditee->name}}" readonly>
+            <label class="form-label" for="auditee_id"><b>Auditee</b><i class="text-danger">*</i></label>
+            <input id="auditee_id" class="form-control bg-user" type="text" value="{{ $data->auditee->name}}" readonly>
           </div>
           <div class="col-md-6">
             <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
@@ -289,7 +289,7 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea name="remark_recommend[{{ $indicator->id }}]" class="form-control" maxlength="250"
+                    <textarea name="remark_recommend[{{ $indicator->id }}]" class="form-control" maxlength="250" id="remark_recommend"
                         placeholder="MAX 250 characters..."></textarea>
                         @error('remark_recommend')
                         <span class="invalid-feedback" role="alert">
@@ -355,7 +355,7 @@
             <div>
                 <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
-                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
+                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror" id="remark_plan"
                     name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>
                     @error('remark_plan')
                         <span class="invalid-feedback" role="alert">
@@ -429,24 +429,6 @@
             });
         })(jQuery);
     }, 350);
-
-    // $(document).ready(function() {
-
-    //             $("#remark_description").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark Descripstion data is required');
-    //             $("#obs_checklist_option").prop('disabled', true).attr('data-placeholder',
-    //                 'Form Checklist data is required');
-    //             $("#remark_success_failed").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark success failed data is required');
-    //             $("#remark_recommend").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark Recommend data is required');
-    //             $("#remark_upgrade_repair").prop('disabled', true).attr('data-placeholder',
-    //                 'Remark Upgrade Repair data is required');
-    //             $("#person_in_charge").prop('disabled', true).attr('data-placeholder',
-    //                 'Person In Charge data is required');
-    //             $("#plan_completed").prop('disabled', true).attr('data-placeholder',
-    //                 'Plan Complated data is required');
-    //         });
 </script>
 <script>
     const wizardIcons = document.querySelector('.wizard-icons-example');
@@ -476,5 +458,22 @@
             });
         }
     }
+
+    // document.addEventListener('DOMContentLoaded', (event) => {
+    //     // Menyimpan data ke localStorage saat terjadi perubahan
+    //     document.querySelectorAll('input, select, textarea').forEach(element => {
+    //         element.addEventListener('input', () => {
+    //             localStorage.setItem(element.id, element.value);
+    //         });
+    //     });
+
+    //     // Mengisi data dari localStorage saat halaman dimuat
+    //     document.querySelectorAll('input, select, textarea').forEach(element => {
+    //         const savedValue = localStorage.getItem(element.id);
+    //         if (savedValue) {
+    //             element.value = savedValue;
+    //         }
+    //     });
+    // });
     </script>
 @endsection

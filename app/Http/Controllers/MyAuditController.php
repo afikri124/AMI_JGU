@@ -85,7 +85,7 @@ class MyAuditController extends Controller{
             'audit_status_id'   => '11',
         ]);
 
-        return redirect()->route('my_audit.index')->with('msg', 'Document Success Uploaded');
+        return redirect()->route('my_audit.index')->with('msg', 'Audit Document Success Uploaded');
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -107,12 +107,41 @@ class MyAuditController extends Controller{
                             ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+
+        // Ambil daftar observation_id dari koleksi observations
+        $observationIds = $observations->pluck('id');
+
+        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-        return view('my_audit.view',
-        compact('standardCategories', 'standardCriterias',
-        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+        if ($data->audit_status_id == 4) {
+            return view('my_audit.view', [
+                'data' => $data,
+                'auditor' => $auditor,
+                'category' => $category,
+                'criteria' => $criteria,
+                'standardCategories' => $standardCategories,
+                'standardCriterias' => $standardCriterias,
+                'observations' => $observations,
+                'obs_c' => $obs_c,
+                'hodLPM' => $hodLPM,
+                'hodBPMI' => $hodBPMI
+            ]);
+        } elseif ($data->audit_status_id == 3){
+            return view('my_audit.doc',[
+                'data' => $data,
+                'auditor' => $auditor,
+                'category' => $category,
+                'criteria' => $criteria,
+                'standardCategories' => $standardCategories,
+                'standardCriterias' => $standardCriterias,
+                'observations' => $observations,
+                'obs_c' => $obs_c,
+                'hodLPM' => $hodLPM,
+                'hodBPMI' => $hodBPMI
+            ]);
+        }
     }
 
     //Narik data untuk Observations
@@ -178,6 +207,7 @@ class MyAuditController extends Controller{
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
+    // Retrieve the observation using the ID
     $observation = Observation::findOrFail($id);
 
     if ($request->isMethod('POST')) {
@@ -198,14 +228,12 @@ class MyAuditController extends Controller{
 
         // Update Observation Checklists
         foreach ($request->remark_upgrade_repair as $key => $remark) {
-            // Temukan checklist berdasarkan observation_id dan indicator_id
-            $checklists = ObservationChecklist::where('observation_id', $observation->id)
-                ->where('indicator_id', $key)
-                ->get();
+                $checklists = ObservationChecklist::where('observation_id', $observation->id)
+                    ->where('indicator_id', $key)
+                    ->get();
 
-            foreach ($checklists as $checklist) {
-                // Perbarui setiap entri checklist
-                $checklist->update([
+                foreach ($checklists as $checklist) {
+                    $checklist->update([
                     'remark_upgrade_repair' => $remark,
                 ]);
             }
@@ -214,7 +242,7 @@ class MyAuditController extends Controller{
         $data->update([
             'audit_status_id'   => '6',
         ]);
-        return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
+        return redirect()->route('my_audit.index')->with('msg', 'Observation Auditee updated successfully!!');
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -235,7 +263,13 @@ class MyAuditController extends Controller{
                             ->orderBy('title')
                             ->get();
 
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
+        // Ambil daftar observation_id dari koleksi observations
+        $observationIds = $observations->pluck('id');
+
+        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
 
@@ -274,17 +308,13 @@ class MyAuditController extends Controller{
         }
 
         // Retrieve the observation using the ID
-        $observation = Observation::where('audit_plan_id', $id)
-            ->where('audit_plan_auditor_id', $data->auditor()
-            ->where('auditor_id', $auditorId)->first()->id)
-            ->firstOrFail();
+        $observation = Observation::findOrFail($id);
 
         $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-                'plan_complated_end' => ['array', 'nullable'],
-                'plan_complated_end.*' => ['nullable', 'date'],
+                'remark_rtm_auditee' => ['array', 'nullable'],
             ]);
 
             $observation->update([
@@ -292,20 +322,23 @@ class MyAuditController extends Controller{
                 'audit_plan_auditor_id' => $auditPlanAuditorId,
             ]);
 
-            foreach ($request->indicator_ids as $indicatorId) {
+            foreach ($request->indicator_ids as $index => $indicatorId) {
                 Rtm::updateOrCreate(
                     [
                         'observation_id' => $observation->id,
                         'indicator_id' => $indicatorId,
                     ],
                     [
-                        'plan_complated_end' => $request->plan_complated_end[$indicatorId] ?? null,
+                        'remark_rtm_auditee' => $request->remark_rtm_auditee[$indicatorId] ?? null,
                         'doc_path_rtm' => $filePaths[$index] ?? null,
                     ]
                 );
             }
 
-            return redirect()->route('my_audit.index')->with('msg', 'Observation updated successfully!!');
+            $data->update([
+                'audit_status_id'   => '10',
+            ]);
+            return redirect()->route('my_audit.index')->with('msg', 'Document RTM uploaded/updated successfully!!');
         }
 
         $data = AuditPlan::findOrFail($id);
@@ -327,7 +360,8 @@ class MyAuditController extends Controller{
                             ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $observationIds = $observations->pluck('id');
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         return view('my_audit.edit_rtm',
@@ -360,8 +394,14 @@ class MyAuditController extends Controller{
                         ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+
+        $observations = Observation::where('audit_plan_id', $id)->get();
+
+        // Ambil daftar observation_id dari koleksi observations
+        $observationIds = $observations->pluck('id');
+
+        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
 

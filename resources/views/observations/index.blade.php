@@ -248,7 +248,16 @@
                         }
                         else if (row.auditstatus.id === 8 ) {
                             x = `<a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
+                            <i class="bx bx-pencil"></i></a>`;
+                        }
+                        else if (row.auditstatus.id === 10 ) {
+                            x = `
+                                <a class="badge bg-warning" title="Remark RTM" href="{{ url('observations/remark_rtm/${row.id}') }}">
                                         <i class="bx bx-pencil"></i></a>`;
+                        }
+                        else if(row.auditstatus.id === 14){
+                            x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('observations/rtm/${row.id}') }}">
+                                <i class="bx bx-printer"></i></a>`
                         }
                         return x;
                     },

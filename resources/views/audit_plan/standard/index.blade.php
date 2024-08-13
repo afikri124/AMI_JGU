@@ -71,8 +71,7 @@
 </style>
 @endsection
 
-<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-        <div class="card">
+        <div class="card p-3">
             <div class="card-datatable table-responsive">
                 <div class="card-header flex-column flaex-md-row pb-0">
                     <div class="row">
@@ -83,7 +82,6 @@
                                 </div>
                             </div>
                         <div class="row">
-                        <div class="container-fluid flex-grow-1 container-p-y">
                             <table class="table table-hover table-sm" id="datatable" width="100%">
                                 <thead>
                                     <tr>
