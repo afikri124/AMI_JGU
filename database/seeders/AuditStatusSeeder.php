@@ -18,7 +18,7 @@ class AuditStatusSeeder extends Seeder
         $data = [
             ["id" => "1",
             "title" => "Scheduled",
-            "color" => "success"],
+            "color" => "info"],
 
             ["id" => "2",
             "title" => "Reschedule",
@@ -42,7 +42,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "7",
             "title" => "Approved Report by LPM",
-            "color" => "success"],
+            "color" => "secondary"],
 
             ["id" => "8",
             "title" => "Request Note\nby LPM",
@@ -50,7 +50,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "9",
             "title" => "RTM Process",
-            "color" => "dark"],
+            "color" => "secondary"],
 
             ["id" => "10",
             "title" => "Uploaded RTM",
@@ -62,7 +62,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "12",
             "title" => "Reuploaded",
-            "color" => "secondary"],
+            "color" => "primary"],
 
             ["id" => "13",
             "title" => "Standard\nUpdated",
@@ -70,7 +70,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "14",
             "title" => "RTM Finished",
-            "color" => "dark"],
+            "color" => "success"],
         ];
 
         foreach ($data as $x) {

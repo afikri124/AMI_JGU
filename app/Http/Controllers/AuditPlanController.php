@@ -98,11 +98,12 @@ class AuditPlanController extends Controller
         //         'type_audit'    => $request->type_audit,
         //         'periode'       => $request->periode,
         //         'subject'       => 'Notification Audit Mutu Internal' // Add the subject here
+        // ];
         //     // Kirim email ke pengguna yang ditemukan
         //     Mail::to($auditee->email)->send(new sendEmail($emailData));
         //     Mail::to($auditor->email)->send(new sendEmail($emailData));
             // Redirect dengan pesan sukses
-            return redirect()->route('audit_plan.standard', ['id' => $data->id])
+            return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
             }
             // else {
@@ -218,26 +219,26 @@ class AuditPlanController extends Controller
         }
 
         // Data untuk email
-        $emailData = [
-            'auditee_id'    => $auditee->name,
-            'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
-            'date_start'    => $request->date_start,
-            'date_end'      => $request->date_end,
-            'department_id' => $department ? $department->name : null,
-            'location_id'   => $location ? $location->title : null,
-            'subject'       => 'Reschedule Audit Plane' // Add the subject here
-        ];
+        // $emailData = [
+        //     'auditee_id'    => $auditee->name,
+        //     'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
+        //     'date_start'    => $request->date_start,
+        //     'date_end'      => $request->date_end,
+        //     'department_id' => $department ? $department->name : null,
+        //     'location_id'   => $location ? $location->title : null,
+        //     'subject'       => 'Reschedule Audit Plane' // Add the subject here
+        // ];
 
-        // Kirim email ke auditee
-        Mail::to($auditee->email)->send(new reschedule($emailData));
+        // // Kirim email ke auditee
+        // Mail::to($auditee->email)->send(new reschedule($emailData));
 
-        // Kirim email ke auditor
-        foreach ($newAuditors as $auditorId) {
-            $auditor = User::find($auditorId);
-            if ($auditor) {
-                Mail::to($auditor->email)->send(new reschedule($emailData));
-            }
-        }
+        // // Kirim email ke auditor
+        // foreach ($newAuditors as $auditorId) {
+        //     $auditor = User::find($auditorId);
+        //     if ($auditor) {
+        //         Mail::to($auditor->email)->send(new reschedule($emailData));
+        //     }
+        // }
     }
     return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan updated successfully.');
 }
@@ -368,141 +369,148 @@ class AuditPlanController extends Controller
 
     public function create(Request $request, $id)
     {
-        $auditors = AuditPlanAuditor::findOrFail($id);
+        $data = AuditPlan::findOrFail($id);
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)->get(); // Ambil semua auditor
         $category = StandardCategory::where('status', true)->get();
         $criteria = StandardCriteria::where('status', true)->get();
-        $auditor = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'auditor');
-        })
-        ->where('id', $auditors->auditor_id)
-        ->orderBy('name')
-        ->get();
 
-        $selectedCategory = AuditPlanCategory::where('audit_plan_auditor_id', $id)->pluck('standard_category_id')->toArray();
-        $selectedCriteria = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->pluck('standard_criteria_id')->toArray();
+        $selectedCategories = [];
+        $selectedCriteria = [];
 
-        return view("audit_plan.standard.create", compact("auditors", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
+        // Ambil data kategori dan kriteria yang sudah dipilih untuk masing-masing auditor
+        foreach ($auditors as $auditor) {
+            $selectedCategories[$auditor->id] = AuditPlanCategory::where('audit_plan_auditor_id', $auditor->id)->pluck('standard_category_id')->toArray();
+            $selectedCriteria[$auditor->id] = AuditPlanCriteria::where('audit_plan_auditor_id', $auditor->id)->pluck('standard_criteria_id')->toArray();
+        }
+
+        return view("audit_plan.standard.create", compact("data", "auditors", "category", "criteria", "selectedCategories", "selectedCriteria"));
     }
+
 
     public function create_auditor_std(Request $request, $id)
-    {
-        $this->validate($request, [
-            'auditor_id' => 'required|exists:users,id',
-            'standard_category_id' => 'required|array',
-            'standard_criteria_id' => 'required|array',
-        ]);
+{
+    $this->validate($request, [
+        'auditor_id' => 'required|array',
+        'standard_category_id' => 'required|array',
+        'standard_criteria_id' => 'required|array',
+    ]);
 
-        $auditors = AuditPlanAuditor::findOrFail($id);
-
-        foreach ($request->standard_category_id as $categoryId) {
-            AuditPlanCategory::create([
-                'audit_plan_auditor_id' => $id,
-                'standard_category_id' => $categoryId,
-            ]);
+    // Clear existing categories and criteria for each auditor
+    foreach ($request->auditor_id as $auditorId) {
+        // Store categories
+        if (isset($request->standard_category_id[$auditorId])) {
+            foreach ($request->standard_category_id[$auditorId] as $categoryId) {
+                AuditPlanCategory::updateOrCreate(
+                    ['audit_plan_auditor_id' => $auditorId, 'standard_category_id' => $categoryId],
+                    ['audit_plan_auditor_id' => $auditorId, 'standard_category_id' => $categoryId]
+                );
+            }
         }
 
-        foreach ($request->standard_criteria_id as $criteriaId) {
-            AuditPlanCriteria::create([
-                'audit_plan_auditor_id' => $id,
-                'standard_criteria_id' => $criteriaId,
-            ]);
-
-        // Get users with 'lpm' role
-        $lpm = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'lpm');
-        })
-        ->orderBy('name')
-        ->get();
-
-        // Send email notification to LPM users
-        foreach ($lpm as $user) {
-            Mail::to($user->email)->send(new sendStandardToLpm($id));
+        // Store criteria
+        if (isset($request->standard_criteria_id[$auditorId])) {
+            foreach ($request->standard_criteria_id[$auditorId] as $criteriaId) {
+                AuditPlanCriteria::updateOrCreate(
+                    ['audit_plan_auditor_id' => $auditorId, 'standard_criteria_id' => $criteriaId],
+                    ['audit_plan_auditor_id' => $auditorId, 'standard_criteria_id' => $criteriaId]
+                );
+            }
         }
 
-        }
-        return redirect()->route('audit_plan.standard', ['id' => $id])
-        ->with('msg', 'Auditor data to determine each Standard was added successfully!');
+        // Send email notifications to LPM users
+    //     $lpm = User::whereHas('roles', function ($q) {
+    //         $q->where('name', 'lpm');
+    //     })->get();
+
+    //     foreach ($lpm as $user) {
+    //         Mail::to($user->email)->send(new sendStandardToLpm($id));
+    //     }
+    // }
+
+    // Redirect with success message
     }
+    return redirect()->route('audit_plan.index')
+        ->with('msg', 'Auditor data to determine each Standard was added successfully!');
+}
 
     public function edit_auditor_std(Request $request, $id)
     {
-        $auditors = AuditPlanAuditor::findOrFail($id);
+        $data = AuditPlan::findOrFail($id);
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)->get(); // Ambil semua auditor
         $category = StandardCategory::where('status', true)->get();
         $criteria = StandardCriteria::where('status', true)->get();
-        $auditor = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'auditor');
-        })
-        ->where('id', $auditors->auditor_id)
-        ->orderBy('name')
-        ->get();
 
-        $selectedCategory = AuditPlanCategory::where('audit_plan_auditor_id', $id)->pluck('standard_category_id')->toArray();
-        $selectedCriteria = AuditPlanCriteria::where('audit_plan_auditor_id', $id)->pluck('standard_criteria_id')->toArray();
+        $selectedCategories = [];
+        $selectedCriteria = [];
 
-        return view("audit_plan.standard.edit", compact("auditors", "category", "criteria", "auditor", "selectedCategory", "selectedCriteria"));
+        // Ambil data kategori dan kriteria yang sudah dipilih untuk masing-masing auditor
+        foreach ($auditors as $auditor) {
+            $selectedCategories[$auditor->id] = AuditPlanCategory::where('audit_plan_auditor_id', $auditor->id)->pluck('standard_category_id')->toArray();
+            $selectedCriteria[$auditor->id] = AuditPlanCriteria::where('audit_plan_auditor_id', $auditor->id)->pluck('standard_criteria_id')->toArray();
+        }
+        return view("audit_plan.standard.edit", compact("data", "auditors", "category", "criteria", "selectedCategories", "selectedCriteria"));
     }
 
     public function update_auditor_std(Request $request, $id)
-    {
-        // Validate the request
-        $this->validate($request, [
-            'auditor_id' => 'required|exists:users,id',
-            'standard_category_id' => 'required|array',
-            'standard_criteria_id' => 'required|array',
-        ]);
+{
+    // Validate the request
+    $this->validate($request, [
+        'auditor_id' => 'required|array',
+        'auditor_id.*' => 'required|exists:users,id',
+        'standard_category_id' => 'required|array',
+        'standard_category_id.*' => 'required|array',
+        'standard_criteria_id' => 'required|array',
+        'standard_criteria_id.*' => 'required|array',
+    ]);
 
-        // Update AuditPlanAuditor record by ID (assuming this is required, but not shown in the original code)
-        $auditPlanAuditor = AuditPlanAuditor::findOrFail($id);
+    foreach ($request->auditor_id as $auditorId) {
+        // Update AuditPlanAuditor record by ID
+        $auditPlanAuditor = AuditPlanAuditor::findOrFail($auditorId);
         $auditPlanAuditor->update([
-            'auditor_id' => $request->auditor_id,
+            'auditor_id' => $auditorId,
         ]);
 
         // Update or Create standard categories
-        foreach ($request->standard_category_id as $categoryId) {
+        foreach ($request->standard_category_id[$auditorId] as $categoryId) {
             AuditPlanCategory::updateOrCreate(
-                ['audit_plan_auditor_id' => $id, 'standard_category_id' => $categoryId]
+                ['audit_plan_auditor_id' => $auditPlanAuditor->id, 'standard_category_id' => $categoryId]
             );
         }
 
         // Delete categories that are no longer selected
-        AuditPlanCategory::where('audit_plan_auditor_id', $id)
-            ->whereNotIn('standard_category_id', $request->standard_category_id)
+        AuditPlanCategory::where('audit_plan_auditor_id', $auditPlanAuditor->id)
+            ->whereNotIn('standard_category_id', $request->standard_category_id[$auditorId])
             ->delete();
 
         // Update or Create standard criteria
-        foreach ($request->standard_criteria_id as $criteriaId) {
+        foreach ($request->standard_criteria_id[$auditorId] as $criteriaId) {
             AuditPlanCriteria::updateOrCreate(
-                ['audit_plan_auditor_id' => $id, 'standard_criteria_id' => $criteriaId]
+                ['audit_plan_auditor_id' => $auditPlanAuditor->id, 'standard_criteria_id' => $criteriaId]
             );
         }
 
         // Delete criteria that are no longer selected
-        AuditPlanCriteria::where('audit_plan_auditor_id', $id)
-            ->whereNotIn('standard_criteria_id', $request->standard_criteria_id)
+        AuditPlanCriteria::where('audit_plan_auditor_id', $auditPlanAuditor->id)
+            ->whereNotIn('standard_criteria_id', $request->standard_criteria_id[$auditorId])
             ->delete();
-
-        // Update the audit plan status
-        $data = AuditPlan::findOrFail($id);
-        $data->update([
-            'audit_status_id' => '13',
-        ]);
-        // Redirect with a success message
-        return redirect()->route('audit_plan.standard', ['id' => $id])
-            ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
     }
 
-    public function getStandardCriteriaId(Request $request)
+    // Update the audit plan status
+    $data = AuditPlan::findOrFail($id);
+    $data->update([
+        'audit_status_id' => '13',
+    ]);
+
+    // Redirect with a success message
+    return redirect()->route('audit_plan.index')
+        ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
+}
+
+    public function getStandardCriteriaByCategoryIds(Request $request)
     {
-        $criteria = StandardCriteria::where('standard_category_id', $request->id)->get();
+        $categoryIds = $request->input('ids'); // Get all selected category IDs
+        $criteria = StandardCriteria::whereIn('standard_category_id', $categoryIds)->get();
+
         return response()->json($criteria);
     }
 

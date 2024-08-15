@@ -17,10 +17,10 @@
         </div>
         @endif
         <div class="card mb-4">
-            <!-- <div class="card-header">
-                <h4 class="card-header"><b>Update Audit Plan</b></h4>
-                <hr class="my-0">
-            </div> -->
+        <div class="card-header">
+            <h3 class="card-header"><b>Edit Audit Plan</b></h3>
+            <hr class="my-0">
+        </div>
             <div class="card-body">
                 <form action="{{ route('update_audit', $data->id) }}" method="POST">
                     <div class="row">

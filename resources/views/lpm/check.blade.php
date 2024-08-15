@@ -143,9 +143,12 @@
       @endforeach
       @endforeach
     @endforeach
-    <div class="card-footer text-end">
-        <button class="btn btn-primary me-1" type="submit" name="action" value="Approve">Approve</button>
-        <button id="submitButton" class="btn btn-dark me-1" type="button">Revised</button>
+    <div class="card-footer d-flex justify-content-between align-items-end">
+        <div class="d-flex">
+            <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Approve">Approve</button>
+            <button id="submitButton" class="btn btn-primary me-1" type="button">Revised</button>
+        </div>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Back</a>
     </div>
 </form>
   </div>
@@ -155,7 +158,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><i><b>Komentar Persetujuan Standar oleh LPM</b></i></h4>
+                <h4 class="modal-title" id="exampleModalLabel"><i><b>Standard Approval by LPM</b></i></h4>
                 <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
@@ -164,13 +167,13 @@
                 <form id="upload-form" method="POST" action="{{ route('lpm.lpm_standard', $data->id) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="remark_standard_lpm" class="form-label large-text"><b>Komentar Standar oleh LPM</b></label>
+                        <label for="remark_standard_lpm" class="form-label large-text"><b>Remark Standard Approval by LPM</b></label>
                         <textarea class="form-control" id="modal-remark_standard_lpm" name="remark_standard_lpm" rows="3" placeholder="MAX 350 karakter..."></textarea>
-                        <i class="text-danger"><b>* Harap komentari mengapa Anda tidak setuju dengan standar ini</b></i>
+                        <i class="text-danger"><b>* Please comment on why you disagree with the above standards.</b></i>
                     </div>
                     <div class="text-end" id="button-container">
                         <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revised</button>
-                        <a href="" class="btn btn-outline-secondary">Kembali</a>
+                        <a href="" class="btn btn-outline-secondary">Back</a>
                     </div>
                 </form>
             </div>

@@ -22,24 +22,33 @@
                 <div data-i18n="Dashboards">Dashboard</div>
             </a>
         </li>
+        @if(Auth::check() && (Auth::user()->username == 'admin' || Auth::user()->username == 'lpm'))
         <li class="menu-item {{ request()->segment(1) == 'audit_plan' ? 'active' : '' }}">
             <a href="{{ route('audit_plan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar-edit"></i>
                 <div data-i18n="Dashboards">Audit Plan</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
-            <a href="{{ route('observations.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-search"></i>
-                <div data-i18n="Dashboards">Auditing</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
-            <a href="{{ route('my_audit.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-bell"></i>
-                <div data-i18n="Dashboards">My Audit</div>
-            </a>
-        </li>
+        @endif
+
+        @if(Auth::check() && (Auth::user()->username == 'admin' || Auth::user()->username == 'auditor'))
+            <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
+                <a href="{{ route('observations.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-search"></i>
+                    <div data-i18n="Dashboards">Auditing</div>
+                </a>
+            </li>
+        @endif
+
+        @if(Auth::check() && (Auth::user()->username == 'admin' ||
+                                Auth::user()->username == 'auditee'))
+            <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
+                <a href="{{ route('my_audit.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-bell"></i>
+                    <div data-i18n="Dashboards">My Audit</div>
+                </a>
+            </li>
+        @endif
         <li class="menu-item {{ request()->segment(1) == 'rtm' ? 'active' : '' }}">
             <a href="{{ route('rtm.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book-bookmark"></i>
@@ -47,21 +56,33 @@
             </a>
         </li>
 
+        @if(Auth::check() && (Auth::user()->username == 'admin' ||
+                                Auth::user()->username == 'lpm' ||
+                                Auth::user()->username == 'approver'))
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Approve</span>
         </li>
-        <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
-            <a href="{{ route('lpm.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-copy-alt"></i>
-                <div data-i18n="Dashboards">LPM</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
-            <a href="{{ route('approver.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>
-                <div data-i18n="Dashboards">Wakil Rektor</div>
-            </a>
-        </li>
+        @endif
+
+        @if(Auth::check() && (Auth::user()->username == 'admin' ||
+                                Auth::user()->username == 'lpm'))
+            <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
+                <a href="{{ route('lpm.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-copy-alt"></i>
+                    <div data-i18n="Dashboards">LPM</div>
+                </a>
+            </li>
+        @endif
+
+        @if(Auth::check() && (Auth::user()->username == 'admin' ||
+                            Auth::user()->username == 'approver'))
+            <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
+                <a href="{{ route('approver.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>
+                    <div data-i18n="Dashboards">Wakil Rektor</div>
+                </a>
+            </li>
+        @endif
         {{-- <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
             <a href="" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-clipboard"></i>
@@ -137,21 +158,16 @@
                                         <div>HoD AMI</div>
                                     </a>
                                 </li>
-                                <!-- <li class="menu-item {{ request()->segment(3) == 'criteria' ? 'active' : '' }}">
-                                    <a href="" class="menu-link">
-                                        <div>Standard Criterias</div>
-                                    </a>
-                                </li> -->
                         @endcan
                     </ul>
                 </li>
                 @endcan
-            </ul>
-            <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
-                <a href="{{route('documentation')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-file"></i>
-                    <div data-i18n="Documentation">Documentation</div>
-                </a>
-            </li>
+        <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
+            <a href="{{ route('documentation') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Documentation">Documentation</div>
+            </a>
+        </li>
+    </ul>
 </aside>
 <!-- / Menu -->

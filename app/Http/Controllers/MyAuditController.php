@@ -35,18 +35,21 @@ class MyAuditController extends Controller{
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
+    if (Auth::user()->role == 'auditee') {
+    }
+
     if ($request->isMethod('POST')) {
         $this->validate($request, [
-            'doc_path.*' => 'mimes:pdf|max:10000', // Validate each file
+            'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
         ]);
 
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+        // Check if there is an associated auditor record
+        $auditPlanAuditor = $data->auditor()->where('auditor_id', $auditorId)->first();
 
         $obs = Observation::create([
-                    'audit_plan_id' => $id,
-                    'audit_plan_auditor_id' => $auditorId,
-                ]);
+            'audit_plan_id' => $id,
+            'audit_plan_auditor_id' => $auditorId,
+        ]);
 
         $files = $request->file('doc_path');
         $filePaths = [];
@@ -82,10 +85,10 @@ class MyAuditController extends Controller{
         }
 
         $data->update([
-            'audit_status_id'   => '11',
+            'audit_status_id' => '11',
         ]);
 
-        return redirect()->route('my_audit.index')->with('msg', 'Audit Document Success Uploaded');
+        return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -153,6 +156,9 @@ class MyAuditController extends Controller{
         $data = AuditPlan::findOrFail($id);
 
         $auditorId = Auth::user()->id;
+
+        if (Auth::user()->role == 'auditee') {
+        }
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
 
         $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
@@ -207,6 +213,8 @@ class MyAuditController extends Controller{
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
+    if (Auth::user()->role == 'auditee') {
+    }
     // Retrieve the observation using the ID
     $observation = Observation::findOrFail($id);
 
@@ -282,6 +290,9 @@ class MyAuditController extends Controller{
     {
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
+
+        if (Auth::user()->role == 'auditee') {
+        }
 
         $files = $request->file('doc_path_rtm');
         $filePaths = [];
@@ -379,6 +390,9 @@ class MyAuditController extends Controller{
         $criteria = StandardCriteria::orderBy('title')->get();
 
         $auditorId = Auth::user()->id;
+
+        if (Auth::user()->role == 'auditee') {
+        }
         $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
 
         $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
@@ -443,7 +457,7 @@ class MyAuditController extends Controller{
             ->select('audit_plans.*',
             'locations.title as location'
             )
-            // ->where('auditee_id', Auth::user()->id)
+            ->where('auditee_id', Auth::user()->id)
             ->orderBy("id");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {

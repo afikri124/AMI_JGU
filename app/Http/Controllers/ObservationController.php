@@ -489,45 +489,55 @@ class ObservationController extends Controller
     }
 
     public function data(Request $request)
-    {
-        $data = AuditPlan::with([
-            'auditee' => function ($query) {
-                $query->select('id', 'name', 'no_phone');
-            },
-            'auditstatus' => function ($query) {
-                $query->select('id', 'title', 'color');
-            },
-            'auditor.auditor' => function ($query) {
-                $query->select('id', 'name', 'no_phone');
-            },
-        ])->leftJoin('locations', 'locations.id', '=', 'location_id')
-            ->select(
-                'audit_plans.*',
-                'locations.title as location'
-            )
-            // ->where('auditor_id', Auth::user()->id)
-            ->orderBy("id");
-        return DataTables::of($data)
-            ->filter(function ($instance) use ($request) {
-                //jika pengguna memfilter berdasarkan roles
-                if (!empty($request->get('select_auditee'))) {
-                    $instance->whereHas('auditee', function ($q) use ($request) {
-                        $q->where('auditee_id', $request->get('select_auditee'));
-                    });
-                }
-                if (!empty($request->get('search'))) {
-                    $instance->where(function ($w) use ($request) {
-                        $search = $request->get('search');
-                        $w->orWhere('date_start', 'LIKE', "%$search%")
+{
+    $data = AuditPlan::with([
+        'auditee' => function ($query) {
+            $query->select('id', 'name', 'no_phone');
+        },
+        'auditstatus' => function ($query) {
+            $query->select('id', 'title', 'color');
+        },
+        'auditor.auditor' => function ($query) {
+            $query->select('id', 'name', 'no_phone');
+        },
+    ])
+    ->leftJoin('locations', 'locations.id', '=', 'location_id')
+    ->select(
+        'audit_plans.*',
+        'locations.title as location'
+    )
+    ->whereHas('auditor', function ($query) {
+        $query->where('auditor_id', Auth::user()->id);
+    })
+    ->orderBy("id");
+
+    return DataTables::of($data)
+        ->filter(function ($instance) use ($request) {
+            // Filter berdasarkan select_auditee
+            if (!empty($request->get('select_auditee'))) {
+                $instance->whereHas('auditee', function ($q) use ($request) {
+                    $q->where('id', $request->get('select_auditee'));
+                });
+            }
+
+            // Filter berdasarkan pencarian (search)
+            if (!empty($request->get('search'))) {
+                $search = $request->get('search');
+                $instance->where(function ($w) use ($search) {
+                    $w->orWhere('date_start', 'LIKE', "%$search%")
                         ->orWhere('date_end', 'LIKE', "%$search%")
                         ->orWhere('locations.title', 'LIKE', "%$search%")
                         ->orWhereHas('auditee', function ($query) use ($search) {
                             $query->where('name', 'LIKE', "%$search%");
+                        })
+                        ->orWhereHas('auditor.auditor', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', "%$search%");
                         });
-                    });
-                }
-            })->make(true);
-        }
+                });
+            }
+        })
+        ->make(true);
+}
 
 
 // <-----------------  MAKE REPORT  ---------------------->
