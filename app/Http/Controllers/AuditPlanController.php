@@ -395,13 +395,16 @@ class AuditPlanController extends Controller
         'standard_criteria_id' => 'required|array',
     ]);
 
-        $auditors = AuditPlanAuditor::findOrFail($id);
-
-        foreach ($request->standard_category_id as $categoryId) {
-            AuditPlanCategory::create([
-                'audit_plan_auditor_id' => $id,
-                'standard_category_id' => $categoryId,
-            ]);
+    // Clear existing categories and criteria for each auditor
+    foreach ($request->auditor_id as $auditorId) {
+        // Store categories
+        if (isset($request->standard_category_id[$auditorId])) {
+            foreach ($request->standard_category_id[$auditorId] as $categoryId) {
+                AuditPlanCategory::updateOrCreate(
+                    ['audit_plan_auditor_id' => $auditorId, 'standard_category_id' => $categoryId],
+                    ['audit_plan_auditor_id' => $auditorId, 'standard_category_id' => $categoryId]
+                );
+            }
         }
 
         // Store criteria
@@ -415,19 +418,19 @@ class AuditPlanController extends Controller
         }
 
         // Send email notifications to LPM users
-    //     $lpm = User::whereHas('roles', function ($q) {
-    //         $q->where('name', 'lpm');
-    //     })->get();
+        $lpm = User::whereHas('roles', function ($q) {
+            $q->where('name', 'lpm');
+        })->get();
 
-    //     foreach ($lpm as $user) {
-    //         Mail::to($user->email)->send(new sendStandardToLpm($id));
-    //     }
-    // }
+        foreach ($lpm as $user) {
+            Mail::to($user->email)->send(new sendStandardToLpm($id));
+        }
+    }
 
     // Redirect with success message
     return redirect()->route('audit_plan.index')
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');
-    }
+}
 
     public function edit_auditor_std(Request $request, $id)
     {
