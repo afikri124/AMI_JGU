@@ -4,14 +4,14 @@
     <tbody>
         <tr>
             <td style="font-size: 10pt;">
-                <p>Dear Mr/Mrs, The Audit Standard has been set. Here are the details:</p><br>
+                <p>Dear Mr/Mrs, The Audit Standards Have Been Updated By Admin. Here are more details:</p><br>
                 <p style="text-align: justify;"></p>
             </td>
         </tr>
-    </tbody>
+    </tbody>    
 </table>
 <tbody>
-    <p>The audit standard has been set by the Admin. Please check whether the <a href="{{ url('/lpm') }}">standards</a>  set by the admin is appropriate or not.</p>
+    <p>Audit standards have been updated by Admin. Please check again whether the <a href="{{ url('/lpm') }}">standards</a> are truly appropriate or not for field audits.</p>
 </tbody>
 <table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left; margin-bottom:50px;"
     width="100%">

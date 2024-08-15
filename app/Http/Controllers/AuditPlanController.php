@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\sendEmail;
 use App\Mail\reschedule;
 use App\Mail\sendStandardToLpm;
+use App\Mail\sendStandardUpdateToLpm;
 use App\Mail\deletedAuditPlan;
 use App\Models\AuditPlan;
 use App\Models\AuditPlanAuditor;
@@ -98,10 +99,10 @@ class AuditPlanController extends Controller
         //         'type_audit'    => $request->type_audit,
         //         'periode'       => $request->periode,
         //         'subject'       => 'Notification Audit Mutu Internal' // Add the subject here
-        // ];
         //     // Kirim email ke pengguna yang ditemukan
         //     Mail::to($auditee->email)->send(new sendEmail($emailData));
         //     Mail::to($auditor->email)->send(new sendEmail($emailData));
+>>>>>>> 6bb8089b3dc5b4bd394ae070caf242bf5b0b4172
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -283,7 +284,7 @@ class AuditPlanController extends Controller
         //     'link'          => null, // Link tidak diperlukan saat menghapus, atau sesuaikan jika ada
         //     'type_audit'    => $data->type_audit,
         //     'periode'       => $data->periode,
-        //     'subject'       => 'Notification Audit Mutu Internal Deletion'
+        //     'subject'       => 'Notification Audit Mutu Internal cancelled'
         // ];
 
         // // Kirim email ke auditee
@@ -395,16 +396,13 @@ class AuditPlanController extends Controller
         'standard_criteria_id' => 'required|array',
     ]);
 
-    // Clear existing categories and criteria for each auditor
-    foreach ($request->auditor_id as $auditorId) {
-        // Store categories
-        if (isset($request->standard_category_id[$auditorId])) {
-            foreach ($request->standard_category_id[$auditorId] as $categoryId) {
-                AuditPlanCategory::updateOrCreate(
-                    ['audit_plan_auditor_id' => $auditorId, 'standard_category_id' => $categoryId],
-                    ['audit_plan_auditor_id' => $auditorId, 'standard_category_id' => $categoryId]
-                );
-            }
+        $auditors = AuditPlanAuditor::findOrFail($id);
+
+        foreach ($request->standard_category_id as $categoryId) {
+            AuditPlanCategory::create([
+                'audit_plan_auditor_id' => $id,
+                'standard_category_id' => $categoryId,
+            ]);
         }
 
         // Store criteria
@@ -495,16 +493,15 @@ class AuditPlanController extends Controller
             ->delete();
     }
 
-    // Update the audit plan status
-    $data = AuditPlan::findOrFail($id);
-    $data->update([
-        'audit_status_id' => '13',
-    ]);
-
-    // Redirect with a success message
-    return redirect()->route('audit_plan.index')
-        ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
-}
+        // Update the audit plan status
+        $data = AuditPlan::findOrFail($id);
+        $data->update([
+            'audit_status_id' => '13',
+        ]);
+        // Redirect with a success message
+        return redirect()->route('audit_plan.standard', ['id' => $id])
+            ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
+    }
 
     public function getStandardCriteriaByCategoryIds(Request $request)
     {

@@ -5,9 +5,7 @@
     <tbody>
         <tr>
             <td style="font-size: 10pt;">
-                <p><i>Assalamu'alaikum Warahmatullaahi Wabarakaatuh.</i></p><br>
                 <p>Dear Mr/Mrs, You have a new audit plan. Here are the details:</p><br>
-                <p style="text-align: justify;"></p>
             </td>
         </tr>
     </tbody>
@@ -51,7 +49,6 @@
                     <br>If there are problems or want to make changes to the schedule, please contact the LPM JGU Team.</p>
                 <br>
                 <p>Thank you,</p>
-                <p><i>Wassalamu'alaikum Warahmatullaahi Wabarakaatuh.</i></p>
                 <br>
                 <strong>Tim LPM</strong>
             </td>

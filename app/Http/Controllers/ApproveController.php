@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\revisedStandardToAdmin;
+use App\Mail\approveStandardToAdmin;
 use App\Models\AuditPlan;
 use App\Models\Observation;
 use App\Models\AuditPlanAuditor;
@@ -17,6 +19,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Mail;
 
 class ApproveController extends Controller
 {
@@ -26,32 +29,58 @@ class ApproveController extends Controller
     }
 
     public function lpm_standard(Request $request, $id){
-        $data = AuditPlan::findOrFail($id);
-        $auditorId = Auth::user()->id;
+    $data = AuditPlan::findOrFail($id);
+    $auditorId = Auth::user()->id;
 
-        if ($request->isMethod('POST')) {
+    if ($request->isMethod('POST')) {
+        $this->validate($request, [
+            'remark_standard_lpm' => '',
+        ]);
+        // Menentukan aksi berdasarkan tombol yang diklik
+        $action = $request->input('action');
+        // Data Untuk notification Email
+        $admin = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
+            $q->where('name', 'admin');
+        })
+        ->orderBy('name')
+        ->get();
+
+        if ($action === 'Approve') {
+            $remark = 'Approve';
+            $status = 4;
+            // notification email Apabila Standard Di Approve
+            $emailData = [
+                'approve' =>$request->approve,
+                'subject' => 'Approve Standard For LPM'
+                ]; 
+                foreach ($admin as $user) {
+                    Mail::to($user->email)->send(new approveStandardToAdmin($emailData));
+                }
+
+        } elseif ($action === 'Revised') {
             $this->validate($request, [
-                'remark_standard_lpm' => '',
+                'remark_standard_lpm' => ['required'],
             ]);
-            // Menentukan aksi berdasarkan tombol yang diklik
-            $action = $request->input('action');
-
-            if ($action === 'Approve') {
-                $remark = 'Approve';
-                $status = 4;
-            } elseif ($action === 'Revised') {
-                $this->validate($request, [
-                    'remark_standard_lpm' => ['required'],
-                ]);
-                $remark = $request->input('remark_standard_lpm');
-                $status = 5;
+            $remark = $request->input('remark_standard_lpm');
+            $status = 5;
+            // notification email Apabila Standard Revised
+            $emailData = [
+                'remark_standard_lpm' =>$request->remark_standard_lpm,
+                'subject' => 'Revised Standard For LPM'
+            ];
+            foreach ($admin as $user) {
+                Mail::to($user->email)->send(new revisedStandardToAdmin($emailData));
             }
-                $data->update([
-                    'remark_standard_lpm' => $remark,
-                    'audit_status_id' => $status,
-                ]);
+        }
+        $data->update([
+            'remark_standard_lpm' => $remark,
+            'audit_status_id' => $status,
+        ]); 
             return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
-            }
+        }
 
         //     // Mendapatkan ID auditor terkait
         //     $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
