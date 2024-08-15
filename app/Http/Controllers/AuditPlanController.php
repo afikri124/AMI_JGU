@@ -102,7 +102,6 @@ class AuditPlanController extends Controller
         //     // Kirim email ke pengguna yang ditemukan
         //     Mail::to($auditee->email)->send(new sendEmail($emailData));
         //     Mail::to($auditor->email)->send(new sendEmail($emailData));
->>>>>>> 6bb8089b3dc5b4bd394ae070caf242bf5b0b4172
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -426,10 +425,9 @@ class AuditPlanController extends Controller
     // }
 
     // Redirect with success message
-    }
     return redirect()->route('audit_plan.index')
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');
-}
+    }
 
     public function edit_auditor_std(Request $request, $id)
     {
