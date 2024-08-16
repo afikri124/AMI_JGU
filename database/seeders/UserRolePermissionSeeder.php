@@ -45,11 +45,7 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '082258485039'
             ], $default_user_value));
             $lpm = User::create(array_merge([
-<<<<<<< HEAD
                 'email' => '092023090187@student.jgu.ac.id',
-=======
-                'email' => 'abdulahmad9564@gmail.com',
->>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
                 'name' => 'Feni Dwi Lestari',
                 'username' => 'lpm',
                 'gender' => 'L',
@@ -83,7 +79,7 @@ class UserRolePermissionSeeder extends Seeder
             $lpm->assignRole('admin');
 
             $approver->assignRole('approver');
-            
+
             //create permission
             $permission = Permission::create(['name' => 'log-viewers.read']);
             //set direct permissions

@@ -49,13 +49,8 @@ class AuditStatusSeeder extends Seeder
             "color" => "primary"],
 
             ["id" => "9",
-<<<<<<< HEAD
-            "title" => "Approved by Approver",
-            "color" => "dark"],
-=======
             "title" => "RTM Process",
             "color" => "secondary"],
->>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
 
             ["id" => "10",
             "title" => "Uploaded RTM",
@@ -67,20 +62,11 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "12",
             "title" => "Reuploaded",
-<<<<<<< HEAD
             "color" => "blue"],
-
-            ["id" => "13",
-            "title" => "Standard\nUpdated",
-            "color" => "blue"],
-        ];
-=======
-            "color" => "primary"],
-
+            
             ["id" => "13",
             "title" => "Standard\nUpdated",
             "color" => "secondary"],
->>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
 
             ["id" => "14",
             "title" => "RTM Finished",
