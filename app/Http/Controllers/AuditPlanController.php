@@ -418,13 +418,13 @@ class AuditPlanController extends Controller
         }
 
         // Send email notifications to LPM users
-        $lpm = User::whereHas('roles', function ($q) {
-            $q->where('name', 'lpm');
-        })->get();
+        // $lpm = User::whereHas('roles', function ($q) {
+        //     $q->where('name', 'lpm');
+        // })->get();
 
-        foreach ($lpm as $user) {
-            Mail::to($user->email)->send(new sendStandardToLpm($id));
-        }
+        // foreach ($lpm as $user) {
+        //     Mail::to($user->email)->send(new sendStandardToLpm($id));
+        // }
     }
 
     // Redirect with success message

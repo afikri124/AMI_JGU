@@ -55,7 +55,7 @@
                                 <div class="row">
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
-
+                                </div>
                 <div class="col-md-3">
                     <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
                         <option value="">Select Auditee</option>

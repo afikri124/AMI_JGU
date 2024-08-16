@@ -208,46 +208,37 @@ class ObservationController extends Controller
     //print pdf audit report
     public function edit($id)
     {
-        $locations = Location::orderBy('title')->get();
-        $data = AuditPlan::findOrFail($id);
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-                                    ->with('auditor:id,name')
-                                    ->firstOrFail();
+        $data = AuditPlan::with('locations', 'auditee')->findOrFail($id);
 
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
+            ->with('auditor:id,name,nidn')
+            ->get();
 
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $categories = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
+        $criterias = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
 
         $standardCategoryIds = $categories->pluck('standard_category_id');
         $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
 
         $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
+        $standardCriterias = StandardCriteria::with(['statements', 'statements.indicators', 'statements.reviewDocs'])
+                                    ->whereIn('id', $standardCriteriaIds)
+                                    ->get();
 
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
         $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
-
+        // dd($obs_c);
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-
+        // dd($standardCriterias);
         $pdf = PDF::loadView('pdf.audit_report',
         $data = [
             'data' => $data,
-            'locations' => $locations,
-            'auditor' => $auditor,
-            'category' => $category,
-            'criteria' => $criteria,
+            'auditors' => $auditors,
+            'categories' => $categories,
+            'criterias' => $criterias,
+            'standardCategories' => $standardCategories,
             'standardCriterias' => $standardCriterias,
             'observations' => $observations,
             'obs_c' => $obs_c,
@@ -274,9 +265,18 @@ class ObservationController extends Controller
         // $hodBPMI = Setting::find('HODBPMI');
 
         // return view('pdf.audit_report',
-        // compact('standardCategories', 'standardCriterias',
-        // 'auditorData', 'auditor', 'data', 'category', 'criteria',
-        // 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+        // compact(
+        //     'data',
+        //     'auditors',
+        //     'categories',
+        //     'criterias',
+        //     'standardCategories',
+        //     'standardCriterias',
+        //     'observations',
+        //     'obs_c',
+        //     'hodLPM',
+        //     'hodBPMI'
+        // ));
     }
 
     //remark audit report

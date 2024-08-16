@@ -22,7 +22,7 @@
                 <div data-i18n="Dashboards">Dashboard</div>
             </a>
         </li>
-        @if(Auth::check() && (Auth::user()->username == 'admin' || Auth::user()->username == 'lpm'))
+        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'lpm'))
         <li class="menu-item {{ request()->segment(1) == 'audit_plan' ? 'active' : '' }}">
             <a href="{{ route('audit_plan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar-edit"></i>
@@ -31,7 +31,7 @@
         </li>
         @endif
 
-        @if(Auth::check() && (Auth::user()->username == 'admin' || Auth::user()->username == 'auditor'))
+        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'auditor'))
             <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
                 <a href="{{ route('observations.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-search"></i>
@@ -40,8 +40,7 @@
             </li>
         @endif
 
-        @if(Auth::check() && (Auth::user()->username == 'admin' ||
-                                Auth::user()->username == 'auditee'))
+        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'auditee'))
             <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
                 <a href="{{ route('my_audit.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-bell"></i>
@@ -56,16 +55,14 @@
             </a>
         </li>
 
-        @if(Auth::check() && (Auth::user()->username == 'admin' ||
-                                Auth::user()->username == 'lpm' ||
-                                Auth::user()->username == 'approver'))
+        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'lpm' ||
+                Auth::user()->username == 'approver'))
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Approve</span>
         </li>
         @endif
 
-        @if(Auth::check() && (Auth::user()->username == 'admin' ||
-                                Auth::user()->username == 'lpm'))
+        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'lpm'))
             <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
                 <a href="{{ route('lpm.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-copy-alt"></i>
@@ -74,8 +71,7 @@
             </li>
         @endif
 
-        @if(Auth::check() && (Auth::user()->username == 'admin' ||
-                            Auth::user()->username == 'approver'))
+        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'approver'))
             <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
                 <a href="{{ route('approver.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>

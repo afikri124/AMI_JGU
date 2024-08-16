@@ -28,6 +28,11 @@ class ObservationChecklist extends Model
         return $this->belongsTo(Observation::class, 'observation_id');
     }
 
+    public function standardCriteria()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');
+    }
+
     public function indicator()
     {
         return $this->belongsTo(Indicator::class, 'indicator_id');
