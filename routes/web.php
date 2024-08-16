@@ -55,82 +55,91 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
 
 //Audit Plan
-Route::group(['prefix' => 'audit_plan'], function () {
-    Route::any('/', [AuditPlanController::class, 'index'])->name('audit_plan.index');
-    Route::get('/data', [AuditPlanController::class, 'data'])->name('audit_plan.data');
-    Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
-    Route::any('/add', [AuditPlanController::class, 'add'])->name('audit_plan.add');
+Route::group(['middleware' => ['auth', 'role:admin,lpm']], function () {
+    Route::group(['prefix' => 'audit_plan'], function () {
+        Route::any('/', [AuditPlanController::class, 'index'])->name('audit_plan.index');
+        Route::get('/data', [AuditPlanController::class, 'data'])->name('audit_plan.data');
+        Route::delete('/delete', [AuditPlanController::class, 'delete'])->name('audit_plan.delete');
+        Route::any('/add', [AuditPlanController::class, 'add'])->name('audit_plan.add');
 
-    //Add Audit Plan Auditor Standard
-    Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
-    Route::get('/data_auditor/{id}', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
-    Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
-    Route::any('/standard/create_auditor_std/{id}', [AuditPlanController::class, 'create_auditor_std'])->name('create_auditor_std');
-    Route::get('/standard/edit/{id}', [AuditPlanController::class, 'edit_auditor_std'])->name('audit_plan.standard.edit');
-    Route::put('/standard/update/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
+        //Add Audit Plan Auditor Standard
+        Route::get('/standard/{id}', [AuditPlanController::class, 'standard'])->name('audit_plan.standard');
+        Route::get('/data_auditor/{id}', [AuditPlanController::class, 'data_auditor'])->name('audit_plan.data_auditor');
+        Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
+        Route::any('/standard/create_auditor_std/{id}', [AuditPlanController::class, 'create_auditor_std'])->name('create_auditor_std');
+        Route::get('/standard/edit/{id}', [AuditPlanController::class, 'edit_auditor_std'])->name('audit_plan.standard.edit');
+        Route::put('/standard/update/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
+    });
 });
 
+Route::get('/get_standard_criteria_by_category_ids', [AuditPlanController::class, 'getStandardCriteriaByCategoryIds'])->name('DOC.get_standard_criteria_id_by_id');
 Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit_audit');
 Route::any('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
 //MY Audit
-Route::group(['prefix' => 'my_audit'], function () {
-    Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
-    Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
-    Route::any('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
-    Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
-    Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
-    Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
-    Route::get  ('/my_remark/{id}', [MyAuditController::class, 'my_remark'])->name('my_audit.my_remark');
-    Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
-    Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
+Route::group(['middleware' => ['auth', 'role:admin,auditee,auditor,lpm']], function () {
+    Route::group(['prefix' => 'my_audit'], function () {
+        Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
+        Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
+        Route::any('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
+        Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
+        Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('show');
+        Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
+        Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
+        Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
+    });
 });
 
 //Observations
-Route::group(['prefix' => 'observations'], function () {
-    Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
-    Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
-    Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
-    Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
-    Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
-    Route::any('/remark_doc/{id}', [ObservationController::class, 'remark_doc'])->name('observations.remark_doc');
-    Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
-    Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
-
-    //Print PDF
-    Route::get('/audit_report/{id}', [PDFController::class, 'audit_report'])->name('pdf.audit_report');
+Route::group(['middleware' => ['auth', 'role:admin,auditor,auditee,lpm']], function () {
+    Route::group(['prefix' => 'observations'], function () {
+        Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
+        Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
+        Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
+        Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
+        Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
+        Route::any('/remark_doc/{id}', [ObservationController::class, 'remark_doc'])->name('observations.remark_doc');
+        Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
+        Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
+        Route::any('/remark_rtm/{id}', [ObservationController::class, 'remark_rtm'])->name('observations.remark_rtm');
+        Route::get('/rtm/{id}', [ObservationController::class, 'rtm'])->name('observations.rtm');
+        //Print PDF
+        Route::get('/audit_report/{id}', [PDFController::class, 'audit_report'])->name('pdf.audit_report');
+    });
 });
 
 //LPM
-Route::group(['prefix' => 'lpm'], function () {
-    Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
-    Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
-    Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm_update');
-    Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
-    Route::any('/lpm_as/{id}', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
-    Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-    Route::any('/approve_audit', [ApproveController::class, 'approve_audit'])->name('approve_audit');
+Route::group(['middleware' => ['auth', 'role:admin,lpm,auditor']], function () {
+    Route::group(['prefix' => 'lpm'], function () {
+        Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
+        Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
+        Route::any('/lpm_apv_audit/{id}', [ApproveController::class, 'lpm_apv_audit'])->name('lpm.lpm_apv_audit');
+        Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+        Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
+        Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('lpm.rtm_edit');
+    });
 });
 
 //Warek
-Route::group(['prefix' => 'approver'], function () {
-    Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
-    Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');
-    // Route::any('/approve_update/{id}', [ApproveController::class, 'approve_update'])->name('approve_update');
-    // Route::get('/approver_edit/{id}', [ApproveController::class, 'approver_edit'])->name('approver.approver_edit');
-    // Route::any('/approve_by_approver', [ApproveController::class, 'approve_by_approver'])->name('approve_by_approver');
-    // Route::any('/revised_by_approver', [ApproveController::class, 'revised_by_approver'])->name('revised_by_approver');
+Route::group(['middleware' => ['auth', 'role:admin,approver']], function () {
+    Route::group(['prefix' => 'approver'], function () {
+        Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
+        Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');
+        Route::get('/app_rtm/{id}', [ApproveController::class, 'app_rtm'])->name('approver.app_rtm');
+    });
 });
 
 //RTM
-Route::group(['prefix' => 'rtm'], function () {
-    Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
-    Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
-    // Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
-    // Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
-    // Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
-    // Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-    // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
+Route::group(['middleware' => ['auth', 'role:admin,auditee,auditor,lpm,approver']], function () {
+    Route::group(['prefix' => 'rtm'], function () {
+        Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
+        // Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
+        // Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
+        // Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
+        // Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
+        // Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
+        // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
+    });
 });
 
 Route::get('log-viewers', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware(['can:log-viewers.read']);
@@ -204,8 +213,9 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::get('/edit_docs/review_docs/{id}', [StandardCriteriaController::class, 'edit_docs'])->name('edit_docs.review_docs');
             Route::put('/update_docs/review_docs/{id}', [StandardCriteriaController::class, 'update_docs'])->name('update_docs.review_docs');
             Route::delete('/delete_docs', [StandardCriteriaController::class, 'delete_docs'])->name('delete_docs.review_docs');
-         });
-    Route::get('/get_standard_statement_id_by_id', [StandardCriteriaController::class, 'getStandardStatementId'])->name('DOC.get_standard_statement_id_by_id');
+        });
+            Route::get('/get_standard_statement_id_by_id', [StandardCriteriaController::class, 'getStandardStatementId'])->name('DOC.get_standard_statement_id_by_id');
+            Route::get('/get_indicator_id_by_id', [StandardCriteriaController::class, 'getIndicatorId'])->name('DOC.get_indicator_id_by_id');
 
         Route::group(['prefix' => 'hod_ami'], function () {
             Route::any('/', [SettingController::class, 'hod_ami'])->name('hod_ami.index');

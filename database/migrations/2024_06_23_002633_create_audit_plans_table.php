@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('department_id')->references('id')->on('departments');
             $table->string('periode')->nullable();
             $table->string('type_audit')->nullable();
+            $table->string('remark_standard_lpm')->nullable();
             $table->timestamps();
         });
     }

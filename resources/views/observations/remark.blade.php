@@ -98,7 +98,6 @@
             </h6>
         @endforeach
         <p></p>
-
         <strong class="text-primary">Criteria Standard</strong>
         @foreach ($standardCriterias as $criteria)
             <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
@@ -111,9 +110,13 @@
 
         @foreach ($criteria->statements as $no => $statement)
         @foreach ($statement->indicators as $indicator)
-            @foreach ($observations as $observation)
-                @foreach ($obs_c as $obsChecklist)
-                    @if ($obsChecklist->observation_id == $observation->id)
+        @foreach ($observations as $observation)
+            @php
+                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                        ->where('indicator_id', $indicator->id);
+            @endphp
+            @foreach ($filteredObs as $obsChecklist)
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
@@ -172,7 +175,7 @@
                     <label for="remark_description" class="form-label">
                         <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_description" name="remark_description_{{ $observation->id }}"
+                    <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
                     @error('remark_description.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -186,7 +189,7 @@
                     <label for="remark_success_failed" class="form-label">
                         <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_success_failed" name="remark_success_failed_{{ $observation->id }}"
+                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
                     @error('remark_success_failed.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -197,10 +200,10 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <label for="remark_recommend_{{ $observation->id }}" class="form-label">
+                    <label for="remark_recommend" class="form-label">
                         <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_recommend" name="remark_recommend_{{ $observation->id }}"
+                    <textarea id="remark_recommend" name="remark_recommend[{{ $indicator->id }}]"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
                     @error('remark_recommend.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -222,14 +225,13 @@
                     @enderror
                 </td>
             </tr>
-                @break
-            @endif
-        @endforeach
-    @endforeach
 </table>
+@endforeach
+    @endforeach
+    @endforeach
+    <hr class="text-dark">
     @endforeach
         @endforeach
-            @endforeach
             <br>
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">

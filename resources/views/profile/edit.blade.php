@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <div class="text-end mt-2">
-                        <button type="submit" class="btn btn-success me-2" onclick="return confirmSubmit(event)">Update</button>
+                        <button type="submit" class="btn btn-primary me-1" onclick="return confirmSubmit(event)">Update</button>
                         <a class="btn btn-outline-secondary" href="{{ route('profile.index') }}">Back</a>
                     </div>
                     <input type="hidden">

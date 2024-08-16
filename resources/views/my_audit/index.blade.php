@@ -222,19 +222,23 @@
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3) {
-                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('my_audit/my_standard/${row.id}') }}">
+                            x = `<a class="badge bg-primary" title="Auditing" href="{{ url('my_audit/show/${row.id}') }}">
                                     <i class="bx bx-search-alt"></i></a>
-                                <a class="badge bg-warning" title="My Audit Remark" href="{{ url('my_audit/my_remark/${row.id}') }}">
-                                    <i class="bx bx-pencil"></i></a>`;
+                                <a class="badge bg-dark" title="My Audit Remark" href="{{ url('my_audit/my_standard/${row.id}') }}">
+                                    <i class="bx bx-show"></i></a>`;
                         }
                         else if (row.auditstatus.id === 6 ) {
                             x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('my_audit/obs/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`;
                         }
-                        else if (row.auditstatus.id === 7 ) {
-                            x = `<a class="badge bg-primary" title="Print RTM Report" href="{{ url('my_audit/rtm/${row.id}') }}">
-                            <i class="bx bx-printer"></i></a>
-                            <a class="badge bg-warning" title="Edit RTM Report" href="{{ url('my_audit/obs/${row.id}') }}">
+                        else if (row.auditstatus.id === 14 ) {
+                            x = `<a class="badge bg-primary" title="Print RTM" href="{{ url('my_audit/rtm/${row.id}') }}">
+                            <i class="bx bx-printer"></i></a>`;
+                        }
+                        else if (row.auditstatus.id === 10 || row.auditstatus.id === 9) {
+                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('my_audit/obs/${row.id}') }}">
+                                    <i class="bx bx-printer"></i></a>
+                                <a class="badge bg-warning" title="Edit RTM Report" href="{{ url('my_audit/edit_rtm/${row.id}') }}">
                                     <i class="bx bx-pencil"></i></a>`;
                         }
                         return x;

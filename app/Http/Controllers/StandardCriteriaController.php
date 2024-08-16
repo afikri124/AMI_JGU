@@ -363,51 +363,54 @@ class StandardCriteriaController extends Controller
     // REVIEW DOCUMENT
     public function review_docs(){
         $data = ReviewDocs::all();
-        $criteria = StandardCriteria::all();
-        $statement = StandardStatement::orderBy('name')->get();
-        return view('standard_criteria.review_docs.index',compact('data', 'criteria', 'statement'));
+        $criterias = StandardCriteria::all();
+        $statements = StandardStatement::all();
+        $indicators = Indicator::all();
+        return view('standard_criteria.review_docs.index',compact('data', 'criterias', 'statements','indicators'));
     }
 
-    public function create_docs(Request $request){
+    public function create_docs(Request $request) {
         if ($request->isMethod('POST')) {
             // Validate the request data
             $validatedData = $request->validate([
-                'standard_criteria_id' => ['required', 'uuid'],
-                'standard_statement_id' => ['required'],
+                'standard_criteria_id' => ['required', 'uuid', 'exists:standard_criteria,id'],
+                'standard_statement_id' => ['required', 'exists:standard_statements,id'],
+                'indicator_id' => ['required', 'exists:indicators,id'],
                 'numForms' => ['required', 'integer', 'min:1'],
                 'review_docs' => ['required', 'array', 'min:1'],
                 'review_docs.*.name' => ['required', 'string'],
             ]);
-
-            // Retrieve the specific Standard Criteria by ID
-            $criteria = StandardCriteria::find($validatedData['standard_criteria_id']);
-            $statement = StandardStatement::find($validatedData['standard_statement_id']);
-
-            if (!$criteria) {
-                return redirect()->back()->with('error', 'Standard Criteria not found.');
+    
+            // Store the review documents
+            foreach ($validatedData['review_docs'] as $reviewDocsData) {
+                ReviewDocs::create([
+                    'name' => $reviewDocsData['name'],
+                    'standard_criteria_id' => $validatedData['standard_criteria_id'],
+                    'standard_statement_id' => $validatedData['standard_statement_id'],
+                    'indicator_id' => $validatedData['indicator_id'],
+                ]);
             }
-
-            return redirect()->route('standard_criteria.review_docs')->with('msg', 'Review Docs added successfully.');
+    
+            return redirect()->route('standard_criteria.review_docs')->with('msg', 'Review Documents added successfully.');
         }
-
-        // Retrieve all Standard Criteria and Indicator for the dropdown
-        $allCriteria = StandardCriteria::all();
+    
+        // Retrieve all Standard Criteria, Statements, and Indicators for the dropdown
         $criterias = StandardCriteria::orderBy('title')->get();
-        $statement = StandardStatement::orderBy('name')->get();
-
-        return view('standard_criteria.review_docs.create', compact('allCriteria', 'criterias','statement'));
+        $statements = StandardStatement::orderBy('name')->get();
+        $indicators = Indicator::orderBy('name')->get();
+    
+        return view('standard_criteria.review_docs.create', compact('criterias', 'statements', 'indicators'));
     }
 
-        public function store_docs(Request $request){
-        $validatedData = $request->validate([
-            'standard_criteria_id' => ['required'],
-            'standard_statement_id' => 'required|exists:standard_statements,id',
-            'numForms' => 'required|integer|min:1',
-            'review_docs' => 'required|array|min:1',
-            'review_docs.*.name' => 'required|string',
-        ]);
-
-        $standard_statement_id = $request->standard_statement_id;
+    public function store_docs(Request $request){
+    $validatedData = $request->validate([
+        'standard_criteria_id' => ['required'],
+        'standard_statement_id' => 'required|exists:standard_statements,id',
+        'indicator_id' => 'required|exists:indicators,id',
+        'numForms' => 'required|integer|min:1',
+        'review_docs' => 'required|array|min:1',
+        'review_docs.*.name' => 'required|string',
+    ]);
 
         //Create the Sub_indicators
         foreach ($request->review_docs as $reviewDocsData) {
@@ -415,6 +418,7 @@ class StandardCriteriaController extends Controller
                 'name' => $reviewDocsData['name'],
                 'standard_criteria_id' => $validatedData['standard_criteria_id'],
                 'standard_statement_id' => $validatedData['standard_statement_id'],
+                'indicator_id' => $validatedData['indicator_id'],
             ]);
         }
 
@@ -426,8 +430,9 @@ class StandardCriteriaController extends Controller
     public function edit_docs($id){
         $data = ReviewDocs::findOrFail($id);
         $criteria = StandardCriteria::all();
-       $statement = StandardStatement::orderBy('name')->get();
-       return view('standard_criteria.review_docs.edit', compact('data', 'criteria', 'statement'));
+        $statement = StandardStatement::orderBy('name')->get();
+        $indicator = Indicator::orderBy('name')->get();
+        return view('standard_criteria.review_docs.edit', compact('data', 'criteria', 'statement','indicator'));
     }
 
     public function update_docs(Request $request, $id)
@@ -446,6 +451,7 @@ class StandardCriteriaController extends Controller
     $data->update([
         'standard_criteria_id'=> $request->standard_criteria_id,
         'standard_statement_id' => $request->standard_statement_id,
+        'indicator_id' => $request->indicator_id,
         'name' => $request->name,
     ]);
 
@@ -470,17 +476,22 @@ class StandardCriteriaController extends Controller
         }
     }
 
-    // Retrieve and filter data for Dist Document
-    public function data_docs(Request $request){
-        $data = ReviewDocs::
-        with([
-            'statement' => function ($query) {
-            $query->select('id','name');
-        },
-        'criteria' => function ($query) {
-        $query->select('id', 'title');
-        }
-        ])->select('*')->orderBy("id");
+    public function data_docs(Request $request) {
+        $data = ReviewDocs::with([
+                'criteria' => function ($query) {
+                    $query->select('id', 'title');
+                },
+                'statement' => function ($query) {
+                    $query->select('id', 'name');
+                },
+                'indicator' => function ($query) {
+                    $query->select('id', 'name');
+                },
+            ])
+            ->select('*')
+            ->orderBy("id")
+            ->get(); // Eksekusi query
+    
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('select_statement'))) {
@@ -488,19 +499,31 @@ class StandardCriteriaController extends Controller
                         $q->where('standard_statement_id', $request->get('select_statement'));
                     });
                 }
+                if (!empty($request->get('select_indicator'))) { // Benar "select_indicator" bukan "select_statement"
+                    $instance->whereHas('indicator', function ($q) use ($request) {
+                        $q->where('indicator_id', $request->get('select_indicator'));
+                    });
+                }
                 if (!empty($request->get('search'))) {
                     $instance->where(function($w) use($request){
                         $search = $request->get('search');
-                            $w->orWhere('name', 'LIKE', "%$search%");
+                        $w->orWhere('name', 'LIKE', "%$search%"); // Pastikan field "name" ada di tabel
                     });
                 }
-            })->make(true);
+            })
+            ->make(true);
     }
 
     public function getStandardStatementId(Request $request)
     {
         $statement = StandardStatement::where('standard_criteria_id', $request->id)->get();
         return response()->json($statement);
+    }
+
+    public function getIndicatorId(Request $request)
+    {
+        $indicator = indicator::where('standard_statement_id', $request->id)->get();
+        return response()->json($indicator);
     }
 }
 

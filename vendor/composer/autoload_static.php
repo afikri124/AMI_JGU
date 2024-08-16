@@ -764,8 +764,12 @@ class ComposerStaticInit7b1ef9b8c9bb04a20e3b271997afc63b
         'App\\Http\\Requests\\UpdateDosenRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateDosenRequest.php',
         'App\\Http\\Requests\\UpdateLocationRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateLocationRequest.php',
         'App\\Http\\Requests\\UpdateNotificationAuditRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateNotificationAuditRequest.php',
+<<<<<<< HEAD
         'App\\Kernel' => __DIR__ . '/..' . '/laravel/pint/app/Kernel.php',
         'App\\Mail\\CommentDocs' => __DIR__ . '/../..' . '/app/Mail/CommentDocs.php',
+=======
+        'App\\Mail\\deletedAuditPlan' => __DIR__ . '/../..' . '/app/Mail/deletedAuditPlan.php',
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
         'App\\Mail\\documenUploded' => __DIR__ . '/../..' . '/app/Mail/documenUploded.php',
         'App\\Mail\\reschedule' => __DIR__ . '/../..' . '/app/Mail/reschedule.php',
         'App\\Mail\\sendEmail' => __DIR__ . '/../..' . '/app/Mail/sendEmail.php',

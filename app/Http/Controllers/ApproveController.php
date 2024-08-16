@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\revisedStandardToAdmin;
+use App\Mail\approveStandardToAdmin;
 use App\Models\AuditPlan;
 use App\Models\Observation;
 use App\Models\AuditPlanAuditor;
@@ -17,6 +19,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Mail;
 
 class ApproveController extends Controller
 {
@@ -25,40 +28,77 @@ class ApproveController extends Controller
         return view('lpm.index', compact('data'));
     }
 
-    public function lpm_as(Request $request){
-        {
-            $data = AuditPlan::find($request->id);
-            if ($data) {
-                $data->audit_status_id = "4";
-                $data->save();
-            }
-            return redirect()->route('lpm.index')->with('msg', 'Standard Approved by LPM.');
-        }
-    }
-
     public function lpm_standard(Request $request, $id){
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
     if ($request->isMethod('POST')) {
         $this->validate($request, [
-            'remark_standard_lpm' => ['required'], // Validate each file
+            'remark_standard_lpm' => '',
         ]);
+        // Menentukan aksi berdasarkan tombol yang diklik
+        $action = $request->input('action');
+        // Data Untuk notification Email
+        $admin = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
+            $q->where('name', 'admin');
+        })
+        ->orderBy('name')
+        ->get();
 
-        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+        if ($action === 'Approve') {
+            $remark = 'Approve';
+            $status = 4;
+            // notification email Apabila Standard Di Approve
+            $emailData = [
+                'approve' =>$request->approve,
+                'subject' => 'Approve Standard For LPM'
+                ]; 
+                foreach ($admin as $user) {
+                    Mail::to($user->email)->send(new approveStandardToAdmin($emailData));
+                }
 
-        // Create Observation
-        Observation::create([
-            'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditorId,
-            'remark_standard_lpm' => $request->remark_standard_lpm,
-        ]);
-
-        $data->update([
-            'audit_status_id'   => '5',
-        ]);
-        return redirect()->route('lpm.index')->with('msg', 'Standard Revised by LPM.');
+        } elseif ($action === 'Revised') {
+            $this->validate($request, [
+                'remark_standard_lpm' => ['required'],
+            ]);
+            $remark = $request->input('remark_standard_lpm');
+            $status = 5;
+            // notification email Apabila Standard Revised
+            $emailData = [
+                'remark_standard_lpm' =>$request->remark_standard_lpm,
+                'subject' => 'Revised Standard For LPM'
+            ];
+            foreach ($admin as $user) {
+                Mail::to($user->email)->send(new revisedStandardToAdmin($emailData));
+            }
         }
+        $data->update([
+            'remark_standard_lpm' => $remark,
+            'audit_status_id' => $status,
+        ]); 
+            return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
+        }
+
+        //     // Mendapatkan ID auditor terkait
+        //     $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+
+        //     // Membuat Observation
+        //     Observation::create([
+        //         'audit_plan_id' => $id,
+        //         'audit_plan_auditor_id' => $auditPlanAuditorId,
+        //         'remark_standard_lpm' => $remark,
+        //     ]);
+
+        //     // Memperbarui status audit plan
+        //     $data->update([
+        //         'audit_status_id' => $status,
+        //     ]);
+
+        //     return redirect()->route('lpm.index')->with('msg', 'Standard diperbarui.');
+        // }
 
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
@@ -167,62 +207,44 @@ class ApproveController extends Controller
         // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
-    public function approve_audit(Request $request)
-        {
-            $data = AuditPlan::find($request->id);
-            if ($data) {
-                $data->audit_status_id = "7";
-                $data->save();
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Status berhasil diubah!'
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal mengubah status!'
-                ]);
-            }
-        }
 
-    public function lpm_update(Request $request, $id){
+    public function lpm_apv_audit(Request $request, $id){
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
         if ($request->isMethod('POST')) {
             // dd($request);
             $this->validate($request, [
-                'date_validated' => ['required'],
-                'remark_by_lpm' => ['required'],
+                'date_validated' => [''],
+                'remark_audit_lpm' => [''],
             ]);
 
-            $observation = Observation::where('audit_plan_id', $id)
-            ->where('audit_plan_auditor_id', $data->auditor()->where('auditor_id', $auditorId)->first()->id)
-            ->firstOrFail();
+            $action = $request->input('action');
+
+            if ($action === 'Approve') {
+                $remark = 'Approve';
+                $status = 9;
+            } elseif ($action === 'Revised') {
+                $this->validate($request, [
+                    'remark_audit_lpm' => ['required'],
+                ]);
+                $remark = $request->input('remark_audit_lpm');
+                $status = 8;
+            }
+
+            $observation = Observation::findOrFail($id);
 
             $observation->update([
                 'date_validated' => $request->date_validated,
+                'remark_audit_lpm' => $remark,
             ]);
 
-            // Update Observation Checklists
-            foreach ($request->remark_by_lpm as $key => $rl) {
-                $checklist = ObservationChecklist::where('observation_id', $observation->id)
-                    ->where('indicator_id', $key)
-                    ->first();
-
-                if ($checklist) {
-                    $checklist->update([
-                    'remark_by_lpm' => $rl,
-                    ]);
-                }
-
                 $data->update([
-                    'audit_status_id' => '8',
+                    'audit_status_id' => $status,
                 ]);
             }
-            return redirect()->route('lpm.index')->with('msg', 'Observasition succeeded!!');
+            return redirect()->route('lpm.index')->with('msg', 'Audit Report Updated by LPM!!');
         }
-    }
 
     public function rtm(Request $request){
         $data = AuditPlan::all();
@@ -281,6 +303,62 @@ class ApproveController extends Controller
         // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
+    public function approver(Request $request){
+        $data = AuditPlan::all();
+        return view('approver.index', compact('data'));
+    }
+
+    public function app_rtm($id){
+        $data = AuditPlan::findOrFail($id);
+        $locations = Location::orderBy('title')->get();
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->with('auditor:id,name')
+        ->firstOrFail();
+        $category = StandardCategory::orderBy('description')->get();
+        $criteria = StandardCriteria::orderBy('title')->get();
+
+        $auditorId = Auth::user()->id;
+        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
+
+        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+
+        $standardCategoryIds = $categories->pluck('standard_category_id');
+        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+        $standardCriterias = StandardCriteria::with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->whereIn('id', $standardCriteriaIds)
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->get();
+        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
+        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $hodLPM = Setting::find('HODLPM');
+        $hodBPMI = Setting::find('HODBPMI');
+
+        $pdf = Pdf::loadView('pdf.rtm',
+        $data = [
+            'data' => $data,
+            'locations' => $locations,
+            'auditor' => $auditor,
+            'category' => $category,
+            'criteria' => $criteria,
+            'standardCriterias' => $standardCriterias,
+            'observations' => $observations,
+            'obs_c' => $obs_c,
+            'hodLPM' => $hodLPM,
+            'hodBPMI' => $hodBPMI
+        ]);
+    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
+
+    return $pdf->stream('rtm-report.pdf');
+        // return view('lpm.print',
+        // compact('standardCategories', 'standardCriterias',
+        // 'auditorData', 'auditor', 'data', 'category',
+        // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
 
     // public function approver_edit(Request $request, $id){
     //     $request->validate([

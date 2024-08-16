@@ -17,26 +17,5 @@ class ReviewDocumentSeeder extends Seeder
     public function run()
     {
         //
-        $data = [
-            ["id" => "1",
-            "name" => "- Laporan pelaksanaan PkM",
-            "standard_criteria_id" => "4",
-            "standard_statement_id" => "141"],
-            ["id" => "2",
-            "name" => "- Rubrik/Form reviewer",
-            "standard_criteria_id" => "4",
-            "standard_statement_id" => "142"],
-        ];
-
-        foreach ($data as $x) {
-            if(!ReviewDocs::where('id', $x['id'])->first()){
-                $m = new ReviewDocs();
-                $m->id = $x['id'];
-                $m->name = $x['name'];
-                $m->standard_criteria_id = $x['standard_criteria_id'];
-                $m->standard_statement_id = $x['standard_statement_id'];
-                $m->save();
-            }
-        }
     }
 }

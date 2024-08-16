@@ -15,71 +15,87 @@
 
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
 <div class="row">
-      <div class="col-md-12">
-            @if(session('msg'))
-            <div class="alert alert-primary alert-dismissible" role="alert">
-                  {{session('msg')}}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            <div class="card mb-4">
-                  <!-- Account -->
-                  <hr class="my-0">
-                  <div class="card-body">
-                  <form action="{{ route('update_docs.review_docs', $data->id) }}" method="POST">
-                        <div class="row">
-                              @csrf
-                              @method('PUT')
-                              <div class="form-group mb-3">
-                                <label for="standard_criteria_id" class="form-label"><b>Select Criteria</b><i class="text-danger">*</i></label>
-                                <select class="form-select digits select2 @error('standard_criteria_id') is-invalid @enderror"
-                                        name="standard_criteria_id" id="standard_criteria_id" data-placeholder="Select">
-                                    <option value="" selected disabled>Select Standard Criteria</option>
-                                    @foreach($criteria as $c)
-                                        <option value="{{ $c->id }}" {{ $data->standard_criteria_id == $c->id ? 'selected' : '' }}>
-                                            {{ $c->id }} - {{$c->title}}
-                                        </option>
+    <div class="col-md-12">
+        @if(session('msg'))
+        <div class="alert alert-primary alert-dismissible" role="alert">
+                {{session('msg')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        <div class="card mb-4">
+                <!-- Account -->
+                <hr class="my-0">
+                <div class="card-body">
+                <form action="{{ route('update_docs.review_docs', $data->id) }}" method="POST">
+                    <div class="row">
+                            @csrf
+                            @method('PUT')
+                        <div class="form-group mb-3">
+                            <label for="standard_criteria_id" class="form-label"><b>Select Criteria</b><i class="text-danger">*</i></label>
+                            <select class="form-select digits select2 @error('standard_criteria_id') is-invalid @enderror"
+                                    name="standard_criteria_id" id="standard_criteria_id" data-placeholder="Select">
+                                <option value="" selected disabled>Select Standard Criteria</option>
+                                @foreach($criteria as $c)
+                                    <option value="{{ $c->id }}" {{ $data->standard_criteria_id == $c->id ? 'selected' : '' }}>
+                                        {{ $c->id }} - {{$c->title}}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('standard_criteria_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                            <div class="form-group mb-3">
+                                <label for="standard_statement_id" class="form-label">Select Statement</label>
+                                <select class="form-select digits select2 @error('standard_statement_id') is-invalid @enderror"
+                                    name="standard_statement_id" id="standard_statement_id" data-placeholder="Select">
+                                <option value="" selected disabled>Select Statement</option>
+                                @foreach($statement as $ind)
+                                    <option value="{{$ind->id}}" {{ $data->standard_statement_id == $ind->id ? 'selected' : '' }}>
+                                        {{ $c->id }} - {{$ind->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('standard_criteria_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                @error('standard_statement_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
-                              <div class="form-group mb-3">
-                              <label for="standard_statement_id" class="form-label">Select Statement</label>
-                              <select class="form-select digits select2 @error('standard_statement_id') is-invalid @enderror"
-                                    name="standard_statement_id" id="standard_statement_id" data-placeholder="Select">
-                              <option value="" selected disabled>Select Statement</option>
-                              @foreach($statement as $ind)
-                                    <option value="{{$ind->id}}" {{ $data->standard_statement_id == $ind->id ? 'selected' : '' }}>
-                                          {{$ind->name}}</option>
+                            <div class="form-group mb-3">
+                                <label for="indicator_id" class="form-label">Indicator</label>
+                                <select class="form-select digits select2 @error('indicator_id') is-invalid @enderror"
+                                    name="indicator_id" id="indicator_id" data-placeholder="Select">
+                                <option value="" selected disabled>Select Statement</option>
+                                @foreach($indicator as $id)
+                                    <option value="{{$ind->id}}" {{ $data->indicator_id == $id->id ? 'selected' : '' }}>
+                                        {{ $c->id }} - {{$id->name}}</option>
                                     @endforeach
-                              </select>
-                              @error('standard_statement_id')
-                              <span class="invalid-feedback" role="alert">
+                                </select>
+                                @error('indicator_id')
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
-                              </span>
-                              @enderror
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                              <div class="form-group">
-                              <label for="name" class="col-form-label">Review Document</label>
-                              <input type="hidden" class="form-control" name="name" id="name" value="{!! $data->name !!}"></input>
-                              <trix-editor input="name"></trix-editor>
+                                </span>
+                                @enderror
                             </div>
+                    <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                            <label for="name" class="col-form-label">Review Document</label>
+                            <input type="hidden" class="form-control" name="name" id="name" value="{!! $data->name !!}"></input>
+                            <trix-editor input="name"></trix-editor>
                         </div>
-                        <br>
-                        <div id="dynamic-form-container"></div>
-                              <br>
-                        <div class="mt-2 text-end">
-                              <button type="submit" class="btn btn-primary me-1">Update</button>
-                              <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.review_docs') }}">Back</a>
-                        </div>
-                  </form>
-                  </div>
-            @endsection
+                    </div>
+                    <br>
+                    <div id="dynamic-form-container"></div>
+                            <br>
+                    <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-primary me-1">Update</button>
+                            <a class="btn btn-outline-secondary" href="{{ route('standard_criteria.review_docs') }}">Back</a>
+                    </div>
+                </form>
+            </div>
+        @endsection
 
 @section('script')
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
@@ -96,6 +112,40 @@
             });
         })(jQuery);
     }, 350);
+</script>
+<script>
+$('#standard_criteria_id').change(function() {
+    var categoryId = this.value;
+    $("#standard_statement_id").html('');
+    $.ajax({
+        url: "{{ route('DOC.get_standard_statement_id_by_id') }}",
+        type: "GET",
+        data: { id: categoryId, _token: '{{ csrf_token() }}'},
+        dataType: 'json',
+        success: function(result) {
+        $('#standard_statement_id').html('<option value="">Select Standard Statement</option>');
+            $.each(result, function(key, value) {
+                $("#standard_statement_id").append('<option value="' + value.id +'">' + value.name + '</option>');
+            });
+        }
+    });
+});
+$('#standard_statement_id').change(function() {
+    var statementId = this.value;
+    $("#indicator_id").html('');
+    $.ajax({
+        url: "{{ route('DOC.get_indicator_id_by_id') }}", // Sesuaikan dengan rute Anda
+        type: "GET",
+        data: { id: statementId, _token: '{{ csrf_token() }}'},
+        dataType: 'json',
+        success: function(result) {
+            $('#indicator_id').html('<option value="">Select Indicator</option>');
+            $.each(result, function(key, value) {
+                $("#indicator_id").append('<option value="' + value.id +'">' + value.name + '</option>');
+            });
+        }
+    });
+});
 </script>
 
 @endsection

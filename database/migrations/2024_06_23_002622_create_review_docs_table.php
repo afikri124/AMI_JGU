@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreign('standard_criteria_id')->references('id')->on('standard_criterias')->nullable()->onDelete('cascade');
             $table->unsignedBigInteger('standard_statement_id')->nullable();
             $table->foreign('standard_statement_id')->references('id')->on('standard_statements')->nullable()->onDelete('cascade');
+            $table->unsignedBigInteger('indicator_id')->nullable();
+            $table->foreign('indicator_id')->references('id')->on('indicators')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rtm', function (Blueprint $table) {
+        Schema::create('rtms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('observation_id')->nullable();
             $table->foreign('observation_id')->references('id')->on('observations')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('indicator_id')->nullable();
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
             $table->string('doc_path_rtm')->nullable();
-            $table->dateTime('plan_complated_end')->nullable();
-            $table->boolean('status')->nullable();
+            $table->string('status')->nullable();
+            $table->string('remark_rtm_auditee')->nullable();
+            $table->string('remark_rtm_auditor')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rtm');
+        Schema::dropIfExists('rtms');
     }
 };

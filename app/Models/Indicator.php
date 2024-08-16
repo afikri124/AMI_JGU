@@ -36,4 +36,9 @@ class Indicator extends Model
     {
         return $this->belongsTo(ObservationChecklist::class, 'indicator_id');
     }
+
+    public function rtm()
+    {
+        return $this->hasMany(Rtm::class, 'indicator_id');
+    }
 }

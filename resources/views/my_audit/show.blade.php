@@ -121,10 +121,14 @@
 
     @foreach ($criteria->statements as $no => $statement)
         @foreach ($statement->indicators as $indicator)
-            @foreach ($observations as $observation)
-                @foreach ($obs_c as $obsChecklist)
-                    @if ($obsChecklist->observation_id == $observation->id)
-        <table class="table table-bordered">
+        @foreach ($observations as $observation)
+            @php
+                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                        ->where('indicator_id', $indicator->id);
+            @endphp
+            @foreach ($filteredObs as $obsChecklist)
+            <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
                 <td>
@@ -232,20 +236,19 @@
                 @enderror
             </td>
         </tr>
-                @break
-            @endif
-        @endforeach
+    </table>
     @endforeach
-</table>
     @endforeach
+    <hr>
         @endforeach
-            @endforeach
+        @endforeach
+        @endforeach
             <hr class="text-dark">
             <div class="row">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Person In Charge</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" value="{{$observation->person_in_charge}}"
-                    placeholder="Pihak Bertanggung Jawab...">
+                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
+                    placeholder="Input person in charge">
                     @error('person_in_charge')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -254,7 +257,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_complated" class="form-label"><b>Plan Complated</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated" id="plan_complated" value="{{$observation->plan_complated}}"
+                    <input type="date" class="form-control" name="plan_complated" id="plan_complated"
                     placeholder="YYYY-MM-DD">
                     @error('plan_complated')
                         <span class="invalid-feedback" role="alert">
@@ -265,7 +268,7 @@
             </div>
             <div class="col-lg-12 col-md-6 mb-3">
                     <label for="date_prepared" class="form-label"><b>Date Prepared</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="date_prepared" id="date_prepared" value="{{$observation->date_prepared}}">
+                    <input type="date" class="form-control" name="date_prepared" id="date_prepared">
                     @error('date_prepared')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

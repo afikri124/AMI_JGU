@@ -71,8 +71,12 @@ return array(
     'App\\Http\\Requests\\UpdateDosenRequest' => $baseDir . '/app/Http/Requests/UpdateDosenRequest.php',
     'App\\Http\\Requests\\UpdateLocationRequest' => $baseDir . '/app/Http/Requests/UpdateLocationRequest.php',
     'App\\Http\\Requests\\UpdateNotificationAuditRequest' => $baseDir . '/app/Http/Requests/UpdateNotificationAuditRequest.php',
+<<<<<<< HEAD
     'App\\Kernel' => $vendorDir . '/laravel/pint/app/Kernel.php',
     'App\\Mail\\CommentDocs' => $baseDir . '/app/Mail/CommentDocs.php',
+=======
+    'App\\Mail\\deletedAuditPlan' => $baseDir . '/app/Mail/deletedAuditPlan.php',
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
     'App\\Mail\\documenUploded' => $baseDir . '/app/Mail/documenUploded.php',
     'App\\Mail\\reschedule' => $baseDir . '/app/Mail/reschedule.php',
     'App\\Mail\\sendEmail' => $baseDir . '/app/Mail/sendEmail.php',

@@ -21,12 +21,16 @@ class ObservationChecklist extends Model
         'remark_success_failed',
         'remark_recommend',
         'remark_upgrade_repair',
-        'remark_by_lpm'
     ];
 
     public function obs_c()
     {
         return $this->belongsTo(Observation::class, 'observation_id');
+    }
+
+    public function standardCriteria()
+    {
+        return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');
     }
 
     public function indicator()

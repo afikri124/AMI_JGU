@@ -238,10 +238,8 @@
                         }
                         // Check if auditstatus is '10'
                         else if (row.auditstatus.id === 3 ) {
-                            x = `<a class="badge bg-dark" title="Observations" href="{{ url('observations/create/${row.id}') }}">
-                                        <i class="bx bx-search-alt"></i></a>
-                                <a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
-                                        <i class="bx bx-pencil"></i></a>`;
+                            x = `<a class="badge bg-primary" title="Auditing" href="{{ url('observations/create/${row.id}') }}">
+                                        <i class="bx bx-search-alt"></i></a>`;
                         }
                         else if (row.auditstatus.id === 6 ) {
                             x = `
@@ -250,7 +248,16 @@
                         }
                         else if (row.auditstatus.id === 8 ) {
                             x = `<a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
+                            <i class="bx bx-pencil"></i></a>`;
+                        }
+                        else if (row.auditstatus.id === 10 ) {
+                            x = `
+                                <a class="badge bg-warning" title="Remark RTM" href="{{ url('observations/remark_rtm/${row.id}') }}">
                                         <i class="bx bx-pencil"></i></a>`;
+                        }
+                        else if(row.auditstatus.id === 14){
+                            x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('observations/rtm/${row.id}') }}">
+                                <i class="bx bx-printer"></i></a>`
                         }
                         return x;
                     },
@@ -265,3 +272,5 @@
     });
 </script>
 @endsection
+<!-- <a class="badge bg-warning" title="Remark Make Report" href="{{ url('observations/remark/${row.id}') }}">
+                                        <i class="bx bx-pencil"></i></a> -->

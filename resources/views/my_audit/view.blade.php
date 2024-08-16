@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Review Standard Auditee')
+@section('title', 'Upload Document Audit')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -128,21 +128,30 @@
                     <strong>Indicator</strong>
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
+                <td>
+                    <div class="form-group mb-3">
+                        <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
+                        <input type="file" class="form-control" name="doc_path[]" accept=".png,.jpg,.jpeg,.pdf">
+                        <input type="hidden" name="indicator_ids[]" value="{{ $indicator->id }}">
+                        <br>
+                    </div>
+                </td>
             <tr>
-                <td style="width: 60%" id="review-docs">
+                <td style="width: 60%">
                     <strong>Review Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
                 </td>
-                <td>
-                    <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path[]" accept=".pdf">
-                        <input type="hidden" name="indicator_ids[]" value="{{ $indicator->id }}">
-                        <br>
+                <!-- <td>
+                    <div>
+                        <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b></label>
+                        <div class="input-group input-group-merge has-validation">
+                            <textarea type="text" class="form-control bg-user @error('remark_docs') is-invalid @enderror"
+                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly></textarea>
                         </div>
-                </td>
+                    </div>
+                </td> -->
             </tr>
         </div>
       </div>

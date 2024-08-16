@@ -81,9 +81,9 @@
                     <div class="col-12"> -->
                         <div class="row">
                         <div class="col-md-4">
-                            <select id="select_statement" class="form-control input-sm select2" data-placeholder="Standard Statement">
-                                <option value="">Select Standard Statement</option>
-                                @foreach($statement as $d)
+                            <select id="select_indicatoe" class="form-control input-sm select2" data-placeholder="indicator">
+                                <option value="">Select indicator</option>
+                                @foreach($indicators as $d)
                                 <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
                                 @endforeach
                             </select>
@@ -102,7 +102,8 @@
                                 <tr>
                                     <th width="20px">No</th>
                                     <th>Review Document</th>
-                                    <th >Standard Statement</th>
+                                    <th  >Indicator</th>
+                                    <th  >Standard Statement</th>
                                     <th width="15px">Standard Criteria</th>
                                     <th width="40px">Action</th>
                                 </tr>
@@ -189,6 +190,12 @@
                 {
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        return html;
+                    },
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var html = `<a class="text-success" style= "text-overflow: ellipsis;" title="${row.indicator.name}" href="">${row.indicator.name}</a>`;
                         return html;
                     },
                 },

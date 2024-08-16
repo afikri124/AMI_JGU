@@ -66,7 +66,7 @@
         overflow: hidden;
     }
         .text-wrapper {
-        width: 100px; /* set a width for the wrapping container */
+        width: 200px; /* set a width for the wrapping container */
         word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
     }
     .bg-user {
@@ -95,7 +95,7 @@
 @endif
 <div class="card mb-5">
     <div class="card-body">
-    <form action="{{ route('observations.remark_doc', $data->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('my_audit.my_standard', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
       <strong class="text-primary">Category Standard</strong>
         @foreach ($standardCategories as $category)
@@ -116,7 +116,14 @@
         <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
         @foreach ($criteria->statements as $no => $statement)
-    @foreach ($statement->indicators as $indicator)
+        @foreach ($statement->indicators as $indicator)
+        @foreach ($observations as $observation)
+            @php
+                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                        ->where('indicator_id', $indicator->id);
+            @endphp
+            @foreach ($filteredObs as $obsChecklist)
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
@@ -124,37 +131,21 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 10%">
+                <td style="width: 60%">
                     <strong>Indicator</strong>
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td>
-                    <label class="form-label"><b>Audit Document</b></label>
-                    <br>
-                    @foreach ($observations as $observation)
-                        @php
-                            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
-                            $filteredObs = $obs_c->where('observation_id', $observation->id)
-                                                 ->where('indicator_id', $indicator->id);
-                        @endphp
-                        @foreach ($filteredObs as $checklist)
-                            @if ($checklist->doc_path)
-                                <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                    {{ basename($checklist->doc_path) }}
-                                </a>
-                                <br>
-                            @endif
-                        @endforeach
-                    @endforeach
-                    @error('doc_path')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                <div class="form-group mb-3">
+                        <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
+                        <br>
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ basename($obsChecklist->doc_path) }}
+                        </a>
+                    </div>
                 </td>
-            </tr>
             <tr>
-                <td style="width: 10%" id="review-docs">
+                <td style="width: 60%">
                     <strong>Review Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
@@ -162,23 +153,27 @@
                 </td>
                 <td>
                     <div>
-                        <label class="form-label" for="basicDate"><b>Remark Document</b></label>
+                        <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b></label>
                         <div class="input-group input-group-merge has-validation">
-                            <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
-                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
+                            <textarea type="text" class="form-control bg-user @error('remark_docs') is-invalid @enderror"
+                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_docs }}</textarea>
                         </div>
                     </div>
                 </td>
             </tr>
-        </table>
-        <hr>
+        </div>
+      </div>
+    </table>
     @endforeach
-@endforeach
-@endforeach
+    @endforeach
+    <hr>
+        @endforeach
+        @endforeach
+        @endforeach
     <div class="card-footer text-end">
-        <button class="btn btn-primary me-1" type="submit">Submit</button>
+        <!-- <button class="btn btn-primary me-1" type="submit">Submit</button> -->
         <a href="{{ url()->previous() }}">
-            <span class="btn btn-outline-secondary">Back</span>
+            <span class="btn btn-outline-primary">Back</span>
         </a>
     </div>
     </form>

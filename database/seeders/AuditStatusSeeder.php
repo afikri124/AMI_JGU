@@ -37,24 +37,29 @@ class AuditStatusSeeder extends Seeder
             "color" => "success"],
 
             ["id" => "6",
-            "title" => "Approved\nby Auditor",
+            "title" => "Audit Finished",
             "color" => "success"],
 
             ["id" => "7",
-            "title" => "Approved Audit Report by LPM",
-            "color" => "success"],
+            "title" => "Approved Report by LPM",
+            "color" => "secondary"],
 
             ["id" => "8",
             "title" => "Request Note\nby LPM",
             "color" => "primary"],
 
             ["id" => "9",
+<<<<<<< HEAD
             "title" => "Approved by Approver",
             "color" => "dark"],
+=======
+            "title" => "RTM Process",
+            "color" => "secondary"],
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
 
             ["id" => "10",
-            'title' => "Request Note\nby Approver",
-            "color" => "primary"],
+            "title" => "Uploaded RTM",
+            "color" => "dark"],
 
             ["id" => "11",
             "title" => "Uploaded",
@@ -62,13 +67,25 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "12",
             "title" => "Reuploaded",
+<<<<<<< HEAD
             "color" => "blue"],
 
             ["id" => "13",
             "title" => "Standard\nUpdated",
             "color" => "blue"],
         ];
+=======
+            "color" => "primary"],
 
+            ["id" => "13",
+            "title" => "Standard\nUpdated",
+            "color" => "secondary"],
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
+
+            ["id" => "14",
+            "title" => "RTM Finished",
+            "color" => "success"],
+        ];
 
         foreach ($data as $x) {
             if(!AuditStatus::where('id', $x['id'])->first()){

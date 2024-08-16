@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('doc_path')->nullable();
             $table->string('remark_docs')->nullable();
             $table->string('obs_checklist_option')->nullable();
-            $table->string('remark_success_failed')->nullable();
             $table->string('remark_description')->nullable();
             $table->string('remark_recommend')->nullable();
+            $table->string('remark_success_failed')->nullable();
             $table->string('remark_upgrade_repair')->nullable();
-            $table->string('remark_by_lpm')->nullable();
             $table->timestamps();
 
         });
