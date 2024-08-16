@@ -337,11 +337,11 @@
         @foreach ($statement->reviewDocs as $reviewDoc)
             <ul>{!! $reviewDoc->name !!}</ul>
         @endforeach
-        </td>
+    </td>
+</tr>
     @php $counter++; @endphp
     @endforeach
     @endforeach
-    </tr>
 </table>
 <table width="100%">
     <tr>

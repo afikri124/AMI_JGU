@@ -203,7 +203,7 @@ class MyAuditController extends Controller{
             'hodLPM' => $hodLPM,
             'hodBPMI' => $hodBPMI
         ]);
-            return $pdf->stream('rtm-report.pdf');
+            return $pdf->stream('audit-report.pdf');
         }
     }
 
@@ -321,7 +321,7 @@ class MyAuditController extends Controller{
         // Retrieve the observation using the ID
         $observation = Observation::findOrFail($id);
 
-        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+        $auditPlanAuditor = $data->auditor()->where('auditor_id', $auditorId)->first();
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [
@@ -330,7 +330,7 @@ class MyAuditController extends Controller{
 
             $observation->update([
                 'audit_plan_id' => $id,
-                'audit_plan_auditor_id' => $auditPlanAuditorId,
+                'audit_plan_auditor_id' => $auditorId,
             ]);
 
             foreach ($request->indicator_ids as $index => $indicatorId) {
@@ -381,51 +381,37 @@ class MyAuditController extends Controller{
     }
 
     public function rtm($id){
-        $data = AuditPlan::findOrFail($id);
-        $locations = Location::orderBy('title')->get();
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-        ->with('auditor:id,name')
-        ->firstOrFail();
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
+        $data = AuditPlan::with('locations', 'auditee')->findOrFail($id);
 
-        $auditorId = Auth::user()->id;
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
+            ->with('auditor:id,name,nidn')
+            ->get();
 
-        if (Auth::user()->role == 'auditee') {
-        }
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
+        $categories = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
+        $criterias = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
 
         $standardCategoryIds = $categories->pluck('standard_category_id');
         $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
 
         $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
+        $standardCriterias = StandardCriteria::with(['statements', 'statements.indicators', 'statements.reviewDocs'])
+                                    ->whereIn('id', $standardCriteriaIds)
+                                    ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
 
-        // Ambil daftar observation_id dari koleksi observations
-        $observationIds = $observations->pluck('id');
-
-        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
+        // dd($obs_c);
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-
-        $pdf = Pdf::loadView('pdf.rtm',
+        // dd($standardCriterias);
+        $pdf = PDF::loadView('pdf.rtm',
         $data = [
             'data' => $data,
-            'locations' => $locations,
-            'auditor' => $auditor,
-            'category' => $category,
-            'criteria' => $criteria,
+            'auditors' => $auditors,
+            'categories' => $categories,
+            'criterias' => $criterias,
+            'standardCategories' => $standardCategories,
             'standardCriterias' => $standardCriterias,
             'observations' => $observations,
             'obs_c' => $obs_c,
