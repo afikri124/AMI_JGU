@@ -97,7 +97,7 @@
     <div class="card-body">
     <form action="{{ route('my_audit.my_standard', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
-      <strong class="text-primary">Category Standard</strong>
+      <strong style="color: black;">CATEGORY STANDARD</strong>
         @foreach ($standardCategories as $category)
             <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
                 {{ $category->description }}
@@ -105,7 +105,7 @@
         @endforeach
         <p></p>
 
-        <strong class="text-primary">Criteria Standard</strong>
+        <strong style="color: black;">CRITERIA STANDARD</strong>
         @foreach ($standardCriterias as $criteria)
             <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
                 {{ $criteria->title }}
@@ -113,14 +113,14 @@
         @endforeach
         <p></p>
     @foreach ($standardCriterias as $criteria)
-        <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+        <h6 style="color: black;"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
     @foreach ($criteria->statements as $no => $statement)
     @foreach ($statement->indicators as $indicator)
         <table class="table table-bordered">
             <tr>
-                <td style="width: 60%">
-                    <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
+                <td style="width: 65%">
+                    <ul style="color: black;">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                 </td>
             </tr>
             <tr>
@@ -146,7 +146,8 @@
             </tr>
         </div>
       </div>
-    </table>
+    </table>   
+    </table>   
     <hr>
     @endforeach
     @endforeach

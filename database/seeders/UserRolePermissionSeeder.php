@@ -24,9 +24,9 @@ class UserRolePermissionSeeder extends Seeder
         ];
         // DB::beginTransaction();
         // try {
-            //create user adminb
+            //create user admin
             $admin = User::create(array_merge([
-                'email' => '092023090187@student.jgu.ac.id',
+                'email' => '092023090191@student.jgu.ac.id',
                 'name' => 'Admin',
                 'username' => 'admin',
             ], $default_user_value));
@@ -45,7 +45,7 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '082258485039'
             ], $default_user_value));
             $lpm = User::create(array_merge([
-                'email' => 'lpm@example',
+                'email' => '092023090187@student.jgu.ac.id',
                 'name' => 'Feni Dwi Lestari',
                 'username' => 'lpm',
                 'gender' => 'L',

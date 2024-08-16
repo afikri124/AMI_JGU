@@ -29,7 +29,7 @@ class CommentDocs extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.commentDocs')
+        return $this->view('mail.CommentDocs')
                     ->with('data', $this->data);
     }
 }

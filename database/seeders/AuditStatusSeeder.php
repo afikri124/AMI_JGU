@@ -18,7 +18,7 @@ class AuditStatusSeeder extends Seeder
         $data = [
             ["id" => "1",
             "title" => "Scheduled",
-            "color" => "success"],
+            "color" => "info"],
 
             ["id" => "2",
             "title" => "Reschedule",
@@ -29,12 +29,12 @@ class AuditStatusSeeder extends Seeder
             "color" => "warning"],
 
             ["id" => "4",
-            "title" => "Approved Standard\nby LPM",
-            "color" => "secondary"],
+            "title" => "Approved Standard by LPM",
+            "color" => "success"],
 
             ["id" => "5",
-            "title" => "Revised Standard\nby LPM",
-            "color" => "primary"],
+            "title" => "Revised Standard by LPM",
+            "color" => "success"],
 
             ["id" => "6",
             "title" => "Approved\nby Auditor",
@@ -49,7 +49,7 @@ class AuditStatusSeeder extends Seeder
             "color" => "primary"],
 
             ["id" => "9",
-            "title" => "Approved\nby Approver",
+            "title" => "Approved by Approver",
             "color" => "dark"],
 
             ["id" => "10",
@@ -58,15 +58,15 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "11",
             "title" => "Uploaded",
-            "color" => "dark"],
+            "color" => "success"],
 
             ["id" => "12",
             "title" => "Reuploaded",
-            "color" => "secondary"],
+            "color" => "blue"],
 
             ["id" => "13",
             "title" => "Standard\nUpdated",
-            "color" => "secondary"],
+            "color" => "blue"],
         ];
 
 
