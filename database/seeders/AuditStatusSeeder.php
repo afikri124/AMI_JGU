@@ -29,12 +29,12 @@ class AuditStatusSeeder extends Seeder
             "color" => "warning"],
 
             ["id" => "4",
-            "title" => "Approved Standard\nby LPM",
-            "color" => "secondary"],
+            "title" => "Approved Standard by LPM",
+            "color" => "success"],
 
             ["id" => "5",
-            "title" => "Revised Standard\nby LPM",
-            "color" => "primary"],
+            "title" => "Revised Standard by LPM",
+            "color" => "success"],
 
             ["id" => "6",
             "title" => "Audit Finished",
@@ -49,8 +49,13 @@ class AuditStatusSeeder extends Seeder
             "color" => "primary"],
 
             ["id" => "9",
+<<<<<<< HEAD
+            "title" => "Approved by Approver",
+            "color" => "dark"],
+=======
             "title" => "RTM Process",
             "color" => "secondary"],
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
 
             ["id" => "10",
             "title" => "Uploaded RTM",
@@ -58,15 +63,24 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "11",
             "title" => "Uploaded",
-            "color" => "dark"],
+            "color" => "success"],
 
             ["id" => "12",
             "title" => "Reuploaded",
+<<<<<<< HEAD
+            "color" => "blue"],
+
+            ["id" => "13",
+            "title" => "Standard\nUpdated",
+            "color" => "blue"],
+        ];
+=======
             "color" => "primary"],
 
             ["id" => "13",
             "title" => "Standard\nUpdated",
             "color" => "secondary"],
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
 
             ["id" => "14",
             "title" => "RTM Finished",

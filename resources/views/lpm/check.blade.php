@@ -97,7 +97,7 @@
     <div class="card-body">
     <form action="{{ route('lpm.lpm_standard', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
-      <strong class="text-primary">Category Standard</strong>
+      <strong style="color: black;">CATEGORY STANDARD</strong>
         @foreach ($standardCategories as $category)
             <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
                 {{ $category->description }}
@@ -105,7 +105,7 @@
         @endforeach
         <p></p>
 
-        <strong class="text-primary">Criteria Standard</strong>
+        <strong style="color: black;">CRITERIA STANDARD</strong>
         @foreach ($standardCriterias as $criteria)
             <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
                 {{ $criteria->title }}
@@ -113,14 +113,14 @@
         @endforeach
         <p></p>
     @foreach ($standardCriterias as $criteria)
-        <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+        <h6 style="color: black;"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
     @foreach ($criteria->statements as $no => $statement)
     @foreach ($statement->indicators as $indicator)
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
-                    <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
+                    <ul style="color: black;">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                 </td>
             </tr>
             <tr>
@@ -143,12 +143,18 @@
       @endforeach
       @endforeach
     @endforeach
+<<<<<<< HEAD
+    <div class="card-footer text-end">
+        <button class="btn btn-primary me-1" type="submit" name="remark_standard_lpm" value="Approve">Approve</button>
+        <button id="submitButton" class="btn btn-dark me-1" type="submit">Revision</button>
+=======
     <div class="card-footer d-flex justify-content-between align-items-end">
         <div class="d-flex">
             <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Approve">Approve</button>
             <button id="submitButton" class="btn btn-primary me-1" type="button">Revised</button>
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Back</a>
+>>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
     </div>
 </form>
   </div>
