@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>AMI Report | {{ date('d/m/Y', strtotime($data->date_start)) }}</title>
+    <title>RTM Report | {{ date('d/m/Y') }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
@@ -42,9 +42,10 @@
 <body>
   <table width="100%">
     <tr style="height: 20px">
-        <td>
-            <center><img src="/assets/img/logo/logo_small.png" style="height: 50px;" alt="Logo"></center>
-        </td>
+    <td>
+    <center><img src="" style="height: 50px;" alt="Logo"></center>
+</td>
+
         <td ><center>ABSENSI KEGIATAN</center></td>
         <td><center>FM/JGU/L.007</center></td>
     </tr>
@@ -72,7 +73,6 @@
     @foreach ($criteria->indicators as $indicator)
         @foreach ($observations as $observation)
             @php
-                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
                 $filteredObs = $obs_c->where('observation_id', $observation->id)
                                         ->where('indicator_id', $indicator->id);
             @endphp
@@ -123,7 +123,7 @@
                 <b> {{ $hodLPM->title }} </b><br>
             </td>
             <td width="50%" style="text-align: center;">
-                <br>UPM Prodi {{ $data->departments->name }}<br><br><br><br>
+                UPM Prodi {{ $data->departments->name }}<br><br><br><br>
                 <b> {{ $data->auditee->name }} </b><br>
             </td>
         </tr>

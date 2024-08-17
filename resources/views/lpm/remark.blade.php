@@ -302,11 +302,16 @@
                     </span>
                 @enderror
             </div>
+            <div class="form-group mb-3">
+                <label for="remark_audit_lpm" class="form-label large-text"><b>Remark Audit Report by LPM</b></label>
+                <textarea class="form-control" id="modal-remark_audit_lpm" name="remark_audit_lpm" rows="3" placeholder="MAX 350 karakter..."></textarea>
+                <i class="text-danger"><b>* Please comment on why you disagree with the above Audit Report.</b></i>
+            </div>
             <p></p>
             <div class="card-footer d-flex justify-content-between align-items-end">
                 <div class="d-flex">
                     <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Approve">Approve</button>
-                    <button id="submitButton" class="btn btn-primary me-1" type="button">Revised</button>
+                    <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revised</button>
                 </div>
                 <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Back</a>
             </div>
@@ -314,32 +319,24 @@
       </div>
     </form>
 
-  <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><i><b>Audit Report Approval by LPM</b></i></h4>
-                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
+                <h4 class="modal-title" id="exampleModalLabel"><i><b>Are you sure you want to Revise the Audit Report?
+                                                                    <br>Please check the Audit Report again</b></i></h4>
             </div>
             <div class="modal-body">
                 <form id="upload-form" method="POST" action="{{ route('lpm.lpm_apv_audit', $data->id) }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group mb-3">
-                        <label for="remark_audit_lpm" class="form-label large-text"><b>Remark Audit Report by LPM</b></label>
-                        <textarea class="form-control" id="modal-remark_audit_lpm" name="remark_audit_lpm" rows="3" placeholder="MAX 350 karakter..."></textarea>
-                        <i class="text-danger"><b>* Please comment on why you disagree with the above Audit Report.</b></i>
-                    </div>
                     <div class="text-end" id="button-container">
                         <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revised</button>
-                        <a href="" class="btn btn-outline-secondary">Back</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endsection
 
 @section('script')

@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth', 'role:admin,auditor,auditee,lpm']], funct
         Route::any('/remark_rtm/{id}', [ObservationController::class, 'remark_rtm'])->name('observations.remark_rtm');
         Route::get('/rtm/{id}', [ObservationController::class, 'rtm'])->name('observations.rtm');
         //Print PDF
+        Route::get('/view/{id}', [ObservationController::class, 'view'])->name('pdf.view');
         Route::get('/audit_report/{id}', [PDFController::class, 'audit_report'])->name('pdf.audit_report');
     });
 });
