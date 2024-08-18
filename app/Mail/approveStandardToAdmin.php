@@ -30,7 +30,7 @@ class approveStandardToAdmin extends Mailable
        */
       public function build()
       {
-      return $this->subject('🔔 AMI | '. $this->data['subject']
+      return $this->subject('🔔 AMI | Approve Standard For LPM'
       )->view('mail.approveStandardToAdmin',[
             'data' => $this->data
       ]);

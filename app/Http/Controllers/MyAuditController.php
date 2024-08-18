@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\auditeeUploadDoc;
 use App\Models\AuditPlan;
 use App\Models\Department;
 use App\Models\Observation;
@@ -21,6 +22,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 
 class MyAuditController extends Controller{
@@ -31,7 +33,7 @@ class MyAuditController extends Controller{
     }
 
     public function my_standard(Request $request, $id)
-{
+    {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
@@ -87,6 +89,24 @@ class MyAuditController extends Controller{
         $data->update([
             'audit_status_id' => '11',
         ]);
+
+        // Fungsi untuk mendapatkan data pengguna berdasarkan peran dan id
+        function getUsersByRoleId($roleName, $userId) {
+            return User::with(['roles' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->whereHas('roles', function ($q) use ($roleName) {
+                $q->where('name', $roleName);
+            })
+            ->where('id', $userId)
+            ->orderBy('name')
+            ->get();
+        }
+        // Data untuk notification Email untuk Admin dan Auditee
+        $auditor = getUsersByRoleId('auditor', $id);
+        $auditee = getUsersByRoleId('auditee', $id);
+        foreach ($auditor as $user) {Mail::to($user->email)->send(new auditeeUploadDoc($id));}
+        foreach ($auditee as $user) {Mail::to($user->email)->send(new auditeeUploadDoc($id));}
 
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }

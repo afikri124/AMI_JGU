@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\revisedStandardToAdmin;
 use App\Mail\approveStandardToAdmin;
+use App\Mail\notifUplodeDocAuditee;
 use App\Models\AuditPlan;
 use App\Models\Observation;
 use App\Models\AuditPlanAuditor;
@@ -36,17 +37,24 @@ class ApproveController extends Controller
         $this->validate($request, [
             'remark_standard_lpm' => '',
         ]);
-        // Menentukan aksi berdasarkan tombol yang diklik
         $action = $request->input('action');
-        // Data Untuk notification Email
-        $admin = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'admin');
-        })
-        ->orderBy('name')
-        ->get();
+
+        // Fungsi untuk mendapatkan data pengguna berdasarkan peran
+        function getUsersByRoleId($roleName, $userId) {
+            return User::with(['roles' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->whereHas('roles', function ($q) use ($roleName) {
+                $q->where('name', $roleName);
+            })
+            ->where('id', $userId)
+            ->orderBy('name')
+            ->get();
+        }
+
+        // Data untuk notifikasi email
+        $admin = getUsersByRoleId('admin', $id);
+        $auditee = getUsersByRoleId('auditee', $id);
 
         if ($action === 'Approve') {
             $remark = 'Approve';
@@ -54,11 +62,10 @@ class ApproveController extends Controller
             // notification email Apabila Standard Di Approve
             $emailData = [
                 'approve' =>$request->approve,
-                'subject' => 'Approve Standard For LPM'
+                'subject_1' => 'Approve Standard For LPM'
                 ]; 
-                foreach ($admin as $user) {
-                    Mail::to($user->email)->send(new approveStandardToAdmin($emailData));
-                }
+            // foreach ($admin as $user) {Mail::to($user->email)->send(new approveStandardToAdmin($emailData));}
+            // foreach ($auditee as $user) {Mail::to($user->email)->send(new notifUplodeDocAuditee($id));}
 
         } elseif ($action === 'Revised') {
             $this->validate($request, [
@@ -78,7 +85,7 @@ class ApproveController extends Controller
         $data->update([
             'remark_standard_lpm' => $remark,
             'audit_status_id' => $status,
-        ]); 
+        ]);    
             return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
         }
 

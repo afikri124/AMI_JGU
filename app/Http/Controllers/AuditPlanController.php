@@ -76,43 +76,43 @@ class AuditPlanController extends Controller
             }
         }
         // Send Email
-        // if ($auditee) {
-        //     $department = Department::find($request->department_id);
-        //     $location = Location::find($request->location_id);
-        //     // Assuming $request->auditor_id contains IDs of the auditors
-        //     $auditorNames = [];
-        //     foreach ($request->auditor_id as $auditorId) {
-        //         $auditor = User::find($auditorId);
-        //         if ($auditor) {
-        //             $auditorNames[] = $auditor->name;
-        //         }
-        //     }
-        //     // Data untuk email
-        //     $emailData = [
-        //         'auditee_id'    => $auditee->name,
-        //         'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
-        //         'date_start'    => $request->date_start,
-        //         'date_end'      => $request->date_end,
-        //         'department_id' => $department ? $department->name : null,
-        //         'location_id'   => $location ? $location->title : null,
-        //         'link'          => $request->link,
-        //         'type_audit'    => $request->type_audit,
-        //         'periode'       => $request->periode,
-        //         'subject'       => 'Notification Audit Mutu Internal' // Add the subject here
-        //     // Kirim email ke pengguna yang ditemukan
-        //     Mail::to($auditee->email)->send(new sendEmail($emailData));
-        //     Mail::to($auditor->email)->send(new sendEmail($emailData));
+        if ($auditee) {
+            $department = Department::find($request->department_id);
+            $location = Location::find($request->location_id);
+            // Assuming $request->auditor_id contains IDs of the auditors
+            $auditorNames = [];
+            foreach ($request->auditor_id as $auditorId) {
+                $auditor = User::find($auditorId);
+                if ($auditor) {
+                    $auditorNames[] = $auditor->name;
+                }
+            }
+            // Data untuk email
+            $emailData = [
+                'auditee_id'    => $auditee->name,
+                'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
+                'date_start'    => $request->date_start,
+                'date_end'      => $request->date_end,
+                'department_id' => $department ? $department->name : null,
+                'location_id'   => $location ? $location->title : null,
+                'link'          => $request->link,
+                'type_audit'    => $request->type_audit,
+                'periode'       => $request->periode,
+                'subject'       => 'Notification Audit Mutu Internal']; // Add the subject here
+            // Kirim email ke pengguna yang ditemukan
+            // Mail::to($auditee->email)->send(new sendEmail($emailData));
+            // Mail::to($auditor->email)->send(new sendEmail($emailData));
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
             }
-            // else {
-            //     // Redirect dengan pesan error jika pengguna tidak ditemukan
-            //     return redirect()->route('audit_plan.standard', ['id' => $data->id])
-            //         ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added, but email not sent - user not found.');
-            // }
+            else {
+                // Redirect dengan pesan error jika pengguna tidak ditemukan
+                return redirect()->route('audit_plan.standard', ['id' => $data->id])
+                    ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added, but email not sent - user not found.');
+            }
 
-
+        }
         $audit_plan = AuditPlan::with('auditstatus')->get();
         $locations = Location::orderBy('title')->get();
         $departments = Department::orderBy('name')->get();
@@ -139,6 +139,7 @@ class AuditPlanController extends Controller
 
         return view("audit_plan.add", compact("data", "category", "criterias", "auditee", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
     }
+
 
     //Edit Audit Plan
     public function edit(Request $request, $id)
@@ -418,13 +419,16 @@ class AuditPlanController extends Controller
         }
 
         // Send email notifications to LPM users
-        $lpm = User::whereHas('roles', function ($q) {
+        $lpm = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
             $q->where('name', 'lpm');
-        })->get();
+        })
+        ->orderBy('name')
+        ->get();
 
-        foreach ($lpm as $user) {
-            Mail::to($user->email)->send(new sendStandardToLpm($id));
-        }
+        // foreach ($lpm as $user) {Mail::to($user->email)->send(new sendStandardToLpm($id));}
     }
 
     // Redirect with success message
@@ -499,6 +503,22 @@ class AuditPlanController extends Controller
         $data->update([
             'audit_status_id' => '13',
         ]);
+
+        // Send email notifications to LPM users
+       // Send email notifications to LPM users
+        $lpm = User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($request) {
+            $q->where('name', 'lpm');
+        })
+        ->orderBy('name')
+        ->get();
+
+        // foreach ($lpm as $user) {
+        //     Mail::to($user->email)->send(new sendStandardUpdateToLpm($id));
+        // }
+
         // Redirect with a success message
         return redirect()->route('audit_plan.standard', ['id' => $id])
             ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
