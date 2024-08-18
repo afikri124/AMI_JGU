@@ -75,7 +75,7 @@
                 </div>
 <br>
                 <div class="form-group text-right">
-                <button type="submit" class="btn btn-success">Change</button>
+                <button type="submit" class="btn btn-primary">Change</button>
             </form>
         </div>
     </div>

@@ -167,7 +167,7 @@
                 <td>
                     <div class="form-group mb-3">
                         <label for="doc_path_rtm" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path_rtm[]" accept=".pdf">
+                        <input type="file" class="form-control" name="doc_path_rtm[]" accept=".png,.jpg,.jpeg,.pdf">
                         <input type="hidden" name="indicator_ids[]" value="{{ old('indicator_ids[]', $indicator->id) }}">
                     </div>
                 </td>

@@ -29,12 +29,12 @@ class AuditStatusSeeder extends Seeder
             "color" => "warning"],
 
             ["id" => "4",
-            "title" => "Approved Standard\nby LPM",
-            "color" => "secondary"],
+            "title" => "Approved Standard by LPM",
+            "color" => "success"],
 
             ["id" => "5",
-            "title" => "Revised Standard\nby LPM",
-            "color" => "primary"],
+            "title" => "Revised Standard by LPM",
+            "color" => "success"],
 
             ["id" => "6",
             "title" => "Audit Finished",
@@ -58,12 +58,12 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "11",
             "title" => "Uploaded",
-            "color" => "dark"],
+            "color" => "success"],
 
             ["id" => "12",
             "title" => "Reuploaded",
-            "color" => "primary"],
-
+            "color" => "blue"],
+            
             ["id" => "13",
             "title" => "Standard\nUpdated",
             "color" => "secondary"],
