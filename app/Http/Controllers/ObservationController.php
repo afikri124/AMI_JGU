@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\CommentDocs;
 use App\Mail\sendEmail;
+use App\Mail\remakeDocAutitee;
 use App\Models\AuditPlan;
 use App\Models\AuditPlanAuditor;
 use App\Models\AuditPlanCategory;
@@ -43,6 +44,20 @@ class ObservationController extends Controller
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
+    function getUsersByRoleId($roleName, $userId) {
+        return User::with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->whereHas('roles', function ($q) use ($roleName) {
+            $q->where('name', $roleName);
+        })
+        ->where('id', $userId)
+        ->orderBy('name')
+        ->get();
+    }
+    // Data untuk notifikasi email
+    $auditee = getUsersByRoleId('auditee', $id);
+
     if ($request->isMethod('POST')) {
         // Validasi request
         $this->validate($request, [
@@ -67,6 +82,9 @@ class ObservationController extends Controller
         $data->update([
             'audit_status_id' => '3',
         ]);
+
+        // Remake document untuk auditee
+        foreach ($auditee as $user) {Mail::to($user->email)->send(new remakeDocAutitee($id));}
 
         return redirect()->route('observations.index')->with('msg', 'Auditor Comment Added Successfully!!');
     }

@@ -62,18 +62,10 @@ class ApproveController extends Controller
             // notification email Apabila Standard Di Approve
             $emailData = [
                 'approve' =>$request->approve,
-<<<<<<< HEAD
                 'subject_1' => 'Approve Standard For LPM'
                 ]; 
             // foreach ($admin as $user) {Mail::to($user->email)->send(new approveStandardToAdmin($emailData));}
             // foreach ($auditee as $user) {Mail::to($user->email)->send(new notifUplodeDocAuditee($id));}
-=======
-                'subject' => 'Approve Standard For LPM'
-                ];
-                foreach ($admin as $user) {
-                    Mail::to($user->email)->send(new approveStandardToAdmin($emailData));
-                }
->>>>>>> 0e11164b103531bc163911f888758e9beec4b438
 
         } elseif ($action === 'Revised') {
             $this->validate($request, [
@@ -93,13 +85,28 @@ class ApproveController extends Controller
         $data->update([
             'remark_standard_lpm' => $remark,
             'audit_status_id' => $status,
-<<<<<<< HEAD
         ]);    
-=======
-        ]);
->>>>>>> 0e11164b103531bc163911f888758e9beec4b438
             return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
         }
+
+        //     // Mendapatkan ID auditor terkait
+        //     $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+
+        //     // Membuat Observation
+        //     Observation::create([
+        //         'audit_plan_id' => $id,
+        //         'audit_plan_auditor_id' => $auditPlanAuditorId,
+        //         'remark_standard_lpm' => $remark,
+        //     ]);
+
+        //     // Memperbarui status audit plan
+        //     $data->update([
+        //         'audit_status_id' => $status,
+        //     ]);
+
+        //     return redirect()->route('lpm.index')->with('msg', 'Standard diperbarui.');
+        // }
+
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         $auditPlanAuditorIds = $auditor->pluck('id');
@@ -212,29 +219,31 @@ class ApproveController extends Controller
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
-        if ($request->isMethod('post')) {
-            // Validasi dasar
+        if ($request->isMethod('POST')) {
+            // dd($request);
             $this->validate($request, [
-                'date_validated' => ['required', 'date'],
-                'remark_audit_lpm' => ['required', 'max:350'],
+                'date_validated' => [''],
+                'remark_audit_lpm' => [''],
             ]);
 
-            // Cek action yang dipilih
             $action = $request->input('action');
-            $status = null;
 
             if ($action === 'Approve') {
+                $remark = 'Approve';
                 $status = 9;
             } elseif ($action === 'Revised') {
+                $this->validate($request, [
+                    'remark_audit_lpm' => ['required'],
+                ]);
+                $remark = $request->input('remark_audit_lpm');
                 $status = 8;
             }
-
 
             $observation = Observation::findOrFail($id);
 
             $observation->update([
                 'date_validated' => $request->date_validated,
-                'remark_audit_lpm' => $request->remark_audit_lpm,
+                'remark_audit_lpm' => $remark,
             ]);
 
                 $data->update([

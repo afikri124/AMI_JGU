@@ -12,7 +12,8 @@
     </tbody>    
 </table>
 <tbody>
-    <p>The auditee has uploaded the documents required for auditing. Please check whether the documents uploaded by the auditee through the <a href="{{ url('/dashboard') }}">sistem.</a> are appropriate or not.</p>
+    <p>The Auditor Has Reviewed the Documents You Uploaded, Please Check Whether the Documents You Uploaded Need to be Corrected or Not.
+        To check it, please login to the system.<a href="{{ url('/audit_plan') }}">sistem.</a></p>
     <tr>
         <td style="font-size: 10pt;">
             <p style="text-align: justify;">For more information, please log in to <a href="{{ url('/dashboard') }}">sistem.</a>

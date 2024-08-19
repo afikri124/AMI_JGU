@@ -90,24 +90,10 @@ class MyAuditController extends Controller{
             'audit_status_id' => '11',
         ]);
 
-        // Fungsi untuk mendapatkan data pengguna berdasarkan peran dan id
-        function getUsersByRoleId($roleName, $userId) {
-            return User::with(['roles' => function ($query) {
-                $query->select('id', 'name');
-            }])
-            ->whereHas('roles', function ($q) use ($roleName) {
-                $q->where('name', $roleName);
-            })
-            ->where('id', $userId)
-            ->orderBy('name')
-            ->get();
-        }
-        // Data untuk notification Email untuk Admin dan Auditee
-        $auditor = getUsersByRoleId('auditor', $id);
-        $auditee = getUsersByRoleId('auditee', $id);
-        foreach ($auditor as $user) {Mail::to($user->email)->send(new auditeeUploadDoc($id));}
-        foreach ($auditee as $user) {Mail::to($user->email)->send(new auditeeUploadDoc($id));}
-
+         // Kirim email notifikasi ke auditor
+        $auditor = User::find($auditorId);
+        Mail::to($auditor->email)->send(new auditeeUploadDoc($auditorId));
+        
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 

@@ -100,8 +100,8 @@ class AuditPlanController extends Controller
                 'periode'       => $request->periode,
                 'subject'       => 'Notification Audit Mutu Internal']; // Add the subject here
             // Kirim email ke pengguna yang ditemukan
-            // Mail::to($auditee->email)->send(new sendEmail($emailData));
-            // Mail::to($auditor->email)->send(new sendEmail($emailData));
+            Mail::to($auditee->email)->send(new sendEmail($emailData));
+            Mail::to($auditor->email)->send(new sendEmail($emailData));
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -419,7 +419,7 @@ class AuditPlanController extends Controller
         }
 
         // Send email notifications to LPM users
-<<<<<<< HEAD
+
         $lpm = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
         }])
@@ -430,7 +430,7 @@ class AuditPlanController extends Controller
         ->get();
 
         // foreach ($lpm as $user) {Mail::to($user->email)->send(new sendStandardToLpm($id));}
-=======
+
         // $lpm = User::whereHas('roles', function ($q) {
         //     $q->where('name', 'lpm');
         // })->get();
@@ -438,7 +438,7 @@ class AuditPlanController extends Controller
         // foreach ($lpm as $user) {
         //     Mail::to($user->email)->send(new sendStandardToLpm($id));
         // }
->>>>>>> 0e11164b103531bc163911f888758e9beec4b438
+
     }
 
     // Redirect with success message
