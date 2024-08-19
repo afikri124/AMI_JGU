@@ -12,11 +12,7 @@
 </table>
 <tbody>
     <p>The audit standard has been set by the Admin. Please check whether the <a href="{{ url('/lpm') }}">standards</a>  set by the admin is appropriate or not.</p>
-</tbody>
-<table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left; margin-bottom:50px;"
-    width="100%">
-    <tbody>
-        <tr>
+    <tr>
             <td style="font-size: 10pt;">
                 <p style="text-align: justify;">For more information, please log in to <a href="{{ url('/dashboard') }}">sistem.</a>
                         <br>
@@ -27,6 +23,5 @@
                 <strong>Tim LPM</strong>
             </td>
         </tr>
-    </tbody>
-</table>
+</tbody>
 

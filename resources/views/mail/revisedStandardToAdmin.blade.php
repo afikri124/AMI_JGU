@@ -13,12 +13,8 @@
 <tbody>
     <!-- <h3>The Standards You Create Get Revised</h3> -->
     <p>The following is a comment from LPM:</p>
-    <p></b><b> {{ $data['remark_standard_lpm'] }}</b></p>      
-</tbody>
-<table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left; margin-bottom:50px;"
-    width="100%">
-    <tbody>
-        <tr>
+    <p></b><b> {{ $data['remark_standard_lpm'] }}</b></p>     
+    <tr>
             <td style="font-size: 10pt;">
                 <p style="text-align: justify;">For more information, please log in to <a
                         href="{{ url('/dashboard') }}">sistem.</a><br>
@@ -28,7 +24,7 @@
                 <br>
                 <strong>Tim LPM</strong>
             </td>
-        </tr>
-    </tbody>
-</table>
+    </tr> 
+</tbody>
+
 

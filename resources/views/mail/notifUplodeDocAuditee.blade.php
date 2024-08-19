@@ -4,14 +4,15 @@
     <tbody>
         <tr>
             <td style="font-size: 10pt;">
-                <p>Dear Mr/Mrs, The Audit Standards Have Been Updated By Admin. Here are more details:</p><br>
+                <p>Dear Mr/Mrs</p><br>
                 <p style="text-align: justify;"></p>
             </td>
         </tr>
+        
     </tbody>    
 </table>
 <tbody>
-    <p>Audit standards have been updated by Admin. Please check again whether the <a href="{{ url('/lpm') }}">standards</a> are truly appropriate or not for field audits.</p>
+    <p>You can now upload the documents required for auditing. Please log in to the system to view and upload the documents.</p>
     <tr>
         <td style="font-size: 10pt;">
             <p style="text-align: justify;">For more information, please log in to <a href="{{ url('/dashboard') }}">sistem.</a>
@@ -24,4 +25,3 @@
         </td>
     </tr>
 </tbody>
-

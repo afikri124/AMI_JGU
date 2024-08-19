@@ -37,22 +37,16 @@
             <tr class="pad-left-right-space">
                 <td ><p>Periode <b>:</b><b> {{ $data['periode'] }}</b></p></td>
             </tr>
+            <tr>
+                <td style="font-size: 10pt;">
+                    <p style="text-align: justify;">For more information, please log in to <a
+                            href="{{ url('/dashboard') }}">sistem.</a><br>
+                        <br>If there are problems or want to make changes to the schedule, please contact the LPM JGU Team.</p>
+                    <br>
+                    <p>Thank you,</p>
+                    <br>
+                    <strong>Tim LPM</strong>
+                </td>
+            </tr>
         </tbody>
-
-<table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left; margin-bottom:50px;"
-    width="100%">
-    <tbody>
-        <tr>
-            <td style="font-size: 10pt;">
-                <p style="text-align: justify;">For more information, please log in to <a
-                        href="{{ url('/dashboard') }}">sistem.</a><br>
-                    <br>If there are problems or want to make changes to the schedule, please contact the LPM JGU Team.</p>
-                <br>
-                <p>Thank you,</p>
-                <br>
-                <strong>Tim LPM</strong>
-            </td>
-        </tr>
-    </tbody>
-</table>
 
