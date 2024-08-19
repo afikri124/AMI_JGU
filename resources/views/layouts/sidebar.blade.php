@@ -22,7 +22,7 @@
                 <div data-i18n="Dashboards">Dashboard</div>
             </a>
         </li>
-        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'lpm'))
+        @if(Auth::user()->hasRole('admin'))
         <li class="menu-item {{ request()->segment(1) == 'audit_plan' ? 'active' : '' }}">
             <a href="{{ route('audit_plan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar-edit"></i>
@@ -31,7 +31,7 @@
         </li>
         @endif
 
-        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'auditor'))
+        @if(Auth::user()->hasRole('auditor'))
             <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
                 <a href="{{ route('observations.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-search"></i>
@@ -40,7 +40,7 @@
             </li>
         @endif
 
-        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'auditee'))
+        @if(Auth::user()->hasRole('auditee'))
             <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
                 <a href="{{ route('my_audit.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-bell"></i>
@@ -55,14 +55,13 @@
             </a>
         </li>
 
-        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'lpm' ||
-                Auth::user()->username == 'approver'))
+        @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('lpm') || Auth::user()->hasRole('approver'))
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Approve</span>
         </li>
         @endif
 
-        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'lpm'))
+        @if(Auth::user()->hasRole('lpm'))
             <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
                 <a href="{{ route('lpm.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-copy-alt"></i>
@@ -71,7 +70,7 @@
             </li>
         @endif
 
-        @if((Auth::user()->username == 'admin' || Auth::user()->username == 'approver'))
+        @if(Auth::user()->hasRole('approver'))
             <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
                 <a href="{{ route('approver.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>

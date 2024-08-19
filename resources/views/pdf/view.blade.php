@@ -60,7 +60,7 @@
                         <thead>
                             <tr>
                                 <th width="5%"><b>No</b></th>
-                                <th width="25%"><b>Name</b></th>
+                                <th width="35%"><b>Name</b></th>
                                 <th width="5%"><b>Action</b></th>
                             </tr>
                         </thead>
@@ -69,24 +69,36 @@
                                 <td class="text-center">1</td>
                                 <td>Absensi</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/att/') }}">
-                                    <i class="bx bx-printer"></i></a>
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.att', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                        <i class="bx bx-printer"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td>Berita Acara</td>
+                                <td class="text-md-center">
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.meet_report', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                        <i class="bx bx-printer"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-center">2</td>
                                 <td>Form Checklist</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ url('reports/print/checklist') }}">
-                                        <i class="bx bx-printer"></i></a>
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.form_cl', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                        <i class="bx bx-printer"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-center">3</td>
                                 <td>Form PTP/PTK</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ url('reports/print/ptp') }}">
-                                        <i class="bx bx-printer"></i></a>
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.ptp_ptk', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                        <i class="bx bx-printer"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

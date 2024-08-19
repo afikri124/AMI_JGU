@@ -67,7 +67,7 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         // Middleware lainnya
-        'role' => \App\Http\Middleware\AccessMiddleware::class,
+        'role' => \App\Http\Middleware\Role::class,
     ];
 
 

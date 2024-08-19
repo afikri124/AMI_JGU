@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
 
 //Audit Plan
-Route::group(['middleware' => ['auth', 'role:admin,lpm']], function () {
+Route::group(['middleware' => ['auth','role:admin, lpm']], function () {
     Route::group(['prefix' => 'audit_plan'], function () {
         Route::any('/', [AuditPlanController::class, 'index'])->name('audit_plan.index');
         Route::get('/data', [AuditPlanController::class, 'data'])->name('audit_plan.data');
@@ -77,7 +77,7 @@ Route::get('/edit_audit/{id}', [AuditPlanController::class, 'edit'])->name('edit
 Route::any('/update_audit/{id}', [AuditPlanController::class, 'update'])->name('update_audit');
 
 //MY Audit
-Route::group(['middleware' => ['auth', 'role:admin,auditee,auditor,lpm']], function () {
+Route::group(['middleware' => ['auth', 'role:admin, auditee']], function () {
     Route::group(['prefix' => 'my_audit'], function () {
         Route::get('/', [MyAuditController::class, 'index'])->name('my_audit.index');
         Route::get('/data', [MyAuditController::class, 'data'])->name('my_audit.data');
@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth', 'role:admin,auditee,auditor,lpm']], funct
 });
 
 //Observations
-Route::group(['middleware' => ['auth', 'role:admin,auditor,auditee,lpm']], function () {
+Route::group(['middleware' => ['auth', 'role:admin, auditor']], function () {
     Route::group(['prefix' => 'observations'], function () {
         Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
         Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
@@ -103,14 +103,18 @@ Route::group(['middleware' => ['auth', 'role:admin,auditor,auditee,lpm']], funct
         Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
         Route::any('/remark_rtm/{id}', [ObservationController::class, 'remark_rtm'])->name('observations.remark_rtm');
         Route::get('/rtm/{id}', [ObservationController::class, 'rtm'])->name('observations.rtm');
+
         //Print PDF
-        Route::get('/view/{id}', [ObservationController::class, 'view'])->name('pdf.view');
-        Route::get('/audit_report/{id}', [PDFController::class, 'audit_report'])->name('pdf.audit_report');
+        Route::get('/view/{id}', [PDFController::class, 'view'])->name('pdf.view');
+        Route::get('/att/{id}/{type}', [PDFController::class, 'att'])->name('pdf.att');
+        Route::get('/form_cl/{id}/{type}', [PDFController::class, 'form_cl'])->name('pdf.form_cl');
+        Route::get('/meet_report/{id}/{type}', [PDFController::class, 'meet_report'])->name('pdf.meet_report');
+        Route::get('/ptp_ptk/{id}/{type}', [PDFController::class, 'ptp_ptk'])->name('pdf.ptp_ptk');
     });
 });
 
 //LPM
-Route::group(['middleware' => ['auth', 'role:admin,lpm,auditor']], function () {
+Route::group(['middleware' => ['auth', 'role:admin, lpm']], function () {
     Route::group(['prefix' => 'lpm'], function () {
         Route::get('/', [ApproveController::class, 'lpm'])->name('lpm.index');
         Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('lpm.approve_data');
@@ -122,7 +126,7 @@ Route::group(['middleware' => ['auth', 'role:admin,lpm,auditor']], function () {
 });
 
 //Warek
-Route::group(['middleware' => ['auth', 'role:admin,approver']], function () {
+Route::group(['middleware' => ['auth', 'role:approver']], function () {
     Route::group(['prefix' => 'approver'], function () {
         Route::get('/', [ApproveController::class, 'approver'])->name('approver.index');
         Route::get('/approve_data', [ApproveController::class, 'approve_data'])->name('approver.approve_data');
@@ -131,7 +135,7 @@ Route::group(['middleware' => ['auth', 'role:admin,approver']], function () {
 });
 
 //RTM
-Route::group(['middleware' => ['auth', 'role:admin,auditee,auditor,lpm,approver']], function () {
+Route::group(['middleware' => ['auth', 'role:auditee,approver']], function () {
     Route::group(['prefix' => 'rtm'], function () {
         Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
         // Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');

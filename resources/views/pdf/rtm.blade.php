@@ -20,7 +20,7 @@
         }
 
         th, td {
-            border: 2px solid black;
+            border: 1px solid black;
             padding: 8px;
             text-align: left;
         }
@@ -114,7 +114,7 @@
         <tr>
             <td width="50%"></td>
             <td width="50%" style="text-align: center;">
-            {{ Date::createFromDate($data->date_start)->format('l, j F Y') }}
+            {{ Date::createFromDate($data->date_start)->locale('id')->translatedFormat('l, j F Y') }}
             </td>
         </tr>
         <tr>
