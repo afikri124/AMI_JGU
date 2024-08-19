@@ -30,9 +30,6 @@ class User extends Authenticatable
         'front_title',
         'back_title',
         'job',
-        
-
-
     ];
 
     /**

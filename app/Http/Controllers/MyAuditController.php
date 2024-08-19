@@ -381,9 +381,16 @@ class MyAuditController extends Controller{
     }
 
     public function rtm($id){
-        $data = AuditPlan::with('locations', 'auditee')->findOrFail($id);
+        $data = AuditPlan::with('locations', 'auditee', 'departments')->findOrFail($id);
 
+        // Get the auditee's department
+        $auditeeDepartment = $data->auditee->departments->department_id;
+
+        // Filter data based on the department
         $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
+            ->whereHas('auditor', function($query) use ($auditeeDepartment) {
+                $query->where('department_id', $auditeeDepartment);
+            })
             ->with('auditor:id,name,nidn')
             ->get();
 
@@ -395,18 +402,22 @@ class MyAuditController extends Controller{
 
         $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
         $standardCriterias = StandardCriteria::with(['statements', 'statements.indicators', 'statements.reviewDocs'])
-                                    ->whereIn('id', $standardCriteriaIds)
-                                    ->get();
+                                        ->whereIn('id', $standardCriteriaIds)
+                                        ->get();
 
-        $observations = Observation::where('audit_plan_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)
+            ->where('department_id', $auditeeDepartment)
+            ->get();
+        $observationIds = $observations->pluck('id');
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
 
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observations->pluck('id'))->get();
-        // dd($obs_c);
+        $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
+
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-        // dd($standardCriterias);
-        $pdf = PDF::loadView('pdf.rtm',
-        $data = [
+
+        // Generate the PDF
+        $pdf = PDF::loadView('pdf.rtm', [
             'data' => $data,
             'auditors' => $auditors,
             'categories' => $categories,
@@ -415,12 +426,12 @@ class MyAuditController extends Controller{
             'standardCriterias' => $standardCriterias,
             'observations' => $observations,
             'obs_c' => $obs_c,
+            'rtm' => $rtm,
             'hodLPM' => $hodLPM,
             'hodBPMI' => $hodBPMI
         ]);
-    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
 
-    return $pdf->stream('rtm-report.pdf');
+        return $pdf->stream('rtm-report.pdf');
         // return view('lpm.print',
         // compact('standardCategories', 'standardCriterias',
         // 'auditorData', 'auditor', 'data', 'category',

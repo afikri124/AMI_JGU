@@ -242,7 +242,7 @@
                                     <i class="bx bx-search-alt"></i></a>`;
                         }
                         else if (row.auditstatus.id === 6 ) {
-                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/edit/${row.id}') }}">
+                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/view/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`;
                         }
                         else if (row.auditstatus.id === 8 ) {
