@@ -143,18 +143,12 @@
       @endforeach
       @endforeach
     @endforeach
-<<<<<<< HEAD
-    <div class="card-footer text-end">
-        <button class="btn btn-primary me-1" type="submit" name="remark_standard_lpm" value="Approve">Approve</button>
-        <button id="submitButton" class="btn btn-dark me-1" type="submit">Revision</button>
-=======
     <div class="card-footer d-flex justify-content-between align-items-end">
         <div class="d-flex">
             <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Approve">Approve</button>
             <button id="submitButton" class="btn btn-primary me-1" type="button">Revised</button>
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Back</a>
->>>>>>> af1ea214da049afa7d4deabc6b44cd8d19b0b683
     </div>
 </form>
   </div>

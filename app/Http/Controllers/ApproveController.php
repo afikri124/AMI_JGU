@@ -62,19 +62,13 @@ class ApproveController extends Controller
             // notification email Apabila Standard Di Approve
             $emailData = [
                 'approve' =>$request->approve,
-<<<<<<< HEAD
-                'subject_1' => 'Approve Standard For LPM'
-                ]; 
+                'subject' => 'Approve Standard For LPM'
+            ];
             // foreach ($admin as $user) {Mail::to($user->email)->send(new approveStandardToAdmin($emailData));}
             // foreach ($auditee as $user) {Mail::to($user->email)->send(new notifUplodeDocAuditee($id));}
-=======
-                'subject' => 'Approve Standard For LPM'
-                ];
                 foreach ($admin as $user) {
                     Mail::to($user->email)->send(new approveStandardToAdmin($emailData));
                 }
->>>>>>> 0e11164b103531bc163911f888758e9beec4b438
-
         } elseif ($action === 'Revised') {
             $this->validate($request, [
                 'remark_standard_lpm' => ['required'],
@@ -93,11 +87,7 @@ class ApproveController extends Controller
         $data->update([
             'remark_standard_lpm' => $remark,
             'audit_status_id' => $status,
-<<<<<<< HEAD
-        ]);    
-=======
         ]);
->>>>>>> 0e11164b103531bc163911f888758e9beec4b438
             return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
         }
         $data = AuditPlan::findOrFail($id);
