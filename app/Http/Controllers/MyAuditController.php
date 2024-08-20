@@ -45,12 +45,11 @@ class MyAuditController extends Controller{
             'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
         ]);
 
-        // Check if there is an associated auditor record
-        $auditPlanAuditor = $data->auditor()->where('auditor_id', $auditorId)->first();
+        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
 
         $obs = Observation::create([
             'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditorId,
+            'audit_plan_auditor_id' => $auditPlanAuditorId,
         ]);
 
         $files = $request->file('doc_path');
