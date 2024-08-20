@@ -30,24 +30,24 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Admin',
                 'username' => 'admin',
             ], $default_user_value));
-            $auditee = User::create(array_merge([
+            $zidan = User::create(array_merge([
                 'email' => 'zidanazzahra916@gmail.com',
                 'name' => 'Ziddan Azzahra',
-                'username' => 'auditee',
+                'username' => 'zidan',
                 'gender' => 'M',
                 'no_phone' => '081384810569'
             ], $default_user_value));
-            $auditor = User::create(array_merge([
+            $rofiq = User::create(array_merge([
                 'email' => 'rofiqabdul983@gmail.com',
                 'name' => 'Muhammad Abdul Rofiq',
-                'username' => 'auditor',
+                'username' => 'rofiq',
                 'gender' => 'M',
                 'no_phone' => '082258485039'
             ], $default_user_value));
-            $lpm = User::create(array_merge([
+            $feni = User::create(array_merge([
                 'email' => '092023090187@student.jgu.ac.id',
                 'name' => 'Feni Dwi Lestari',
-                'username' => 'lpm',
+                'username' => 'feni',
                 'gender' => 'L',
                 'no_phone' => '089602928926'
             ], $default_user_value));
@@ -58,10 +58,10 @@ class UserRolePermissionSeeder extends Seeder
             ], $default_user_value));
             //create role
             $role_admin = Role::create(['name' => 'admin', 'color' => '#000000', 'description' => 'Administrator']);
-            $role_auditee = Role::create(['name' => 'auditee', 'color' => '#003285', 'description' => 'Audit Person']);
-            $role_auditor = Role::create(['name' => 'auditor', 'color' => '#006769', 'description' => 'Audits Person']);
+            $role_auditee = Role::create(['name' => 'auditee', 'color' => '#003285', 'description' => 'Auditee Person']);
+            $role_auditor = Role::create(['name' => 'auditor', 'color' => '#006769', 'description' => 'Auditore Person']);
             $role_lpm = Role::create(['name' => 'lpm', 'color' => '#FF0000', 'description' => 'LPM Person']);
-            $role_approver = Role::create(['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Apporverd']);
+            $role_approver = Role::create(['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Approver']);
             //set default role
             $admin->assignRole('admin');
             $admin->assignRole('auditor');
@@ -69,14 +69,14 @@ class UserRolePermissionSeeder extends Seeder
             $admin->assignRole('lpm');
             $admin->assignRole('approver');
 
-            $auditee->assignRole('auditee');
-            $auditee->assignRole('auditor');
+            $zidan->assignRole('auditee');
+            $zidan->assignRole('auditor');
 
-            $auditor->assignRole('auditor');
-            $auditor->assignRole('auditee');
+            $rofiq->assignRole('auditor');
+            $rofiq->assignRole('auditee');
 
-            $lpm->assignRole('lpm');
-            $lpm->assignRole('admin');
+            $feni->assignRole('lpm');
+            $feni->assignRole('admin');
 
             $approver->assignRole('approver');
 

@@ -93,7 +93,7 @@ class MyAuditController extends Controller{
          // Kirim email notifikasi ke auditor
         $auditor = User::find($auditorId);
         Mail::to($auditor->email)->send(new auditeeUploadDoc($auditorId));
-        
+
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 

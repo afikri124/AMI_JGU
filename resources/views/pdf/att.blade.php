@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,40 +11,62 @@
         html {
             margin: 2cm 1cm;
         }
+
         body {
             font-size: 11pt;
             font-family: "Times New Roman";
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        td, th {
+
+        td,
+        th {
             border: 1px solid black;
-            padding: 6px;
-            vertical-align: top;
+            padding: 4px;
+            vertical-align: middle;
+            text-align: left;
         }
+
         th {
             background-color: white;
+            text-align: center;
         }
+
+        td[colspan="2"] {
+            text-align: center;
+        }
+
+        .header-row td {
+            text-align: center;
+            padding: 2px;
+        }
+
+        .no-border {
+            border: none !important;
+        }
+
         .signature-section {
             margin-top: 10px;
         }
+
         .signature-section .left {
             float: left;
-            width: 50%; /* Adjusted width */
+            width: 50%;
             text-align: left;
-            margin-top: 50px; /* Space for the signature */
-            padding-left: 50px; /* Add padding to avoid text being too close to the edge */
+            margin-top: 50px;
+            padding-left: 50px;
         }
+
         .signature-section .right {
             float: right;
-            width: 50%; /* Adjusted width */
+            width: 50%;
             text-align: left;
             margin-top: 20px;
-            padding-right: 50px; /* Add padding to avoid text being too close to the edge */
-
+            padding-right: 50px;
         }
 
         .date-section {
@@ -52,82 +75,87 @@
             padding-right: 50px;
             margin-top: 20px;
         }
+
         .clear {
             clear: both;
         }
     </style>
 </head>
+
 <body>
-@foreach ($standardCriterias as $criteria)
+    @foreach ($standardCriterias as $criteria)
     <table>
-        <tr>
-            <td rowspan="6" style="width: 10%;">
-                <center><img src="/assets/img/logo/logo_small.png" style="height: 75px;" alt="Logo"></center>
-            </td>
-            <td colspan="2" style="width: 65%;"><center>ABSENSI KEGIATAN</center></td>
+        <tr class="header-row">
+            <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/logo-icon.png') }}"></center></td>
+            <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>
         <tr>
-            <td colspan="2"><center>{{ $criteria->title }}</center></td>
+            <td colspan="3" style="padding: 2px;"><center><b>{{ $criteria->title }}</b></center></td>
         </tr>
         <tr>
-            <td style="width: 25%;">Hari/Tgl.</td>
-            <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+            <td style="width: 20%; padding: 2px;">Hari/Tgl.</td>
+            <td colspan="2" style="padding: 2px;">{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, j F Y') }}</td>
         </tr>
         <tr>
-            <td>Tempat</td>
-            <td>{{ $data->locations->title }}</td>
+            <td style="padding: 2px;">Tempat</td>
+            <td colspan="2" style="padding: 2px;">{{ $data->locations->title }}</td>
         </tr>
         <tr>
-            <td>Pimpinan Rapat</td>
-            <td>{{ $auditors->first()->auditor->name }}</td>
+            <td style="padding: 2px;">Pimpinan Rapat</td>
+            <td colspan="2" style="padding: 2px;">{{ $auditors->first()->auditor->name }}</td>
         </tr>
         <tr>
-            <td>Peserta Rapat</td>
-            <td>Anggota Auditor & Auditee</td>
+            <td style="padding: 2px;">Peserta Rapat</td>
+            <td colspan="2" style="padding: 2px;">Anggota Auditor & Auditee</td>
         </tr>
         <tr>
-            <th style="width: 5%;"><center>No</center></th>
-            <th style="width: 40%;" colspan="2"><center>Nama</center></th>
-            <th style="width: 30%;"><center>Jabatan</center></th>
-            <th style="width: 10%;" colspan="2"><center>Paraf</center></th>
+            <th style="width: 2%;"><center>No</center></th>
+            <th style="width: 55%;"><center>Nama</center></th> <!-- Increased the width of the Nama column -->
+            <th style="width: 20%;"><center>Jabatan</center></th>
+            <th style="width: 20%;" colspan="2"><center>Paraf</center></th>
         </tr>
         <tr>
             <td><center>1</center></td>
-            <td colspan="2"><center>{{ $auditors->first()->auditor->name }}</center></td>
+            <td>{{ $auditors->first()->auditor->name }}</td>
             <td><center>Ketua Auditor</center></td>
-            <td colspan="2"></td>
+            <td class="signature-cell"></td>
+            <td class="signature-cell"></td>
         </tr>
         <tr>
             <td><center>2</center></td>
-            <td colspan="2"><center>@if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif</center></td>
+            <td>@if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif</td>
             <td><center>Anggota</center></td>
-            <td colspan="2"></td>
+            <td class="signature-cell"></td>
+            <td class="signature-cell"></td>
         </tr>
         <tr>
             <td><center>3</center></td>
-            <td colspan="2"><center>{{ $data->auditee->name }}</center></td>
+            <td>{{ $data->auditee->name }}</td>
             <td><center>Auditee</center></td>
-            <td colspan="2"></td>
+            <td class="signature-cell"></td>
+            <td class="signature-cell"></td>
         </tr>
     </table>
+
     <div class="date-section">
         <p style="text-align: right;">Depok, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</p>
     </div>
     <div class="signature-section">
         <div class="left">
-        <p style="margin-bottom: 0;">Mengetahui,</p>
+            <p style="margin-bottom: 0;">Mengetahui,</p>
             Kepala LPM<br><br><br><br>
             <b>( {{ $hodLPM->title }} )</b><br>
             <small>NIK. {{ $hodLPM->content }}</small>
         </div>
         <div class="right">
-        Ketua Auditor<br><br><br><br>
+            Ketua Auditor<br><br><br><br>
             <b>( {{ $data->auditee->name }} )</b><br>
             <small>NIK. {{ $data->auditee->nidn }}</small>
         </div>
         <div class="clear"></div>
     </div>
-@endforeach
+    @endforeach
+
 </body>
 </html>

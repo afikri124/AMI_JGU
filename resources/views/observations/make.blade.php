@@ -247,12 +247,16 @@
                                                  ->where('indicator_id', $indicator->id);
                         @endphp
                         @foreach ($filteredObs as $checklist)
-                            @if ($checklist->doc_path)
-                                <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                    {{ basename($checklist->doc_path) }}
-                                </a>
-                                <br>
-                            @endif
+                        @if ($checklist->doc_path)
+                            @php
+                                // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
+                                $fileName = basename($checklist->doc_path);
+                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                            @endphp
+                            <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                {{ $fileNameWithoutId }}
+                            </a>
+                        @endif
                         @endforeach
                     @endforeach
                     @error('doc_path')
