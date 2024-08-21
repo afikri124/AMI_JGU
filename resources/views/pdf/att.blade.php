@@ -81,12 +81,11 @@
         }
     </style>
 </head>
-
 <body>
     @foreach ($standardCriterias as $criteria)
     <table>
         <tr class="header-row">
-            <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/logo-icon.png') }}"></center></td>
+        <td rowspan="6" style="width: 10%;"><center><img src="../assets-landing/img/logo_small.png" style="height: 50px;" alt="Logo"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>
@@ -111,7 +110,7 @@
         </tr>
         <tr>
             <th style="width: 2%;"><center>No</center></th>
-            <th style="width: 55%;"><center>Nama</center></th> <!-- Increased the width of the Nama column -->
+            <th style="width: 55%;"><center>Nama</center></th>
             <th style="width: 20%;"><center>Jabatan</center></th>
             <th style="width: 20%;" colspan="2"><center>Paraf</center></th>
         </tr>

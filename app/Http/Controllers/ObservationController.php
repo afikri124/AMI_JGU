@@ -304,41 +304,36 @@ class ObservationController extends Controller
     public function remark($id)
     {
         $data = AuditPlan::findOrFail($id);
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-                                    ->with('auditor:id,name')
-                                    ->firstOrFail();
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $auditPlanAuditorIds = $auditor->pluck('id');
 
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
+        $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCategoryIds = $category->pluck('standard_category_id');
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
 
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
-
-        $standardCategoryIds = $categories->pluck('standard_category_id');
-        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
-
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
+        $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
+        $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
+                            ->with('statements')
+                            ->with('statements.indicators')
+                            ->with('statements.reviewDocs')
+                            ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                            ->orderBy('title')
+                            ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
 
-        $obs_c = ObservationChecklist::where('observation_id', $observations->pluck('id'))->get();
+        // Ambil daftar observation_id dari koleksi observations
+        $observationIds = $observations->pluck('id');
 
+        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
 
         return view('observations.remark',
         compact('standardCategories', 'standardCriterias',
-        'auditorData', 'auditor', 'data', 'category', 'criteria',
-        'observations', 'obs_c','hodLPM', 'hodBPMI'));
+        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
     public function update_remark(Request $request, $id)

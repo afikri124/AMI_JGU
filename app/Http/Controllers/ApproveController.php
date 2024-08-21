@@ -12,6 +12,7 @@ use App\Models\AuditPlanCategory;
 use App\Models\AuditPlanCriteria;
 use App\Models\Location;
 use App\Models\ObservationChecklist;
+use App\Models\Rtm;
 use App\Models\Setting;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
@@ -192,11 +193,12 @@ class ApproveController extends Controller
                         ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
+        $observationIds = $observations->pluck('id');
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-
+        $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
         $pdf = Pdf::loadView('pdf.audit_report',
         $data = [
             'data' => $data,
@@ -207,6 +209,7 @@ class ApproveController extends Controller
             'standardCriterias' => $standardCriterias,
             'observations' => $observations,
             'obs_c' => $obs_c,
+            'rtm' => $rtm,
             'hodLPM' => $hodLPM,
             'hodBPMI' => $hodBPMI
         ]);
@@ -288,10 +291,12 @@ class ApproveController extends Controller
                         ->whereIn('id', $standardCriteriaIds)
                         ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
                         ->get();
-        $observations = Observation::where('audit_plan_auditor_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
+        $observationIds = $observations->pluck('id');
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
+        $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
 
         $pdf = Pdf::loadView('pdf.rtm',
         $data = [
@@ -303,6 +308,7 @@ class ApproveController extends Controller
             'standardCriterias' => $standardCriterias,
             'observations' => $observations,
             'obs_c' => $obs_c,
+            'rtm' => $rtm,
             'hodLPM' => $hodLPM,
             'hodBPMI' => $hodBPMI
         ]);
