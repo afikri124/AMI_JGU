@@ -100,8 +100,8 @@ class AuditPlanController extends Controller
                 'periode'       => $request->periode,
                 'subject'       => 'Notification Audit Mutu Internal']; // Add the subject here
             // Kirim email ke pengguna yang ditemukan
-            Mail::to($auditee->email)->send(new sendEmail($emailData));
-            Mail::to($auditor->email)->send(new sendEmail($emailData));
+            // Mail::to($auditee->email)->send(new sendEmail($emailData));
+            // Mail::to($auditor->email)->send(new sendEmail($emailData));
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -269,31 +269,7 @@ class AuditPlanController extends Controller
         // Hapus AuditPlan itu sendiri
         $data->delete();
 
-        // Ambil data email dari audit plan
-        // $auditeeEmail = $data->auditee->email;
-        // $auditorEmails = $data->auditorId->pluck('email')->toArray();
-
-        // // Data untuk email
-        // $emailData = [
-        //     'auditee_id'    => $data->auditee->name,
-        //     'auditor_id'    => implode(', ', $data->auditorId->pluck('name')->toArray()), // Gabungkan nama auditor menjadi string
-        //     'date_start'    => $data->date_start,
-        //     'date_end'      => $data->date_end,
-        //     'department_id' => $data->department->name ?? null,
-        //     'location_id'   => $data->location->title ?? null,
-        //     'link'          => null, // Link tidak diperlukan saat menghapus, atau sesuaikan jika ada
-        //     'type_audit'    => $data->type_audit,
-        //     'periode'       => $data->periode,
-        //     'subject'       => 'Notification Audit Mutu Internal cancelled'
-        // ];
-
-        // // Kirim email ke auditee
-        // Mail::to($auditeeEmail)->send(new deletedAuditPlan($emailData));
-
-        // // Kirim email ke auditor
-        // foreach ($auditorEmails as $auditorEmail) {
-        //     Mail::to($auditorEmail)->send(new deletedAuditPlan($emailData));
-        // }
+    // Email Pembatalan Auditing
 
         return response()->json([
             'success' => true,
@@ -511,7 +487,6 @@ class AuditPlanController extends Controller
             'audit_status_id' => '13',
         ]);
 
-        // Send email notifications to LPM users
        // Send email notifications to LPM users
         $lpm = User::with(['roles' => function ($query) {
             $query->select('id', 'name');
@@ -522,9 +497,9 @@ class AuditPlanController extends Controller
         ->orderBy('name')
         ->get();
 
-        // foreach ($lpm as $user) {
-        //     Mail::to($user->email)->send(new sendStandardUpdateToLpm($id));
-        // }
+        foreach ($lpm as $user) {
+            Mail::to($user->email)->send(new sendStandardUpdateToLpm($id));
+        }
 
         // Redirect with a success message
         return redirect()->route('audit_plan.standard', ['id' => $id])

@@ -44,20 +44,6 @@ class ObservationController extends Controller
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
-    function getUsersByRoleId($roleName, $userId) {
-        return User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($roleName) {
-            $q->where('name', $roleName);
-        })
-        ->where('id', $userId)
-        ->orderBy('name')
-        ->get();
-    }
-    // Data untuk notifikasi email
-    $auditee = getUsersByRoleId('auditee', $id);
-
     if ($request->isMethod('POST')) {
         // Validasi request
         $this->validate($request, [
@@ -83,8 +69,9 @@ class ObservationController extends Controller
             'audit_status_id' => '3',
         ]);
 
-        // Remake document untuk auditee
-        foreach ($auditee as $user) {Mail::to($user->email)->send(new remakeDocAutitee($id));}
+        //email  Remake document untuk auditee
+        $auditee = $data->auditee;
+        Mail::to($auditee->email)->send(new remakeDocAutitee($data));
 
         return redirect()->route('observations.index')->with('msg', 'Auditor Comment Added Successfully!!');
     }

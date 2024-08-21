@@ -45,7 +45,7 @@ class MyAuditController extends Controller{
             'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
         ]);
 
-        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
+        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id ?? null;
 
         $obs = Observation::create([
             'audit_plan_id' => $id,
@@ -90,8 +90,8 @@ class MyAuditController extends Controller{
         ]);
 
          // Kirim email notifikasi ke auditor
-        $auditor = User::find($auditorId);
-        Mail::to($auditor->email)->send(new auditeeUploadDoc($auditorId));
+        $auditor = $data->auditor;
+        Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
         
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }

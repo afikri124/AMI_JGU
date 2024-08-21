@@ -39,38 +39,14 @@ class ApproveController extends Controller
         ]);
         $action = $request->input('action');
 
-        // Fungsi untuk mendapatkan data pengguna berdasarkan peran
-        function getUsersByRoleId($roleName, $userId) {
-            return User::with(['roles' => function ($query) {
-                $query->select('id', 'name');
-            }])
-            ->whereHas('roles', function ($q) use ($roleName) {
-                $q->where('name', $roleName);
-            })
-            ->where('id', $userId)
-            ->orderBy('name')
-            ->get();
-        }
-
-        // Data untuk notifikasi email
-        $admin = getUsersByRoleId('admin', $id);
-        $auditee = getUsersByRoleId('auditee', $id);
-
         if ($action === 'Approve') {
             $remark = 'Approve';
             $status = 4;
-            // notification email Apabila Standard Di Approve
-            $emailData = [
-                'approve' =>$request->approve,
-                'subject' => 'Approve Standard For LPM'
-            ];
-            // foreach ($admin as $user) {Mail::to($user->email)->send(new approveStandardToAdmin($emailData));}
-            // foreach ($auditee as $user) {Mail::to($user->email)->send(new notifUplodeDocAuditee($id));}
-                foreach ($admin as $user) {
-                    Mail::to($user->email)->send(new approveStandardToAdmin($emailData));
-                }
-            // foreach ($admin as $user) {Mail::to($user->email)->send(new approveStandardToAdmin($emailData));}
-            // foreach ($auditee as $user) {Mail::to($user->email)->send(new notifUplodeDocAuditee($id));}
+
+            // Mengirim email ke auditee yang terkait dengan audit plan
+            $auditee = $data->auditee;
+            Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
+
 
         } elseif ($action === 'Revised') {
             $this->validate($request, [
@@ -78,14 +54,6 @@ class ApproveController extends Controller
             ]);
             $remark = $request->input('remark_standard_lpm');
             $status = 5;
-            // notification email Apabila Standard Revised
-            $emailData = [
-                'remark_standard_lpm' =>$request->remark_standard_lpm,
-                'subject' => 'Revised Standard For LPM'
-            ];
-            foreach ($admin as $user) {
-                Mail::to($user->email)->send(new revisedStandardToAdmin($emailData));
-            }
         }
         $data->update([
             'remark_standard_lpm' => $remark,
