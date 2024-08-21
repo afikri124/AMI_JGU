@@ -101,7 +101,8 @@ class ApproveController extends Controller
 
         // Fetch other data needed
         $observations = Observation::where('audit_plan_id', $id)->get();
-        $obs_c = ObservationChecklist::where('observation_id', $id)->get();
+        $observationIds = $observations->pluck('id');
+        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         $StatusCheck = [1, 2, 5, 13];

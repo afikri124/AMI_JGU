@@ -85,7 +85,7 @@
     @foreach ($standardCriterias as $criteria)
     <table>
         <tr class="header-row">
-        <td rowspan="6" style="width: 10%;"><center><img src="../assets-landing/img/logo_small.png" style="height: 50px;" alt="Logo"></center></td>
+        <td rowspan="6" style="width: 10%;"><center><img src="{{ asset('assets-landing/img/logo_small.png') }}" alt="Logo" style="width: 10px; height: auto;"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>
