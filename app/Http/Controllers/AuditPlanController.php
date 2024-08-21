@@ -100,8 +100,8 @@ class AuditPlanController extends Controller
                 'periode'       => $request->periode,
                 'subject'       => 'Notification Audit Mutu Internal']; // Add the subject here
             // Kirim email ke pengguna yang ditemukan
-            // Mail::to($auditee->email)->send(new sendEmail($emailData));
-            // Mail::to($auditor->email)->send(new sendEmail($emailData));
+            Mail::to($auditee->email)->send(new sendEmail($emailData));
+            Mail::to($auditor->email)->send(new sendEmail($emailData));
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
