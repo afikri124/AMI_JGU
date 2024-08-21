@@ -136,12 +136,19 @@
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td>
-                <div class="form-group mb-3">
+                    <div class="form-group mb-3">
                         <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
                         <br>
-                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                            {{ basename($obsChecklist->doc_path) }}
-                        </a>
+                        @if ($obsChecklist->doc_path)
+                            @php
+                                // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
+                                $fileName = basename($obsChecklist->doc_path);
+                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                            @endphp
+                            <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                {{ $fileNameWithoutId }}
+                            </a>
+                        @endif
                     </div>
                 </td>
             <tr>

@@ -138,7 +138,7 @@ Route::group(['middleware' => ['auth', 'role:approver']], function () {
 Route::group(['middleware' => ['auth', 'role:auditee,approver']], function () {
     Route::group(['prefix' => 'rtm'], function () {
         Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
-        // Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
+        Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
         // Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
         // Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
         // Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');

@@ -263,7 +263,7 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 7) {
+                        if (row.auditstatus.id === 14) {
                             x = `<a class="badge bg-primary" title="RTM Report" href="{{ url('rtm/rtm_edit/${row.id}') }}">
                             <i class="bx bx-printer"></i></a>`;
                         }
