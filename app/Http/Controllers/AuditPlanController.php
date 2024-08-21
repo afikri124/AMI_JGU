@@ -220,26 +220,26 @@ class AuditPlanController extends Controller
         }
 
         // Data untuk email
-        // $emailData = [
-        //     'auditee_id'    => $auditee->name,
-        //     'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
-        //     'date_start'    => $request->date_start,
-        //     'date_end'      => $request->date_end,
-        //     'department_id' => $department ? $department->name : null,
-        //     'location_id'   => $location ? $location->title : null,
-        //     'subject'       => 'Reschedule Audit Plane' // Add the subject here
-        // ];
+        $emailData = [
+            'auditee_id'    => $auditee->name,
+            'auditor_id'    => implode(', ', $auditorNames), // Combine auditor names into a string
+            'date_start'    => $request->date_start,
+            'date_end'      => $request->date_end,
+            'department_id' => $department ? $department->name : null,
+            'location_id'   => $location ? $location->title : null,
+            'subject'       => 'Reschedule Audit Plane' // Add the subject here
+        ];
 
-        // // Kirim email ke auditee
-        // Mail::to($auditee->email)->send(new reschedule($emailData));
+        // Kirim email ke auditee
+        Mail::to($auditee->email)->send(new reschedule($emailData));
 
-        // // Kirim email ke auditor
-        // foreach ($newAuditors as $auditorId) {
-        //     $auditor = User::find($auditorId);
-        //     if ($auditor) {
-        //         Mail::to($auditor->email)->send(new reschedule($emailData));
-        //     }
-        // }
+        // Kirim email ke auditor
+        foreach ($newAuditors as $auditorId) {
+            $auditor = User::find($auditorId);
+            if ($auditor) {
+                Mail::to($auditor->email)->send(new reschedule($emailData));
+            }
+        }
     }
     return redirect()->route('audit_plan.index')->with('msg', 'Audit Plan updated successfully.');
 }
