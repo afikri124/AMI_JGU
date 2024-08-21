@@ -53,12 +53,12 @@ class ObservationController extends Controller
         $observation = Observation::findOrFail($id);
 
         foreach ($request->remark_docs as $key => $rd) {
-            $checklist = ObservationChecklist::where('observation_id', $observation->id)
+            $checklists = ObservationChecklist::where('observation_id', $observation->id)
                 ->where('indicator_id', $key)
-                ->firstOrFail();
+                ->get();
 
-            if ($checklist) {
-                $checklist->update([
+        foreach ($checklists as $checklist) {
+            $checklist->update([
                     'remark_docs' => $rd,
                 ]);
             }
@@ -112,7 +112,7 @@ class ObservationController extends Controller
         compact('standardCategories', 'standardCriterias',
         'auditor', 'data', 'category', 'criteria',
         'observations', 'obs_c','hodLPM', 'hodBPMI'));
-}
+    }
 
     //form assesment
     public function create(Request $request, $id)

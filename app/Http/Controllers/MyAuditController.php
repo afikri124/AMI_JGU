@@ -36,7 +36,6 @@ class MyAuditController extends Controller{
     {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
-
     if (Auth::user()->role == 'auditee') {
     }
 
@@ -45,11 +44,11 @@ class MyAuditController extends Controller{
             'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
         ]);
 
-        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id ?? null;
+        $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first();
 
         $obs = Observation::create([
             'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditorId,
+            'audit_plan_auditor_id' => $auditorId,
         ]);
 
         $files = $request->file('doc_path');
@@ -90,15 +89,14 @@ class MyAuditController extends Controller{
         ]);
 
          // Kirim email notifikasi ke auditor
-<<<<<<< HEAD
-        $auditor = $data->auditor;
-        Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
-        
-=======
-        $auditor = User::find($auditorId);
-        Mail::to($auditor->email)->send(new auditeeUploadDoc($auditorId));
 
->>>>>>> 0d8477bf74e452b3129e47bec84efa8ed3593205
+        // $auditor = $data->auditor;
+        // Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
+
+
+        // $auditor = User::find($auditorId);
+        // Mail::to($auditor->email)->send(new auditeeUploadDoc($auditorId));
+
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 
