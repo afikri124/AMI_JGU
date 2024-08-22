@@ -23,6 +23,9 @@
             margin-bottom: 20px;
         }
 
+        .page-break {
+            page-break-after: always;
+        }
         td,
         th {
             border: 1px solid black;
@@ -83,9 +86,10 @@
 </head>
 <body>
     @foreach ($standardCriterias as $criteria)
+    <div class="page-break"></div>
     <table>
         <tr class="header-row">
-        <td rowspan="6" style="width: 10%;"><center><img src="{{ asset('assets-landing/img/logo_small.png') }}" alt="Logo" style="width: 10px; height: auto;"></center></td>
+        <td rowspan="6" style="width: 10%;"><center><img src="/assets/img/logo/logo_small.png" alt="Logo" style="width: 10px; height: auto;"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>

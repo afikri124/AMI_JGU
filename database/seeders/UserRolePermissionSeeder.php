@@ -35,26 +35,32 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Ziddan Azzahra',
                 'username' => 'zidan',
                 'gender' => 'M',
-                'no_phone' => '081384810569'
+                'no_phone' => '081384810569',
+                'nidn' => '092023090191',
             ], $default_user_value));
             $rofiq = User::create(array_merge([
                 'email' => 'rofiqabdul983@gmail.com',
                 'name' => 'Muhammad Abdul Rofiq',
                 'username' => 'rofiq',
                 'gender' => 'M',
-                'no_phone' => '082258485039'
+                'no_phone' => '082258485039',
+                'nidn' => '092023090180',
             ], $default_user_value));
             $feni = User::create(array_merge([
                 'email' => '092023090187@student.jgu.ac.id',
                 'name' => 'Feni Dwi Lestari',
                 'username' => 'feni',
                 'gender' => 'L',
-                'no_phone' => '089602928926'
+                'no_phone' => '089602928926',
+                'nidn' => '092023090187',
             ], $default_user_value));
             $approver = User::create(array_merge([
                 'email' => 'approver@gmail.com',
                 'name' => 'Wakil Rektor',
                 'username' => 'approver',
+                'gender' => 'L',
+                'no_phone' => '08960292567',
+                'nidn' => '092023090190',
             ], $default_user_value));
             //create role
             $role_admin = Role::create(['name' => 'admin', 'color' => '#000000', 'description' => 'Administrator']);
@@ -79,6 +85,8 @@ class UserRolePermissionSeeder extends Seeder
             $feni->assignRole('admin');
 
             $approver->assignRole('approver');
+            $approver->assignRole('auditee');
+            $approver->assignRole('auditor');
 
             //create permission
             $permission = Permission::create(['name' => 'log-viewers.read']);

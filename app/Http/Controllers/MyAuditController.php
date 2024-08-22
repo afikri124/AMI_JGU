@@ -36,7 +36,7 @@ class MyAuditController extends Controller{
     {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
-    
+
     if ($request->isMethod('POST')) {
         $this->validate($request, [
             'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
@@ -94,12 +94,12 @@ class MyAuditController extends Controller{
 
         foreach ($auditors as $auditPlanAuditor) {
             $auditor = $auditPlanAuditor->auditor;
-            
+
             if ($auditor && $auditor->email) {
                 Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
             }
         }
-        return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
+return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 
         $data = AuditPlan::findOrFail($id);

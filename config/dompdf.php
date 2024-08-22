@@ -18,6 +18,8 @@ return array(
             "https://" => ["rules" => []]
         ],
 
+        'log_output_file' => null,
+        "enable_font_subsetting" => false,
         "pdf_backend" => "CPDF",
         "default_media_type" => "screen",
         "default_paper_size" => "a4",
@@ -26,10 +28,7 @@ return array(
         "dpi" => 96,
         "enable_php" => false,
         "enable_javascript" => true,
-
-        // Enable remote access for images or assets using URLs
-        'isRemoteEnabled' => true, // <--- Add this option here
-
+        "enable_remote" => true,
         "font_height_ratio" => 1.1,
         "enable_html5_parser" => true,
     ],
