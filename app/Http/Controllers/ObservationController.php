@@ -403,7 +403,7 @@ class ObservationController extends Controller
             $data->update([
                 'audit_status_id'   => '14',
             ]);
-
+            // kirim Email Auditi dan Lpm
         return redirect()->route('observations.index')->with('msg', 'RTM Report Updated Successfully');
     }
         $data = AuditPlan::findOrFail($id);
