@@ -332,16 +332,16 @@ class MyAuditController extends Controller{
         // Retrieve the observation using the ID
         $observation = Observation::findOrFail($id);
 
-        $auditPlanAuditor = $data->auditor()->where('auditor_id', $auditorId)->first();
-
+        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)
+        ->first();
         if ($request->isMethod('POST')) {
             $this->validate($request, [
                 'remark_rtm_auditee' => ['array', 'nullable'],
             ]);
 
             $observation->update([
-                'audit_plan_id' => $id,
-                'audit_plan_auditor_id' => $auditorId,
+                'audit_plan_id' => $observation->id,
+                'audit_plan_auditor_id' => $auditPlanAuditor->id,
             ]);
 
             foreach ($request->indicator_ids as $index => $indicatorId) {
@@ -360,6 +360,16 @@ class MyAuditController extends Controller{
             $data->update([
                 'audit_status_id'   => '10',
             ]);
+            // kirim Email ke Auditor
+            $auditPlanId = $data->id;
+            $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
+            foreach ($auditors as $auditPlanAuditor) {
+                $auditor = $auditPlanAuditor->auditor;
+                
+                if ($auditor && $auditor->email) {
+                    Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
+                }
+            }
             return redirect()->route('my_audit.index')->with('msg', 'Document RTM uploaded/updated successfully!!');
         }
 

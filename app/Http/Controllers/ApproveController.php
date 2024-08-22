@@ -208,6 +208,21 @@ class ApproveController extends Controller
             if ($action === 'Approve') {
                 $remark = 'Approve';
                 $status = 9;
+                // kirim email ke auditor auditee
+                // email untuk auditee
+                $auditee = $data->auditee;
+            Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
+            // Email untuk auditor
+            $auditPlanId = $data->id;
+            $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
+            foreach ($auditors as $auditPlanAuditor) {
+                $auditor = $auditPlanAuditor->auditor;
+                
+                if ($auditor && $auditor->email) {
+                    Mail::to($auditor->email)->send(new notifUplodeDocAuditee($data));
+                }
+            }
+
             } elseif ($action === 'Revised') {
                 $this->validate($request, [
                     'remark_audit_lpm' => ['required'],
@@ -215,7 +230,7 @@ class ApproveController extends Controller
                 $remark = $request->input('remark_audit_lpm');
                 $status = 8;
             }
-
+            // kirim email ke auditor
             $observation = Observation::findOrFail($id);
 
             $observation->update([
@@ -227,6 +242,7 @@ class ApproveController extends Controller
                     'audit_status_id' => $status,
                 ]);
             }
+            
             return redirect()->route('lpm.index')->with('msg', 'Audit Report Updated by LPM!!');
         }
 
