@@ -18,7 +18,6 @@ use App\Models\StandardCriteria;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
 use Yajra\DataTables\Facades\DataTables;
 
 class PDFController extends Controller
@@ -33,10 +32,7 @@ class PDFController extends Controller
     {
         $data = AuditPlan::with('locations', 'auditee')->findOrFail($id);
         $auditorId = Auth::user()->id;
-
-        if (Auth::user()->role == 'auditee') {
-        }
-        $auditors = AuditPlanAuditor::where('audit_plan_id', $auditorId)
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
             ->with('auditor:id,name,nidn')
             ->get();
 
@@ -51,7 +47,9 @@ class PDFController extends Controller
                                     ->whereIn('id', $standardCriteriaIds)
                                     ->get();
 
-        $observations = Observation::where('audit_plan_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)
+                                    ->with('location')
+                                    ->get();
         $observationIds = $observations->pluck('id');
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
@@ -73,9 +71,9 @@ class PDFController extends Controller
 
             if (Auth::user()->role == 'auditee') {
             }
-            $auditors = AuditPlanAuditor::where('audit_plan_id', $auditorId)
-                ->with('auditor:id,name,nidn')
-                ->get();
+            $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
+            ->with('auditor:id,name,nidn')
+            ->get();
 
             $categories = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
             $criterias = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
@@ -111,7 +109,7 @@ class PDFController extends Controller
 
         if (Auth::user()->role == 'auditee') {
         }
-        $auditors = AuditPlanAuditor::where('audit_plan_id', $auditorId)
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
             ->with('auditor:id,name,nidn')
             ->get();
 
@@ -148,7 +146,7 @@ class PDFController extends Controller
 
         if (Auth::user()->role == 'auditee') {
         }
-        $auditors = AuditPlanAuditor::where('audit_plan_id', $auditorId)
+        $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
             ->with('auditor:id,name,nidn')
             ->get();
 

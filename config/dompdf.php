@@ -28,7 +28,6 @@ return array(
         "dpi" => 96,
         "enable_php" => false,
         "enable_javascript" => true,
-        "enable_remote" => true,
         "font_height_ratio" => 1.1,
         "enable_html5_parser" => true,
     ],

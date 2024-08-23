@@ -380,7 +380,7 @@ class StandardCriteriaController extends Controller
                 'review_docs' => ['required', 'array', 'min:1'],
                 'review_docs.*.name' => ['required', 'string'],
             ]);
-    
+
             // Store the review documents
             foreach ($validatedData['review_docs'] as $reviewDocsData) {
                 ReviewDocs::create([
@@ -390,15 +390,15 @@ class StandardCriteriaController extends Controller
                     'indicator_id' => $validatedData['indicator_id'],
                 ]);
             }
-    
+
             return redirect()->route('standard_criteria.review_docs')->with('msg', 'Review Documents added successfully.');
         }
-    
+
         // Retrieve all Standard Criteria, Statements, and Indicators for the dropdown
         $criterias = StandardCriteria::orderBy('title')->get();
         $statements = StandardStatement::orderBy('name')->get();
         $indicators = Indicator::orderBy('name')->get();
-    
+
         return view('standard_criteria.review_docs.create', compact('criterias', 'statements', 'indicators'));
     }
 
@@ -491,7 +491,7 @@ class StandardCriteriaController extends Controller
             ->select('*')
             ->orderBy("id")
             ->get(); // Eksekusi query
-    
+
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('select_statement'))) {

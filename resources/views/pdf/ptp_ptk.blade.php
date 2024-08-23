@@ -76,7 +76,7 @@
 <table width="100%">
     <tr>
         <td colspan="1" rowspan="2" class="center">
-            <center><img src="/assets/img/logo/logo_small.png" alt="Logo"></center>
+            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center>
         </td>
         <td width="20%" valign="top" class="header">
             <center>
@@ -258,7 +258,7 @@
 <table width="100%">
 <tr>
         <td colspan="1" rowspan="2" class="center">
-            <center><img src="/assets/img/logo/logo_small.png" alt="Logo"></center>
+            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center>
         </td>
         <td width="30%" valign="top" class="header">
             <br><center>

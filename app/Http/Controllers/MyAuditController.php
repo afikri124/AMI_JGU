@@ -99,7 +99,7 @@ class MyAuditController extends Controller{
                 Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
             }
         }
-return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
+    return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -365,7 +365,7 @@ return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successf
             $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
             foreach ($auditors as $auditPlanAuditor) {
                 $auditor = $auditPlanAuditor->auditor;
-                
+
                 if ($auditor && $auditor->email) {
                     Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
                 }
@@ -476,7 +476,7 @@ return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successf
             'locations.title as location'
             )
             ->where('auditee_id', Auth::user()->id)
-            ->orderBy("id");
+            ->orderBy("id", "desc");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('auditee_id'))) {

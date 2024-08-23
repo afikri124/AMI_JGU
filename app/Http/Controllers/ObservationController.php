@@ -509,7 +509,7 @@ class ObservationController extends Controller
     ->whereHas('auditor', function ($query) {
         $query->where('auditor_id', Auth::user()->id);
     })
-    ->orderBy("id");
+    ->orderBy("id", "desc");
 
     return DataTables::of($data)
         ->filter(function ($instance) use ($request) {

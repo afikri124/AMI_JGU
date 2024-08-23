@@ -49,13 +49,11 @@
         <div class="card p-3">
             <div class="card-datatable table-responsive">
                 <div class="card-header flex-column flaex-md-row pb-0">
-                    <div class="row">
                         <div class="col-12 pt-3 pt-md-0">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
-                                </div>
                 <div class="col-md-3">
                     <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
                         <option value="">Select Auditee</option>
@@ -132,7 +130,7 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ordering: false,
+            ordering: true,
             language: {
                 searchPlaceholder: 'Search data..'
             },
@@ -148,11 +146,13 @@
                 "targets": "_all"
             }],
             columns: [{
+                    data: 'id',
                     render: function (data, type, row, meta) {
                         var no = (meta.row + meta.settings._iDisplayStart + 1);
                         return no;
                     },
-                    className: "text-center"
+                    className: "text-center",
+                    orderable: true
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -174,19 +174,22 @@
                         var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
                         var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
                         return formattedStartDate + ' - ' + formattedEndDate;
-                    }
+                    },
+                    orderable: false
                 },
                 {
                     render: function(data, type, row, meta) {
                         var html =
                             `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
                         return html;
-                    }
+                    },
+                    orderable: false
                 },
                 {
                     render: function (data, type, row, meta) {
                             return row.location;
                     },
+                    orderable: false
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -201,7 +204,7 @@
                             `;
                         return html;
                     },
-                    "orderable": false,
+                    orderable: false,
                     className: "text-md-center"
                 }
             ]
