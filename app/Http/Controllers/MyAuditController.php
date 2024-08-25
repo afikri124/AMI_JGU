@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\auditeeUploadDoc;
+use App\Mail\auditingFinish;
 use App\Models\AuditPlan;
 use App\Models\Department;
 use App\Models\Observation;
@@ -89,16 +90,16 @@ class MyAuditController extends Controller{
 
         // Kirim email notifikasi ke auditor
         $auditPlanId = $data->id;
-
-        $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
-
-        foreach ($auditors as $auditPlanAuditor) {
+        $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
+            ->with('auditor')
+            ->get();
+        foreach ($auditPlanAuditors as $auditPlanAuditor) {
             $auditor = $auditPlanAuditor->auditor;
-            
             if ($auditor && $auditor->email) {
                 Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
             }
         }
+
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 
@@ -261,6 +262,26 @@ class MyAuditController extends Controller{
         $data->update([
             'audit_status_id'   => '6',
         ]);
+        // Kirim Email Ke Auditor Dan LPM Audit Finish
+        $auditPlanId = $data->id;
+        $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
+            ->with('auditor')
+            ->get();
+        foreach ($auditPlanAuditors as $auditPlanAuditor) {
+            $auditor = $auditPlanAuditor->auditor;
+            if ($auditor && $auditor->email) {
+                Mail::to($auditor->email)->send(new auditingFinish($data));
+            }
+        }
+        $lpm = User::whereHas('roles', function ($q) {
+            $q->where('name', 'lpm');
+        })
+        ->orderBy('name')
+        ->get(['id', 'email', 'name']);
+        foreach ($lpm as $user) {
+            Mail::to($user->email)->send(new auditingFinish($id));
+        }
+
         return redirect()->route('my_audit.index')->with('msg', 'Observation Auditee updated successfully!!');
     }
 

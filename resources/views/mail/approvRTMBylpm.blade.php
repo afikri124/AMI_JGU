@@ -139,10 +139,10 @@ table.order-detail tr:nth-child(odd) {
                 <td style="padding: 30px;">
                 <tr>
                     <td style="font-size: 10pt;">
-                        <p style="text-align: justify;">Dear Mr/Mrs, The Standards You Create Is Approver</p><br>
+                        <p style="text-align: justify;">Dear Mr/Mrs,</p><br>
                     </td>
                 </tr>
-            <p style="text-align: justify;">The Standard You Set is <b>Approved by LPM</b> More Details Please Look at the <a href="{{ url('/audit_plan') }}">sistem.</a></p>
+            <p style="text-align: justify;">RTM has been <b>Approved by LPM</b>, to see the results of the audit please login to the<a href="{{ url('/audit_plan') }}">sistem.</a></p>
                 <td style="font-size: 10pt;">
                     <p style="text-align: justify;">For more information, please log in to <a
                             href="{{ url('/dashboard') }}">sistem.</a><br>
@@ -184,4 +184,11 @@ table.order-detail tr:nth-child(odd) {
     </table>
 </body>
 </html>
+
+
+
+
+
+
+
 

@@ -101,7 +101,20 @@ class AuditPlanController extends Controller
                 'subject'       => 'Notification Audit Mutu Internal']; // Add the subject here
             // Kirim email ke pengguna yang ditemukan
             Mail::to($auditee->email)->send(new sendEmail($emailData));
-            Mail::to($auditor->email)->send(new sendEmail($emailData));
+            // yang ke kirim cuma 
+            $auditPlanId = $data->id;
+            $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
+                ->with('auditor')
+                ->get();
+
+            foreach ($auditors as $auditPlanAuditor) {
+                $auditor = $auditPlanAuditor->auditor;
+
+                if ($auditor && $auditor->email) {
+                    Mail::to($auditor->email)
+                        ->send(new sendEmail($emailData));
+                }
+            }
             // Redirect dengan pesan sukses
             return redirect()->route('audit_plan.standard.create', ['id' => $data->id])
                     ->with('msg', 'Data ' . $auditee->name . ' on date ' . $request->date_start . ' until date ' . $request->date_end . ' successfully added and email sent!!');
@@ -218,7 +231,6 @@ class AuditPlanController extends Controller
                 $auditorNames[] = $auditor->name;
             }
         }
-
         // Data untuk email
         $emailData = [
             'auditee_id'    => $auditee->name,
@@ -232,7 +244,6 @@ class AuditPlanController extends Controller
 
         // Kirim email ke auditee
         Mail::to($auditee->email)->send(new reschedule($emailData));
-
         // Kirim email ke auditor
         foreach ($newAuditors as $auditorId) {
             $auditor = User::find($auditorId);
@@ -395,25 +406,16 @@ class AuditPlanController extends Controller
         }
 
         // Send email notifications to LPM users
-        $lpm = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
+        $lpm = User::whereHas('roles', function ($q) {
             $q->where('name', 'lpm');
         })
         ->orderBy('name')
-        ->get();
+        ->get(['id', 'email', 'name']); // Mengambil hanya field yang diperlukan
 
-        // foreach ($lpm as $user) {Mail::to($user->email)->send(new sendStandardToLpm($id));}
-        // $lpm = User::whereHas('roles', function ($q) {
-        //     $q->where('name', 'lpm');
-        // })->get();
-
-        // foreach ($lpm as $user) {
-        //     Mail::to($user->email)->send(new sendStandardToLpm($id));
-        // }
+        foreach ($lpm as $user) {
+            Mail::to($user->email)->send(new sendStandardToLpm($id));
+        }
     }
-
     // Redirect with success message
     return redirect()->route('audit_plan.index')
         ->with('msg', 'Auditor data to determine each Standard was added successfully!');

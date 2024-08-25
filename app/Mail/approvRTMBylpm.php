@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class revisedStandardToAdmin extends Mailable
+class approvRTMBylpm extends Mailable
 {
       use Queueable, SerializesModels;
 
@@ -30,7 +30,7 @@ class revisedStandardToAdmin extends Mailable
        */
       public function build()
       {
-      return $this->subject('🔔 AMI | The standards you set are revised by lpm'
+      return $this->subject('🔔 AMI | RTM Has Been Approved By LPM'
       )->view('mail.revisedStandardToAdmin',[
             'data' => $this->data
       ]);
