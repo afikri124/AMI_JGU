@@ -37,7 +37,7 @@ class MyAuditController extends Controller{
     {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
-    
+
     if ($request->isMethod('POST')) {
         $this->validate($request, [
             'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
@@ -95,12 +95,20 @@ class MyAuditController extends Controller{
             ->get();
         foreach ($auditPlanAuditors as $auditPlanAuditor) {
             $auditor = $auditPlanAuditor->auditor;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2128597aab176a041675a3e93f02d3f77f3e53e7
             if ($auditor && $auditor->email) {
                 Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
             }
         }
+<<<<<<< HEAD
 
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
+=======
+    return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
+>>>>>>> 2128597aab176a041675a3e93f02d3f77f3e53e7
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -386,7 +394,7 @@ class MyAuditController extends Controller{
             $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
             foreach ($auditors as $auditPlanAuditor) {
                 $auditor = $auditPlanAuditor->auditor;
-                
+
                 if ($auditor && $auditor->email) {
                     Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
                 }
@@ -497,7 +505,7 @@ class MyAuditController extends Controller{
             'locations.title as location'
             )
             ->where('auditee_id', Auth::user()->id)
-            ->orderBy("id");
+            ->orderBy("id", "desc");
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('auditee_id'))) {

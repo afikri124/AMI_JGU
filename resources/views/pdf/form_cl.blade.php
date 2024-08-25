@@ -72,7 +72,7 @@
     <table width="100%">
     <tr>
         <td rowspan="2" class="center">
-           <center><img src="/assets/img/logo/logo_small.png" style="height: 75px;" alt="Logo"></center>
+           <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center>
         </td>
         <td width="30%" valign="top" class="header">
           <center><b>UNIVERSITAS GLOBAL JAKARTA</b></center><br>

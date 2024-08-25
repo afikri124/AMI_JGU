@@ -320,9 +320,15 @@ class AuditPlanController extends Controller
         ])
             ->leftJoin('locations', 'locations.id', '=', 'location_id')
             ->select(
-                'audit_plans.*',
-                'locations.title as location',
-            )->orderBy("id");
+                'audit_plans.id',
+                'audit_plans.auditee_id',
+                'audit_plans.date_start',
+                'audit_plans.date_end',
+                'audit_plans.audit_status_id',
+                'audit_plans.location_id',
+                'locations.title as location'
+            )
+            ->orderBy("audit_plans.id", "desc");
         return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('select_auditee'))) {

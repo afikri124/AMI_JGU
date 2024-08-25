@@ -23,6 +23,9 @@
             margin-bottom: 20px;
         }
 
+        .page-break {
+            page-break-after: always;
+        }
         td,
         th {
             border: 1px solid black;
@@ -57,23 +60,22 @@
             float: left;
             width: 50%;
             text-align: left;
-            margin-top: 50px;
+            margin-top: 10px;
             padding-left: 50px;
         }
 
         .signature-section .right {
             float: right;
-            width: 50%;
             text-align: left;
-            margin-top: 20px;
             padding-right: 50px;
+            margin-top: 20px;
         }
 
         .date-section {
             text-align: right;
             margin-bottom: 0px;
             padding-right: 50px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .clear {
@@ -83,9 +85,10 @@
 </head>
 <body>
     @foreach ($standardCriterias as $criteria)
+    <div class="page-break"></div>
     <table>
         <tr class="header-row">
-        <td rowspan="6" style="width: 10%;"><center><img src="{{ asset('assets-landing/img/logo_small.png') }}" alt="Logo" style="width: 10px; height: auto;"></center></td>
+        <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>
@@ -96,10 +99,12 @@
             <td style="width: 20%; padding: 2px;">Hari/Tgl.</td>
             <td colspan="2" style="padding: 2px;">{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, j F Y') }}</td>
         </tr>
-        <tr>
-            <td style="padding: 2px;">Tempat</td>
-            <td colspan="2" style="padding: 2px;">{{ $data->locations->title }}</td>
-        </tr>
+        @foreach($observations as $observation)
+            <tr>
+                <td style="padding: 2px;">Tempat</td>
+                <td colspan="2" style="padding: 2px;">{{ $observation->location->title }}</td>
+            </tr>
+        @endforeach
         <tr>
             <td style="padding: 2px;">Pimpinan Rapat</td>
             <td colspan="2" style="padding: 2px;">{{ $auditors->first()->auditor->name }}</td>

@@ -228,7 +228,7 @@
                                     <i class="bx bx-show"></i></a>`;
                         }
                         else if (row.auditstatus.id === 6 || row.auditstatus.id === 14 ) {
-                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('observations/view/${row.id}') }}">
+                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('/view/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`;
                         }
                         else if (row.auditstatus.id === 10 || row.auditstatus.id === 9) {

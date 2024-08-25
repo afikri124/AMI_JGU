@@ -17,6 +17,36 @@
             font-size: 11pt;
             font-family: "Times New Roman", Times, serif;
         }
+
+        .signature-section {
+            margin-top: 10px;
+        }
+
+        .signature-section .left {
+            float: left;
+            width: 50%;
+            text-align: left;
+            margin-top: 10px;
+            padding-left: 50px;
+        }
+
+        .signature-section .right {
+            float: right;
+            width: 50%;
+            text-align: left;
+            margin-top: 20px;
+            padding-left: 100px;
+        }
+
+        .date-section {
+            text-align: left;
+            margin-top: 20px;
+            padding-left: 10px;
+        }
+
+        .clear {
+            clear: both;
+        }
     </style>
 </head>
 <body>
@@ -28,14 +58,14 @@
         </tr>
     </table>
     <center>
-        <h5><u>BERITA ACARA <i>AUDIT MUTU INTERNAL</i></u></h5>
-    </center>
+        <h4><u>BERITA ACARA <i>AUDIT MUTU INTERNAL</i></u></h4>
+    </center>   
     <table width="100%">
         <tr>
             <td colspan="2">
-                <p style="text-align: justify; margin-top:20px">Dalam rangka Pelaksanaan Audit Mutu Internal di lingkungan
+                <br style="text-align: justify; margin-top:20px">Dalam rangka Pelaksanaan Audit Mutu Internal di lingkungan
                     Universitas
-                    Global Jakarta, maka pada hari ini:</p>
+                    Global Jakarta, maka pada hari ini:</br>
             </td>
         </tr>
         <tr>
@@ -65,16 +95,21 @@
         </tr>
         <tr>
             <td colspan="2">
-                <p style="text-align: justify;padding-top:15px">Telah diselenggarakan kegiatan <i>Audit Mutu Internal</i>
+                <br style="text-align: justify;padding-top:15px">Telah diselenggarakan kegiatan <i>Audit Mutu Internal</i>
                     di lingkungan Program Studi
                     <b>{{ ($data->departments->name==null ? $data->departments->name : $data->departments->name) }}</b>,
                     sebagaimana
-                    tercantum dalam daftar hadir terlampir. Unsur kegiatan pada hari ini antara lain:</p>
+                    tercantum dalam daftar hadir terlampir. Unsur kegiatan pada hari ini antara lain:</br>
             </td>
         </tr>
         <tr>
-            <td width="30%" valign="top">Auditor</td>
+            <td width="30%" valign="top">Ketua Audit</td>
             <td width="70%" valign="top">: {{ $auditors->first()->auditor->name }}
+            </td>
+        </tr>
+        <tr>
+            <td width="30%" valign="top">Anggota Audit</td>
+            <td width="70%" valign="top">: @if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif
             </td>
         </tr>
         <tr>
@@ -84,56 +119,55 @@
         </tr>
         <tr>
             <td colspan="2">
-                <p style="text-align: justify;padding-top:15px">Setalah dilakukan Audit Dokumen dan Audit Lapangan,
+                <br style="text-align: justify;padding-top:15px">Setalah dilakukan Audit Dokumen dan Audit Lapangan,
                     selanjutnya semua unsur yang terlibat dalam kegiatan tersebut menyimpulkan beberapa hal antara lain:
-                </p>
                 @php $counter = 1; @endphp
                     @foreach ($obs_c as $c)
                         @if (in_array($c->obs_checklist_option, ["OBS", "KTS MINOR", "KTS MAYOR"]))
-                            <ul>
+                            <ol style="margin-top: 1px; margin-bottom:0%">
                                 {{ $counter }}. {{ $c->remark_description }}
-                            </ul>
+                            </ol>
                             @php $counter++; @endphp
                         @endif
                     @endforeach
             </td>
         </tr>
-
         <tr>
             <td colspan="2">
-                <p style="text-align: justify;padding-top:15px">Demikian berita acara ini dibuat dan disahkan dengan
+                <p style="text-align: justify;padding-top:1 px">Demikian berita acara ini dibuat dan disahkan dengan
                     sebenar-benarnya dan tanggung jawab agar dapat dipergunakan sebagaimana mestinya.</p>
             </td>
         </tr>
     </table>
     <table width="100%">
-        <tr>
-            <td width="50%"></td>
-            <td width="50%" style="text-align: center;">Depok, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
-            </td>
+        <tr class="date-section">
+            <td></td>
+            <td style="text-align: right;">Depok, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
         </tr>
-        <tr>
-            <td width="50%" style="text-align: left;">
-                Kepala Auditor<br><br><br>({{ $auditors->first()->auditor->name }})<br>
+        <br>
+        <tr class="signature-section">
+            <td class="left">
+                Kepala Audit<br><br><br><br>({{ $auditors->first()->auditor->name }})<br>
                 NIK. {{ $auditors->first()->auditor->nidn }}
             </td>
-            <td width="50%" style="text-align: left;">
-                Auditor<br><br><br>
+            <td class="right">
+                Anggota Audit<br><br><br><br>
                 (@if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif)<br>
                 NIK. @if($auditors->count() > 1) {{ $auditors->get(1)->auditor->nidn }} @endif
             </td>
         </tr>
         <br>
-        <tr>
-            <td width="50%" style="text-align: left;">
+        <tr class="signature-section">
+            <td class="left">
                 Mengetahui,<br>Kepala LPM<br><br><br><br>
                 ( {{ $hodLPM->title }} )<br>
                 NIK. {{ $hodLPM->content }}
             </td>
-            <td width="50%" style="text-align: left;">
-                <br>Auditee<br><br><br><br>
-                ( {{ $data->auditee->name }} )<br>
-                NIK. {{ $data->auditee->nidn }}
+            <td class="right">
+                <br>Ketua BPMI<br><br><br><br>
+                ( {{ $hodBPMI->title }} )<br>
+                NIK. {{ $hodBPMI->content }}
             </td>
+            <div class="clear"></div>
         </tr>
     </table>

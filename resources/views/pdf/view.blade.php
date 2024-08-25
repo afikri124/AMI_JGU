@@ -69,7 +69,7 @@
                                 <td class="text-center">1</td>
                                 <td>Absensi</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.att', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.att', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
                                     </a>
                                 </td>
@@ -78,7 +78,7 @@
                                 <td class="text-center">2</td>
                                 <td>Berita Acara</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.meet_report', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.meet_report', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
                                     </a>
                                 </td>
@@ -87,7 +87,7 @@
                                 <td class="text-center">2</td>
                                 <td>Form Checklist</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.form_cl', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.form_cl', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
                                     </a>
                                 </td>
@@ -96,7 +96,7 @@
                                 <td class="text-center">3</td>
                                 <td>Form PTP/PTK</td>
                                 <td class="text-md-center">
-                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.ptp_ptk', ['id' => $data->id, 'type' => 'AMI Report | Absensi']) }}">
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.ptp_ptk', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
                                     </a>
                                 </td>

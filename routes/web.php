@@ -104,14 +104,15 @@ Route::group(['middleware' => ['auth', 'role:admin, auditor']], function () {
         Route::any('/remark_rtm/{id}', [ObservationController::class, 'remark_rtm'])->name('observations.remark_rtm');
         Route::get('/rtm/{id}', [ObservationController::class, 'rtm'])->name('observations.rtm');
 
-        //Print PDF
-        Route::get('/view/{id}', [PDFController::class, 'view'])->name('pdf.view');
-        Route::get('/att/{id}/{type}', [PDFController::class, 'att'])->name('pdf.att');
-        Route::get('/form_cl/{id}/{type}', [PDFController::class, 'form_cl'])->name('pdf.form_cl');
-        Route::get('/meet_report/{id}/{type}', [PDFController::class, 'meet_report'])->name('pdf.meet_report');
-        Route::get('/ptp_ptk/{id}/{type}', [PDFController::class, 'ptp_ptk'])->name('pdf.ptp_ptk');
     });
 });
+
+//Print PDF
+Route::get('/view/{id}', [PDFController::class, 'view'])->name('pdf.view');
+Route::get('/att/{id}/{type}', [PDFController::class, 'att'])->name('pdf.att');
+Route::get('/form_cl/{id}/{type}', [PDFController::class, 'form_cl'])->name('pdf.form_cl');
+Route::get('/meet_report/{id}/{type}', [PDFController::class, 'meet_report'])->name('pdf.meet_report');
+Route::get('/ptp_ptk/{id}/{type}', [PDFController::class, 'ptp_ptk'])->name('pdf.ptp_ptk');
 
 //LPM
 Route::group(['middleware' => ['auth', 'role:admin, lpm']], function () {
