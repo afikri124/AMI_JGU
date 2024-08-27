@@ -143,7 +143,7 @@
 </table>
 <table width="100%">
     <tr>
-        <th style="height: 35px" colspan="3"><center>VALIDASI DAN CATATAN</center></th>
+        <th colspan="3"><center>VALIDASI DAN CATATAN</center></th>
     </tr>
     <tr>
         <th>DISUSUN</th>
@@ -307,7 +307,7 @@
 </table>
 <table width="100%">
     <tr>
-        <th style="height: 35px" colspan="2"><center>VALIDASI DAN CATATAN</center></th>
+        <th colspan="2"><center>VALIDASI DAN CATATAN</center></th>
     </tr>
     <tr>
         <th><center>DISUSUN</center></th>
@@ -457,7 +457,7 @@
 
 <table width="100%">
     <tr>
-        <th style="height: 35px" colspan="2"><center>VALIDASI DAN CATATAN</center></th>
+        <th colspan="2"><center>VALIDASI DAN CATATAN</center></th>
     </tr>
     <tr>
         <th><center>DISUSUN</center></th>
