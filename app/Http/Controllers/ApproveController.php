@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\revisedStandardToAdmin;
 use App\Mail\approveStandardToAdmin;
 use App\Mail\notifUplodeDocAuditee;
+use App\Mail\approvRTMBylpm;
 use App\Models\AuditPlan;
 use App\Models\Observation;
 use App\Models\AuditPlanAuditor;
@@ -44,23 +45,41 @@ class ApproveController extends Controller
         if ($action === 'Approve') {
             $remark = 'Approve';
             $status = 4;
+            
+                // Mengirim email ke auditee yang terkait dengan audit plan
+                $auditee = $data->auditee;
+                Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
 
-            // Mengirim email ke auditee yang terkait dengan audit plan
-            $auditee = $data->auditee;
-            Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
+                // Send email notifications to LPM users
+                $lpmUsers = User::whereHas('roles', function ($q) {
+                    $q->where('name', 'lpm');
+                })->orderBy('name')->get();
 
+                foreach ($lpmUsers as $user) {
+                    Mail::to($user->email)->send(new approveStandardToAdmin($id));
+                }
+            } elseif ($action === 'Revised') {
+                $this->validate($request, [
+                    'remark_standard_lpm' => ['required'],
+                ]);
+                $remark = $request->input('remark_standard_lpm');
+                $status = 5;
 
-        } elseif ($action === 'Revised') {
-            $this->validate($request, [
-                'remark_standard_lpm' => ['required'],
+                    // Send email notifications to LPM users
+                    $emailData = [
+                        'remark_standard_lpm' =>$request->remark_standard_lpm,
+                    ];
+                    $lpmUsers = User::whereHas('roles', function ($q) {
+                    $q->where('name', 'lpm');
+                    })->orderBy('name')->get();
+                    foreach ($lpmUsers as $user) {
+                        Mail::to($user->email)->send(new revisedStandardToAdmin($emailData));
+                    }
+            }
+            $data->update([
+                'remark_standard_lpm' => $remark,
+                'audit_status_id' => $status,
             ]);
-            $remark = $request->input('remark_standard_lpm');
-            $status = 5;
-        }
-        $data->update([
-            'remark_standard_lpm' => $remark,
-            'audit_status_id' => $status,
-        ]);
             return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
         }
 
@@ -212,7 +231,7 @@ class ApproveController extends Controller
                 // kirim email ke auditor auditee
                 // email untuk auditee
                 $auditee = $data->auditee;
-            Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
+            Mail::to($auditee->email)->send(new approvRTMBylpm($data));
             // Email untuk auditor
             $auditPlanId = $data->id;
             $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
@@ -220,7 +239,7 @@ class ApproveController extends Controller
                 $auditor = $auditPlanAuditor->auditor;
 
                 if ($auditor && $auditor->email) {
-                    Mail::to($auditor->email)->send(new notifUplodeDocAuditee($data));
+                    Mail::to($auditor->email)->send(new approvRTMBylpm($data));
                 }
             }
 
@@ -232,6 +251,7 @@ class ApproveController extends Controller
                 $status = 8;
             }
             // kirim email ke auditor
+
             $observation = Observation::findOrFail($id);
 
             $observation->update([

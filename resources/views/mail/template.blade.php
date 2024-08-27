@@ -128,7 +128,7 @@
       </style>
       </head>
 
-      <body style="margin: 20px auto;">
+<body style="margin: 20px auto;">
       <table align="center" border="0" cellpadding="0" cellspacing="0"
             style="padding: 0 30px;background-color: #fff; -webkit-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);width: 100%;">
             <tbody>
