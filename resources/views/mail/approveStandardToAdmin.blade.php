@@ -107,7 +107,6 @@ table.order-detail tr:nth-child(odd) {
 }
 </style>
 </head>
-
 <body style="margin: 20px auto;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
         style="padding: 0 30px;background-color: #fff; -webkit-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);width: 100%;">
@@ -135,14 +134,18 @@ table.order-detail tr:nth-child(odd) {
     <table class="main-bg-light text-center top-0" align="center" border="0" cellpadding="0" cellspacing="0"
         width="100%">
         <tbody>
-            <tr>
+                <tr>
                 <td style="padding: 30px;">
                 <tr>
-                    <td style="font-size: 10pt;">
-                        <p style="text-align: justify;">Dear Mr/Mrs, The Standards You Create Is Approver</p><br>
-                    </td>
+                <td style="font-size: 10pt;">
+                    <p style="text-align: justify;">Dear Mr/Mrs, The Standards You Create Is Approver</p><br>
+                </td>
+            
+                <tr class="pad-left-right-space">
+                    <td ><p style="text-align: justify;">The Standard You Set is <b>Approved by LPM</b> More Details Please Look at the <a href="{{ url('/audit_plan') }}">sistem.</p></td>
                 </tr>
-            <p style="text-align: justify;">The Standard You Set is <b>Approved by LPM</b> More Details Please Look at the <a href="{{ url('/audit_plan') }}">sistem.</a></p>
+                <br>
+            <tr>
                 <td style="font-size: 10pt;">
                     <p style="text-align: justify;">For more information, please log in to <a
                             href="{{ url('/dashboard') }}">sistem.</a><br>
