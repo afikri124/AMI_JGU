@@ -45,7 +45,7 @@ class ApproveController extends Controller
         if ($action === 'Approve') {
             $remark = 'Approve';
             $status = 4;
-            
+
                 // Mengirim email ke auditee yang terkait dengan audit plan
                 $auditee = $data->auditee;
                 Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
@@ -408,7 +408,7 @@ class ApproveController extends Controller
             'locations.title as location'
             )
             // ->where('auditee_id', Auth::user()->id)
-            ->orderBy("id");
+            ->orderBy("id", 'desc');
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('auditee_id'))) {
