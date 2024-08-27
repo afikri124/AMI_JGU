@@ -18,12 +18,15 @@ return new class extends Migration
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
             $table->foreign('observation_id')->references('id')->on('observations')->nullable()->onUpdate('cascade')->onDelete('cascade');
             $table->string('doc_path')->nullable();
+            $table->string('remark_path_auditee')->nullable();
             $table->string('remark_docs')->nullable();
             $table->string('obs_checklist_option')->nullable();
             $table->string('remark_description')->nullable();
             $table->string('remark_recommend')->nullable();
             $table->string('remark_success_failed')->nullable();
             $table->string('remark_upgrade_repair')->nullable();
+            $table->string('person_in_charge')->nullable();
+            $table->string('plan_completed')->nullable();
             $table->timestamps();
 
         });

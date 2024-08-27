@@ -52,6 +52,8 @@ class AuditPlanController extends Controller
             'department_id'   => ['required'],
             'type_audit'      => ['required'],
             'periode'         => ['required'],
+            'head_major'      => ['required'],
+            'upm_major'       => ['required'],
         ]);
 
         $auditee = User::find($request->auditee_id);
@@ -65,6 +67,8 @@ class AuditPlanController extends Controller
             'department_id'   => $request->department_id,
             'type_audit'      => $request->type_audit,
             'periode'         => $request->periode,
+            'head_major'      => $request->head_major,
+            'upm_major'       => $request->upm_major,
         ]);
 
         if ($request->auditor_id) {

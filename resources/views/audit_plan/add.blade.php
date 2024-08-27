@@ -95,7 +95,7 @@
                     <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="location_id" class="form-label"><b>Location</b></label>
+                            <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
                             <select name="location_id" id="location_id" class="form-select select2" value="{{ old('location_id') }}" required>
                                 <option value="">Select Location</option>
                                 @foreach($locations as $d)
@@ -117,6 +117,31 @@
                                 </option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label for="head_major" class="form-label"><b>Head Of Study Program</b><i class="text-danger">*</i></label>
+                            <input type="text" id="head_major" class="form-control" name="head_major"
+                            placeholder="Example: Ariep Jaenul, S.pd., M.Sc.Eng">
+                            @error('head_major')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label for="upm_major" class="form-label"><b>UPM Of Study Program</b><i class="text-danger">*</i></label>
+                            <input type="text" id="upm_major" class="form-control" name="upm_major"
+                            placeholder="Example: Ariep Jaenul, S.pd., M.Sc.Eng">
+                            @error('upm_major')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <p></p>

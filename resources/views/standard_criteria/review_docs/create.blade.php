@@ -120,13 +120,12 @@ document.getElementById('numForms').addEventListener('input', function() {
             var row = `
             <p></p>
             <div class="row mb-3">
-                        <div class="form-group">
-                        <label for="inputField${i + 1}_1">Review Document<i class="text-danger">*</i></label>
-                        <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="review_docs[${i}][name]"></input>
-                        <trix-editor input="inputField${i + 1}_1"></trix-editor>
-                        </div>
+                <div class="form-group">
+                    <label for="inputField${i + 1}_1">Review Document<i class="text-danger">*</i></label>
+                    <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="review_docs[${i}][name]"></input>
+                    <trix-editor input="inputField${i + 1}_1"></trix-editor>
                     </div>
-            `;
+                </div>`;
             container.insertAdjacentHTML('beforeend', row);
         }
 });

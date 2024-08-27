@@ -17,8 +17,6 @@ class Observation extends Model
         'location_id',
         'remark_plan',
         'remark_audit_lpm',
-        'person_in_charge',
-        'plan_complated',
         'date_prepared',
         'date_checked',
         'date_validated'

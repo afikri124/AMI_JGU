@@ -90,16 +90,16 @@
 
 <div id="wizard-validation" >
 @if ($errors->any())
-                        <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"
-                                data-bs-original-title="" title=""></button>
-                        </div>
-                        @endif
+    <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"
+            data-bs-original-title="" title=""></button>
+    </div>
+@endif
 <div class="bs-stepper wizard-icons wizard-icons-example mt-2 p-3">
   <div class="bs-stepper-header">
     <div class="step" data-target="#account-details">
@@ -193,8 +193,12 @@
     @foreach ($criteria->statements as $no => $statement)
         @foreach ($statement->indicators as $indicator)
         @foreach ($observations as $observation)
-                @foreach ($obs_c as $obsChecklist)
-                    @if ($obsChecklist->observation_id == $observation->id)
+            @php
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                        ->where('indicator_id', $indicator->id);
+            @endphp
+            @foreach ($filteredObs as $obsChecklist)
+            @if ($obsChecklist->observation_id == $observation->id)
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
@@ -202,12 +206,6 @@
             <tr>
                 <td style="width: 60%">
                     <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 60%">
-                    <strong>Indicator</strong>
-                    <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td style="width: 35%">
                     <div id="data-sets">
@@ -233,6 +231,25 @@
                 </td>
             </tr>
             <tr>
+                <td style="width: 60%">
+                    <strong>Indicator</strong>
+                    <ul>{!! $indicator->name !!}</ul>
+                </td>
+                <td td style="width: 60%">
+                    <div>
+                        <label class="form-label" for="basicDate"><b>Remark Docs Auditor</b><i class="text-danger">*</i></label></label>
+                        <div class="input-group input-group-merge has-validation">
+                            <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
+                            name="remark_docs" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_docs }}</textarea>
+                            @error('remark_docs')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <td style="width: 60%" id="review-docs">
                     <strong>Review Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
@@ -240,20 +257,12 @@
                     @endforeach
                 </td>
                 <td>
-                @foreach ($observations as $observation)
-                        @php
-                            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
-                            $filteredObs = $obs_c->where('observation_id', $observation->id)
-                                                 ->where('indicator_id', $indicator->id);
-                        @endphp
-                        @foreach ($filteredObs as $checklist)
-                        @if ($checklist->doc_path)
+                        @if ($obsChecklist->doc_path)
                             @php
-                                // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                                $fileName = basename($checklist->doc_path);
-                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                                $fileName = basename($obsChecklist->doc_path);
+                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
                             @endphp
-                            <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
                                 {{ $fileNameWithoutId }}
                             </a>
                         @endif

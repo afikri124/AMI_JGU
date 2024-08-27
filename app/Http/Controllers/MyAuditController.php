@@ -40,7 +40,7 @@ class MyAuditController extends Controller{
 
     if ($request->isMethod('POST')) {
         $this->validate($request, [
-            'doc_path.*' => 'mimes:png,jpg,jpeg,pdf|max:10000', // Validate each file
+            'doc_path.*' => 'mimes:png,jpg,jpeg,pdf,xls|max:10000',
         ]);
 
         $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)
@@ -234,7 +234,7 @@ class MyAuditController extends Controller{
         // Validate the request
         $this->validate($request, [
             'person_in_charge' => ['required'],
-            'plan_complated' => ['required'],
+            'plan_completed' => ['required'],
             'date_prepared' => ['required'],
             'remark_upgrade_repair' => ['required'],
         ]);
@@ -242,8 +242,6 @@ class MyAuditController extends Controller{
         // Update the Observation
         foreach ($observation as $obs) {
             $obs->update([
-            'person_in_charge' => $request->person_in_charge,
-            'plan_complated' => $request->plan_complated,
             'date_prepared' => $request->date_prepared,
         ]);
     }
@@ -257,6 +255,8 @@ class MyAuditController extends Controller{
                 foreach ($checklists as $checklist) {
                     $checklist->update([
                     'remark_upgrade_repair' => $remark,
+                    'person_in_charge' => $request->person_in_charge,
+                    'plan_completed' => $request->plan_completed,
                 ]);
             }
         }
