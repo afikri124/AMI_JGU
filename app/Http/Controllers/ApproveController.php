@@ -11,6 +11,7 @@ use App\Models\Observation;
 use App\Models\AuditPlanAuditor;
 use App\Models\AuditPlanCategory;
 use App\Models\AuditPlanCriteria;
+use App\Models\Department;
 use App\Models\Location;
 use App\Models\ObservationChecklist;
 use App\Models\Rtm;
@@ -44,7 +45,7 @@ class ApproveController extends Controller
         if ($action === 'Approve') {
             $remark = 'Approve';
             $status = 4;
-            
+
                 // Mengirim email ke auditee yang terkait dengan audit plan
                 $auditee = $data->auditee;
                 Mail::to($auditee->email)->send(new notifUplodeDocAuditee($data));
@@ -236,7 +237,7 @@ class ApproveController extends Controller
             $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
             foreach ($auditors as $auditPlanAuditor) {
                 $auditor = $auditPlanAuditor->auditor;
-                
+
                 if ($auditor && $auditor->email) {
                     Mail::to($auditor->email)->send(new approvRTMBylpm($data));
                 }
@@ -262,13 +263,21 @@ class ApproveController extends Controller
                     'audit_status_id' => $status,
                 ]);
             }
-            
+
             return redirect()->route('lpm.index')->with('msg', 'Audit Report Updated by LPM!!');
         }
 
     public function rtm(Request $request){
         $data = AuditPlan::all();
-        return view('rtm.index', compact('data'));
+        $currentYear = date('Y');
+        $periode = [];
+
+        for ($i = 0; $i < 3; $i++) {
+            $startYear = $currentYear - $i;
+            $endYear = $startYear + 1;
+            $periode[] = "{$startYear}/{$endYear}";
+        }
+        return view('rtm.index', compact('data', 'periode'));
     }
 
     public function rtm_edit($id){
@@ -383,53 +392,6 @@ class ApproveController extends Controller
         // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
-    // public function approver_edit(Request $request, $id){
-    //     $request->validate([
-    //         'remark_by_approver'    => 'required',
-    //     ]);
-
-    //     $obs = Observation::findOrFail($id);
-    //     $obs->update([
-    //         'remark_by_approver' => $request->remark_by_approver,
-    //         'audit_status_id' => '8',
-    //     ]);
-    // }
-
-    // public function approve(Request $request)
-    //     {
-    //         $data = AuditPlan::find($request->id);
-    //         if ($data) {
-    //             $data->audit_status_id = "6";
-    //             $data->save();
-    //             return response()->json([
-    //                 'success' => true,
-    //                 'message' => 'Status berhasil diubah!'
-    //             ]);
-    //         } else {
-    //             return response()->json([
-    //                 'success' => false,
-    //                 'message' => 'Gagal mengubah status!'
-    //             ]);
-    //         }
-    //     }
-
-        // public function revised(Request $request){
-        //     $data = AuditPlan::find($request->id);
-        //     if($data){
-        //         $data->audit_status_id ="7";
-        //         $data->save();
-        //         return response()->json([
-        //             'success' => true,
-        //             'message' => ' Status berhasil diubah!'
-        //         ]);
-        //     } else {
-        //         return response()->json([
-        //             'success' => false,
-        //             'message' => 'Gagal mengubah status!'
-        //         ]);
-        //     }
-        // }
-
     public function approve_data(Request $request){
         $data = AuditPlan::
         with(['auditee' => function ($query) {
@@ -446,7 +408,7 @@ class ApproveController extends Controller
             'locations.title as location'
             )
             // ->where('auditee_id', Auth::user()->id)
-            ->orderBy("id");
+            ->orderBy("id", 'desc');
             return DataTables::of($data)
             ->filter(function ($instance) use ($request) {
                 if (!empty($request->get('auditee_id'))) {
@@ -464,5 +426,29 @@ class ApproveController extends Controller
                     });
                 }
             })->make(true);
+    }
+
+    public function rtm_data(Request $request)
+{
+    $query = Department::with(['auditPlans']);
+
+    if (!empty($request->get('select_periode'))) {
+        $query->whereHas('auditPlans', function($q) use ($request) {
+            $q->where('periode', $request->get('select_periode'));
+        });
+    }
+
+    if (!empty($request->get('search'))) {
+        $query->where('name', 'LIKE', "%{$request->get('search')}%");
+    }
+
+    $data = $query->get();
+
+    return DataTables::of($data)
+        ->addColumn('periode', function ($department) {
+            $periodes = $department->auditPlans->pluck('periode')->unique();
+            return $periodes->isEmpty() ? 'Has not Audit periode' : $periodes->implode(', ');
+        })
+        ->make(true);
     }
 }

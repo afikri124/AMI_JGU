@@ -95,20 +95,12 @@ class MyAuditController extends Controller{
             ->get();
         foreach ($auditPlanAuditors as $auditPlanAuditor) {
             $auditor = $auditPlanAuditor->auditor;
-<<<<<<< HEAD
-=======
-
->>>>>>> 2128597aab176a041675a3e93f02d3f77f3e53e7
             if ($auditor && $auditor->email) {
                 Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
             }
         }
-<<<<<<< HEAD
 
         return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
-=======
-    return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
->>>>>>> 2128597aab176a041675a3e93f02d3f77f3e53e7
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -236,7 +228,7 @@ class MyAuditController extends Controller{
     if (Auth::user()->role == 'auditee') {
     }
     // Retrieve the observation using the ID
-    $observation = Observation::findOrFail($id);
+    $observation = Observation::where('audit_plan_id', $id)->get();
 
     if ($request->isMethod('POST')) {
         // Validate the request
@@ -248,15 +240,17 @@ class MyAuditController extends Controller{
         ]);
 
         // Update the Observation
-        $observation->update([
+        foreach ($observation as $obs) {
+            $obs->update([
             'person_in_charge' => $request->person_in_charge,
             'plan_complated' => $request->plan_complated,
             'date_prepared' => $request->date_prepared,
         ]);
+    }
 
         // Update Observation Checklists
         foreach ($request->remark_upgrade_repair as $key => $remark) {
-                $checklists = ObservationChecklist::where('observation_id', $observation->id)
+                $checklists = ObservationChecklist::where('observation_id', $obs->id)
                     ->where('indicator_id', $key)
                     ->get();
 
@@ -312,11 +306,7 @@ class MyAuditController extends Controller{
                             ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
-
-        // Ambil daftar observation_id dari koleksi observations
         $observationIds = $observations->pluck('id');
-
-        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
@@ -361,8 +351,7 @@ class MyAuditController extends Controller{
         // Retrieve the observation using the ID
         $observation = Observation::findOrFail($id);
 
-        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)
-        ->first();
+        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
         if ($request->isMethod('POST')) {
             $this->validate($request, [
                 'remark_rtm_auditee' => ['array', 'nullable'],

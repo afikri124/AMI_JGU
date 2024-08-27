@@ -47,10 +47,10 @@ class ObservationController extends Controller
     if ($request->isMethod('POST')) {
         // Validasi request
         $this->validate($request, [
-            'remark_docs' => [], // Pastikan remark_docs adalah array
+            'remark_docs' => ['required', 'array'],
         ]);
 
-        $observation = Observation::findOrFail($id);
+        $observation = Observation::where('audit_plan_id', $id)->firstOrFail();
 
         foreach ($request->remark_docs as $key => $rd) {
             $checklists = ObservationChecklist::where('observation_id', $observation->id)
@@ -79,6 +79,7 @@ class ObservationController extends Controller
         $locations = Location::orderBy('title')->get();
         $category = StandardCategory::orderBy('description')->get();
         $criteria = StandardCriteria::orderBy('title')->get();
+
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         $auditPlanAuditorIds = $auditor->pluck('id');
@@ -98,11 +99,7 @@ class ObservationController extends Controller
                             ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
-
-        // Ambil daftar observation_id dari koleksi observations
         $observationIds = $observations->pluck('id');
-
-        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         // dd($observations, $obs_c);
         $hodLPM = Setting::find('HODLPM');
@@ -168,8 +165,7 @@ class ObservationController extends Controller
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
-        // Retrieve the observation using the ID
-        $observation = Observation::findOrFail($id);
+        $observation = Observation::where('audit_plan_id', $id)->get();
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [
@@ -182,16 +178,16 @@ class ObservationController extends Controller
                 'remark_recommend' => [''],
             ]);
 
-            // Update the observation details
-            $observation->update([
-                'location_id' => $request->location_id,
-                'remark_plan' => $request->remark_plan,
-                'date_checked' => $request->date_checked,
-            ]);
+            foreach ($observation as $obs) {
+                $obs->update([
+                    'location_id' => $request->location_id,
+                    'remark_plan' => $request->remark_plan,
+                    'date_checked' => $request->date_checked,
+                ]);
+            }
 
-            // Update all relevant ObservationChecklist records
             foreach ($request->obs_checklist_option as $key => $obs_c) {
-                $checklists = ObservationChecklist::where('observation_id', $observation->id)
+                $checklists = ObservationChecklist::where('observation_id', $obs->id)
                     ->where('indicator_id', $key)
                     ->get(); // Use get() instead of firstOrFail()
 

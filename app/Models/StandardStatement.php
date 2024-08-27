@@ -20,10 +20,12 @@ class StandardStatement extends Model
     {
         return 'string';
     }
+    
     public function category()
     {
         return $this->belongsTo(StandardCategory::class);
     }
+
     public function criteria()
     {
         return $this->belongsTo(StandardCriteria::class, 'standard_criteria_id');

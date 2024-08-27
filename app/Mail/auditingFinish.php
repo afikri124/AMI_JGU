@@ -31,7 +31,7 @@ class auditingFinish extends Mailable
       public function build()
       {
       return $this->subject('🔔 AMI | Auditing Process Has Been Completed'
-      )->view('mail.revisedStandardToAdmin',[
+      )->view('mail.auditingFinish',[
             'data' => $this->data
       ]);
       }

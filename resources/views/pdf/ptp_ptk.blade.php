@@ -28,7 +28,7 @@
         border-collapse: collapse;
         }
         td, th {
-            border: 2px solid black;
+            border: 1px solid black;
             padding: 8px;
             vertical-align: top;
         }
@@ -76,7 +76,7 @@
 <table width="100%">
     <tr>
         <td colspan="1" rowspan="2" class="center">
-            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center>
+            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 140px; height: auto;"></center>
         </td>
         <td width="20%" valign="top" class="header">
             <center>
@@ -256,9 +256,9 @@
 @foreach ($standardCriterias as $criteria)
 <div class="page-break"></div>
 <table width="100%">
-<tr>
+    <tr>
         <td colspan="1" rowspan="2" class="center">
-            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center>
+            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 140px; height: auto;"></center>
         </td>
         <td width="30%" valign="top" class="header">
             <br><center>

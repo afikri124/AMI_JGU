@@ -188,4 +188,3 @@ table.order-detail tr:nth-child(odd) {
     </table>
 </body>
 </html>
-

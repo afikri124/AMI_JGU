@@ -447,7 +447,7 @@ class AuditPlanController extends Controller
 
     public function update_auditor_std(Request $request, $id)
 {
-    // Validate the request
+    // Validasi request
     $this->validate($request, [
         'auditor_id' => 'required|array',
         'auditor_id.*' => 'required|exists:users,id',
@@ -457,62 +457,73 @@ class AuditPlanController extends Controller
         'standard_criteria_id.*' => 'required|array',
     ]);
 
+    // Looping untuk tiap auditor
     foreach ($request->auditor_id as $auditorId) {
-        // Update AuditPlanAuditor record by ID
-        $auditPlanAuditor = AuditPlanAuditor::findOrFail($auditorId);
-        $auditPlanAuditor->update([
-            'auditor_id' => $auditorId,
-        ]);
+        // Ambil semua AuditPlanAuditor berdasarkan audit_plan_id dan auditor_id
+        $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $id)
+                                             ->where('auditor_id', $auditorId)
+                                             ->get();
 
-        // Update or Create standard categories
-        foreach ($request->standard_category_id[$auditorId] as $categoryId) {
-            AuditPlanCategory::updateOrCreate(
-                ['audit_plan_auditor_id' => $auditPlanAuditor->id, 'standard_category_id' => $categoryId]
-            );
+        // Loop melalui koleksi AuditPlanAuditor
+        foreach ($auditPlanAuditors as $auditPlanAuditor) {
+            // Update data auditor
+            $auditPlanAuditor->update([
+                'auditor_id' => $auditorId,
+            ]);
+
+            // Ambil kategori dan kriteria untuk auditor ini
+            $categories = $request->standard_category_id[$auditorId] ?? [];
+            $criteria = $request->standard_criteria_id[$auditorId] ?? [];
+
+            // Update atau buat kategori standar
+            foreach ($categories as $categoryId) {
+                AuditPlanCategory::updateOrCreate(
+                    [
+                        'audit_plan_auditor_id' => $auditPlanAuditor->id,
+                        'standard_category_id' => $categoryId
+                    ]
+                );
+            }
+
+            // Hapus kategori yang tidak dipilih lagi
+            AuditPlanCategory::where('audit_plan_auditor_id', $auditPlanAuditor->id)
+                ->whereNotIn('standard_category_id', $categories)
+                ->delete();
+
+            // Update atau buat kriteria standar
+            foreach ($criteria as $criteriaId) {
+                AuditPlanCriteria::updateOrCreate(
+                    [
+                        'audit_plan_auditor_id' => $auditPlanAuditor->id,
+                        'standard_criteria_id' => $criteriaId
+                    ]
+                );
+            }
+
+            // Hapus kriteria yang tidak dipilih lagi
+            AuditPlanCriteria::where('audit_plan_auditor_id', $auditPlanAuditor->id)
+                ->whereNotIn('standard_criteria_id', $criteria)
+                ->delete();
         }
-
-        // Delete categories that are no longer selected
-        AuditPlanCategory::where('audit_plan_auditor_id', $auditPlanAuditor->id)
-            ->whereNotIn('standard_category_id', $request->standard_category_id[$auditorId])
-            ->delete();
-
-        // Update or Create standard criteria
-        foreach ($request->standard_criteria_id[$auditorId] as $criteriaId) {
-            AuditPlanCriteria::updateOrCreate(
-                ['audit_plan_auditor_id' => $auditPlanAuditor->id, 'standard_criteria_id' => $criteriaId]
-            );
-        }
-
-        // Delete criteria that are no longer selected
-        AuditPlanCriteria::where('audit_plan_auditor_id', $auditPlanAuditor->id)
-            ->whereNotIn('standard_criteria_id', $request->standard_criteria_id[$auditorId])
-            ->delete();
     }
 
-        // Update the audit plan status
-        $data = AuditPlan::findOrFail($id);
-        $data->update([
-            'audit_status_id' => '13',
-        ]);
+    // Update status audit plan
+    $data = AuditPlan::findOrFail($id);
+    $data->update([
+        'audit_status_id' => '13',
+    ]);
 
-       // Send email notifications to LPM users
-        $lpm = User::with(['roles' => function ($query) {
-            $query->select('id', 'name');
-        }])
-        ->whereHas('roles', function ($q) use ($request) {
-            $q->where('name', 'lpm');
-        })
-        ->orderBy('name')
-        ->get();
+    // Kirim email notifikasi ke pengguna LPM
+    $lpmUsers = User::whereHas('roles', function ($query) {
+        $query->where('name', 'lpm');
+    })->get();
 
-        foreach ($lpm as $user) {
-            Mail::to($user->email)->send(new sendStandardUpdateToLpm($id));
-        }
-
-        // Redirect with a success message
-        return redirect()->route('audit_plan.standard', ['id' => $id])
-            ->with('msg', 'Auditor data to determine each Standard was updated successfully!');
+    foreach ($lpmUsers as $user) {
+        Mail::to($user->email)->send(new sendStandardUpdateToLpm($id));
     }
+
+    return redirect()->route('audit_plan.index')->with('msg', 'Auditor data to determine each Standard was updated successfully!');
+}
 
     public function getStandardCriteriaByCategoryIds(Request $request)
     {

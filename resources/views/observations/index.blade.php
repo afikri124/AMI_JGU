@@ -255,7 +255,7 @@
                                     <i class="bx bx-pencil"></i></a>`;
                         }
                         else if(row.auditstatus.id === 14){
-                            x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('observations/rtm/${row.id}') }}">
+                            x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('/rtm/${row.id}') }}">
                                 <i class="bx bx-printer"></i></a>`
                         }
                         return x;

@@ -53,13 +53,13 @@
 <table width="100%">
         <tr>
             <td width="50%" style="text-align: right;">
-                <img src="{{ public_path('assets/images/logo.png') }}" style="height: 60px;" alt="">
+                <img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;">
             </td>
         </tr>
     </table>
     <center>
         <h4><u>BERITA ACARA <i>AUDIT MUTU INTERNAL</i></u></h4>
-    </center>   
+    </center>
     <table width="100%">
         <tr>
             <td colspan="2">

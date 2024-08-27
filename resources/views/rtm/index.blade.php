@@ -60,84 +60,44 @@
 </style>
 
 <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-    <div class="card">
-        <div class="card-datatable table-responsive">
-            <div class="card-header flex-column flaex-md-row pb-0">
-                <div class="row">
-                    <div class="col-12 pt-3 pt-md-0">
-                        <div class="col-12">
-                        <div class="row">
-                            <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <div class="card-header flex-column flaex-md-row pb-0">
+                    <div class="row">
+                        <div class="col-12 pt-3 pt-md-0">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="col-md-3">
+                                <select id="select_periode" class="form-control input-sm select2" data-placeholder="Periode">
+                                    <option value="">Select Periode</option>
+                                    @foreach($periode as $prd)
+                                    <option value="{{ $prd }}">{{ $prd }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
                     <div class="container-fluid flex-grow-1 container-p-y">
-                        <div class="">
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                             <thead>
                                 <tr>
-                                    <th scope="col" data-priority="1" width="20px">No</th>
-                                    <th scope="col" data-priority="2">Auditee</th>
-                                    <th scope="col">Schedule</th>
-                                    <th scope="col" data-priority="4">Location</th>
-                                    <th scope="col">Auditor</th>
-                                    <th scope="col">Status</th>
-                                    <!-- <th scope="col">Doc.</th> -->
+                                    <th scope="col" data-priority="1" width="50px">No</th>
+                                    <th scope="col">Department</th>
+                                    <th scope="col" data-priority="1" width="10px">Periode</th>
                                     <th scope="col" data-priority="3" width="65px">Action</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                 </div>
-
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"><b>Have you uploaded the following drive link?</b></h4>
-                <a href="" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-            </div>
-            <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="link"><b>Link Drive</b></label>
-                    <br>
-                    <a id="modal-link" href="#" target="_blank"></a>
-                </div>
-                <form id="upload-form" method="POST" action="" enctype="multipart/form-data" style="display: inline;">
-                    @csrf
-                    @method('PUT')
-                    <!-- <div class="form-group mb-3">
-                        <label for="doc_path" class="form-label large-text"></b><b>Upload Document</label>
-                        <input type="file" class="form-control" id="doc_path" name="doc_path" accept=".pdf">
-                    </div> -->
-                    <div class="form-group mb-3">
-                        <label for="remark_docs" class="form-label large-text"><b>Remark By Auditor</b></label>
-                        <textarea class="form-control" id="modal-remark_docs" name="remark_docs" rows="3" readonly></textarea>
-                    </div>
-                    <div class="text-end" id="button-container">
-                        <button class="btn btn-primary me-1" type="submit">Done</button>
-                    </form>
-                        <!-- <form id="reupload-form" action="" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" id="audit_status_id">
-                            <button class="btn btn-primary" type="submit">Reupload</button>
-                        </form> -->
-
-                        <a href="">
-                            <span class="btn btn-outline-secondary">Back</span>
-                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('script')
@@ -150,155 +110,50 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script>
-@if(session('msg'))
-<script type="text/javascript">
-    //swall message notification
-    $(document).ready(function () {
-        swal(`{!! session('msg') !!}`, {
-            icon: 'success',
-            customClass: {
-                confirmButton: 'btn btn-success'
-            }
-        });
-    });
+<script>
+    "use strict";
+    setTimeout(function () {
+        (function ($) {
+            "use strict";
+            $(".select2").select2({
+                allowClear: true,
+                minimumResultsForSearch: 7
+            });
+        })(jQuery);
+    }, 350);
 </script>
-@endif
 <script type="text/javascript">
     $(document).ready(function () {
-        var table = $('#datatable').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            ordering: false,
-            language: {
-                searchPlaceholder: 'Search data..'
+    var table = $('#datatable').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ordering: false,
+        language: {
+            searchPlaceholder: 'Search data..'
+        },
+        ajax: {
+            url: "{{ route('rtm.rtm_data') }}",
+            data: function (d) {
+                d.search = $('input[type="search"]').val();
+                d.select_periode = $('#select_periode').val();
             },
-            ajax: {
-                url: "{{ route('my_audit.data') }}",
-                data: function (d) {
-                    d.search = $('input[type="search"]').val()
-                },
-            },
-            columnDefs: [{
-                "defaultContent": "-",
-                "targets": "_all"
-            }],
-            columns: [{
-                    render: function (data, type, row, meta) {
-                        var no = (meta.row + meta.settings._iDisplayStart + 1);
-                        return no;
-                    },
-                    className: "text-center"
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.auditee.name +
-                            `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}" style="display: block; margin-bottom: 0.1em;">` + row.auditee.name + `</a>`;
-
-                        if (row.auditee.no_phone) {
-                            html += `<a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
-                        }
-                        return html;
-                    },
-                },
-                {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
-                    render: function (data, type, row, meta) {
-                        // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
-                        return formattedStartDate + ' - ' + formattedEndDate;
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
-
-                            return row.location;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html = '';
-                        if (row.auditor) {
-                            row.auditor.forEach(function (auditor) {
-                                if (auditor.auditor) {
-                                    html += `<code><span title="` + auditor.auditor.name +
-                                        `" style="font-size: 1.2em;">` + auditor.auditor.name + `</span></code><br>`;
-
-                                    if (auditor.auditor.no_phone) {
-                                        html += `<a href="tel:` + auditor.auditor.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                                `<i class="fas fa-phone-alt"></i> ` + auditor.auditor.no_phone + `</a><br>`;
-                                    }
-                                }
-                            });
-                        }
-                        return html;
-                    },
-                },
-                {
-                    render: function(data, type, row, meta) {
-                        var html =
-                            `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
-                        return html;
-                    }
-                },
-                // {
-                //     render: function (data, type, row, meta) {
-                //         var x = "";
-                //         if (row.doc_path != null && row.doc_path != "") {
-                //             x += `<a class="text-dark" title="Documents" target="_blank" href="{{ url('` + row.doc_path + `') }}"><i class="bx bx-file"></i></a> `;
-                //         }
-                //         if (row.link != null) {
-                //             x += `<a class="text-primary" title="Link Drive" target="_blank" href="` + row.link + `"><i class="bx bx-link"></i></a>`;
-                //         }
-                //         return x;
-                //     },
-                // },
-                {
-                    render: function(data, type, row, meta) {
-                        var x = '';
-
-                        // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 14) {
-                            x = `<a class="badge bg-primary" title="RTM Report" href="{{ url('rtm/rtm_edit/${row.id}') }}">
+        },
+        columns: [
+            { data: null, render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }, className: "text-center" },
+            { data: 'name' },
+            { data: 'periode' },
+            { data: null, render: function(data, type, row, meta) {
+                return `<a class="badge bg-primary" title="RTM Report" href="{{ url('rtm/rtm_edit/${row.id}') }}">
                             <i class="bx bx-printer"></i></a>`;
-                        }
-                        return x;
-                    },
-                    "orderable": false,
-                    className: "text-md-center"
-                }
-            ]
-        });
+            }, "orderable": false, className: "text-md-center" }
+        ]
     });
-
-    function showModal(element) {
-        var id = $(element).data('id');
-        var link = $(element).data('link');
-        var remark_docs = $(element).data('remark_docs');
-        $('#modal-link').text(link).attr('href', link);
-        $('#modal-remark_docs').text(remark_docs).attr('href', remark_docs);
-        $('#upload-form').attr('action', '/my_audit/update/' + id);
-        $('#uploadModal').modal('show');
-    }
-
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const auditStatusId = document.getElementById('audit_status_id').value;
-    //     const doneButton = document.getElementById('done-button');
-    //     const reuploadButton = document.getElementById('reupload-button');
-
-    //     if (auditStatusId == '1') {
-    //         doneButton.style.display = 'inline-block';
-    //     } else if (auditStatusId == '3') {
-    //         reuploadButton.style.display = 'inline-block';
-    //     }
-    // });
-
+    $('#select_periode').change(function () {
+            table.draw();
+    });
+});
 </script>
 @endsection
-
-<!-- Modal Lihat Link -->

@@ -79,22 +79,22 @@ class StandardCategoryController extends Controller
 
     public function data(Request $request){
         $data = StandardCategory::select('*');
-        
-            return Datatables::of($data)
-                    ->filter(function ($instance) use ($request) {
-                        if (!empty($request->get('status'))) {
-                            $bools = $request->get('status') === 'true'? true : false;
-                            $instance->where('status', $bools);
-                            }
-                        if (!empty($request->get('search'))) {
-                                $instance->where(function($w) use($request){
-                                $search = $request->get('search');
-                                    $w->orWhere('id', 'LIKE', "%$search%", 'i')
-                                    ->orWhere('title', 'LIKE', "%$search%")
-                                    ->orWhere('description', 'LIKE', "%$search%");
-                            });
-                        }
+
+        return Datatables::of($data)
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('status'))) {
+                    $bools = $request->get('status') === 'true'? true : false;
+                    $instance->where('status', $bools);
+                    }
+                if (!empty($request->get('search'))) {
+                        $instance->where(function($w) use($request){
+                        $search = $request->get('search');
+                            $w->orWhere('id', 'LIKE', "%$search%", 'i')
+                            ->orWhere('title', 'LIKE', "%$search%")
+                            ->orWhere('description', 'LIKE', "%$search%");
+                    });
+                }
             })
-                    ->make(true);
+        ->make(true);
     }
 }

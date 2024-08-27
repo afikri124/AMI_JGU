@@ -22,11 +22,19 @@
 
 @section('content')
 <!-- <div class="container-fluid flex-grow-1 container-p-y"> -->
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="row">
     <div class="col-md-12">
       <form class="card" action="{{ route('update_auditor_std', $data->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
             <div class="card-header">
                 <h3 class="card-header"><b>Edit Auditor Standard</b></h3>
                 <hr class="my-0">
@@ -37,11 +45,11 @@
                 <div class="col-lg-6 col-md-12 mb-3">
                     <label class="form-label"><b>Auditor {{ $key + 1 }}</b></label>
                     <input type="text" class="form-control bg-user" value="{{ $auditor->auditor->name }}" readonly>
-                    <input type="hidden" name="auditor_id[]" value="{{ $auditor->id }}">
+                    <input type="hidden" name="auditor_id[]" value="{{ $auditor->auditor->id }}">
                     <p></p>
                     <div class="form-group">
-                        <label for="standard_category_id_{{ $auditor->id }}" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
-                        <select name="standard_category_id[{{ $auditor->id }}][]" id="standard_category_id_{{ $auditor->id }}" class="form-select select2 standard_category_id" multiple required>
+                        <label for="standard_category_id_{{ $auditor->auditor->id }}" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
+                        <select name="standard_category_id[{{ $auditor->auditor->id }}][]" id="standard_category_id_{{ $auditor->auditor->id }}" class="form-select select2 standard_category_id" multiple required>
                             @foreach($category as $c)
                                 <option value="{{ $c->id }}" {{ in_array($c->id, $selectedCategories[$auditor->id] ?? []) ? 'selected' : '' }}>
                                     {{ $c->id }} - {{ $c->description }}
@@ -51,8 +59,8 @@
                     </div>
                     <p></p>
                     <div class="form-group">
-                        <label for="standard_criteria_id_{{ $auditor->id }}" class="form-label"><b>Criteria</b><i class="text-danger">*</i></label>
-                        <select name="standard_criteria_id[{{ $auditor->id }}][]" id="standard_criteria_id_{{ $auditor->id }}" class="form-select select2" multiple required>
+                        <label for="standard_criteria_id_{{ $auditor->auditor->id }}" class="form-label"><b>Criteria</b><i class="text-danger">*</i></label>
+                        <select name="standard_criteria_id[{{ $auditor->auditor->id }}][]" id="standard_criteria_id_{{ $auditor->auditor->id }}" class="form-select select2" multiple required>
                             @foreach($criteria as $c)
                                 <option value="{{ $c->id }}" {{ in_array($c->id, $selectedCriteria[$auditor->id] ?? []) ? 'selected' : '' }}>
                                     {{ $c->id }} - {{ $c->title }}
@@ -101,6 +109,8 @@
     let auditorId = $(this).attr('id').split('_')[3];
     let selectedCategories = $(this).val();
 
+    console.log('Selected Categories:', selectedCategories); // Debugging output
+
     if (selectedCategories.length > 0) {
         $.ajax({
             url: "{{ route('DOC.get_standard_criteria_id_by_id') }}",
@@ -111,19 +121,16 @@
             },
             dataType: 'json',
             success: function(results) {
-                let criteriaOptions = '<option value="">Select Standard Criteria</option>';
+                console.log('Results:', results); // Debugging output
 
-                // Filter and display only criteria that match the selected categories
+                let criteriaOptions = '<option value="">Select Standard Criteria</option>';
                 $.each(results, function(key, value) {
                     if (selectedCategories.includes(value.standard_category_id.toString())) {
                         criteriaOptions += '<option value="' + value.id + '">' + value.title + '</option>';
                     }
                 });
 
-                // Update the criteria dropdown for the specific auditor
                 $('#standard_criteria_id_' + auditorId).html(criteriaOptions);
-
-                // Restore previously selected criteria for the specific auditor
                 $('#standard_criteria_id_' + auditorId).val(selectedCriteria[auditorId] || []).trigger('change');
             }
         });
@@ -131,12 +138,6 @@
         $('#standard_criteria_id_' + auditorId).html('<option value="">Select Standard Criteria</option>').trigger('change');
     }
 });
-
-    // Handle criteria selection for each auditor
-    $(document).on('change', '.standard_criteria_id', function() {
-        let auditorId = $(this).attr('id').split('_')[3];
-        selectedCriteria[auditorId] = $(this).val();
-    });
 });
 </script>
 @endsection

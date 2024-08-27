@@ -72,7 +72,7 @@
     <table width="100%">
     <tr>
         <td rowspan="2" class="center">
-           <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center>
+           <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center>
         </td>
         <td width="30%" valign="top" class="header">
           <center><b>UNIVERSITAS GLOBAL JAKARTA</b></center><br>
@@ -143,7 +143,7 @@
 </table>
 <table width="100%">
     <tr>
-        <th style="height: 35px" colspan="3"><center>VALIDASI DAN CATATAN</center></th>
+        <th colspan="3"><center>VALIDASI DAN CATATAN</center></th>
     </tr>
     <tr>
         <th>DISUSUN</th>
@@ -229,7 +229,7 @@
     <table width="100%">
     <tr>
         <td colspan="" rowspan="2" class="center">
-            <center><img src="/assets/img/logo/logo_small.png" alt="Logo"></center>
+            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center>
         </td>
         <td width="30%" valign="top" class="header">
             <center>
@@ -307,7 +307,7 @@
 </table>
 <table width="100%">
     <tr>
-        <th style="height: 35px" colspan="2"><center>VALIDASI DAN CATATAN</center></th>
+        <th colspan="2"><center>VALIDASI DAN CATATAN</center></th>
     </tr>
     <tr>
         <th><center>DISUSUN</center></th>
@@ -376,7 +376,7 @@
     <table width="100%">
     <tr>
         <td colspan="" rowspan="2" class="center">
-            <center><img src="/assets/img/logo/logo_small.png" alt="Logo"></center>
+            <center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center>
         </td>
         <td width="30%" valign="top" class="header">
             <center>
@@ -457,7 +457,7 @@
 
 <table width="100%">
     <tr>
-        <th style="height: 35px" colspan="2"><center>VALIDASI DAN CATATAN</center></th>
+        <th colspan="2"><center>VALIDASI DAN CATATAN</center></th>
     </tr>
     <tr>
         <th><center>DISUSUN</center></th>

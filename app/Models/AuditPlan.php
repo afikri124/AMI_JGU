@@ -87,5 +87,10 @@ class AuditPlan extends Model
         return $this->hasMany(ObservationChecklist::class, 'observation_id');
     }
 
+    public function department()
+    {
+    return $this->hasOneThrough(Department::class, User::class, 'id', 'id', 'auditee_id', 'department_id');
+    }
+
 
 }
