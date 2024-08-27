@@ -148,7 +148,7 @@ table.order-detail tr:nth-child(odd) {
             <tr>
                 <td style="font-size: 10pt;">
                     <p style="text-align: justify;">For more information, please log in to <a
-                            href="{{ url('/dashboard') }}">sistem.</a><br>
+                            href="{{ url('/dashboard') }}">sistem.</a>
                         <br>If there are problems or want to make changes to the schedule, please contact the LPM JGU Team.</p>
                     <br>
                     <p style="text-align: justify;">Thank you,</p>
