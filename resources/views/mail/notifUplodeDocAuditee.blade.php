@@ -186,4 +186,5 @@ table.order-detail tr:nth-child(odd) {
         </tbody>
     </table>
 </body>
+
 </html>

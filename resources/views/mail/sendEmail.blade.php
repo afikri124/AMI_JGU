@@ -209,4 +209,86 @@ table.order-detail tr:nth-child(odd) {
         </tbody>
     </table>
 </body>
+<<<<<<< HEAD
+</html>
+=======
+
+<body style="margin: 20px auto;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0"
+        style="padding: 0 30px;background-color: #fff; -webkit-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);width: 100%;">
+        <tbody>
+                <tr>
+                <td>
+                    <table align="left" border="0" cellpadding="0" cellspacing="0" style="text-align: left;"
+                            width="100%">
+            <tbody>
+                <tr>
+                    <td style="text-align: center;">
+                        <a target="_blank" href="{{ url('/dashboard') }}">
+                        <img src="{{asset('assets-landing/img/jgu.png')}}" alt="AMI JGU"
+                                style="margin: 20px 0; width:150px;">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+            </tbody>
+                    </table>
+                </td>
+                </tr>
+        </tbody>
+    </table>
+    <table class="main-bg-light text-center top-0" align="center" border="0" cellpadding="0" cellspacing="0"
+        width="100%">
+        <tbody>
+                <tr>
+                <td style="padding: 30px;">
+                <tr>
+                <td style="font-size: 10pt;">
+                    <p style="text-align: justify;">Dear Mr/Mrs,</p><br>
+                </td>
+            
+                <tr class="pad-left-right-space">
+                    <td ><p style="text-align: justify;">You can now upload the documents required for auditing. Please log in to the system to view and upload the documents.</p></td>
+                </tr>
+            <tr>
+                <td style="font-size: 10pt;">
+                    <p style="text-align: justify;">For more information, please log in to <a
+                            href="{{ url('/dashboard') }}">sistem.</a><br>
+                        <br>If there are problems or want to make changes to the schedule, please contact the LPM JGU Team.</p>
+                    <br>
+                    <p style="text-align: justify;">Thank you,</p>
+                    <br>
+                </td>
+            </tr>
+                    <div style="border-top: 1px solid #ddd; margin: 20px auto 0;"></div>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 20px auto 0;">
+                            <tbody>
+                            <tr>
+                                <td>
+                                        <b style="font-size:8pt; margin:0; color:#444">Copyright by <a
+                                            href="https://itic.jgu.ac.id" style="color:#444">ITIC JGU</a></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <a href="https://jgu.ac.id" style="font-size:10pt; color:red">
+                                        <b>Jakarta Global University</b>
+                                        </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <p style="font-size:8pt; margin:0; color:#949494">
+                                        Grand Depok City, Jl. Boulevard Raya No.2<br>Kota Depok 16412, Jawa Barat,
+                                        Indonesia
+                                        </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </td>
+                </tr>
+        </tbody>
+    </table>
+</body>
 </html>
