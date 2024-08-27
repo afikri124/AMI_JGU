@@ -232,7 +232,7 @@ class MyAuditController extends Controller{
     if ($request->isMethod('POST')) {
         // Validate the request
         $this->validate($request, [
-            'person_in_charge' => ['required'],
+            'person_in_charge' => ['required'], 
             'plan_complated' => ['required'],
             'date_prepared' => ['required'],
             'remark_upgrade_repair' => ['required'],
@@ -283,11 +283,7 @@ class MyAuditController extends Controller{
                             ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
-
-        // Ambil daftar observation_id dari koleksi observations
         $observationIds = $observations->pluck('id');
-
-        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
@@ -332,8 +328,7 @@ class MyAuditController extends Controller{
         // Retrieve the observation using the ID
         $observation = Observation::findOrFail($id);
 
-        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)
-        ->first();
+        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
         if ($request->isMethod('POST')) {
             $this->validate($request, [
                 'remark_rtm_auditee' => ['array', 'nullable'],

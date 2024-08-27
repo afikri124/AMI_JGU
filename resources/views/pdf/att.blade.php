@@ -53,29 +53,28 @@
         }
 
         .signature-section {
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .signature-section .left {
             float: left;
             width: 50%;
             text-align: left;
-            margin-top: 10px;
-            padding-left: 50px;
+            margin-top: 1px;
+            padding-left: 135px;
         }
 
         .signature-section .right {
             float: right;
             text-align: left;
-            padding-right: 50px;
-            margin-top: 20px;
+            padding-right: 135px;
+            margin-top: 30px;
         }
 
         .date-section {
             text-align: right;
-            margin-bottom: 0px;
-            padding-right: 50px;
-            margin-top: 30px;
+            padding-right: 100px;
+            margin-top: 5px;
         }
 
         .clear {
@@ -88,7 +87,7 @@
     <div class="page-break"></div>
     <table>
         <tr class="header-row">
-        <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 10px; height: auto;"></center></td>
+        <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>
@@ -113,35 +112,34 @@
             <td style="padding: 2px;">Peserta Rapat</td>
             <td colspan="2" style="padding: 2px;">Anggota Auditor & Auditee</td>
         </tr>
-        <tr>
-            <th style="width: 2%;"><center>No</center></th>
-            <th style="width: 55%;"><center>Nama</center></th>
-            <th style="width: 20%;"><center>Jabatan</center></th>
-            <th style="width: 20%;" colspan="2"><center>Paraf</center></th>
+        <tr style="height: 50px;">
+            <th style="width: 2%; padding: 10px 0;"><center>No</center></th>
+            <th style="width: 40%; padding: 10px 0;"><center>Nama</center></th>
+            <th style="width: 30%; padding: 10px 0;"><center>Jabatan</center></th>
+            <th style="width: 20%; padding: 10px 0;" colspan="2"><center>Paraf</center></th>
         </tr>
         <tr>
-            <td><center>1</center></td>
-            <td>{{ $auditors->first()->auditor->name }}</td>
-            <td><center>Ketua Auditor</center></td>
-            <td class="signature-cell"></td>
-            <td class="signature-cell"></td>
+            <td style="padding: 15px 0;"><center>1.</center></td>
+            <td style="padding: 15px 0;"><center>{{ $auditors->first()->auditor->name }}</center></td>
+            <td style="padding: 15px 0;"><center>Ketua Auditor</center></td>
+            <td class="signature-cell" style="padding: 15px 0;">1.</td>
+            <td class="signature-cell" style="padding: 15px 0;"></td>
         </tr>
         <tr>
-            <td><center>2</center></td>
-            <td>@if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif</td>
-            <td><center>Anggota</center></td>
-            <td class="signature-cell"></td>
-            <td class="signature-cell"></td>
+            <td style="padding: 15px 0;"><center>2.</center></td>
+            <td style="padding: 15px 0;"><center>@if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif</center></td>
+            <td style="padding: 15px 0;"><center>Anggota</center></td>
+            <td class="signature-cell" style="padding: 15px 0;"></td>
+            <td class="signature-cell" style="padding: 15px 0;">2.</td>
         </tr>
         <tr>
-            <td><center>3</center></td>
-            <td>{{ $data->auditee->name }}</td>
-            <td><center>Auditee</center></td>
-            <td class="signature-cell"></td>
-            <td class="signature-cell"></td>
+            <td style="padding: 15px 0;"><center>3.</center></td>
+            <td style="padding: 15px 0;"><center>{{ $data->auditee->name }}</center></td>
+            <td style="padding: 15px 0;"><center>Auditee</center></td>
+            <td class="signature-cell" style="padding: 15px 0;">3.</td>
+            <td class="signature-cell" style="padding: 15px 0;"></td>
         </tr>
     </table>
-
     <div class="date-section">
         <p style="text-align: right;">Depok, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</p>
     </div>

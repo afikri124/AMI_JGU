@@ -14,7 +14,6 @@ class AuditStatusSeeder extends Seeder
      */
     public function run()
     {
-        //
         $data = [
             ["id" => "1",
             "title" => "Scheduled",
@@ -34,7 +33,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "5",
             "title" => "Revised Standard by LPM",
-            "color" => "success"],
+            "color" => "primary"],
 
             ["id" => "6",
             "title" => "Audit Finished",
@@ -63,7 +62,7 @@ class AuditStatusSeeder extends Seeder
             ["id" => "12",
             "title" => "Reuploaded",
             "color" => "blue"],
-            
+
             ["id" => "13",
             "title" => "Standard\nUpdated",
             "color" => "secondary"],

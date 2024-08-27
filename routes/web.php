@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth','role:admin, lpm']], function () {
         Route::get('/standard/create/{id}', [AuditPlanController::class, 'create'])->name('audit_plan.standard.create');
         Route::any('/standard/create_auditor_std/{id}', [AuditPlanController::class, 'create_auditor_std'])->name('create_auditor_std');
         Route::get('/standard/edit/{id}', [AuditPlanController::class, 'edit_auditor_std'])->name('audit_plan.standard.edit');
-        Route::put('/standard/update/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
+        Route::any('/standard/update_auditor_std/{id}', [AuditPlanController::class, 'update_auditor_std'])->name('update_auditor_std');
     });
 });
 
@@ -140,11 +140,7 @@ Route::group(['middleware' => ['auth', 'role:auditee,approver']], function () {
     Route::group(['prefix' => 'rtm'], function () {
         Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
         Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
-        // Route::any('/lpm_update/{id}', [ApproveController::class, 'lpm_update'])->name('lpm.lpm_update');
-        // Route::get('/lpm_edit/{id}', [ApproveController::class, 'lpm_edit'])->name('lpm.lpm_edit');
-        // Route::any('/lpm_as', [ApproveController::class, 'lpm_as'])->name('lpm.lpm_as');
-        // Route::any('/lpm_standard/{id}', [ApproveController::class, 'lpm_standard'])->name('lpm.lpm_standard');
-        // Route::any('/lpm_rs/{id}', [ApproveController::class, 'lpm_rs'])->name('lpm.lpm_rs');
+        Route::get('/rtm_data', [ApproveController::class, 'rtm_data'])->name('rtm.rtm_data');
     });
 });
 
