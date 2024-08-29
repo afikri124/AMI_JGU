@@ -70,7 +70,7 @@
         word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
     }
     .bg-user {
-        background-color: #ddd;
+        background-color: #F5F7F8;
     }
     .hidden {
         display: none;
@@ -117,27 +117,21 @@
 
         @foreach ($criteria->statements as $no => $statement)
     @foreach ($statement->indicators as $indicator)
+    @foreach ($observations as $observation)
+        @php
+            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+            $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                    ->where('indicator_id', $indicator->id);
+        @endphp
+        @foreach ($filteredObs as $checklist)
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
                     <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                 </td>
-            </tr>
-            <tr>
-                <td style="width: 10%">
-                    <strong>Indicator</strong>
-                    <ul>{!! $indicator->name !!}</ul>
-                </td>
                 <td>
                     <label class="form-label"><b>Audit Document</b></label>
                     <br>
-                    @foreach ($observations as $observation)
-                        @php
-                            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
-                            $filteredObs = $obs_c->where('observation_id', $observation->id)
-                                                 ->where('indicator_id', $indicator->id);
-                        @endphp
-                        @foreach ($filteredObs as $checklist)
                             @if ($checklist->doc_path)
                                 @php
                                     // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
@@ -148,13 +142,26 @@
                                     {{ $fileNameWithoutId }}
                                 </a>
                             @endif
-                        @endforeach
-                    @endforeach
                     @error('doc_path')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 10%">
+                    <strong>Indicator</strong>
+                    <ul>{!! $indicator->name !!}</ul>
+                </td>
+                <td>
+                    <div>
+                        <label class="form-label" for="basicDate"><b>Remark Document By Auditee</b></label>
+                        <div class="input-group input-group-merge has-validation">
+                            <textarea type="text" class="form-control bg-user @error('remark_path_auditee') is-invalid @enderror"
+                            name="remark_path_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly>{{ $checklist->remark_path_auditee}}</textarea>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -166,16 +173,18 @@
                 </td>
                 <td>
                     <div>
-                        <label class="form-label" for="basicDate"><b>Remark Document</b></label>
+                        <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b></label>
                         <div class="input-group input-group-merge has-validation">
-                            <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
-                            name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
+                            <textarea type="text" class="form-control @error('remark_docs.*') is-invalid @enderror"
+                                name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters...">{{ old('remark_docs.' . $indicator->id) }}</textarea>
                         </div>
                     </div>
-                </td>
+                </td>                
             </tr>
         </table>
         <hr>
+        @endforeach
+        @endforeach
     @endforeach
 @endforeach
 @endforeach

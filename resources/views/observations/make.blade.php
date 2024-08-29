@@ -87,7 +87,6 @@
 @endsection
 
 @section('content')
-
 <div id="wizard-validation" >
 @if ($errors->any())
     <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
@@ -198,7 +197,6 @@
                                         ->where('indicator_id', $indicator->id);
             @endphp
             @foreach ($filteredObs as $obsChecklist)
-            @if ($obsChecklist->observation_id == $observation->id)
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
@@ -237,7 +235,7 @@
                 </td>
                 <td td style="width: 60%">
                     <div>
-                        <label class="form-label" for="basicDate"><b>Remark Docs Auditor</b><i class="text-danger">*</i></label></label>
+                        <label class="form-label" for="basicDate"><b>Remark Docs Auditor</b></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
                             name="remark_docs" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_docs }}</textarea>
@@ -257,17 +255,15 @@
                     @endforeach
                 </td>
                 <td>
-                        @if ($obsChecklist->doc_path)
-                            @php
-                                $fileName = basename($obsChecklist->doc_path);
-                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
-                            @endphp
-                            <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                {{ $fileNameWithoutId }}
-                            </a>
-                        @endif
-                        @endforeach
-                    @endforeach
+                    @if ($obsChecklist->doc_path)
+                        @php
+                            $fileName = basename($obsChecklist->doc_path);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                        @endphp
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                    @endif
                     @error('doc_path')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -324,8 +320,6 @@
                     @enderror
                 </td>
             </tr>
-            @break
-            @endif
         @endforeach
     @endforeach
         </table>
@@ -335,7 +329,7 @@
             <div class="hidden">
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
+                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $indicator->id }}]"
                     placeholder="Pihak Bertanggung Jawab..." value="" readonly>
                     @error('person_in_charge')
                     <span class="invalid-feedback" role="alert">
@@ -345,7 +339,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 mb-3">
                     <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated"
+                    <input type="date" class="form-control" name="plan_complated[{{ $indicator->id }}]"
                             id="plan_complated" placeholder="YYYY-MM-DD" value="{{$observation->plan_complated}}" readonly>
                             @error('plan_complated')
                                 <span class="invalid-feedback" role="alert">

@@ -96,7 +96,15 @@
         </tr>
         <tr>
             <td style="width: 20%; padding: 2px;">Hari/Tgl.</td>
-            <td colspan="2" style="padding: 2px;">{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, j F Y') }}</td>
+            <td colspan="2" style="padding: 2px;">
+                @foreach ($observations as $obs)
+                    @if ($obs->date_prepared)
+                        {{ Date::createFromDate($obs->date_prepared)->locale('id')->translatedFormat('l, j F Y') }}
+                    @else
+                        <!-- Tidak menampilkan apa-apa jika date_prepared kosong -->
+                    @endif
+                @endforeach
+            </td>
         </tr>
         @foreach($observations as $observation)
             <tr>
@@ -141,7 +149,14 @@
         </tr>
     </table>
     <div class="date-section">
-        <p style="text-align: right;">Depok, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</p>
+        <p style="text-align: right;">Depok, 
+            @foreach ($observations as $obs)
+            @if ($obs->date_prepared)
+                {{ Date::createFromDate($obs->date_prepared)->locale('id')->translatedFormat('j F Y') }}
+            @else
+                <!-- Tidak menampilkan apa-apa jika date_validated kosong -->
+            @endif
+        @endforeach</p>
     </div>
     <div class="signature-section">
         <div class="left">

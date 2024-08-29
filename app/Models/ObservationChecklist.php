@@ -23,6 +23,7 @@ class ObservationChecklist extends Model
         'remark_upgrade_repair',
         'person_in_charge',
         'plan_completed',
+        'remark_path_auditee',
     ];
 
     public function obs_c()

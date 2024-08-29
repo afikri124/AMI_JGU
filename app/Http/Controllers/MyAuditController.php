@@ -34,28 +34,39 @@ class MyAuditController extends Controller{
     }
 
     public function my_standard(Request $request, $id)
-    {
+{
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
 
     if ($request->isMethod('POST')) {
-        $this->validate($request, [
-            'doc_path.*' => 'mimes:png,jpg,jpeg,pdf,xls|max:10000',
-        ]);
+        if ($request->has('final_submit')) {
+            // Logika untuk tombol submit
+            $data->update([
+                'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
+            ]);
 
-        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)
-                                            ->first();
-        // dd($auditPlanAuditor);
-        $obs = Observation::create([
-            'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditor->id,
-        ]);
+            return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Submitted');
+        } else {
+            // Logika untuk tombol save
+            $this->validate($request, [
+                'doc_path' => 'mimes:png,jpg,jpeg,pdf,xls,xlsx|max:500000',
+                'remark_path_auditee' => 'required|max:250',
+                'indicator_id' => 'required|exists:indicators,id',
+            ]);
 
-        $files = $request->file('doc_path');
-        $filePaths = [];
+            $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
 
-        if ($files) {
-            foreach ($files as $index => $file) {
+            // Buat Observation jika belum ada
+            $obs = Observation::firstOrCreate([
+                'audit_plan_id' => $id,
+                'audit_plan_auditor_id' => $auditPlanAuditor->id,
+            ]);
+
+            // Handle file upload
+            $file = $request->file('doc_path');
+            $filePath = null;
+
+            if ($file) {
                 $ext = $file->extension();
                 $name = str_replace(' ', '_', $file->getClientOriginalName());
                 $fileName = Auth::user()->id . '_' . $name;
@@ -63,44 +74,32 @@ class MyAuditController extends Controller{
                 $path = public_path($folderName);
 
                 if (!File::exists($path)) {
-                    File::makeDirectory($path, 0755, true); // Create folder if not exists
+                    File::makeDirectory($path, 0755, true); // Buat folder jika belum ada
                 }
 
                 $upload = $file->move($path, $fileName);
                 if ($upload) {
-                    $filePaths[$index] = $folderName . "/" . $fileName;
-                } else {
-                    $filePaths[$index] = null;
+                    $filePath = $folderName . "/" . $fileName;
                 }
             }
-        }
 
-        // Create Observation Checklists
-        foreach ($request->indicator_ids as $index => $indicatorId) {
-            ObservationChecklist::create([
-                'observation_id' => $obs->id,
-                'indicator_id' => $indicatorId,
-                'doc_path' => $filePaths[$index] ?? '',
+            ObservationChecklist::updateOrCreate(
+                [
+                    'observation_id' => $obs->id,
+                    'indicator_id' => $request->indicator_id,
+                ],
+                [
+                    'doc_path' => $filePath,
+                    'remark_path_auditee' => $request->remark_path_auditee,
+                ]
+            );
+
+            $data->update([
+                'audit_status_id' => '4',
             ]);
+
+            return redirect()->route('my_audit.my_standard', $data->id)->with('msg', 'Audit Document Successfully Uploaded');
         }
-
-        $data->update([
-            'audit_status_id' => '11',
-        ]);
-
-        // Kirim email notifikasi ke auditor
-        $auditPlanId = $data->id;
-        $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
-            ->with('auditor')
-            ->get();
-        foreach ($auditPlanAuditors as $auditPlanAuditor) {
-            $auditor = $auditPlanAuditor->auditor;
-            if ($auditor && $auditor->email) {
-                Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
-            }
-        }
-
-        return redirect()->route('my_audit.index')->with('msg', 'Audit Document Successfully Uploaded');
     }
 
         $data = AuditPlan::findOrFail($id);
@@ -122,12 +121,11 @@ class MyAuditController extends Controller{
                             ->get();
 
         $observations = Observation::where('audit_plan_id', $id)->get();
-
-        // Ambil daftar observation_id dari koleksi observations
         $observationIds = $observations->pluck('id');
-
-        // Ambil data ObservationChecklist berdasarkan observation_id yang ada dalam daftar
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
+        $obsChecklist = ObservationChecklist::whereHas('obs_c', function ($query) use ($id) {
+            $query->where('audit_plan_id', $id);
+        })->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         if ($data->audit_status_id == 4) {
@@ -140,6 +138,7 @@ class MyAuditController extends Controller{
                 'standardCriterias' => $standardCriterias,
                 'observations' => $observations,
                 'obs_c' => $obs_c,
+                'obsChecklist' => $obsChecklist,
                 'hodLPM' => $hodLPM,
                 'hodBPMI' => $hodBPMI
             ]);
@@ -159,7 +158,21 @@ class MyAuditController extends Controller{
         }
     }
 
-    //Narik data untuk Observations
+    public function deleteFile($id)
+{
+    $checklist = ObservationChecklist::findOrFail($id);
+
+    // Hapus file fisik jika ada
+    if ($checklist->doc_path && File::exists(public_path($checklist->doc_path))) {
+        File::delete(public_path($checklist->doc_path));
+    }
+
+    // Hapus entri dari database
+    $checklist->delete();
+
+    return redirect()->back()->with('msg', 'File successfully deleted');
+}
+
     public function obs( $id)
     {
         $locations = Location::orderBy('title')->get();
@@ -255,34 +268,35 @@ class MyAuditController extends Controller{
                 foreach ($checklists as $checklist) {
                     $checklist->update([
                     'remark_upgrade_repair' => $remark,
-                    'person_in_charge' => $request->person_in_charge,
-                    'plan_completed' => $request->plan_completed,
+                    'person_in_charge' => $request->person_in_charge[$key] ?? '',
+                    'plan_completed' => $request->plan_completed[$key] ?? '',
                 ]);
             }
         }
 
-        $data->update([
-            'audit_status_id'   => '6',
-        ]);
+        // $data->update([
+        //     'audit_status_id'   => '15',
+        // ]);
+
         // Kirim Email Ke Auditor Dan LPM Audit Finish
-        $auditPlanId = $data->id;
-        $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
-            ->with('auditor')
-            ->get();
-        foreach ($auditPlanAuditors as $auditPlanAuditor) {
-            $auditor = $auditPlanAuditor->auditor;
-            if ($auditor && $auditor->email) {
-                Mail::to($auditor->email)->send(new auditingFinish($data));
-            }
-        }
-        $lpm = User::whereHas('roles', function ($q) {
-            $q->where('name', 'lpm');
-        })
-        ->orderBy('name')
-        ->get(['id', 'email', 'name']);
-        foreach ($lpm as $user) {
-            Mail::to($user->email)->send(new auditingFinish($id));
-        }
+        // $auditPlanId = $data->id;
+        // $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
+        //     ->with('auditor')
+        //     ->get();
+        // foreach ($auditPlanAuditors as $auditPlanAuditor) {
+        //     $auditor = $auditPlanAuditor->auditor;
+        //     if ($auditor && $auditor->email) {
+        //         Mail::to($auditor->email)->send(new auditingFinish($data));
+        //     }
+        // }
+        // $lpm = User::whereHas('roles', function ($q) {
+        //     $q->where('name', 'lpm');
+        // })
+        // ->orderBy('name')
+        // ->get(['id', 'email', 'name']);
+        // foreach ($lpm as $user) {
+        //     Mail::to($user->email)->send(new auditingFinish($id));
+        // }
 
         return redirect()->route('my_audit.index')->with('msg', 'Observation Auditee updated successfully!!');
     }
@@ -349,7 +363,7 @@ class MyAuditController extends Controller{
         }
 
         // Retrieve the observation using the ID
-        $observation = Observation::findOrFail($id);
+        $observation = Observation::where('audit_plan_id', $id)->get();
 
         $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
         if ($request->isMethod('POST')) {
@@ -357,10 +371,12 @@ class MyAuditController extends Controller{
                 'remark_rtm_auditee' => ['array', 'nullable'],
             ]);
 
-            $observation->update([
+            foreach ($observation as $obs) {
+                $obs->update([
                 'audit_plan_id' => $observation->id,
                 'audit_plan_auditor_id' => $auditPlanAuditor->id,
             ]);
+        }
 
             foreach ($request->indicator_ids as $index => $indicatorId) {
                 Rtm::updateOrCreate(

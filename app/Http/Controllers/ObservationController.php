@@ -39,39 +39,37 @@ class ObservationController extends Controller
         return view('observations.index', compact('data', 'auditee'));
     }
 
-    public function remark_doc(Request $request, $id)
-{
-    $data = AuditPlan::findOrFail($id);
-    $auditorId = Auth::user()->id;
+        public function remark_doc(Request $request, $id)
+    {
+        $data = AuditPlan::findOrFail($id);
+        $auditorId = Auth::user()->id;
 
-    if ($request->isMethod('POST')) {
-        // Validasi request
-        $this->validate($request, [
-            'remark_docs' => ['required', 'array'],
-        ]);
+        if ($request->isMethod('POST')) {
+            $this->validate($request, [
+                'remark_docs' => ['required'],
+            ]);
+    // dd($request->remark_docs);
+            $observation = Observation::where('audit_plan_id', $id)->first();
+// dd($observation);
+            foreach ($request->remark_docs as $key => $rd) {
+                $checklists = ObservationChecklist::where('observation_id', $observation->id)
+                    ->where('indicator_id', $key)
+                    ->get();
 
-        $observation = Observation::where('audit_plan_id', $id)->firstOrFail();
-
-        foreach ($request->remark_docs as $key => $rd) {
-            $checklists = ObservationChecklist::where('observation_id', $observation->id)
-                ->where('indicator_id', $key)
-                ->get();
-
-        foreach ($checklists as $checklist) {
-            $checklist->update([
-                    'remark_docs' => $rd,
-                ]);
+            foreach ($checklists as $checklist) {
+                $checklist->update([
+                        'remark_docs' => $rd,
+                    ]);
+                }
             }
-        }
 
-        // Update status audit
         $data->update([
             'audit_status_id' => '3',
         ]);
 
         //email  Remake document untuk auditee
-        $auditee = $data->auditee;
-        Mail::to($auditee->email)->send(new remakeDocAutitee($data));
+        // $auditee = $data->auditee;
+        // Mail::to($auditee->email)->send(new remakeDocAutitee($data));
 
         return redirect()->route('observations.index')->with('msg', 'Auditor Comment Added Successfully!!');
     }
@@ -189,7 +187,7 @@ class ObservationController extends Controller
             foreach ($request->obs_checklist_option as $key => $obs_c) {
                 $checklists = ObservationChecklist::where('observation_id', $obs->id)
                     ->where('indicator_id', $key)
-                    ->get(); // Use get() instead of firstOrFail()
+                    ->get();
 
                 foreach ($checklists as $checklist) {
                     $checklist->update([
@@ -324,7 +322,7 @@ class ObservationController extends Controller
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
-        $observation = Observation::findOrFail($id);
+        $observation = Observation::where('audit_plan_id', $id)->get();
 
         if ($request->isMethod('POST')) {
             $this->validate($request, [
@@ -336,13 +334,15 @@ class ObservationController extends Controller
                 'remark_recommend' => [''],
             ]);
 
-            $observation->update([
+            foreach ($observation as $obs) {
+                $obs->update([
                 'remark_plan' => $request->remark_plan,
                 'date_checked' => $request->date_checked,
             ]);
+        }
 
             foreach ($request->obs_checklist_option as $key => $obs_c) {
-                $checklists = ObservationChecklist::where('observation_id', $observation->id)
+                $checklists = ObservationChecklist::where('observation_id', $obs->id)
                     ->where('indicator_id', $key)
                     ->get(); // Use get() instead of firstOrFail()
 
@@ -369,7 +369,7 @@ class ObservationController extends Controller
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
-        $observation = Observation::findOrFail($id);
+        $observation = Observation::where('audit_plan_id', $id)->get();
         $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
 
         if ($request->isMethod('POST')) {
@@ -378,13 +378,15 @@ class ObservationController extends Controller
                 'remark_rtm_auditor' => [''],
             ]);
 
-            $observation->update([
+            foreach ($observation as $obs) {
+                $obs->update([
                 'audit_plan_id' => $id,
                 'audit_plan_auditor_id' => $auditPlanAuditorId,
             ]);
+        }
 
             foreach ($request->remark_rtm_auditor as $key => $rrtm) {
-                $rtm = Rtm::where('observation_id', $observation->id)
+                $rtm = Rtm::where('observation_id', $obs->id)
                     ->where('indicator_id', $key)
                     ->get(); // Use get() instead of firstOrFail()
 

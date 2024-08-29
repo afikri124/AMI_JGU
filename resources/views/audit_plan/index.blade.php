@@ -202,7 +202,7 @@
                             html = `<a class="badge bg-dark badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
                                         <i class="bx bx-show-alt icon-white"></i></a>`;
                         }
-                        else if (row.auditstatus.id === 1 || row.auditstatus.id === 14) {
+                        else if (row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 6 || row.auditstatus.id === 14 ) {
                             html = `<a class="badge bg-danger badge-icon" title="Delete Audit Plan" style="cursor:pointer" onclick="DeleteId('${row.id}', '${row.auditee.name}')">
                                     <i class="bx bx-trash icon-white"></i></a>`;
                         }

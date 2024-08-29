@@ -71,19 +71,19 @@
         <tr>
             <td width="30%" valign="top">Hari/tanggal</td>
             <td width="70%" valign="top">:
-                {{ Date::createFromDate($data->date_start)->locale('id')->translatedFormat('l, j F Y') }}
-                @if(date('d F Y', strtotime($data->date_start)) != date('d F Y', strtotime($data->date_end)))
-                    - {{ Date::createFromDate($data->date_end)->locale('id')->translatedFormat('l, j F Y') }}
-                @endif
+                @foreach ($observations as $obs)
+                    @if ($obs->date_validated)
+                        {{ Date::createFromDate($obs->date_validated)->locale('id')->translatedFormat('l, j F Y') }}
+                    @else
+                        <!-- Tidak menampilkan apa-apa jika date_validated kosong -->
+                    @endif
+                @endforeach
             </td>
         </tr>
         <tr>
             <td width="30%" valign="top">Jam</td>
             <td width="70%" valign="top">:
                 {{ Date::createFromDate($data->date_start)->locale('id')->translatedFormat('H:i') }}
-                @if(date('H:i', strtotime($data->date_start)) != date('H:i', strtotime($data->date_end)))
-                - {{ Date::createFromDate($data->date_end)->locale('id')->translatedFormat('H:i') }}
-                @endif
                 WIB
             </td>
         </tr>
@@ -142,7 +142,12 @@
     <table width="100%">
         <tr class="date-section">
             <td></td>
-            <td style="text-align: right;">Depok, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+            <td style="text-align: right;">Depok, 
+            @foreach ($observations as $obs)
+                @if ($obs->date_validated)
+                    {{ Date::createFromDate($obs->date_validated)->locale('id')->translatedFormat('j F Y') }}   
+                @endif
+            @endforeach</td>
         </tr>
         <br>
         <tr class="signature-section">
