@@ -15,6 +15,7 @@ class ObservationChecklist extends Model
         'observation_id',
         'indicator_id',
         'doc_path',
+        'link',
         'remark_docs',
         'remark_description',
         'obs_checklist_option',

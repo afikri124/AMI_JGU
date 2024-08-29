@@ -147,7 +147,7 @@
     <div class="card-footer d-flex justify-content-between align-items-end">
         <div class="d-flex">
             <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Approve">Approve</button>
-            <button id="submitButton" class="btn btn-primary me-1" type="button">Revised</button>
+            <button id="submitButton" class="btn btn-primary me-1" type="button">Revise</button>
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Back</a>
     </div>

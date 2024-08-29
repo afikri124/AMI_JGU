@@ -168,6 +168,38 @@
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
                 </td>
+                <td>
+                    @if ($obsChecklist->doc_path)
+                        @php
+                            // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
+                            $fileName = basename($obsChecklist->doc_path);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                        @endphp
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                    @endif
+                    @error('doc_path')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    @if ($obsChecklist->link)
+                    @php
+                        // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
+                        $fileName = basename($obsChecklist->link);
+                        $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                    @endphp
+                    <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                        {{ $fileNameWithoutId }}
+                    </a>
+                @endif
+                @error('link')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                </td>
             </tr>
             <tr>
                 <td colspan="3">

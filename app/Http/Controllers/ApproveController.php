@@ -125,8 +125,8 @@ class ApproveController extends Controller
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
-        $StatusCheck = [1, 2, 5, 13];
-        $StatusReport = [6, 8];
+        $StatusCheck = [1, 2, 5, 13,];
+        $StatusReport = [6, 8, 15];
 
         if (in_array($data->audit_status_id, $StatusCheck)) {
             return view('lpm.check', [
