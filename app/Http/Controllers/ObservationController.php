@@ -159,50 +159,64 @@ class ObservationController extends Controller
 
     //make report audit lapangan
     public function make(Request $request, $id)
-    {
-        $data = AuditPlan::findOrFail($id);
-        $auditorId = Auth::user()->id;
+{
+    $data = AuditPlan::findOrFail($id);
+    $auditorId = Auth::user()->id;
+    if ($request->isMethod('POST')) {
+        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
 
-        $observation = Observation::where('audit_plan_id', $id)->get();
+        $obs = Observation::firstOrCreate([
+            'audit_plan_id' => $id,
+            'audit_plan_auditor_id' => $auditPlanAuditor->id,
+        ]);
 
-        if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'location_id' => [''],
-                'remark_plan' => [''],
-                'date_checked' => [''],
-                'remark_description' => [''],
-                'obs_checklist_option' => [''],
-                'remark_success_failed' => [''],
-                'remark_recommend' => [''],
-            ]);
-
-            foreach ($observation as $obs) {
-                $obs->update([
-                    'location_id' => $request->location_id,
-                    'remark_plan' => $request->remark_plan,
-                    'date_checked' => $request->date_checked,
+        if ($request->ajax()) {
+            $data = AuditPlan::findOrFail($id);
+    
+            if ($request->has('final_submit')) {
+                $data->update([
+                    'audit_status_id' => '11',
+                ]);
+    
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Audit Document Successfully Submitted'
                 ]);
             }
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to submit audit document'
+            ]);
+        } elseif ($request->has('save_obs')) {
+            // dd($request->all());
+            $request->validate([
+                'location_id' => 'required',
+                'remark_plan' => 'nullable|max:250',
+                'date_checked' => 'required|date',
+                'remark_description.*' => 'nullable|max:250',
+                'obs_checklist_option.*' => 'nullable',
+                'remark_success_failed.*' => 'nullable|max:250',
+                'remark_recommend.*' => 'nullable|max:250',
+            ]);
 
-            foreach ($request->obs_checklist_option as $key => $obs_c) {
-                $checklists = ObservationChecklist::where('observation_id', $obs->id)
-                    ->where('indicator_id', $key)
-                    ->get();
+            ObservationChecklist::updateOrCreate(
+                [
+                    'observation_id' => $obs->id,
+                    'indicator_id' => $request->indicatorId,
+                ],
+                [
+                    'remark_description' => $request->remark_description,
+                    'obs_checklist_option' => $request->obs_checklist_option,
+                    'remark_success_failed' => $request->remark_success_failed,
+                    'remark_recommend' => $request->remark_recommend,
+                ]
+            );
 
-                foreach ($checklists as $checklist) {
-                    $checklist->update([
-                        'remark_description' => $request->remark_description[$key] ?? '',
-                        'obs_checklist_option' => $obs_c ?? '',
-                        'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
-                        'remark_recommend' => $request->remark_recommend[$key] ?? '',
-                    ]);
-                }
-            }
-
-            return redirect()->route('observations.index')->with('msg', 'Auditing Auditor added successfully!!');
+            return redirect()->route('observations.make', $data->id)->with('msg', 'Auditing Auditor added successfully!!');
         }
     }
-
+}
 
     //print pdf audit report
     public function edit($id)

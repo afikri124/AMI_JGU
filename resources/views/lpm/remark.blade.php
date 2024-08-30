@@ -312,7 +312,7 @@
             <div class="col-lg-12 col-md-6 mb-3">
             <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b></label>
                     <textarea type="text" class="form-control bg-user @error('remark_plan') is-invalid @enderror"
-                    name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>
+                    name="remark_plan" placeholder="MAX 250 characters..." readonly>{{$observation->remark_plan}}</textarea>
                     @error('remark_plan')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

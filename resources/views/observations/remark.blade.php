@@ -175,7 +175,7 @@
                             $fileName = basename($obsChecklist->doc_path);
                             $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
                         @endphp
-                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                        <strong class="form-label">File:     </strong><a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
                             {{ $fileNameWithoutId }}
                         </a>
                     @endif
@@ -184,21 +184,22 @@
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
+                    <br>
                     @if ($obsChecklist->link)
                     @php
                         // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
                         $fileName = basename($obsChecklist->link);
                         $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
                     @endphp
-                    <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                    <strong class="form-label">Link:     </strong><a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
                         {{ $fileNameWithoutId }}
                     </a>
-                @endif
-                @error('link')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                    @endif
+                    @error('link')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
             </tr>
             <tr>
@@ -292,7 +293,7 @@
                 <div class="form-group mb-3">
                 <label for="remark_audit_lpm" class="form-label large-text"><b>Remark Audit Report by LPM</b></label>
                 <textarea class="form-control bg-user" id="remark_audit_lpm" name="remark_audit_lpm" 
-                placeholder="MAX 350 karakter...">{{ $observation->remark_audit_lpm }}</textarea>
+                placeholder="MAX 350 karakter..." readonly>{{ $observation->remark_audit_lpm }}</textarea>
             </div>
             <hr class="text-dark">
             <div class="row">

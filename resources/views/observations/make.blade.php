@@ -1,15 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Observations Auditor')
+@section('title', 'Auditing Assesment')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/wizard.css')}}" />
-<link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/bs-stepper/bs-stepper.css" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/dropzone/dropzone.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}">
 @endsection
 
 @section('style')
@@ -72,12 +65,12 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
-    .text-wrapper {
-    width: 200px; /* set a width for the wrapping container */
-    word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
+        .text-wrapper {
+        width: 200px; /* set a width for the wrapping container */
+        word-wrap: break-word /* ensures the text wraps to the next line if it overflows the container */
     }
     .bg-user {
-        background-color: #ddd;
+        background-color: #F5F7F8;
     }
     .hidden {
         display: none;
@@ -87,360 +80,213 @@
 @endsection
 
 @section('content')
-<div id="wizard-validation" >
-@if ($errors->any())
-    <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"
-            data-bs-original-title="" title=""></button>
-    </div>
-@endif
-<div class="bs-stepper wizard-icons wizard-icons-example mt-2 p-3">
-  <div class="bs-stepper-header">
-    <div class="step" data-target="#account-details">
-      <button type="button" class="step-trigger">
-        <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(36, 34, 34);"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z"></path></svg>
-        </span>
-        <span class="bs-stepper-label">Account Details</span>
-      </button>
-    </div>
-    <div class="line">
-      <i class="bx bx-chevron-right"></i>
-    </div>
-    <div class="step" data-target="#address">
-      <button type="button" class="step-trigger">
-        <span class="bs-stepper-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M19 4h-3V2h-2v2h-4V2H8v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM5 20V7h14V6l.002 14H5z"></path><path d="M7 9h10v2H7zm0 4h5v2H7z"></path></svg>
-          </svg>
-        </span>
-        <span class="bs-stepper-label">Assesment</span>
-      </button>
-    </div>
-  </div>
-
-  <div class="bs-stepper-content">
-  <form id="wizard-validation-form" method="POST" action="{{ route('make', $data->id) }}"
-    enctype="multipart/form-data">
-    @csrf
-    <!-- Account Details -->
-      <div id="account-details" class="content">
-        <div class="content-header mb-3">
-          <h6 class="mb-0">Account Details</h6>
-          <small>Enter Your Account Details.</small>
-        </div>
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label" for="auditee_id"><b>Auditee</b><i class="text-danger">*</i></label>
-            <input id="auditee_id" class="form-control bg-user" type="text" value="{{ $data->auditee->name}}" readonly>
-          </div>
-          <div class="col-md-6">
-            <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-            <input id="auditor_id" type="text" class="form-control bg-user" value="{{$auditorData->auditor->name}}" readonly></input>
-        </div>
-          <div class="col-md-6">
-            <div class="form-group">
-            <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-            <select name="location_id" id="location_id" class="form-select select2" required>
-            <option value="">Select Location</option>
-            @foreach($locations as $d)
-                <option value="{{$d->id}}" {{ $data->location_id == $d->id ? 'selected' : '' }}>
-                    {{$d->title}}</option>
-            @endforeach
-            </select>
+<div class="row">
+<div class="col-md-12">
+    @if(session('msg'))
+            <div class="alert alert-primary alert-dismissible" role="alert">
+                {{ session('msg') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-            <input id="department_id" type="text" class="form-control bg-user" value="{{$data->departments->name}}" readonly></input>
+        @endif
+<div class="card mb-5">
+    <div class="card-body">
+        <form method="POST" action="{{ route('observations.make', $data->id) }}" enctype="multipart/form-data">
+            @csrf
+            <center>
+                <h3 style="color: black; font-family: Arial, Helvetica, sans-serif">FORM AUDITING ASSESSMENT</h3>
+            </center>
+            <hr class="text-dark">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="auditee_id"><b>Auditee</b></label>
+                    <input id="auditee_id" class="form-control bg-user" type="text" value="{{ $data->auditee->name }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="auditor_id" class="form-label"><b>Auditor</b></label>
+                    <input id="auditor_id" type="text" class="form-control bg-user" value="{{ $auditorData->auditor->name }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="location_id" class="form-label"><b>Location</b></label>
+                        <select name="location_id" id="location_id" class="form-select select2" required>
+                            <option value="">Select Location</option>
+                            @foreach($locations as $d)
+                                <option value="{{ $d->id }}" {{ $data->location_id == $d->id ? 'selected' : '' }}>
+                                    {{ $d->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="department_id" class="form-label"><b>Department</b></label>
+                        <input id="department_id" type="text" class="form-control bg-user" value="{{ $data->departments->name }}" readonly>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-12 d-flex justify-content-between">
-            <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-              <span class="align-middle d-sm-inline-block d-none">Previous</span>
-            </button>
-            <button class="btn btn-primary btn-next"> <span class="align-middle d-sm-inline-block d-none" >Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
-          </div>
-        </div>
-      </div>
-
-      <div id="address" class="content">
-      <div class="content-header mb-3">
-      <strong class="text-primary">Category Standard</strong>
-        @foreach ($standardCategories as $category)
-            <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
-                {{ $category->description }}
-            </h6>
-        @endforeach
-        <p></p>
-
-        <strong class="text-primary">Criteria Standard</strong>
-        @foreach ($standardCriterias as $criteria)
-            <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
-                {{ $criteria->title }}
-            </h6>
-        @endforeach
-        <p></p>
-    @foreach ($standardCriterias as $criteria)
-        <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
-
-    @foreach ($criteria->statements as $no => $statement)
-        @foreach ($statement->indicators as $indicator)
-        @foreach ($observations as $observation)
-            @php
-                $filteredObs = $obs_c->where('observation_id', $observation->id)
-                                        ->where('indicator_id', $indicator->id);
-            @endphp
-            @foreach ($filteredObs as $obsChecklist)
-        <table class="table table-bordered">
-            <tr>
-                <th><b>Standard Statement</b></th>
-            </tr>
-            <tr>
-                <td style="width: 60%">
-                    <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
-                </td>
-                <td style="width: 35%">
-                    <div id="data-sets">
-                        <div id="data-set">
-                        <div class="checkbox-group">
-                            <input type="radio" id="ks_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" required />
-                            <label for="ks{{ $observation->id }}">KS</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="radio" id="obs_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" required />
-                            <label for="obs{{ $observation->id }}">OBS</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="radio" id="kts_minor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" required />
-                            <label for="kts_minor{{ $observation->id }}">KTS MINOR</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="radio" id="kts_mayor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" required />
-                            <label for="kts_mayor{{ $observation->id }}">KTS MAYOR</label>
-                        </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 60%">
-                    <strong>Indicator</strong>
-                    <ul>{!! $indicator->name !!}</ul>
-                </td>
-                <td td style="width: 60%">
-                    <div>
-                        <label class="form-label" for="basicDate"><b>Remark Docs Auditor</b></label>
-                        <div class="input-group input-group-merge has-validation">
-                            <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
-                            name="remark_docs" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_docs }}</textarea>
-                            @error('remark_docs')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 60%" id="review-docs">
-                    <strong>Review Document</strong>
-                    @foreach ($statement->reviewDocs as $reviewDoc)
-                        <ul>{!! $reviewDoc->name !!}</ul>
+            <hr style="color:black">
+            
+            @foreach ($standardCriterias as $criteria)
+                <h6 class="mb-0" style="color: black"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+        
+                @foreach ($criteria->statements as $no => $statement)
+                    @foreach ($statement->indicators as $indicator)
+                        @foreach ($observations as $observation)
+                            @php
+                                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                                    ->where('indicator_id', $indicator->id);
+                            @endphp
+                            @foreach ($filteredObs as $obsChecklist)
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th><b>Standard Statement</b></th>
+                                    <td>
+                                        <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
+                                        @error('link')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%">
+                                        <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%">
+                                        <strong>Indicator</strong>
+                                        <ul>{!! $indicator->name !!}</ul>
+                                    </td>
+                                    <td style="width: 35%">
+                                        <div id="data-sets">
+                                            <div id="data-set">
+                                                <div class="checkbox-group">
+                                                    <input type="radio" id="ks" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
+                                                    <label for="ks">KS</label>
+                                                </div>
+                                                <div class="checkbox-group">
+                                                    <input type="radio" id="obs" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
+                                                    <label for="obs">OBS</label>
+                                                </div>
+                                                <div class="checkbox-group">
+                                                    <input type="radio" id="kts_minor" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
+                                                    <label for="kts_minor">KTS MINOR</label>
+                                                </div>
+                                                <div class="checkbox-group">
+                                                    <input type="radio" id="kts_mayor" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
+                                                    <label for="kts_mayor">KTS MAYOR</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%" id="review-docs">
+                                        <strong>Review Document</strong>
+                                        @foreach ($statement->reviewDocs as $reviewDoc)
+                                            <ul>{!! $reviewDoc->name !!}</ul>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @if ($obsChecklist->doc_path)
+                                            @php
+                                                $fileName = basename($obsChecklist->doc_path);
+                                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                                            @endphp
+                                            <strong class="form-label">File: </strong><a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                                {{ $fileNameWithoutId }}
+                                            </a>
+                                        @endif
+                                        @error('doc_path')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        <br>
+                                        @if ($obsChecklist->link)
+                                            @php
+                                                $fileName = basename($obsChecklist->link);
+                                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                                            @endphp
+                                            <strong class="form-label">Link: </strong><a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                                {{ $fileNameWithoutId }}
+                                            </a>
+                                        @endif
+                                        @error('link')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <label for="remark_description" class="form-label">
+                                            <b>Deskripsi Audit:</b><i class="text-danger">*</i>
+                                        </label>
+                                        <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]"
+                                        class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
+                                        @error('remark_description.' . $obsChecklist->indicator_id)
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <label for="remark_success_failed" class="form-label">
+                                            <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
+                                        </label>
+                                        <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
+                                        class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
+                                        @error('remark_success_failed.' . $obsChecklist->indicator_id)
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <label for="remark_recommend" class="form-label">
+                                            <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
+                                        </label>
+                                        <textarea id="remark_recommend" name="remark_recommend[{{ $indicator->id }}]"
+                                        class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
+                                        @error('remark_recommend.' . $obsChecklist->indicator_id)
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end">
+                                        <button type="submit" class="btn btn-success" name="save_obs" value="{{ $indicator->id }}">Save</button>
+                                    </td>
+                                </tr>
+                            </table>
+                            @endforeach
+                        @endforeach
                     @endforeach
-                </td>
-                <td>
-                    @if ($obsChecklist->doc_path)
-                        @php
-                            // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                            $fileName = basename($obsChecklist->doc_path);
-                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
-                        @endphp
-                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                            {{ $fileNameWithoutId }}
-                        </a>
-                    @endif
-                    @error('doc_path')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                    @if ($obsChecklist->link)
-                    @php
-                        // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                        $fileName = basename($obsChecklist->link);
-                        $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
-                    @endphp
-                    <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                        {{ $fileNameWithoutId }}
-                    </a>
-                    @endif
-                    @error('link')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <label for="remark_description" class="form-label"><b>Deskripsi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]" class="form-control" maxlength="250"
-                        placeholder="MAX 250 characters..."></textarea>
-                        @error('remark_description')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <label for="remark_success_failed" class="form-label"><b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i></label>
-                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
-                              class="form-control" maxlength="250" placeholder="MAX 250 characters..."></textarea>
-                              @error('remark_success_failed')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <label for="remark_recommend" class="form-label"><b>Rekomendasi Audit  :</b><i class="text-danger">*</i></label>
-                    <textarea name="remark_recommend[{{ $indicator->id }}]" class="form-control" maxlength="250" id="remark_recommend"
-                        placeholder="MAX 250 characters..."></textarea>
-                        @error('remark_recommend')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
-            </tr>
-            <tr class="hidden">
-                <td colspan="3">
-                    <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
-                    <textarea type="text" id="remark_upgrade_repair" class="form-control bg-user"
-                        name="remark_upgrade_repair[{{ $indicator->id }}]" maxlength="250"
-                        placeholder="MAX 250 characters..." readonly></textarea>
-                        @error('remark_upgrade_repair')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
-            </tr>
-        @endforeach
-    @endforeach
-        </table>
-@endforeach
-@endforeach
-@endforeach
-            <div class="hidden">
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $indicator->id }}]"
-                    placeholder="Pihak Bertanggung Jawab..." value="" readonly>
-                    @error('person_in_charge')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated[{{ $indicator->id }}]"
-                            id="plan_complated" placeholder="YYYY-MM-DD" value="{{$observation->plan_complated}}" readonly>
-                            @error('plan_complated')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                </div>
+                @endforeach
+            @endforeach
+        
+            <div class="text-end">
+                <button class="btn btn-primary me-1" type="submit" name="final_submit" value="1">Submit</button>
+                <a class="btn btn-outline-primary" href="{{ route('observations.index') }}">Back</a>
             </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-6 mb-3">
-                    <label for="date_checked" class="form-label"><b>Date Checked By Auditor</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="date_checked" id="date_checked" value="{{$observation->date_checked}}">
-                    @error('date_checked')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div>
-                <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b><i class="text-danger">*</i></label></label>
-                <div class="input-group input-group-merge has-validation">
-                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror" id="remark_plan"
-                    name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>
-                    @error('remark_plan')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-12 d-flex justify-content-between">
-                    <button class="btn btn-primary btn-prev">
-                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                    </button>
-                    <button class="btn btn-primary btn-submit">Submit</button>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+        </form>        
   </div>
   </div>
 @endsection
 
 @section('script')
     <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
-    <script src="{{ asset('assets/vendor/libs/form-wizard-validation/form-wizard-validation.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-file-upload.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-editors.js') }}"></script>
-    <script
-        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/bs-stepper/bs-stepper.js">
-    </script>
-    <script
-        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/popular.js">
-    </script>
-    <script
-        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/bootstrap5.js">
-    </script>
-    <script
-        src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/assets/vendor/libs/@form-validation/auto-focus.js">
-    </script>
-    <script>
-        var quill = new Quill('#editor-container', {
-            theme: 'snow'
-        });
-
-        // Sync the content of the Quill editor with the textarea
-        quill.on('text-change', function() {
-            var notes = document.querySelector('textarea[name=notes]');
-            notes.value = quill.root.innerHTML;
-        });
-
-        // If the textarea already has content, load it into Quill
-        var notes = document.querySelector('textarea[name=notes]').value;
-        if (notes) {
-            quill.root.innerHTML = notes;
-        }
-    </script>
     <script type="text/javascript">
     "use strict";
     setTimeout(function () {
@@ -452,51 +298,41 @@
             });
         })(jQuery);
     }, 350);
+
+    function confirmSubmit() {
+    swal({
+        title: "Are you sure?",
+        text: "Please make sure all data is correct and complete before submitting.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willSubmit) => {
+        if (willSubmit) {
+            $.ajax({
+                url: "{{ route('observations.make', $data->id) }}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "final_submit": true
+                },
+                success: function (data) {
+                    swal(data.message, {
+                        icon: data.success ? "success" : "error",
+                    }).then(() => {
+                        if (data.success) {
+                            window.location.href = "{{ route('observations.index') }}";
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    swal("An error occurred: " + error, {
+                        icon: "error",
+                    });
+                }
+            });
+        }
+    });
+}
 </script>
-<script>
-    const wizardIcons = document.querySelector('.wizard-icons-example');
-
-    if (typeof wizardIcons !== undefined && wizardIcons !== null) {
-        const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
-              wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
-              wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
-
-        const iconsStepper = new Stepper(wizardIcons, {
-            linear: false
-        });
-
-        if (wizardIconsBtnNextList) {
-            wizardIconsBtnNextList.forEach(wizardIconsBtnNext => {
-                wizardIconsBtnNext.addEventListener('click', event => {
-                    iconsStepper.next();
-                });
-            });
-        }
-
-        if (wizardIconsBtnPrevList) {
-            wizardIconsBtnPrevList.forEach(wizardIconsBtnPrev => {
-                wizardIconsBtnPrev.addEventListener('click', event => {
-                    iconsStepper.previous();
-                });
-            });
-        }
-    }
-
-    // document.addEventListener('DOMContentLoaded', (event) => {
-    //     // Menyimpan data ke localStorage saat terjadi perubahan
-    //     document.querySelectorAll('input, select, textarea').forEach(element => {
-    //         element.addEventListener('input', () => {
-    //             localStorage.setItem(element.id, element.value);
-    //         });
-    //     });
-
-    //     // Mengisi data dari localStorage saat halaman dimuat
-    //     document.querySelectorAll('input, select, textarea').forEach(element => {
-    //         const savedValue = localStorage.getItem(element.id);
-    //         if (savedValue) {
-    //             element.value = savedValue;
-    //         }
-    //     });
-    // });
-    </script>
 @endsection

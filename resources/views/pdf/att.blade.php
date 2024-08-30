@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="id">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMI Report | {{ date('d/m/Y', strtotime($data->date_start)) }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -84,8 +80,8 @@
 </head>
 <body>
     @foreach ($standardCriterias as $criteria)
-    <div class="page-break"></div>
-    <table>
+    <div class="page-break">
+        <table>
         <tr class="header-row">
         <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
@@ -172,7 +168,5 @@
         </div>
         <div class="clear"></div>
     </div>
-    @endforeach
-
-</body>
-</html>
+</div>
+@endforeach

@@ -68,7 +68,7 @@
 <body>
 
     @foreach ($standardCriterias as $criteria)
-<div class="page-break"></div>
+<div class="page-break">
     <table width="100%">
     <tr>
         <td rowspan="2" class="center">
@@ -222,4 +222,5 @@
         <td class="paraf no-border">CATATAN: {{$data->remark_plan }}</td>
     </tr>
 </table>
+</div>
 @endforeach
