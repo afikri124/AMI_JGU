@@ -102,7 +102,7 @@ Route::group(['middleware' => ['auth', 'role:admin, auditor']], function () {
         Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
         Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
         Route::any('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
-        Route::any('/save-draft/{id}', [ObservationController::class, 'saveDraft'])->name('observations.save_draft');
+        Route::any('/saveDraft/{id}', [ObservationController::class, 'saveDraft'])->name('observations.saveDraft');
         Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
         Route::any('/remark_doc/{id}', [ObservationController::class, 'remark_doc'])->name('observations.remark_doc');
         Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');

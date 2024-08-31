@@ -128,7 +128,7 @@
             <hr style="color:black">
             
             @foreach ($standardCriterias as $criteria)
-                <h6 class="mb-0" style="color: black"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+                <h6 class="mb-3" style="color: black"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
         
                 @foreach ($criteria->statements as $no => $statement)
                     @foreach ($statement->indicators as $indicator)
@@ -164,19 +164,19 @@
                                         <div id="data-sets">
                                             <div id="data-set">
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="ks" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
+                                                    <input type="radio" id="ks" name="obs_checklist_option" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
                                                     <label for="ks">KS</label>
                                                 </div>
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="obs" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
+                                                    <input type="radio" id="obs" name="obs_checklist_option" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
                                                     <label for="obs">OBS</label>
                                                 </div>
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="kts_minor" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
+                                                    <input type="radio" id="kts_minor" name="obs_checklist_option" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
                                                     <label for="kts_minor">KTS MINOR</label>
                                                 </div>
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="kts_mayor" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
+                                                    <input type="radio" id="kts_mayor" name="obs_checklist_option" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
                                                     <label for="kts_mayor">KTS MAYOR</label>
                                                 </div>
                                             </div>
@@ -227,13 +227,16 @@
                                         <label for="remark_description" class="form-label">
                                             <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                                         </label>
-                                        <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]"
+                                        <div class="input-group input-group-merge has-validation">
+                                        <textarea id="remark_description" name="remark_description"
                                         class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
                                         @error('remark_description.' . $obsChecklist->indicator_id)
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                        </div>
+                                        <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -241,13 +244,16 @@
                                         <label for="remark_success_failed" class="form-label">
                                             <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
                                         </label>
-                                        <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
+                                        <div class="input-group input-group-merge has-validation">
+                                        <textarea id="remark_success_failed" name="remark_success_failed"
                                         class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
                                         @error('remark_success_failed.' . $obsChecklist->indicator_id)
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                        </div>
+                                        <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -255,27 +261,49 @@
                                         <label for="remark_recommend" class="form-label">
                                             <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
                                         </label>
-                                        <textarea id="remark_recommend" name="remark_recommend[{{ $indicator->id }}]"
+                                        <div class="input-group input-group-merge has-validation">
+                                        <textarea id="remark_recommend" name="remark_recommend"
                                         class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
                                         @error('remark_recommend.' . $obsChecklist->indicator_id)
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-end">
-                                        <button type="submit" class="btn btn-success" name="save_obs" value="{{ $indicator->id }}">Save</button>
+                                        </div>
+                                        <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
                                     </td>
                                 </tr>
                             </table>
                             @endforeach
                         @endforeach
+                        <hr>
                     @endforeach
                 @endforeach
             @endforeach
-        
+        <div class="row">
+                <div class="col-lg-12 col-md-6 mb-3">
+                    <label for="date_checked" class="form-label"><b>Date Checked By Auditor</b><i class="text-danger">*</i></label>
+                    <input type="date" class="form-control" name="date_checked" id="date_checked" value="{{$observation->date_checked}}">
+                    @error('date_checked')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            <div>
+                <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b><i class="text-danger">*</i></label></label>
+                <div class="input-group input-group-merge has-validation">
+                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror" id="remark_plan"
+                    name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>
+                    @error('remark_plan')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            <br>
             <div class="text-end">
                 <button class="btn btn-primary me-1" type="submit" name="final_submit" value="1">Submit</button>
                 <a class="btn btn-outline-primary" href="{{ route('observations.index') }}">Back</a>
