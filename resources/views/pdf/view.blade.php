@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-@section('title', 'Audit Report')
+@section('title', 'Print Audit Report')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -60,14 +60,14 @@
                         <thead>
                             <tr>
                                 <th width="5%"><b>No</b></th>
-                                <th width="35%"><b>Name</b></th>
+                                <th><b>Name</b></th>
                                 <th width="5%"><b>Action</b></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="text-center">1</td>
-                                <td>Absensi</td>
+                                <td class="text-center">Absensi</td>
                                 <td class="text-md-center">
                                     <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.att', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
@@ -76,7 +76,7 @@
                             </tr>
                             <tr>
                                 <td class="text-center">2</td>
-                                <td>Berita Acara</td>
+                                <td class="text-center">Berita Acara</td>
                                 <td class="text-md-center">
                                     <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.meet_report', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
@@ -84,8 +84,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-center">2</td>
-                                <td>Form Checklist</td>
+                                <td class="text-center">3</td>
+                                <td class="text-center">Form Checklist</td>
                                 <td class="text-md-center">
                                     <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.form_cl', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>
@@ -93,8 +93,17 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-center">3</td>
-                                <td>Form PTP/PTK</td>
+                                <td class="text-center">4</td>
+                                <td class="text-center">KS/KTS</td>
+                                <td class="text-md-center">
+                                    <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.ks_kts', ['id' => $data->id, 'type' => 'AMI Report']) }}">
+                                        <i class="bx bx-printer"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td class="text-center">PTP/PTK</td>
                                 <td class="text-md-center">
                                     <a class="badge bg-primary" title="Print Make Report" href="{{ route('pdf.ptp_ptk', ['id' => $data->id, 'type' => 'AMI Report']) }}">
                                         <i class="bx bx-printer"></i>

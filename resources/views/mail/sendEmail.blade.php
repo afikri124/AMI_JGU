@@ -209,6 +209,9 @@ table.order-detail tr:nth-child(odd) {
         </tbody>
     </table>
 </body>
+<<<<<<< HEAD
+</html>
+=======
 
 <body style="margin: 20px auto;">
     <table align="center" border="0" cellpadding="0" cellspacing="0"
@@ -289,4 +292,7 @@ table.order-detail tr:nth-child(odd) {
     </table>
 </body>
 </html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> ebcc108b23f19fd27356686a0e54dfd12cfc643d

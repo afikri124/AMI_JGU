@@ -122,8 +122,12 @@
         @foreach ($criteria->statements as $no => $statement)
         @foreach ($statement->indicators as $indicator)
         @foreach ($observations as $observation)
-        @foreach ($obs_c as $obsChecklist)
-                    @if ($obsChecklist->observation_id == $observation->id)
+            @php
+                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                        ->where('indicator_id', $indicator->id);
+            @endphp
+            @foreach ($filteredObs as $obsChecklist)
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>

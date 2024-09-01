@@ -21,8 +21,6 @@ return new class extends Migration
             $table->foreign('location_id')->references('id')->on('locations')->nullable()->onDelete('cascade');
             $table->string('remark_plan')->nullable();
             $table->string('remark_audit_lpm')->nullable();
-            $table->string('person_in_charge')->nullable();
-            $table->string('plan_complated')->nullable();
             $table->string('date_prepared')->nullable();
             $table->string('date_checked')->nullable();
             $table->string('date_validated')->nullable();

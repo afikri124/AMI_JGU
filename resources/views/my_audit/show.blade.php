@@ -131,24 +131,10 @@
             <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
-                <td>
-                    <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                    @error('link')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
             </tr>
             <tr>
                 <td style="width: 60%">
                     <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 60%">
-                    <strong>Indicator</strong>
-                    <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td style="width: 35%">
                     <div id="data-sets">
@@ -174,11 +160,41 @@
                 </td>
             </tr>
             <tr>
+                <td style="width: 60%">
+                    <strong>Indicator</strong>
+                    <ul>{!! $indicator->name !!}</ul>
+                </td>
+                <td td style="width: 60%">
+                    <div>
+                        <label class="form-label" for="basicDate"><b>Remark Docs Auditor</b><i class="text-danger">*</i></label></label>
+                        <div class="input-group input-group-merge has-validation">
+                            <textarea type="text" class="form-control @error('remark_docs') is-invalid @enderror"
+                            name="remark_docs" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_docs }}</textarea>
+                            @error('remark_docs')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <td style="width: 60%" id="review-docs">
                     <strong>Review Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
+                </td>
+                <td>
+                    @if ($obsChecklist->doc_path)
+                        @php
+                            $fileName = basename($obsChecklist->doc_path);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                        @endphp
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                    @endif
                 </td>
             </tr>
             <tr>
@@ -236,6 +252,29 @@
                 @enderror
             </td>
         </tr>
+        <tr>
+            <td colspan="3">
+                <label for="person_in_charge" class="form-label"><b>Person In Charge</b><i class="text-danger">*</i></label>
+                <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $indicator->id }}]"
+                placeholder="example: BPUK" value="{{ $obsChecklist->person_in_charge }}">
+                @error('person_in_charge')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </td>
+        <tr>
+            <td colspan="3">
+                <label for="plan_completed" class="form-label"><b>Plan Complete</b><i class="text-danger">*</i></label>
+                <input type="date" class="form-control" name="plan_completed[{{ $indicator->id }}]" id="plan_completed"
+                placeholder="YYYY-MM-DD" value="{{ $obsChecklist->plan_completed }}">
+                @error('plan_completed')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </td>
+        </tr>
     </table>
     @endforeach
     @endforeach
@@ -244,29 +283,8 @@
         @endforeach
         @endforeach
             <hr class="text-dark">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="person_in_charge" class="form-label"><b>Person In Charge</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control" name="person_in_charge"
-                    placeholder="Input person in charge">
-                    @error('person_in_charge')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="plan_complated" class="form-label"><b>Plan Complated</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control" name="plan_complated" id="plan_complated"
-                    placeholder="YYYY-MM-DD">
-                    @error('plan_complated')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-6 mb-3">
+            <div class="row">                
+                <div class="col-lg-12 col-md-6 mb-3">
                     <label for="date_prepared" class="form-label"><b>Date Prepared</b><i class="text-danger">*</i></label>
                     <input type="date" class="form-control" name="date_prepared" id="date_prepared">
                     @error('date_prepared')
@@ -275,18 +293,7 @@
                         </span>
                     @enderror
                 </div>
-            <!-- <div>
-                <label class="form-label" for="basicDate"><b>Remark</b><i class="text-danger">*</i></label></label>
-                <div class="input-group input-group-merge has-validation">
-                    <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
-                    name="remark_plan" placeholder="MAX 250 characters..." readonly></textarea>
-                    @error('remark_plan')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div> -->
+            </div>
             <p></p>
             <div class="text-end">
                 <button class="btn btn-primary me-1" type="submit">Submit</button>

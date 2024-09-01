@@ -15,12 +15,16 @@ class ObservationChecklist extends Model
         'observation_id',
         'indicator_id',
         'doc_path',
+        'link',
         'remark_docs',
         'remark_description',
         'obs_checklist_option',
         'remark_success_failed',
         'remark_recommend',
         'remark_upgrade_repair',
+        'person_in_charge',
+        'plan_completed',
+        'remark_path_auditee',
     ];
 
     public function obs_c()

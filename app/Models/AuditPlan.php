@@ -24,6 +24,8 @@ class AuditPlan extends Model
         'periode',
         'type_audit',
         'remark_standard_lpm',
+        'head_major',
+        'upm_major',
     ];
 
     // Relasi ke model lain (opsional, jika diperlukan)

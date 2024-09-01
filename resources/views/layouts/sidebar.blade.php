@@ -48,12 +48,14 @@
                 </a>
             </li>
         @endif
+        @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('lpm'))
         <li class="menu-item {{ request()->segment(1) == 'rtm' ? 'active' : '' }}">
             <a href="{{ route('rtm.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book-bookmark"></i>
                 <div data-i18n="Dashboards">RTM</div>
             </a>
         </li>
+        @endif
 
         @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('lpm') || Auth::user()->hasRole('approver'))
         <li class="menu-header small text-uppercase">

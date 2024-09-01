@@ -101,6 +101,44 @@ class PDFController extends Controller
         return $pdf->stream('Audit Report Form Checklist'.$data->auditee->name." - ".date('d-m-Y', strtotime($data->date_start)).".pdf");
     }
 
+    public function ks_Kts($id, $type)
+        {
+            $data = AuditPlan::with('locations', 'auditee')->findOrFail($id);
+
+            $auditorId = Auth::user()->id;
+
+            if (Auth::user()->role == 'auditee') {
+            }
+            $auditors = AuditPlanAuditor::where('audit_plan_id', $id)
+            ->with('auditor:id,name,nidn')
+            ->get();
+
+            $categories = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
+            $criterias = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditors->pluck('id'))->get();
+
+            $standardCategoryIds = $categories->pluck('standard_category_id');
+            $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
+
+            $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
+            $standardCriterias = StandardCriteria::with(['statements', 'statements.indicators', 'statements.reviewDocs'])
+                                        ->whereIn('id', $standardCriteriaIds)
+                                        ->get();
+
+            $observations = Observation::where('audit_plan_id', $id)->get();
+            $observationIds = $observations->pluck('id');
+            $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
+
+            $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
+            // dd($obs_c);
+            $hodLPM = Setting::find('HODLPM');
+            $hodBPMI = Setting::find('HODBPMI');
+
+            $pdf = PDF::loadView('pdf.ks_kts', compact('standardCategories', 'standardCriterias',
+        'auditors', 'data', 'categories', 'criterias', 'observations', 'obs_c', 'rtm', 'hodLPM', 'hodBPMI'));
+        $pdf->setPaper('A4', 'potrait');
+        return $pdf->stream('Audit Report Form KS & KTS'.$data->auditee->name." - ".date('d-m-Y', strtotime($data->date_start)).".pdf");
+    }
+
         public function meet_report($id, $type)
     {
         $data = AuditPlan::with('locations', 'auditee')->findOrFail($id);

@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('periode')->nullable();
             $table->string('type_audit')->nullable();
             $table->string('remark_standard_lpm')->nullable();
+            $table->string('head_major')->nullable();
+            $table->string('upm_major')->nullable();
             $table->timestamps();
         });
     }

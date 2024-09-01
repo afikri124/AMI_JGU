@@ -90,7 +90,6 @@
     <form method="POST" action="{{ route('observations.update_remark', $data->id) }}"
     enctype="multipart/form-data">
     @csrf
-    <!-- Account Details -->
       <strong class="text-primary">Category Standard</strong>
         @foreach ($standardCategories as $category)
             <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
@@ -169,6 +168,39 @@
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
                 </td>
+                <td>
+                    @if ($obsChecklist->doc_path)
+                        @php
+                            // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
+                            $fileName = basename($obsChecklist->doc_path);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                        @endphp
+                        <strong class="form-label">File:     </strong><a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                    @endif
+                    @error('doc_path')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    <br>
+                    @if ($obsChecklist->link)
+                    @php
+                        // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
+                        $fileName = basename($obsChecklist->link);
+                        $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                    @endphp
+                    <strong class="form-label">Link:     </strong><a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                        {{ $fileNameWithoutId }}
+                    </a>
+                    @endif
+                    @error('link')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
@@ -215,14 +247,40 @@
             <tr>
                 <td colspan="3">
                     <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
-                    <textarea type="text" id="remark_upgrade_repair" class="form-control bg-user"
+                    <textarea type="text" id="remark_upgrade_repair" class="form-control"
                         name="remark_upgrade_repair_{{ $observation->id }}" maxlength="250"
-                        placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_upgrade_repair ?? '' }}</textarea>
+                        placeholder="MAX 250 characters...">{{ $obsChecklist->remark_upgrade_repair ?? '' }}</textarea>
                         @error('remark_upgrade_repair')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 mb-3">
+                            <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
+                            <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" value="{{$obsChecklist->person_in_charge}}"
+                                    placeholder="Pihak Bertanggung Jawab...">
+                                    @error('person_in_charge')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-3">
+                            <label for="plan_completed" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
+                            <input type="date" class="form-control" name="plan_completed" id="plan_completed" value="{{$obsChecklist->plan_completed}}"
+                                    placeholder="YYYY-MM-DD">
+                                    @error('plan_completed')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                        </div>
+                    </div>
                 </td>
             </tr>
 </table>
@@ -232,30 +290,12 @@
     <hr class="text-dark">
     @endforeach
         @endforeach
-            <br>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                    <input type="text" id="person_in_charge" class="form-control bg-user" name="person_in_charge" value="{{$observation->person_in_charge}}"
-                            placeholder="Pihak Bertanggung Jawab..." readonly>
-                            @error('person_in_charge')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                </div>
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <label for="plan_complated" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                    <input type="date" class="form-control bg-user" name="plan_complated" id="plan_complated" value="{{$observation->plan_complated}}"
-                            placeholder="YYYY-MM-DD" readonly>
-                            @error('plan_complated')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                </div>
+                <div class="form-group mb-3">
+                <label for="remark_audit_lpm" class="form-label large-text"><b>Remark Audit Report by LPM</b></label>
+                <textarea class="form-control bg-user" id="remark_audit_lpm" name="remark_audit_lpm" 
+                placeholder="MAX 350 karakter..." readonly>{{ $observation->remark_audit_lpm }}</textarea>
             </div>
-<hr class="text-dark">
+            <hr class="text-dark">
             <div class="row">
                 <div class="col-lg-12 col-md-6 mb-3">
                     <label for="date_checked" class="form-label"><b>Date Checked By Auditor</b><i class="text-danger">*</i></label>
@@ -268,7 +308,7 @@
                 </div>
             </div>
             <div>
-                <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b><i class="text-danger">*</i></label></label>
+                <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b></label></label>
                 <div class="input-group input-group-merge has-validation">
                     <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror"
                     name="remark_plan" placeholder="MAX 250 characters...">{{$observation->remark_plan}}</textarea>

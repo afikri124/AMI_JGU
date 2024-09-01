@@ -28,11 +28,11 @@ class AuditStatusSeeder extends Seeder
             "color" => "warning"],
 
             ["id" => "4",
-            "title" => "Approved Standard by LPM",
+            "title" => "Standard Approved",
             "color" => "success"],
 
             ["id" => "5",
-            "title" => "Revised Standard by LPM",
+            "title" => "Standard Revised",
             "color" => "primary"],
 
             ["id" => "6",
@@ -40,11 +40,11 @@ class AuditStatusSeeder extends Seeder
             "color" => "success"],
 
             ["id" => "7",
-            "title" => "Approved Report by LPM",
+            "title" => "Approved Report",
             "color" => "secondary"],
 
             ["id" => "8",
-            "title" => "Request Note\nby LPM",
+            "title" => "Audit Revised",
             "color" => "primary"],
 
             ["id" => "9",
@@ -61,15 +61,19 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "12",
             "title" => "Reuploaded",
-            "color" => "blue"],
+            "color" => "primary"],
 
             ["id" => "13",
-            "title" => "Standard\nUpdated",
+            "title" => "Standard Updated",
             "color" => "secondary"],
 
             ["id" => "14",
             "title" => "RTM Finished",
             "color" => "success"],
+
+            ["id" => "15",
+            "title" => "Audit to LPM",
+            "color" => "secondary"],
         ];
 
         foreach ($data as $x) {

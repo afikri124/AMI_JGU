@@ -12,7 +12,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MyAuditController;
 use App\Http\Controllers\ObservationController;
-use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\StandardCategoryController;
 use App\Http\Controllers\StandardCriteriaController;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +38,8 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-Route::get('/login/google', [App\Http\Controllers\GoogleController::class, 'redirectToGoogle']);
-Route::get('/login/google/callback', [App\Http\Controllers\GoogleController::class, 'handleCallback']);
+Route::get('/login/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback', [GoogleController::class, 'handleCallback']);
 //Profile
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');
@@ -87,6 +87,11 @@ Route::group(['middleware' => ['auth', 'role:admin, auditee']], function () {
         Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
         Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
         Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
+        Route::any('/save_file/{id}', [MyAuditController::class, 'saveFile'])->name('my_audit.save_file');
+        Route::any('/save_link/{id}', [MyAuditController::class, 'saveLink'])->name('my_audit.save_link');
+        Route::any('/save_remark/{id}', [MyAuditController::class, 'saveRemark'])->name('my_audit.save_remark');
+        Route::any('/delete_file/{id}', [MyAuditController::class, 'deleteFile'])->name('my_audit.delete_file');
+        Route::any('/delete_link/{id}', [MyAuditController::class, 'deleteLink'])->name('my_audit.delete_link');
     });
 });
 
@@ -96,14 +101,14 @@ Route::group(['middleware' => ['auth', 'role:admin, auditor']], function () {
         Route::get('/', [ObservationController::class, 'index'])->name('observations.index');
         Route::get('/data', [ObservationController::class, 'data'])->name('observations.data');
         Route::get('/create/{id}', [ObservationController::class, 'create'])->name('observations.create');
-        Route::any('/make/{id}', [ObservationController::class, 'make'])->name('make');
+        Route::any('/make/{id}', [ObservationController::class, 'make'])->name('observations.make');
+        Route::any('/saveDraft/{id}', [ObservationController::class, 'saveDraft'])->name('observations.saveDraft');
         Route::get('/edit/{id}', [ObservationController::class, 'edit'])->name('observations.edit');
         Route::any('/remark_doc/{id}', [ObservationController::class, 'remark_doc'])->name('observations.remark_doc');
         Route::get('/remark/{id}', [ObservationController::class, 'remark'])->name('observations.remark');
         Route::any('/update_remark/{id}', [ObservationController::class, 'update_remark'])->name('observations.update_remark');
         Route::any('/remark_rtm/{id}', [ObservationController::class, 'remark_rtm'])->name('observations.remark_rtm');
         Route::get('/rtm/{id}', [ObservationController::class, 'rtm'])->name('observations.rtm');
-
     });
 });
 
@@ -111,6 +116,7 @@ Route::group(['middleware' => ['auth', 'role:admin, auditor']], function () {
 Route::get('/view/{id}', [PDFController::class, 'view'])->name('pdf.view');
 Route::get('/att/{id}/{type}', [PDFController::class, 'att'])->name('pdf.att');
 Route::get('/form_cl/{id}/{type}', [PDFController::class, 'form_cl'])->name('pdf.form_cl');
+Route::get('/ks_kts/{id}/{type}', [PDFController::class, 'ks_kts'])->name('pdf.ks_kts');
 Route::get('/meet_report/{id}/{type}', [PDFController::class, 'meet_report'])->name('pdf.meet_report');
 Route::get('/ptp_ptk/{id}/{type}', [PDFController::class, 'ptp_ptk'])->name('pdf.ptp_ptk');
 
@@ -136,7 +142,7 @@ Route::group(['middleware' => ['auth', 'role:approver']], function () {
 });
 
 //RTM
-Route::group(['middleware' => ['auth', 'role:auditee,approver']], function () {
+Route::group(['middleware' => ['auth', 'role:admin, lpm']], function () {
     Route::group(['prefix' => 'rtm'], function () {
         Route::get('/', [ApproveController::class, 'rtm'])->name('rtm.index');
         Route::get('/rtm_edit/{id}', [ApproveController::class, 'rtm_edit'])->name('rtm.rtm_edit');
