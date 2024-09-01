@@ -1,439 +1,441 @@
-[
- {
-  "id": "S092019030004",
-  "name": "Ariep Jaenul",
-  "back": "S.Pd., M.Sc.Eng",
-  "email": "ariep@jgu.ac.id",
-  "hp": 6287880004742
- },
- {
-  "id": "S092019110003",
-  "name": "Yanuar Zulardiansyah Arief",
-  "front": "Dr.",
-  "back": "CEng",
-  "email": "yanuar@jgu.ac.id",
-  "hp": 60137592926
- },
- {
-  "id": "S092012120001",
-  "name": "Eddy Yusuf",
-  "front": "Prof. Dr. apt.",
-  "back": "M.Pharm",
-  "email": "eddy@jgu.ac.id",
-  "hp": 6281316495789
- },
- {
-  "id": "S092012120005",
-  "name": "Adhes Gamayel",
-  "back": "S.T., M.T., Ph.D",
-  "email": "adhes@jgu.ac.id",
-  "hp": 6289637210331
- },
- {
-  "id": "S092012120083",
-  "name": "Risma Ekawati",
-  "back": "S.Kom.,M.TI",
-  "email": "risma@jgu.ac.id",
-  "hp": 6281909174900
- },
- {
-  "id": "S092012120002",
-  "name": "Ade Sunardi",
-  "back": "ST.,MT",
-  "email": "ade@jgu.ac.id",
-  "hp": 6287881078886
- },
- {
-  "id": "S092019020002",
-  "name": "Rizki Farmasita Budiastuti",
-  "back": "S.F.,M.Farm",
-  "email": "rizki@jgu.ac.id",
-  "hp": 6281215518499
- },
- {
-  "id": "S092012120066",
-  "name": "Sinka Wilyanti",
-  "back": "ST.,MT",
-  "email": "sinka@jgu.ac.id",
-  "hp": 628158742451
- },
- {
-  "id": "S092019090007",
-  "name": "Alfi Magfuriyah",
-  "back": "S.ST, M.AF",
-  "email": "alfi@jgu.ac.id",
-  "hp": 6285728719394
- },
- {
-  "id": "S092019090003",
-  "name": "Yuni Pambreni",
-  "back": "S.ST, M.MG",
-  "email": "yuni@jgu.ac.id",
-  "hp": 6289657086846
- },
- {
-  "id": "S092012120082",
-  "name": "Ribut Nawang Sari",
-  "back": "ST.,MT",
-  "email": "ribut@jgu.ac.id",
-  "hp": 6281317733079
- },
- {
-  "id": "S092019020001",
-  "name": "Mohammad Wahyono",
-  "back": "ST.,MT",
-  "email": "mohammad@jgu.ac.id",
-  "hp": 6281398082106
- },
- {
-  "id": "S092012120023",
-  "name": "Dedy Rutama",
-  "back": "ST.MT ",
-  "email": "dedy@jgu.ac.id",
-  "hp": 6281222012800
- },
- {
-  "id": "S092012120068",
-  "name": "Sukatja",
-  "front": "Ir.",
-  "back": "M.Eng",
-  "email": "sukatja@jgu.ac.id"
- },
- {
-  "id": "S092020080005",
-  "name": "Aulia Choiri Windari",
-  "back": "S.Tr.T., M.Sc.Eng",
-  "email": "aulia@jgu.ac.id",
-  "hp": 6281327207431
- },
- {
-  "id": "S092017010001",
-  "name": "Kasum",
-  "back": "ST.MT",
-  "email": "kasum@jgu.ac.id",
-  "hp": 6281315630331
- },
- {
-  "id": "S092019030006",
-  "name": "Mohamad Zaenudin",
-  "back": "S.PD, MSc.Eng",
-  "email": "mohamad@jgu.ac.id",
-  "hp": 6288210653240
- },
- {
-  "id": "S092014090001",
-  "name": "Luthfi",
-  "front": "Ir.M.",
-  "back": "MSc.ENG",
-  "email": "luthfi@jgu.ac.id"
- },
- {
-  "id": "S092019030001",
-  "name": "Riyan Ariyansah",
-  "back": "ST.,MT",
-  "email": "riyan@jgu.ac.id"
- },
- {
-  "id": "S092020080004",
-  "name": "Brainvendra Widi Dionova",
-  "back": "S.ST, M.IE",
-  "email": "brainvendra@jgu.ac.id",
-  "hp": 6281230622956
- },
- {
-  "id": "S092019020003",
-  "name": "Ida Bagus Indra",
-  "back": "ST.MT",
-  "email": "ida@jgu.ac.id"
- },
- {
-  "id": "S092018120001",
-  "name": "Ayu Nurul",
-  "back": "ST.MT",
-  "email": "ayu@jgu.ac.id",
-  "hp": 6281318556469
- },
- {
-  "id": "S092018090002",
-  "name": "Sinta Restuasih ",
-  "back": "ST.MT",
-  "email": "sinta@jgu.ac.id",
-  "hp": 6285691200622
- },
- {
-  "id": "S092019110002",
-  "name": "Muhammad Haikal Satria",
-  "front": "DR.",
-  "back": "IPM",
-  "email": "muhammad@jgu.ac.id",
-  "hp": 60127950456
- },
- {
-  "id": "S092019030012",
-  "name": "Legenda Prameswono P",
-  "back": "S.ST, MSc.Eng",
-  "email": "legenda@jgu.ac.id",
-  "hp": 6287796655557
- },
- {
-  "id": "S092019030008",
-  "name": "Devan Junesco Vresdian",
-  "back": "S.ST, MSc.Eng",
-  "email": "devan@jgu.ac.id",
-  "hp": 6281391416787
- },
- {
-  "id": "S092014080001",
-  "name": "Rum Sapundani",
-  "back": "S.SI.,MT",
-  "email": "rum@jgu.ac.id",
-  "hp": 6285774013322
- },
- {
-  "id": "S092012120050",
-  "name": "Mauludi Manfaluthy",
-  "back": "ST.MT",
-  "email": "mauludi@jgu.ac.id",
-  "hp": 6281511110895
- },
- {
-  "id": "S092020070001",
-  "name": "Agung Pangestu",
-  "back": "S.Pd., M.Sc.Eng",
-  "email": "agung@jgu.ac.id",
-  "hp": 6283872065419
- },
- {
-  "id": "S092016030001",
-  "name": "Untung Suprihadi",
-  "back": "S.Kom.,M.Pd",
-  "email": "untung@jgu.ac.id",
-  "hp": 6289697828673
- },
- {
-  "id": "S092019030007",
-  "name": "Anindya Ananda Hapsari",
-  "back": "S.ST, M.IT",
-  "email": "anindya@jgu.ac.id",
-  "hp": 6285601505670
- },
- {
-  "id": "S092019030020",
-  "name": "Ummy Gusti Salamah",
-  "back": "S.ST, M.IT",
-  "email": "ummy@jgu.ac.id",
-  "hp": 6289655904814
- },
- {
-  "id": "S092019030015",
-  "name": "Revita Desi Hartin",
-  "back": "BGD, M.IT",
-  "email": "revita@jgu.ac.id",
-  "hp": 6283802434392
- },
- {
-  "id": "S092019030003",
-  "name": "Feri Nugroho",
-  "back": "S.ST, M.IT",
-  "email": "feri@jgu.ac.id",
-  "hp": 6281310392706
- },
- {
-  "id": "S092020110004",
-  "name": "Halimatuz Zuhriyah",
-  "back": "S.KOM, M.IT",
-  "email": "halimatuz@jgu.ac.id",
-  "hp": 6289525801875
- },
- {
-  "id": "S092019030018",
-  "name": "Onki Alexander",
-  "back": "BCM, M.IT",
-  "email": "onki@jgu.ac.id",
-  "hp": 6281310717877
- },
- {
-  "id": "S092019030009",
-  "name": "Arisa Olivia",
-  "back": "S.ST, M.IT",
-  "email": "arisa@jgu.ac.id",
-  "hp": 6282129303208
- },
- {
-  "id": "S092019030019",
-  "name": "Risna Oktaviati",
-  "back": "S.ST, M.IT",
-  "email": "risna@jgu.ac.id",
-  "hp": 6281221307400
- },
- {
-  "id": "S092019030014",
-  "name": "Nora Listiana",
-  "back": "S.ST, M.IT",
-  "email": "nora@jgu.ac.id",
-  "hp": 6283165951075
- },
- {
-  "id": "S092019030021",
-  "name": "Febria Anjara",
-  "back": "S.ST, M.IT",
-  "email": "febria@jgu.ac.id",
-  "hp": 6282111864115
- },
- {
-  "id": "S092020080002",
-  "name": "Safira Faizah",
-  "back": "S.TR.KOM, M.IT",
-  "email": "safira@jgu.ac.id",
-  "hp": 6282280441580
- },
- {
-  "id": "S092019030010",
-  "name": "Hadi Wijaya",
-  "back": "S.ST, M.IT",
-  "email": "hadi@jgu.ac.id",
-  "hp": 6282278775003
- },
- {
-  "id": "S092019030017",
-  "name": "Dian Nugraha",
-  "back": "S.ST, M.IT",
-  "email": "dian@jgu.ac.id",
-  "hp": 6285378900840
- },
- {
-  "id": "S092019030016",
-  "name": "R.M. Chairil Andri",
-  "back": "S.ST, M.IT",
-  "email": "chairil@jgu.ac.id",
-  "hp": 60108161606
- },
- {
-  "id": "S092021030024",
-  "name": "Muhamad Aldiansyah",
-  "back": "S.SI, MCS",
-  "email": "aldi@jgu.ac.id",
-  "hp": 6285711552484
- },
- {
-  "id": "S092020110003",
-  "name": "Nurul Aslamiah Istiqomah",
-  "back": "S.TR.KOM, M.IT",
-  "email": "nurul@jgu.ac.id",
-  "hp": 6289646894117
- },
- {
-  "id": "S092020030001",
-  "name": "Benny Efendie ",
-  "back": "S.FARM.,M.FARM",
-  "email": "benny@jgu.ac.id",
-  "hp": 6287786666270
- },
- {
-  "id": "S092019010001",
-  "name": "Dewi Rahmawati",
-  "back": "S.FARM.,M.FARM",
-  "email": "dewi@jgu.ac.id",
-  "hp": 6285711005625
- },
- {
-  "id": "S092015040001",
-  "name": "Alhara Yuwanda ",
-  "back": "S.SI.,M.SI",
-  "email": "alhara@jgu.ac.id",
-  "hp": 6289520482701
- },
- {
-  "id": "S092020060001",
-  "name": "Widianingsih",
-  "back": "S.Farm., M.Sc",
-  "email": "widianingsih@jgu.ac.id"
- },
- {
-  "id": "S092020060002",
-  "name": "Enti Hariadha ",
-  "back": "S.Farm., M.Sc",
-  "email": "enti@jgu.ac.id",
-  "hp": 60176166553
- },
- {
-  "id": "S092020080003",
-  "name": "Nopratilova ",
-  "back": "B.Pharm(Hons), M.Clin.Pharm",
-  "email": "nopratilova@jgu.ac.id",
-  "hp": 6283117591420
- },
- {
-  "id": "S092021030018",
-  "name": "Ahda Sabila Eddy Yusuf ",
-  "back": "B.Pharm, M.Clin.Pharm",
-  "email": "ahda@jgu.ac.id",
-  "hp": 6281285681662
- },
- {
-  "id": "S092019090011",
-  "name": "Rahmawati Ulfah ",
-  "back": "S.ST, MAF",
-  "email": "rahmawati@jgu.ac.id"
- },
- {
-  "id": "S092019090008",
-  "name": "Nur Fitri Dewi ",
-  "back": "S.ST, MAF",
-  "email": "nur@jgu.ac.id"
- },
- {
-  "id": "S092019090009",
-  "name": "Agnemas Yusoep Islami",
-  "back": "S.ST, MAF",
-  "email": "agnemas@jgu.ac.id",
-  "hp": 6282175446604
- },
- {
-  "id": "S092019090010",
-  "name": "Zakia Maulida Antono",
-  "back": "S.ST, MAF",
-  "email": "zakia@jgu.ac.id",
-  "hp": 6285753531189
- },
- {
-  "id": "S092020110002",
-  "name": "Noviyanti",
-  "back": "S.TR.AK",
-  "email": "noviyanti@jgu.ac.id",
-  "hp": 6282175158552
- },
- {
-  "id": "S092019090005",
-  "name": "Udriyah",
-  "back": "S.ST, MMG",
-  "email": "udriyah@jgu.ac.id",
-  "hp": 6289651062370
- },
- {
-  "id": "S092019030013",
-  "name": "Dwi Rachmawati ",
-  "back": "S.ST, MMG",
-  "email": "dwi rachmawati@jgu.ac.id"
- },
- {
-  "id": "S092021030019",
-  "name": "Ahmad Pitra ",
-  "back": "BHTM (HONS), MMG",
-  "email": "ahmad pitra@jgu.ac.id"
- },
- {
-  "id": "S092019040002",
-  "name": "Ali Ridho ",
-  "back": "S.HUM, MMG",
-  "email": "ali ridho@jgu.ac.id",
-  "hp": 6287785396990
- },
- {
-  "id": "S092019090002",
-  "name": "Suci Ayu Sudari",
-  "back": "S.ST, MMG",
-  "email": "suci ayu sudari@jgu.ac.id",
-  "hp": 6289515236589
- }
-]
+      [
+      {
+      "id": "S092019030004",
+      "name": "Ariep Jaenul",
+      "back": "S.Pd., M.Sc.Eng",
+      "email": "ariep@jgu.ac.id",
+      "hp": 6287880004742
+      },
+      {
+      "id": "S092019110003",
+      "name": "Yanuar Zulardiansyah Arief",
+      "front": "Dr.",
+      "back": "CEng",
+      "email": "yanuar@jgu.ac.id",
+      "hp": 60137592926
+      },
+      {
+      "id": "S092012120001",
+      "name": "Eddy Yusuf",
+      "front": "Prof. Dr. apt.",
+      "back": "M.Pharm",
+      "email": "eddy@jgu.ac.id",
+      "hp": 6281316495789
+      },
+      {
+      "id": "S092012120005",
+      "name": "Adhes Gamayel",
+      "back": "S.T., M.T., Ph.D",
+      "email": "adhes@jgu.ac.id",
+      "hp": 6289637210331
+      },
+      {
+      "id": "S092012120083",
+      "name": "Risma Ekawati",
+      "back": "S.Kom.,M.TI",
+      "email": "risma@jgu.ac.id",
+      "hp": 6281909174900
+      },
+      {
+      "id": "S092012120002",
+      "name": "Ade Sunardi",
+      "back": "ST.,MT",
+      "email": "ade@jgu.ac.id",
+      "hp": 6287881078886
+      },
+      {
+      "id": "S092019020002",
+      "name": "Rizki Farmasita Budiastuti",
+      "back": "S.F.,M.Farm",
+      "email": "rizki@jgu.ac.id",
+      "hp": 6281215518499
+      },
+      {
+      "id": "S092012120066",
+      "name": "Sinka Wilyanti",
+      "back": "ST.,MT",
+      "email": "sinka@jgu.ac.id",
+      "hp": 628158742451
+      },
+      {
+      "id": "S092019090007",
+      "name": "Alfi Magfuriyah",
+      "back": "S.ST, M.AF",
+      "email": "alfi@jgu.ac.id",
+      "hp": 6285728719394
+      },
+      {
+      "id": "S092019090003",
+      "name": "Yuni Pambreni",
+      "back": "S.ST, M.MG",
+      "email": "yuni@jgu.ac.id",
+      "hp": 6289657086846
+      },
+      {
+      "id": "S092012120082",
+      "name": "Ribut Nawang Sari",
+      "back": "ST.,MT",
+      "email": "ribut@jgu.ac.id",
+      "hp": 6281317733079
+      },
+      {
+      "id": "S092019020001",
+      "name": "Mohammad Wahyono",
+      "back": "ST.,MT",
+      "email": "mohammad@jgu.ac.id",
+      "hp": 6281398082106
+      },
+      {
+      "id": "S092012120023",
+      "name": "Dedy Rutama",
+      "back": "ST.MT ",
+      "email": "dedy@jgu.ac.id",
+      "hp": 6281222012800
+      },
+      {
+      "id": "S092012120068",
+      "name": "Sukatja",
+      "front": "Ir.",
+      "back": "M.Eng",
+      "email": "sukatja@jgu.ac.id"
+      },
+      {
+      "id": "S092020080005",
+      "name": "Aulia Choiri Windari",
+      "back": "S.Tr.T., M.Sc.Eng",
+      "email": "aulia@jgu.ac.id",
+      "hp": 6281327207431
+      },
+      {
+      "id": "S092017010001",
+      "name": "Kasum",
+      "back": "ST.MT",
+      "email": "kasum@jgu.ac.id",
+      "hp": 6281315630331
+      },
+      {
+      "id": "S092019030006",
+      "name": "Mohamad Zaenudin",
+      "back": "S.PD, MSc.Eng",
+      "email": "mohamad@jgu.ac.id",
+      "hp": 6288210653240
+      },
+      {
+      "id": "S092014090001",
+      "name": "Luthfi",
+      "front": "Ir.M.",
+      "back": "MSc.ENG",
+      "email": "luthfi@jgu.ac.id"
+      },
+      {
+      "id": "S092019030001",
+      "name": "Riyan Ariyansah",
+      "back": "ST.,MT",
+      "email": "riyan@jgu.ac.id"
+      },
+      {
+      "id": "S092020080004",
+      "name": "Brainvendra Widi Dionova",
+      "back": "S.ST, M.IE",
+      "email": "brainvendra@jgu.ac.id",
+      "hp": 6281230622956
+      },
+      {
+      "id": "S092019020003",
+      "name": "Ida Bagus Indra",
+      "back": "ST.MT",
+      "email": "ida@jgu.ac.id"
+      },
+      {
+      "id": "S092018120001",
+      "name": "Ayu Nurul",
+      "back": "ST.MT",
+      "email": "ayu@jgu.ac.id",
+      "hp": 6281318556469
+      },
+      {
+      "id": "S092018090002",
+      "name": "Sinta Restuasih ",
+      "back": "ST.MT",
+      "email": "sinta@jgu.ac.id",
+      "hp": 6285691200622
+      },
+      {
+      "id": "S092019110002",
+      "name": "Muhammad Haikal Satria",
+      "front": "DR.",
+      "back": "IPM",
+      "email": "muhammad@jgu.ac.id",
+      "hp": 60127950456
+      },
+      {
+      "id": "S092019030012",
+      "name": "Legenda Prameswono P",
+      "back": "S.ST, MSc.Eng",
+      "email": "legenda@jgu.ac.id",
+      "hp": 6287796655557
+      },
+      {
+      "id": "S092019030008",
+      "name": "Devan Junesco Vresdian",
+      "back": "S.ST, MSc.Eng",
+      "email": "devan@jgu.ac.id",
+      "hp": 6281391416787
+      },
+      {
+      "id": "S092014080001",
+      "name": "Rum Sapundani",
+      "back": "S.SI.,MT",
+      "email": "rum@jgu.ac.id",
+      "hp": 6285774013322
+      },
+      {
+      "id": "S092012120050",
+      "name": "Mauludi Manfaluthy",
+      "back": "ST.MT",
+      "email": "mauludi@jgu.ac.id",
+      "hp": 6281511110895
+      },
+      {
+      "id": "S092020070001",
+      "name": "Agung Pangestu",
+      "back": "S.Pd., M.Sc.Eng",
+      "email": "agung@jgu.ac.id",
+      "hp": 6283872065419
+      },
+      {
+      "id": "S092016030001",
+      "name": "Untung Suprihadi",
+      "back": "S.Kom.,M.Pd",
+      "email": "untung@jgu.ac.id",
+      "hp": 6289697828673
+      },
+      {
+      "id": "S092019030007",
+      "name": "Anindya Ananda Hapsari",
+      "back": "S.ST, M.IT",
+      "email": "anindya@jgu.ac.id",
+      "hp": 6285601505670
+      },
+
+      
+      {
+      "id": "S092019030020",
+      "name": "Ummy Gusti Salamah",
+      "back": "S.ST, M.IT",
+      "email": "ummy@jgu.ac.id",
+      "hp": 6289655904814
+      },
+      {
+      "id": "S092019030015",
+      "name": "Revita Desi Hartin",
+      "back": "BGD, M.IT",
+      "email": "revita@jgu.ac.id",
+      "hp": 6283802434392
+      },
+      {
+      "id": "S092019030003",
+      "name": "Feri Nugroho",
+      "back": "S.ST, M.IT",
+      "email": "feri@jgu.ac.id",
+      "hp": 6281310392706
+      },
+      {
+      "id": "S092020110004",
+      "name": "Halimatuz Zuhriyah",
+      "back": "S.KOM, M.IT",
+      "email": "halimatuz@jgu.ac.id",
+      "hp": 6289525801875
+      },
+      {
+      "id": "S092019030018",
+      "name": "Onki Alexander",
+      "back": "BCM, M.IT",
+      "email": "onki@jgu.ac.id",
+      "hp": 6281310717877
+      },
+      {
+      "id": "S092019030009",
+      "name": "Arisa Olivia",
+      "back": "S.ST, M.IT",
+      "email": "arisa@jgu.ac.id",
+      "hp": 6282129303208
+      },
+      {
+      "id": "S092019030019",
+      "name": "Risna Oktaviati",
+      "back": "S.ST, M.IT",
+      "email": "risna@jgu.ac.id",
+      "hp": 6281221307400
+      },
+      {
+      "id": "S092019030014",
+      "name": "Nora Listiana",
+      "back": "S.ST, M.IT",
+      "email": "nora@jgu.ac.id",
+      "hp": 6283165951075
+      },
+      {
+      "id": "S092019030021",
+      "name": "Febria Anjara",
+      "back": "S.ST, M.IT",
+      "email": "febria@jgu.ac.id",
+      "hp": 6282111864115
+      },
+      {
+      "id": "S092020080002",
+      "name": "Safira Faizah",
+      "back": "S.TR.KOM, M.IT",
+      "email": "safira@jgu.ac.id",
+      "hp": 6282280441580
+      },
+      {
+      "id": "S092019030010",
+      "name": "Hadi Wijaya",
+      "back": "S.ST, M.IT",
+      "email": "hadi@jgu.ac.id",
+      "hp": 6282278775003
+      },
+      {
+      "id": "S092019030017",
+      "name": "Dian Nugraha",
+      "back": "S.ST, M.IT",
+      "email": "dian@jgu.ac.id",
+      "hp": 6285378900840
+      },
+      {
+      "id": "S092019030016",
+      "name": "R.M. Chairil Andri",
+      "back": "S.ST, M.IT",
+      "email": "chairil@jgu.ac.id",
+      "hp": 60108161606
+      },
+      {
+      "id": "S092021030024",
+      "name": "Muhamad Aldiansyah",
+      "back": "S.SI, MCS",
+      "email": "aldi@jgu.ac.id",
+      "hp": 6285711552484
+      },
+      {
+      "id": "S092020110003",
+      "name": "Nurul Aslamiah Istiqomah",
+      "back": "S.TR.KOM, M.IT",
+      "email": "nurul@jgu.ac.id",
+      "hp": 6289646894117
+      },
+      {
+      "id": "S092020030001",
+      "name": "Benny Efendie ",
+      "back": "S.FARM.,M.FARM",
+      "email": "benny@jgu.ac.id",
+      "hp": 6287786666270
+      },
+      {
+      "id": "S092019010001",
+      "name": "Dewi Rahmawati",
+      "back": "S.FARM.,M.FARM",
+      "email": "dewi@jgu.ac.id",
+      "hp": 6285711005625
+      },
+      {
+      "id": "S092015040001",
+      "name": "Alhara Yuwanda ",
+      "back": "S.SI.,M.SI",
+      "email": "alhara@jgu.ac.id",
+      "hp": 6289520482701
+      },
+      {
+      "id": "S092020060001",
+      "name": "Widianingsih",
+      "back": "S.Farm., M.Sc",
+      "email": "widianingsih@jgu.ac.id"
+      },
+      {
+      "id": "S092020060002",
+      "name": "Enti Hariadha ",
+      "back": "S.Farm., M.Sc",
+      "email": "enti@jgu.ac.id",
+      "hp": 60176166553
+      },
+      {
+      "id": "S092020080003",
+      "name": "Nopratilova ",
+      "back": "B.Pharm(Hons), M.Clin.Pharm",
+      "email": "nopratilova@jgu.ac.id",
+      "hp": 6283117591420
+      },
+      {
+      "id": "S092021030018",
+      "name": "Ahda Sabila Eddy Yusuf ",
+      "back": "B.Pharm, M.Clin.Pharm",
+      "email": "ahda@jgu.ac.id",
+      "hp": 6281285681662
+      },
+      {
+      "id": "S092019090011",
+      "name": "Rahmawati Ulfah ",
+      "back": "S.ST, MAF",
+      "email": "rahmawati@jgu.ac.id"
+      },
+      {
+      "id": "S092019090008",
+      "name": "Nur Fitri Dewi ",
+      "back": "S.ST, MAF",
+      "email": "nur@jgu.ac.id"
+      },
+      {
+      "id": "S092019090009",
+      "name": "Agnemas Yusoep Islami",
+      "back": "S.ST, MAF",
+      "email": "agnemas@jgu.ac.id",
+      "hp": 6282175446604
+      },
+      {
+      "id": "S092019090010",
+      "name": "Zakia Maulida Antono",
+      "back": "S.ST, MAF",
+      "email": "zakia@jgu.ac.id",
+      "hp": 6285753531189
+      },
+      {
+      "id": "S092020110002",
+      "name": "Noviyanti",
+      "back": "S.TR.AK",
+      "email": "noviyanti@jgu.ac.id",
+      "hp": 6282175158552
+      },
+      {
+      "id": "S092019090005",
+      "name": "Udriyah",
+      "back": "S.ST, MMG",
+      "email": "udriyah@jgu.ac.id",
+      "hp": 6289651062370
+      },
+      {
+      "id": "S092019030013",
+      "name": "Dwi Rachmawati ",
+      "back": "S.ST, MMG",
+      "email": "dwi rachmawati@jgu.ac.id"
+      },
+      {
+      "id": "S092021030019",
+      "name": "Ahmad Pitra ",
+      "back": "BHTM (HONS), MMG",
+      "email": "ahmad pitra@jgu.ac.id"
+      },
+      {
+      "id": "S092019040002",
+      "name": "Ali Ridho ",
+      "back": "S.HUM, MMG",
+      "email": "ali ridho@jgu.ac.id",
+      "hp": 6287785396990
+      },
+      {
+      "id": "S092019090002",
+      "name": "Suci Ayu Sudari",
+      "back": "S.ST, MMG",
+      "email": "suci ayu sudari@jgu.ac.id",
+      "hp": 6289515236589
+      }
+      ]

@@ -17,84 +17,526 @@ class UserRolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
         $default_user_value = [
             'email_verified_at' => now(),
-            'password' => bcrypt('adminadmin')
+            'password' => bcrypt('adminadmin'),
         ];
-        // DB::beginTransaction();
-        // try {
-            //create user admin
-            $admin = User::create(array_merge([
+
+        $users = [
+            [
                 'email' => '092023090191@student.jgu.ac.id',
                 'name' => 'Admin',
                 'username' => 'admin',
-            ], $default_user_value));
-            $zidan = User::create(array_merge([
+                'roles' => ['admin', 'auditor', 'auditee', 'lpm', 'approver'],
+            ],
+            [
                 'email' => 'zidanazzahra916@gmail.com',
                 'name' => 'Ziddan Azzahra',
                 'username' => 'zidan',
                 'gender' => 'M',
                 'no_phone' => '081384810569',
                 'nidn' => '092023090191',
-            ], $default_user_value));
-            $rofiq = User::create(array_merge([
+                'roles' => ['auditee', 'auditor'],
+            ],
+            [
                 'email' => 'rofiqabdul983@gmail.com',
                 'name' => 'Muhammad Abdul Rofiq',
                 'username' => 'rofiq',
                 'gender' => 'M',
                 'no_phone' => '082258485039',
                 'nidn' => '092023090180',
-            ], $default_user_value));
-            $feni = User::create(array_merge([
+                'roles' => ['auditor', 'auditee'],
+            ],
+            [
                 'email' => '092023090187@student.jgu.ac.id',
                 'name' => 'Feni Dwi Lestari',
                 'username' => 'feni',
                 'gender' => 'L',
                 'no_phone' => '089602928926',
                 'nidn' => '092023090187',
-            ], $default_user_value));
-            $approver = User::create(array_merge([
+                'roles' => ['lpm', 'admin'],
+            ],
+            [
                 'email' => 'approver@gmail.com',
                 'name' => 'Wakil Rektor',
                 'username' => 'approver',
                 'gender' => 'L',
                 'no_phone' => '08960292567',
                 'nidn' => '092023090190',
-            ], $default_user_value));
-            //create role
-            $role_admin = Role::create(['name' => 'admin', 'color' => '#000000', 'description' => 'Administrator']);
-            $role_auditee = Role::create(['name' => 'auditee', 'color' => '#003285', 'description' => 'Auditee Person']);
-            $role_auditor = Role::create(['name' => 'auditor', 'color' => '#006769', 'description' => 'Auditore Person']);
-            $role_lpm = Role::create(['name' => 'lpm', 'color' => '#FF0000', 'description' => 'LPM Person']);
-            $role_approver = Role::create(['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Approver']);
-            //set default role
-            $admin->assignRole('admin');
-            $admin->assignRole('auditor');
-            $admin->assignRole('auditee');
-            $admin->assignRole('lpm');
-            $admin->assignRole('approver');
+                'roles' => ['approver', 'auditee', 'auditor'],
+            ],
 
-            $zidan->assignRole('auditee');
-            $zidan->assignRole('auditor');
+            // dosen asli
+            [
+                'email' => 'ariep@jgu.ac.id',
+                'name' => 'Ariep Jaenul',
+                'username' => 'ariep',
+                'nidn' => 'S092019030004',
+                'roles' => ['admin', 'auditor', 'auditee']
+            ],
+            [
+                'email' => 'yanuar@jgu.ac.id',
+                'name' => 'Yanuar Zulardiansyah Arief',
+                'username' => 'yanuar',
+                'nidn' => 'S092019110003',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'eddy@jgu.ac.id',
+                'name' => 'Eddy Yusuf',
+                'username' => 'eddy',
+                'nidn' => 'S092012120001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'adhes@jgu.ac.id',
+                'name' => 'Adhes Gamayel',
+                'username' => 'adhes',
+                'nidn' => 'S092012120005',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'risma@jgu.ac.id',
+                'name' => 'Risma Ekawati',
+                'username' => 'risma',
+                'nidn' => 'S092012120083',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ade@jgu.ac.id',
+                'name' => 'Ade Sunardi',
+                'username' => 'ade',
+                'nidn' => 'S092012120002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'rizki@jgu.ac.id',
+                'name' => 'Rizki Farmasita Budiastuti',
+                'username' => 'rizki',
+                'nidn' => 'S092019020002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'sinka@jgu.ac.id',
+                'name' => 'Sinka Wilyanti',
+                'username' => 'sinka',
+                'nidn' => 'S092012120066',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'alfi@jgu.ac.id',
+                'name' => 'Alfi Magfuriyah',
+                'username' => 'alfi',
+                'nidn' => 'S092019090007',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'yuni@jgu.ac.id',
+                'name' => 'Yuni Pambreni',
+                'username' => 'yuni',
+                'nidn' => 'S092019090003',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ribut@jgu.ac.id',
+                'name' => 'Ribut Nawang Sari',
+                'username' => 'sari',
+                'nidn' => 'S092012120082',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'mohammad@jgu.ac.id',
+                'name' => 'Mohammad Wahyono',
+                'username' => 'wahyono',
+                'nidn' => 'S092019020001',
+                'roles' => ['auditee'],
+            ],[
+                'email' => 'dedy@jgu.ac.id',
+                'name' => 'Dedy Rutama',
+                'username' => 'dedy',
+                'nidn' => 'S092012120023',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'sukatja@jgu.ac.id',
+                'name' => 'Sukatja',
+                'username' => 'sukatja',
+                'nidn' => 'S092012120068',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'aulia@jgu.ac.id',
+                'name' => 'Aulia Choiri Windari',
+                'username' => 'aulia',
+                'nidn' => 'S092020080005',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'kasum@jgu.ac.id',
+                'name' => 'Kasum',
+                'username' => 'kasum',
+                'nidn' => 'S092017010001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'mohamad@jgu.ac.id',
+                'name' => 'Mohamad Zaenudin',
+                'username' => 'zaenudin',
+                'nidn' => 'S092019030006',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'luthfi@jgu.ac.id',
+                'name' => 'Luthfi',
+                'username' => 'luthfi',
+                'nidn' => 'S092014090001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'riyan@jgu.ac.id',
+                'name' => 'Riyan Ariyansah',
+                'username' => 'riyan',
+                'nidn' => 'S092019030001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'brainvendra@jgu.ac.id',
+                'name' => 'Brainvendra Widi Dionova',
+                'username' => 'brainvendra',
+                'nidn' => 'S092020080004',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ida@jgu.ac.id',
+                'name' => 'Ida Bagus Indra',
+                'username' => 'ida',
+                'nidn' => 'S092019020003',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ayu@jgu.ac.id',
+                'name' => 'Ayu Nurul',
+                'username' => 'ayu',
+                'nidn' => 'S092018120001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'sinta@jgu.ac.id',
+                'name' => 'Sinta Restuasih',
+                'username' => 'sinta',
+                'nidn' => 'S092018090002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'muhammad@jgu.ac.id',
+                'name' => 'Muhammad Haikal Satria',
+                'username' => 'haikal',
+                'nidn' => 'S092019110002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'legenda@jgu.ac.id',
+                'name' => 'Legenda Prameswono P',
+                'username' => 'legenda',
+                'nidn' => 'S092019030012',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'devan@jgu.ac.id',
+                'name' => 'Devan Junesco Vresdian',
+                'username' => 'devan',
+                'nidn' => 'S092019030008',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'rum@jgu.ac.id',
+                'name' => 'Rum Sapundani',
+                'username' => 'rum',
+                'nidn' => 'S092014080001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'mauludi@jgu.ac.id',
+                'name' => 'Mauludi Manfaluthy',
+                'username' => 'mauludi',
+                'nidn' => 'S092012120050',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'agung@jgu.ac.id',
+                'name' => 'Agung Pangestu',
+                'username' => 'agung',
+                'nidn' => 'S092020070001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'untung@jgu.ac.id',
+                'name' => 'Untung Suprihadi',
+                'username' => 'untung',
+                'nidn' => 'S092016030001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'anindya@jgu.ac.id',
+                'name' => 'Anindya Ananda Hapsari',
+                'username' => 'anindya',
+                'nidn' => 'S092019030007',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ummy@jgu.ac.id',
+                'name' => 'Ummy Gusti Salamah',
+                'username' => 'ummy',
+                'nidn' => 'S092019030020',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'revita@jgu.ac.id',
+                'name' => 'Revita Desi Hartin',
+                'username' => 'revita',
+                'nidn' => 'S092019030015',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'feri@jgu.ac.id',
+                'name' => 'Feri Nugroho',
+                'username' => 'feri',
+                'nidn' => 'S092019030003',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'halimatuz@jgu.ac.id',
+                'name' => 'Halimatuz Zuhriyah',
+                'username' => 'halimatuz',
+                'nidn' => 'S092020110004',
+                'roles' => ['auditor', 'auditee'],
+            ],
+            [
+                'email' => 'onki@jgu.ac.id',
+                'name' => 'Onki Alexander',
+                'username' => 'onki',
+                'nidn' => 'S092019030018',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'arisa@jgu.ac.id',
+                'name' => 'Arisa Olivia',
+                'username' => 'arisa',
+                'nidn' => 'S092019030009',
+                'roles' => ['admin', 'auditor', 'auditee'],
+            ],
+            [
+                'email' => 'risna@jgu.ac.id',
+                'name' => 'Risna Oktaviati',
+                'username' => 'risna',
+                'nidn' => 'S092019030019',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'nora@jgu.ac.id',
+                'name' => 'Nora Listiana',
+                'username' => 'nora',
+                'nidn' => 'S092019030014',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'febria@jgu.ac.id',
+                'name' => 'Febria Anjara',
+                'username' => 'febria',
+                'nidn' => 'S092019030021',
+                'roles' => ['admin', 'auditor', 'auditee', 'lpm'],
+            ],
+            [
+                'email' => 'safira@jgu.ac.id',
+                'name' => 'Safira Faizah',
+                'username' => 'safira',
+                'nidn' => 'S092020080002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'hadi@jgu.ac.id',
+                'name' => 'Hadi Wijaya',
+                'username' => 'hadi',
+                'nidn' => 'S092019030010',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'dian@jgu.ac.id',
+                'name' => 'Dian Nugraha',
+                'username' => 'dian',
+                'nidn' => 'S092019030017',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'chairil@jgu.ac.id',
+                'name' => 'R.M. Chairil Andri',
+                'username' => 'Chairil',
+                'nidn' => 'S092019030016',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'aldi@jgu.ac.id',
+                'name' => 'Muhamad Aldiansyah',
+                'username' => 'aldiansyah',
+                'nidn' => 'S092021030024',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'nurul@jgu.ac.id',
+                'name' => 'Nurul Aslamiah Istiqomah',
+                'username' => 'aslamiah',
+                'nidn' => 'S092020110003',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'benny@jgu.ac.id',
+                'name' => 'Benny Efendie',
+                'username' => 'benny',
+                'nidn' => 'S092020030001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'dewi@jgu.ac.id',
+                'name' => 'Dewi Rahmawati',
+                'username' => 'dewi',
+                'nidn' => 'S092019010001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'alhara@jgu.ac.id',
+                'name' => 'Alhara Yuwanda',
+                'username' => 'alhara',
+                'nidn' => 'S092015040001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'widianingsih@jgu.ac.id',
+                'name' => 'Widianingsih',
+                'username' => 'widianingsih',
+                'nidn' => 'S092020060001',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'enti@jgu.ac.id',
+                'name' => 'Enti Hariadha',
+                'username' => 'enti',
+                'nidn' => 'S092020060002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'nopratilova@jgu.ac.id',
+                'name' => 'Nopratilova',
+                'username' => 'nopratilova',
+                'nidn' => 'S092020080003',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ahda@jgu.ac.id',
+                'name' => 'Ahda Sabila Eddy Yusuf',
+                'username' => 'ahda',
+                'nidn' => 'S092021030018',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'rahmawati@jgu.ac.id',
+                'name' => 'Rahmawati Ulfah',
+                'username' => 'rahmawati',
+                'nidn' => 'S092019090011',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'nur@jgu.ac.id',
+                'name' => 'Nur Fitri Dewi',
+                'username' => 'fitri',
+                'nidn' => 'S092019090008',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'agnemas@jgu.ac.id',
+                'name' => 'Agnemas Yusoep Islami',
+                'username' => 'agnemas',
+                'nidn' => 'S092019090009',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'zakia@jgu.ac.id',
+                'name' => 'Zakia Maulida Antono',
+                'username' => 'zakia',
+                'nidn' => 'S092019090010',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'noviyanti@jgu.ac.id',
+                'name' => 'Noviyanti',
+                'username' => 'noviyanti',
+                'nidn' => 'S092020110002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'udriyah@jgu.ac.id',
+                'name' => 'Udriyah',
+                'username' => 'udriyah',
+                'nidn' => 'S092019090005',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'dwi rachmawati@jgu.ac.id',
+                'name' => 'Dwi Rachmawati',
+                'username' => 'rachmawati',
+                'nidn' => 'S092019030013',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ahmad pitra@jgu.ac.id',
+                'name' => 'Ahmad Pitra',
+                'username' => 'ritra',
+                'nidn' => 'S092021030019',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ali ridho@jgu.ac.id',
+                'name' => 'Ali Ridho',
+                'username' => 'ridho',
+                'nidn' => 'S092019040002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'suci ayu sudari@jgu.ac.id',
+                'name' => 'Suci Ayu Sudari',
+                'username' => 'suci',
+                'nidn' => 'S092019090002',
+                'roles' => ['auditee'],
+            ],
+        ];
 
-            $rofiq->assignRole('auditor');
-            $rofiq->assignRole('auditee');
+        $roles = [
+            ['name' => 'admin', 'color' => '#000000', 'description' => 'Administrator'],
+            ['name' => 'auditee', 'color' => '#003285', 'description' => 'Auditee Person'],
+            ['name' => 'auditor', 'color' => '#006769', 'description' => 'Auditor Person'],
+            ['name' => 'lpm', 'color' => '#FF0000', 'description' => 'LPM Person'],
+            ['name' => 'approver', 'color' => '#5C2FC2', 'description' => 'Approver'],
+        ];
 
-            $feni->assignRole('lpm');
-            $feni->assignRole('admin');
+        // Create roles
+        foreach ($roles as $roleData) {
+            Role::create($roleData);
+        }
 
-            $approver->assignRole('approver');
-            $approver->assignRole('auditee');
-            $approver->assignRole('auditor');
+        // Create users and assign roles
+        foreach ($users as $userData) {
+            $roles = $userData['roles'];
+            unset($userData['roles']);
+            $user = User::create(array_merge($userData, $default_user_value));
+            $user->assignRole($roles);
+        }
 
-            //create permission
-            $permission = Permission::create(['name' => 'log-viewers.read']);
-            //set direct permissions
+        // Create permission
+        $permission = Permission::create(['name' => 'log-viewers.read']);
+        
+        // Assign permission to the admin
+        $admin = User::where('email', '092023090191@student.jgu.ac.id')->first();
+        if ($admin) {
             $admin->givePermissionTo('log-viewers.read');
-        //     DB::commit();
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        // }
+        }
     }
 }

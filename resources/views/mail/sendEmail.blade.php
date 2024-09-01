@@ -288,9 +288,5 @@ table.order-detail tr:nth-child(odd) {
         </tbody>
     </table>
 </body>
+</html>
 
-<<<<<<< HEAD
-</html>
-=======
-</html>
->>>>>>> 75d0dd656b60e46c4577080a41bcf88a9a72b806
