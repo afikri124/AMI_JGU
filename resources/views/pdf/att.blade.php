@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>AMI Report | {{ date('d/m/Y', strtotime($data->date_start)) }}</title>
@@ -22,6 +23,7 @@
         .page-break {
             page-break-after: always;
         }
+        
         td,
         th {
             border: 1px solid black;
@@ -80,10 +82,10 @@
 </head>
 <body>
     @foreach ($standardCriterias as $criteria)
-    <div class="page-break">
+    <div>
         <table>
         <tr class="header-row">
-        <td rowspan="6" style="width: 10%;"><center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center></td>
+        <td rowspan="6" style="width: 1%;"><center><img src="{{ public_path('/assets/img/picture2.png') }}" alt="Logo" style="width: 100px; height: auto;"></center></td>
             <td colspan="3" style="width: 75%; padding: 2px;"><center><b>ABSENSI KEGIATAN</b></center></td>
             <td rowspan="6" style="width: 10%;"><center>FM/JGU/L.007</center></td>
         </tr>
@@ -168,5 +170,12 @@
         </div>
         <div class="clear"></div>
     </div>
-</div>
+    </div> <!-- Akhir dari konten halaman -->
+    
+    <!-- Tambahkan page-break setelah setiap halaman -->
+    @if (!$loop->last) <!-- Cek apakah ini bukan iterasi terakhir -->
+        <div class="page-break"></div>
+    @endif
 @endforeach
+</body>
+</html>

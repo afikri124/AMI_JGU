@@ -68,7 +68,7 @@
 <body>
 
     @foreach ($standardCriterias as $criteria)
-<div class="page-break">
+<div>
     <table width="100%">
     <tr>
         <td rowspan="2" class="center">
@@ -108,7 +108,7 @@
     <tr>
         <td width="30%" valign="top">AUDITOR</td>
         <td width="70%" valign="top">KETUA : {{ $auditors->first()->auditor->name }}
-                <br>ANGGOTA : {{$hodLPM->title}}
+                <br>ANGGOTA : @if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif
         </td>
     </tr>
     <tr>
@@ -122,7 +122,7 @@
         <th><center>NO</center></th>
         <th><center>INDIKATOR CAPAIAN STANDAR</center></th>
         <th><center>PERTANYAAN</center></th>
-        <th><center>DOKUMEN YANG AKAN DICHECK</center></th>
+        <th><center>DOKUMEN YANG AKAN DI CEK</center></th>
     </tr>
     @php $counter = 1; @endphp
     @foreach ($criteria->statements as $no => $statement)
@@ -223,4 +223,12 @@
     </tr>
 </table>
 </div>
+</div> <!-- Akhir dari konten halaman -->
+    
+<!-- Tambahkan page-break setelah setiap halaman -->
+@if (!$loop->last) <!-- Cek apakah ini bukan iterasi terakhir -->
+    <div class="page-break"></div>
+@endif
 @endforeach
+</body>
+</html>

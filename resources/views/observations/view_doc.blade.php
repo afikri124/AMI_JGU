@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Review Standard Auditee')
+@section('title', 'List Standard Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -123,26 +123,36 @@
             $filteredObs = $obs_c->where('observation_id', $observation->id)
                                     ->where('indicator_id', $indicator->id);
         @endphp
-        @foreach ($filteredObs as $checklist)
+        @foreach ($filteredObs as $obsChecklist)
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
                     <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                 </td>
                 <td>
-                    <label class="form-label"><b>Audit Document</b></label>
-                    <br>
-                            @if ($checklist->doc_path)
-                                @php
-                                    // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                                    $fileName = basename($checklist->doc_path);
-                                    $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
-                                @endphp
-                                <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                    {{ $fileNameWithoutId }}
-                                </a>
-                            @endif
+                    @if ($obsChecklist->doc_path)
+                        @php
+                            $fileName = basename($obsChecklist->doc_path);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                        @endphp
+                        <strong class="form-label">File: </strong>
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                    @endif
                     @error('doc_path')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    <br>
+                    @if ($obsChecklist->link)
+                        <strong class="form-label">Link: </strong>
+                        <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $obsChecklist->link }}
+                        </a>
+                    @endif
+                    @error('link')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -159,14 +169,14 @@
                         <label class="form-label" for="basicDate"><b>Remark Document By Auditee</b></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control bg-user @error('remark_path_auditee') is-invalid @enderror"
-                            name="remark_path_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly>{{ $checklist->remark_path_auditee}}</textarea>
+                            name="remark_path_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..." readonly>{{ $obsChecklist->remark_path_auditee}}</textarea>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td style="width: 10%" id="review-docs">
-                    <strong>Review Document</strong>
+                    <strong>List Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach

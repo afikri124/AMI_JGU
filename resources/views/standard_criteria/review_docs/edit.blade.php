@@ -23,7 +23,6 @@
         </div>
         @endif
         <div class="card mb-4">
-                <!-- Account -->
                 <hr class="my-0">
                 <div class="card-body">
                 <form action="{{ route('update_docs.review_docs', $data->id) }}" method="POST">
@@ -81,7 +80,7 @@
                             </div>
                     <div class="col-lg-12 col-md-12">
                             <div class="form-group">
-                            <label for="name" class="col-form-label">Review Document</label>
+                            <label for="name" class="col-form-label">List Document</label>
                             <input type="hidden" class="form-control" name="name" id="name" value="{!! $data->name !!}"></input>
                             <trix-editor input="name"></trix-editor>
                         </div>

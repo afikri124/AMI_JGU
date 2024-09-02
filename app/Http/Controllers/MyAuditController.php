@@ -290,98 +290,103 @@ public function deleteLink($id)
 {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
-
-    if (Auth::user()->role == 'auditee') {
-    }
-    // Retrieve the observation using the ID
-    $observation = Observation::where('audit_plan_id', $id)->get();
-
+    
+    // Ambil semua data observasi terkait audit plan
+    $observations = Observation::where('audit_plan_id', $id)->get();
+    
     if ($request->isMethod('POST')) {
-        // Validate the request
+        // Validasi umum
         $this->validate($request, [
-            'person_in_charge' => ['required'],
-            'plan_completed' => ['required'],
-            'date_prepared' => ['required'],
-            'remark_upgrade_repair' => ['required'],
+            'person_in_charge' => ['nullable'],
+            'plan_completed' => ['nullable'],
+            'date_prepared' => ['nullable'],
+            'remark_upgrade_repair' => ['nullable'],
         ]);
-
-        // Update the Observation
-        foreach ($observation as $obs) {
-            $obs->update([
-            'date_prepared' => $request->date_prepared,
-        ]);
-    }
-
-        // Update Observation Checklists
-        foreach ($request->remark_upgrade_repair as $key => $remark) {
-                $checklists = ObservationChecklist::where('observation_id', $obs->id)
-                    ->where('indicator_id', $key)
-                    ->get();
-
-                foreach ($checklists as $checklist) {
-                    $checklist->update([
-                    'remark_upgrade_repair' => $remark,
-                    'person_in_charge' => $request->person_in_charge[$key] ?? '',
-                    'plan_completed' => $request->plan_completed[$key] ?? '',
+    
+        $action = $request->input('action');
+    
+        // Proses Save Draft
+        if ($action === 'Save') {
+            // Update data observasi terkait
+            foreach ($observations as $observation) {
+                $observation->update([
+                    'date_prepared' => $request->input('date_prepared'),
+                ]);
+    
+                // Update checklist observasi
+                foreach ($request->indicator_id as $index => $indicatorId) {
+                    ObservationChecklist::updateOrCreate(
+                        [
+                            'observation_id' => $observation->id,
+                            'indicator_id' => $indicatorId,
+                        ],
+                        [
+                            'plan_completed' => $request->input("plan_completed.$index"),
+                            'person_in_charge' => $request->input("person_in_charge.$index"),
+                            'remark_upgrade_repair' => $request->input("remark_upgrade_repair.$index"),
+                        ]
+                    );
+                }
+            }
+    
+            return redirect()->route('my_audit.index')->with('msg', 'Save Draft Observations Success');
+        }
+        if ($action === 'Submit') {
+            foreach ($observations as $observation) {
+                $observation->update([
+                    'date_prepared' => $request->input('date_prepared'),
+                ]);
+    
+                // Update checklist observasi
+                foreach ($request->indicator_id as $index => $indicatorId) {
+                    ObservationChecklist::updateOrCreate(
+                        [
+                            'observation_id' => $observation->id,
+                            'indicator_id' => $indicatorId,
+                        ],
+                        [
+                            'plan_completed' => $request->input("plan_completed.$index"),
+                            'person_in_charge' => $request->input("person_in_charge.$index"),
+                            'remark_upgrade_repair' => $request->input("remark_upgrade_repair.$index"),
+                        ]
+                    );
+                }
+                $data->update([
+                    'audit_status_id' => '15', // Ganti dengan ID status audit yang sesuai
                 ]);
             }
+            return redirect()->route('my_audit.index')->with('msg', 'Observations Updated Successfully');
         }
-
-        $data->update([
-            'audit_status_id'   => '15',
-        ]);
-
-        // Kirim Email Ke Auditor Dan LPM Audit Finish
-        // $auditPlanId = $data->id;
-        // $auditPlanAuditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)
-        //     ->with('auditor')
-        //     ->get();
-        // foreach ($auditPlanAuditors as $auditPlanAuditor) {
-        //     $auditor = $auditPlanAuditor->auditor;
-        //     if ($auditor && $auditor->email) {
-        //         Mail::to($auditor->email)->send(new auditingFinish($data));
-        //     }
-        // }
-        // $lpm = User::whereHas('roles', function ($q) {
-        //     $q->where('name', 'lpm');
-        // })
-        // ->orderBy('name')
-        // ->get(['id', 'email', 'name']);
-        // foreach ($lpm as $user) {
-        //     Mail::to($user->email)->send(new auditingFinish($id));
-        // }
-
-        return redirect()->route('my_audit.index')->with('msg', 'Observation Auditee updated successfully!!');
     }
+    // Data untuk tampilan
+    $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+    $auditPlanAuditorIds = $auditor->pluck('id');
 
-        $data = AuditPlan::findOrFail($id);
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
-        $auditPlanAuditorIds = $auditor->pluck('id');
+    $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+    $standardCategoryIds = $category->pluck('standard_category_id');
+    $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
 
-        $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
-        $standardCategoryIds = $category->pluck('standard_category_id');
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
+    $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+    $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
+    $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
+                        ->with('statements')
+                        ->with('statements.indicators')
+                        ->with('statements.reviewDocs')
+                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
+                        ->orderBy('title')
+                        ->get();
 
-        $criteria = AuditPlanCriteria::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
-        $standardCriteriaIds = $criteria->pluck('standard_criteria_id');
-        $standardCriterias = StandardCriteria::whereIn('id', $standardCriteriaIds)
-                            ->with('statements')
-                            ->with('statements.indicators')
-                            ->with('statements.reviewDocs')
-                            ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                            ->orderBy('title')
-                            ->get();
+    $observations = Observation::where('audit_plan_id', $id)->get();
+    $observationIds = $observations->pluck('id');
+    $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
+    $hodLPM = Setting::find('HODLPM');
+    $hodBPMI = Setting::find('HODBPMI');
 
-        $observations = Observation::where('audit_plan_id', $id)->get();
-        $observationIds = $observations->pluck('id');
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
-        $hodLPM = Setting::find('HODLPM');
-        $hodBPMI = Setting::find('HODBPMI');
+    return view('my_audit.show',
+    compact('standardCategories', 'standardCriterias',
+    'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+}
 
-        return view('my_audit.show',
-        compact('standardCategories', 'standardCriterias',
-        'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
-    }
 
     public function edit_rtm(Request $request, $id)
     {

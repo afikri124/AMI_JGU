@@ -74,15 +74,15 @@
                                                     <div class="text-danger-custom">Please upload a valid document. The file size should not exceed 50MB.</div>
                                                 @enderror
                                 
-                                                @if($checklist && $checklist->doc_path)
+                                                @if ($checklist && $checklist->doc_path)
                                                     @php
                                                         $fileName = basename($checklist->doc_path);
                                                         $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
                                                     @endphp
-                                                    <div class="mt-2">
-                                                        <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                                            {{ $fileNameWithoutId }}
-                                                        </a>
+                                                    <strong class="form-label">File: </strong>
+                                                    <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 500px;">
+                                                        {{ $fileNameWithoutId }}
+                                                    </a>
                                                         <button formaction="{{ route('my_audit.delete_file', ['id' => $checklist->id]) }}" 
                                                                 class="btn btn-danger btn-sm" type="submit" 
                                                                 onclick="return confirm('Are you sure you want to delete this file?');">
@@ -105,15 +105,11 @@
                                                     <div class="text-danger-custom">Please provide a valid document link.</div>
                                                 @enderror
                                 
-                                                @if($checklist && $checklist->link)
-                                                    @php
-                                                        $fileName = basename($checklist->link);
-                                                        $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
-                                                    @endphp
-                                                    <div class="mt-2">
-                                                        <a href="{{ $checklist->link }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                                            {{ $fileNameWithoutId }}
-                                                        </a>
+                                                @if ($checklist && $checklist->link)
+                                                    <strong class="form-label">Link: </strong>
+                                                    <a href="{{ asset($checklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 500px;">
+                                                        {{ $checklist->link }}
+                                                    </a>
                                                         <button formaction="{{ route('my_audit.delete_link', ['id' => $checklist->id]) }}" 
                                                                 class="btn btn-danger btn-sm" type="submit" 
                                                                 onclick="return confirm('Are you sure you want to delete this link?');">

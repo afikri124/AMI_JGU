@@ -108,7 +108,7 @@
             <tr>
                 <td width="30%" valign="top">AUDITOR</td>
                 <td width="70%" valign="top">KETUA : {{ $auditors->first()->auditor->name }}
-                    <br>ANGGOTA : {{$hodLPM->title}}
+                    <br>ANGGOTA : @if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif
                 </td>
             </tr>
             <tr>
@@ -288,7 +288,7 @@
             <tr>
                 <td width="30%" valign="top">AUDITOR</td>
                 <td width="70%" valign="top">KETUA : {{ $auditors->first()->auditor->name }}
-                    <br>ANGGOTA : {{$hodLPM->title}}
+                    <br>ANGGOTA : @if($auditors->count() > 1) {{ $auditors->get(1)->auditor->name }} @endif
                 </td>
             </tr>
             <tr>

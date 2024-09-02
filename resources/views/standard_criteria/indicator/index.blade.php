@@ -69,7 +69,7 @@
                     Indicator</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    Review Document</a></li>
+                    List Document</a></li>
         </ul>
     </div>
 

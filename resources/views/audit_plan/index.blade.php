@@ -45,7 +45,6 @@
     }
 </style>
 @endsection
-
         <div class="card p-3">
             <div class="card-datatable table-responsive">
                 <div class="card-header flex-column flaex-md-row pb-0">

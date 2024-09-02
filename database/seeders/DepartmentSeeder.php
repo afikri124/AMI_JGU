@@ -17,15 +17,15 @@ class DepartmentSeeder extends Seeder
     {
         //
         $data = [
-            ["id" => "1", "name" => "Digital Business"],
-            ["id" => "2", "name" => "Accounting"],
-            ["id" => "3", "name" => "Management"],
-            ["id" => "4", "name" => "Civil Engineering"],
-            ["id" => "5", "name" => "Mechanical Engineering"],
-            ["id" => "6", "name" => "Informatics Engineering"],
-            ["id" => "7", "name" => "Electrical Engineering"],
-            ["id" => "8", "name" => "Industrial Engineering"],
-            ["id" => "9", "name" => "Pharmacy"],
+            ["id" => "1", "name" => "Bisnis Digital"],
+            ["id" => "2", "name" => "Akuntansi"],
+            ["id" => "3", "name" => "Managemen"],
+            ["id" => "4", "name" => "Teknik Sipil"],
+            ["id" => "5", "name" => "Teknik Mesin"],
+            ["id" => "6", "name" => "Teknik Informatika"],
+            ["id" => "7", "name" => "Teknik Elektro"],
+            ["id" => "8", "name" => "Teknik Industri"],
+            ["id" => "9", "name" => "Farmasi"],
         ];
 
         foreach ($data as $x) {

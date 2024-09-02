@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-@section('title', 'Create Review Document')
+@section('title', 'Create List Document')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
@@ -12,10 +12,6 @@
         border: 1px solid #333;
     }
 </style>
-
-<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-    <div class="row">
-    <div class="col-md-12">
             @if(session('msg'))
             <div class="alert alert-primary alert-dismissible" role="alert">
                 {{ session('msg') }}
@@ -24,13 +20,12 @@
             @endif
             <div class="card mb-4">
                 <hr class="my-0">
-                <div class="card-header">Review Document</div>
                 <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('store_docs.review_docs') }}" enctype="multipart/form-data">
+                    <div class="row">
+                <form method="POST" action="{{ route('store_docs.review_docs') }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="standard_criteria_id" class="form-label">Select Criteria<i class="text-danger">*</i></label>
+                            <div class="form-group col-md-12">
+                                <label for="standard_criteria_id" class="form-label">Criteria<i class="text-danger">*</i></label>
                                 <div class="form-group">
                                     <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
                                         <option value="">Select Criteria</option>
@@ -42,8 +37,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="standard_statement_id" class="form-label">Select Standard Statement<i class="text-danger">*</i></label>
+                            <div class="form-group col-md-12">
+                                <label for="standard_statement_id" class="form-label">Standard Statement<i class="text-danger">*</i></label>
                                 <div class="form-group">
                                     <select class="form-select input-sm select2" name="standard_statement_id" id="standard_statement_id">
                                         <option value="" selected disabled>Select Standard Statement</option>
@@ -60,11 +55,11 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label for="indicator_id" class="form-label">Indicator<i class="text-danger">*</i></label>
                                 <div class="form-group">
                                     <select class="form-select input-sm select2" name="indicator_id" id="indicator_id">
-                                        <option value="" selected disabled>Indicator</option>
+                                        <option value="" selected disabled>Select Indicator</option>
                                         @foreach($indicators as $c)
                                             <option value="{{ $c->id }}" {{ old('indicator_id') == $c->id ? 'selected' : '' }}>
                                                 {{ $c->id }} - {{ $c->name }}
@@ -78,13 +73,13 @@
                                     @enderror
                                 </div>
                             </div>
-<p></p>
-                        <div class="form-group col-md-4">
+                            <p></p>
+                        <div class="form-group col-md-12">
                                 <label for="numForms">Number of Forms</label>
                                 <input type="number" class="form-control" id="numForms" name="numForms" min="1">
                             </div>
                             <div id="dynamic-form-container"></div>
-                            <div class="col-sm-12 mt-4">
+                            <div class="text-end col-sm-12 mt-4">
                                 <button type="submit" class="btn btn-primary data-submit me-sm-1">Create</button>
                                 <a href="{{ route('standard_criteria.review_docs')}}">
                                 <span class="btn btn-outline-secondary">Back</span>
@@ -121,7 +116,7 @@ document.getElementById('numForms').addEventListener('input', function() {
             <p></p>
             <div class="row mb-3">
                 <div class="form-group">
-                    <label for="inputField${i + 1}_1">Review Document<i class="text-danger">*</i></label>
+                    <label for="inputField${i + 1}_1">List Document<i class="text-danger">*</i></label>
                     <input type="hidden"  class="form-control" id="inputField${i + 1}_1" name="review_docs[${i}][name]"></input>
                     <trix-editor input="inputField${i + 1}_1"></trix-editor>
                     </div>

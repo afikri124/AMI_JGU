@@ -171,11 +171,11 @@
                 <td>
                     @if ($obsChecklist->doc_path)
                         @php
-                            // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
                             $fileName = basename($obsChecklist->doc_path);
-                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
                         @endphp
-                        <strong class="form-label">File:     </strong><a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                        <strong class="form-label">File: </strong>
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
                             {{ $fileNameWithoutId }}
                         </a>
                     @endif
@@ -186,14 +186,10 @@
                     @enderror
                     <br>
                     @if ($obsChecklist->link)
-                    @php
-                        // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                        $fileName = basename($obsChecklist->link);
-                        $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
-                    @endphp
-                    <strong class="form-label">Link:     </strong><a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                        {{ $fileNameWithoutId }}
-                    </a>
+                        <strong class="form-label">Link: </strong>
+                        <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $obsChecklist->link }}
+                        </a>
                     @endif
                     @error('link')
                         <span class="invalid-feedback" role="alert">

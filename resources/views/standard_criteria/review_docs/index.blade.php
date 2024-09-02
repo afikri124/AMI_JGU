@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Review Document')
+@section('title', 'List Document')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -69,7 +69,7 @@
                     Indicator</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.review_docs')}}"><i
                         class="bx bx-folder-open me-1"></i>
-                    Review Document</a></li>
+                    List Document</a></li>
         </ul>
     </div>
 
@@ -101,9 +101,8 @@
                             <thead>
                                 <tr>
                                     <th width="20px">No</th>
-                                    <th>Review Document</th>
-                                    <th  >Indicator</th>
-                                    <th  >Standard Statement</th>
+                                    <th>List Document</th>
+                                    <th>Indicator</th>
                                     <th width="15px">Standard Criteria</th>
                                     <th width="40px">Action</th>
                                 </tr>
@@ -189,13 +188,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
-                        return html;
-                    },
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        var html = `<a class="text-success" style= "text-overflow: ellipsis;" title="${row.indicator.name}" href="">${row.indicator.name}</a>`;
+                        var html = `<a class="text-success" style="text-overflow: ellipsis;" title="${row.indicator.name}" href="">${row.indicator.name}</a>`;
                         return html;
                     },
                 },

@@ -82,10 +82,9 @@
 @section('content')
 <div class="row">
 <div class="col-md-12">
-    @if(session('msg'))
-            <div class="alert alert-primary alert-dismissible" role="alert">
+    @if (session('msg'))
+            <div class="alert alert-success">
                 {{ session('msg') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 <div class="card mb-5">
@@ -137,7 +136,8 @@
                                 $filteredObs = $obs_c->where('observation_id', $observation->id)
                                                     ->where('indicator_id', $indicator->id);
                             @endphp
-                            @foreach ($filteredObs as $obsChecklist)
+                           @foreach ($filteredObs as $index => $obsChecklist)
+                           <input type="hidden" name="indicator_id[{{ $index }}]" value="{{ $indicator->id }}">
                             <table class="table table-bordered">
                                 <tr>
                                     <th><b>Standard Statement</b></th>
@@ -164,19 +164,19 @@
                                         <div id="data-sets">
                                             <div id="data-set">
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="ks" name="obs_checklist_option" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
+                                                    <input type="radio" id="ks" name="obs_checklist_option[{{ $index }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
                                                     <label for="ks">KS</label>
                                                 </div>
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="obs" name="obs_checklist_option" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
+                                                    <input type="radio" id="obs" name="obs_checklist_option[{{ $index }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
                                                     <label for="obs">OBS</label>
                                                 </div>
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="kts_minor" name="obs_checklist_option" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
+                                                    <input type="radio" id="kts_minor" name="obs_checklist_option[{{ $index }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
                                                     <label for="kts_minor">KTS MINOR</label>
                                                 </div>
                                                 <div class="checkbox-group">
-                                                    <input type="radio" id="kts_mayor" name="obs_checklist_option" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
+                                                    <input type="radio" id="kts_mayor" name="obs_checklist_option[{{ $index }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
                                                     <label for="kts_mayor">KTS MAYOR</label>
                                                 </div>
                                             </div>
@@ -196,7 +196,8 @@
                                                 $fileName = basename($obsChecklist->doc_path);
                                                 $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
                                             @endphp
-                                            <strong class="form-label">File: </strong><a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                            <strong class="form-label">File: </strong>
+                                            <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
                                                 {{ $fileNameWithoutId }}
                                             </a>
                                         @endif
@@ -207,12 +208,9 @@
                                         @enderror
                                         <br>
                                         @if ($obsChecklist->link)
-                                            @php
-                                                $fileName = basename($obsChecklist->link);
-                                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
-                                            @endphp
-                                            <strong class="form-label">Link: </strong><a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                                {{ $fileNameWithoutId }}
+                                            <strong class="form-label">Link: </strong>
+                                            <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                                {{ $obsChecklist->link }}
                                             </a>
                                         @endif
                                         @error('link')
@@ -228,7 +226,7 @@
                                             <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                                         </label>
                                         <div class="input-group input-group-merge has-validation">
-                                        <textarea id="remark_description" name="remark_description"
+                                        <textarea id="remark_description" name="remark_description[{{ $index }}]"
                                         class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
                                         @error('remark_description.' . $obsChecklist->indicator_id)
                                             <span class="invalid-feedback" role="alert">
@@ -236,7 +234,6 @@
                                             </span>
                                         @enderror
                                         </div>
-                                        <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -245,7 +242,7 @@
                                             <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
                                         </label>
                                         <div class="input-group input-group-merge has-validation">
-                                        <textarea id="remark_success_failed" name="remark_success_failed"
+                                        <textarea id="remark_success_failed" name="remark_success_failed[{{ $index }}]"
                                         class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
                                         @error('remark_success_failed.' . $obsChecklist->indicator_id)
                                             <span class="invalid-feedback" role="alert">
@@ -253,7 +250,6 @@
                                             </span>
                                         @enderror
                                         </div>
-                                        <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -262,7 +258,7 @@
                                             <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
                                         </label>
                                         <div class="input-group input-group-merge has-validation">
-                                        <textarea id="remark_recommend" name="remark_recommend"
+                                        <textarea id="remark_recommend" name="remark_recommend[{{ $index }}]"
                                         class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
                                         @error('remark_recommend.' . $obsChecklist->indicator_id)
                                             <span class="invalid-feedback" role="alert">
@@ -270,7 +266,6 @@
                                             </span>
                                         @enderror
                                         </div>
-                                        <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
                                     </td>
                                 </tr>
                             </table>
@@ -280,7 +275,7 @@
                     @endforeach
                 @endforeach
             @endforeach
-        <div class="row">
+            <div class="row">
                 <div class="col-lg-12 col-md-6 mb-3">
                     <label for="date_checked" class="form-label"><b>Date Checked By Auditor</b><i class="text-danger">*</i></label>
                     <input type="date" class="form-control" name="date_checked" id="date_checked" value="{{$observation->date_checked}}">
@@ -291,7 +286,8 @@
                     @enderror
                 </div>
             </div>
-            <div>
+            <div class="row">
+                <div class="col-lg-12 col-md-6 mb-3">
                 <label class="form-label" for="basicDate"><b>Remark Audit Report By Auditor</b><i class="text-danger">*</i></label></label>
                 <div class="input-group input-group-merge has-validation">
                     <textarea type="text" class="form-control @error('remark_plan') is-invalid @enderror" id="remark_plan"
@@ -303,18 +299,24 @@
                     @enderror
                 </div>
             </div>
-            <br>
-            <div class="text-end">
-                <button class="btn btn-primary me-1" type="submit" name="final_submit" value="1">Submit</button>
-                <a class="btn btn-outline-primary" href="{{ route('observations.index') }}">Back</a>
+            <div class="card-footer d-flex justify-content-between align-items-end">
+                <div class="d-flex">
+                    <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Save">Save Draft</button>
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-primary me-2" type="submit" name="action" value="Submit">Submit</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary me-1">Back</a>
+                </div>
             </div>
-        </form>        
+            </div>
+        </form>
   </div>
   </div>
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
     <script type="text/javascript">
     "use strict";
     setTimeout(function () {
@@ -326,41 +328,5 @@
             });
         })(jQuery);
     }, 350);
-
-    function confirmSubmit() {
-    swal({
-        title: "Are you sure?",
-        text: "Please make sure all data is correct and complete before submitting.",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((willSubmit) => {
-        if (willSubmit) {
-            $.ajax({
-                url: "{{ route('observations.make', $data->id) }}",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    "final_submit": true
-                },
-                success: function (data) {
-                    swal(data.message, {
-                        icon: data.success ? "success" : "error",
-                    }).then(() => {
-                        if (data.success) {
-                            window.location.href = "{{ route('observations.index') }}";
-                        }
-                    });
-                },
-                error: function (xhr, status, error) {
-                    swal("An error occurred: " + error, {
-                        icon: "error",
-                    });
-                }
-            });
-        }
-    });
-}
 </script>
 @endsection

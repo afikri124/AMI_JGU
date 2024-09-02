@@ -83,24 +83,6 @@ class ApproveController extends Controller
             return redirect()->route('lpm.index')->with('msg', 'Standard Updated by LPM.');
         }
 
-        //     // Mendapatkan ID auditor terkait
-        //     $auditPlanAuditorId = $data->auditor()->where('auditor_id', $auditorId)->first()->id;
-
-        //     // Membuat Observation
-        //     Observation::create([
-        //         'audit_plan_id' => $id,
-        //         'audit_plan_auditor_id' => $auditPlanAuditorId,
-        //         'remark_standard_lpm' => $remark,
-        //     ]);
-
-        //     // Memperbarui status audit plan
-        //     $data->update([
-        //         'audit_status_id' => $status,
-        //     ]);
-
-        //     return redirect()->route('lpm.index')->with('msg', 'Standard diperbarui.');
-        // }
-
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         $auditPlanAuditorIds = $auditor->pluck('id');
@@ -119,14 +101,13 @@ class ApproveController extends Controller
                             ->orderBy('title')
                             ->get();
 
-        // Fetch other data needed
         $observations = Observation::where('audit_plan_id', $id)->get();
         $observationIds = $observations->pluck('id');
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         $StatusCheck = [1, 2, 5, 13,];
-        $StatusReport = [6, 8, 15];
+        $StatusReport = [8, 15];
 
         if (in_array($data->audit_status_id, $StatusCheck)) {
             return view('lpm.check', [

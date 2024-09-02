@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Review Standard Auditee')
+@section('title', 'List Standard Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -153,7 +153,7 @@
                 </td>
             <tr>
                 <td style="width: 60%">
-                    <strong>Review Document</strong>
+                    <strong>List Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach

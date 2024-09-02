@@ -121,14 +121,6 @@
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
-                <td>
-                    <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                    @error('link')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
             </tr>
             <tr>
                 <td style="width: 60%">
@@ -165,7 +157,7 @@
             </tr>
             <tr>
                 <td style="width: 60%" id="review-docs">
-                    <strong>Review Document</strong>
+                    <strong>List Document</strong>
                     @foreach ($statement->reviewDocs as $reviewDoc)
                         <ul>{!! $reviewDoc->name !!}</ul>
                     @endforeach
@@ -173,10 +165,10 @@
                 <td>
                     @if ($obsChecklist->doc_path)
                         @php
-                            // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
                             $fileName = basename($obsChecklist->doc_path);
-                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
                         @endphp
+                        <strong class="form-label">File: </strong>
                         <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
                             {{ $fileNameWithoutId }}
                         </a>
@@ -186,21 +178,18 @@
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
+                    <br>
                     @if ($obsChecklist->link)
-                    @php
-                        // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                        $fileName = basename($obsChecklist->link);
-                        $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
-                    @endphp
-                    <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                        {{ $fileNameWithoutId }}
-                    </a>
-                @endif
-                @error('link')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                        <strong class="form-label">Link: </strong>
+                        <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $obsChecklist->link }}
+                        </a>
+                    @endif
+                    @error('link')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </td>
             </tr>
             <tr>
@@ -320,7 +309,8 @@
                     @enderror
             </div>
             <hr class="text-dark">
-            <div class="form-group mb-3">
+            <div class="row">
+                <div class="col-lg-12 col-md-6 mb-3">
                 <label for="date_validated" class="form-label large-text"><b>Date Validate By LPM</b><i class="text-danger">*</i></label>
                 <input type="datetime-local" class="form-control" name="date_validated" id="date_validated" value="{{$observation->date_validated}}">
                 @error('date_validated')
@@ -329,18 +319,20 @@
                     </span>
                 @enderror
             </div>
-            <div class="form-group mb-3">
-                <label for="remark_audit_lpm" class="form-label large-text"><b>Remark Audit Report by LPM</b></label>
+            <div class="col-lg-12 col-md-6 mb-3">
+                <label for="remark_audit_lpm" class="form-label large-text"><b>Remark Audit by LPM</b></label>
                 <textarea class="form-control" id="modal-remark_audit_lpm" name="remark_audit_lpm" placeholder="MAX 350 karakter...">{{ $observation->remark_audit_lpm }}</textarea>
                 <i class="text-danger"><b>* Please comment on why you disagree with the above Audit Report.</b></i>
             </div>
-            <p></p>
+            </div>
+            <div class="row">
             <div class="card-footer d-flex justify-content-between align-items-end">
                 <div class="d-flex">
                     <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Approve">Approve</button>
                     <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revised</button>
                 </div>
                 <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Back</a>
+            </div>
             </div>
         </div>
       </div>

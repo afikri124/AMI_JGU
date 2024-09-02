@@ -215,11 +215,9 @@
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
-                        if (row.auditstatus.id === 6 || row.auditstatus.id === 7 || row.auditstatus.id === 8 || row.auditstatus.id === 15) {
+                        if (row.auditstatus.id === 6) {
                             x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('/view/${row.id}') }}">
-                                    <i class="bx bx-printer"></i></a>
-                                <a class="badge bg-warning" title="Remark Make Report By LPM" href="{{ url('lpm/lpm_standard/${row.id}') }}">
-                                    <i class="bx bx-pencil"></i></a>`;
+                                    <i class="bx bx-printer"></i></a>`;
                         }
                         else if(row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 13 ){
                             x = `<a class="badge bg-warning" title="Determine Standard" href="{{ url('lpm/lpm_standard/${row.id}') }}">
@@ -228,6 +226,10 @@
                         else if(row.auditstatus.id === 14){
                                 x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('lpm/rtm_edit/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`
+                        }
+                        else if(row.auditstatus.id === 15 || row.auditstatus.id === 8){
+                                x = `<a class="badge bg-warning" title="Remark Make Report By LPM" href="{{ url('lpm/lpm_standard/${row.id}') }}">
+                                    <i class="bx bx-pencil"></i></a>`
                         }
                         return x;
                     },

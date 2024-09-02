@@ -22,14 +22,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
+        <form id="form-add-new-record" method="POST" action="{{ route('store_indicator.indicator') }}" enctype="multipart/form-data">
+            @csrf
         <div class="card mb-4">
-            <hr class="my-0">
-            <div class="card-header">Indicator</div>
             <div class="card-body">
-                <form id="form-add-new-record" method="POST" action="{{ route('store_indicator.indicator') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                            <div class="form-group col-md-6">
+                <div class="row">
+                            <div class="form-group col-md-12">
                                 <label for="standard_criteria_id" class="form-label">Select Criteria<i class="text-danger">*</i></label>
                                 <div class="form-group">
                                     <select name="standard_criteria_id" id="standard_criteria_id" class="form-select input-sm select2" required>
@@ -42,8 +40,8 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="form-group col-md-6">
+                            <p>
+                            <div class="form-group col-md-12">
                                 <label for="standard_statement_id" class="form-label">Select Standard Statement<i class="text-danger">*</i></label>
                                 <div class="form-group">
                                 <select class="form-select input-sm select2" name="standard_statement_id" id="standard_statement_id">
@@ -61,15 +59,15 @@
                                 @enderror
                             </div>
                         </div>
-                    <p></p>
-                    <div class="form-group col-md-4">
+                    <p>
+                    <div class="form-group col-md-12">
                         <label for="numForms">Number of Forms</label>
                         <input type="number" class="form-control" id="numForms" name="numForms" min="1">
                     </div>
 
                     <div id="dynamic-form-container"></div>
 
-                    <div class="col-sm-12 mt-3">
+                    <div class="text-end col-sm-12 mt-3">
                         <button type="submit" class="btn btn-primary data-submit me-1">Create</button>
                         <a href="{{ route('standard_criteria.indicator.index')}}">
                         <span class="btn btn-outline-secondary">Back</span>
