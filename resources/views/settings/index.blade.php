@@ -60,18 +60,18 @@
                 @csrf
                 <div class="form-group">
                     <label for="current_password">Current Password:</label>
-                    <input type="password" class="form-control" id="current_password" name="current_password" required placeholder="Masukkan Password Anda Saat Ini">
+                    <input type="password" class="form-control" id="current_password" name="current_password" required placeholder="Enter your current password">
                     <div class="show-hide"><span class="show"> </span></div>
                 </div><br>
 
                 <div class="form-group">
                     <label for="new_password">New Password:</label>
-                    <input type="password" class="form-control" id="new_password" name="new_password" required placeholder="Masukkan Password Baru Anda">
+                    <input type="password" class="form-control" id="new_password" name="new_password" required placeholder="Enter your new password">
                 </div><br>
 
                 <div class="form-group">
                     <label for="new_password_confirmation">Confirm New Password:</label>
-                    <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required placeholder="Masukkan Kembali Password Baru Anda">
+                    <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required placeholder="Reenter Your New Password">
                 </div>
 <br>
                 <div class="form-group text-right">

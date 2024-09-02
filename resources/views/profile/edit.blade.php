@@ -73,23 +73,23 @@
                     <div class="row">
                         <div class="mb-3 col-md-6 fv-plugins-icon-container">
                             <label class="form-label">Name</label>
-                            <input class="form-control" type="text" name="name" value="{{ Auth::user()->name }}" >
+                            <input class="form-control" type="text" maxlength="40"name="name" value="{{ Auth::user()->name }}" >
                         </div>
                         <div class="mb-3 col-md-6 fv-plugins-icon-container">
                             <label class="form-label">Front title</label>
-                            <input class="form-control" type="text" name="front_title" value="{{ Auth::user()->front_title }}" >
+                            <input class="form-control" type="text" maxlength="7" name="front_title" value="{{ Auth::user()->front_title }}" >
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Username</label>
-                            <input class="form-control" type="text" name="username" value="{{ Auth::user()->username }}" >
+                            <input class="form-control" type="text"  maxlength="20" name="username" value="{{ Auth::user()->username }}" >
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Back title</label>
-                            <input class="form-control" type="text" name="back_title" value="{{ Auth::user()->back_title }}" >
+                            <input class="form-control" type="text" maxlength="7" name="back_title" value="{{ Auth::user()->back_title }}" >
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Email</label>
-                            <input class="form-control" type="email" name="email" value="{{ Auth::user()->email }}">
+                            <input class="form-control" type="email"maxlength="40" name="email" value="{{ Auth::user()->email }}">
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Phone <i>(ex. 62xxxxxxxxx)</i></label>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">NIDN</label>
-                            <input class="form-control" type="number" name="nidn" id="nidn" value="{{ Auth::user()->nidn }}"  >
+                            <input class="form-control" type="text" maxlength="20"  name="nidn" id="nidn" value="{{ Auth::user()->nidn }}"  >
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Department</label>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Job</label>
-                            <input class="form-control" type="text" name="job" value="{{ Auth::user()->job }}" >
+                            <input class="form-control" type="text" maxlength="35" name="job" value="{{ Auth::user()->job }}" >
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="gender" class="form-label">Gender</label>

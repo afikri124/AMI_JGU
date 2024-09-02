@@ -303,7 +303,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.name +
+                        var html = `<a class="text-primary" title="` + row.name + 
                             `" href="{{ url('setting/manage_account/users/edit/` +
                             row.idd + `') }}">` + row.name + `</a>`;
 
