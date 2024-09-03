@@ -20,6 +20,7 @@ use App\Models\Location;
 use App\Models\Observation;
 use App\Models\StandardCategory;
 use App\Models\StandardCriteria;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -147,8 +148,9 @@ class AuditPlanController extends Controller
             ->orderBy('name')->get();
 
         $data = AuditPlan::all();
-
-        return view("audit_plan.add", compact("data", "category", "criterias", "auditee", "auditor", "locations", "auditStatus", "departments", "audit_plan"));
+        $prd = Carbon::now()->subYears(5)->year;
+        return view("audit_plan.add", compact("data", "category", "criterias", "auditee", 
+        "auditor", "locations", "auditStatus", "departments", "audit_plan", 'prd'));
     }
 
 

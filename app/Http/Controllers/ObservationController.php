@@ -166,15 +166,7 @@ class ObservationController extends Controller
 
     if ($request->isMethod('POST')) {
         // dd($request->all());
-        $this->validate($request, [
-            'location_id' => ['nullable'],
-            'remark_plan' => ['nullable'],
-            'date_checked' => ['nullable'],
-            'remark_description.*' => ['nullable'],
-            'obs_checklist_option.*' => ['nullable'],
-            'remark_success_failed.*' => ['nullable'],
-            'remark_recommend.*' => ['nullable'],
-        ]);
+        
 
         $action = $request->input('action');
 
@@ -208,6 +200,15 @@ class ObservationController extends Controller
 
         // Proses Submit
         if ($action === 'Submit') {
+            $this->validate($request, [
+                'location_id' => ['required'],
+                'remark_plan' => ['required'],
+                'date_checked' => ['required'],
+                'remark_description.*' => ['required'],
+                'obs_checklist_option.*' => ['required'],
+                'remark_success_failed.*' => ['required'],
+                'remark_recommend.*' => ['required'],
+            ]);
             foreach ($observations as $observation) {
                 $observation->update([
                     'location_id' => $request->input('location_id'),

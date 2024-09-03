@@ -48,6 +48,7 @@
                     @foreach ($criteria->statements as $no => $statement)
                         @foreach ($statement->indicators as $indicator)
                             @php
+                                $total_indicator++;
                                 $checklist = $obsChecklist->where('indicator_id', $indicator->id)->first();
                             @endphp
 
@@ -181,7 +182,8 @@ function confirmSubmit() {
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    "final_submit": true
+                    "final_submit": true,
+                    "total_indicator": "{{$total_indicator}}"
                 },
                 success: function (data) {
                     swal(data.message, {

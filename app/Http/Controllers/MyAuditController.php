@@ -37,6 +37,7 @@ class MyAuditController extends Controller{
 {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
+    $total_indicator = 0;
 
     if ($request->isMethod('POST')) {
         $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
@@ -50,14 +51,32 @@ class MyAuditController extends Controller{
             $data = AuditPlan::findOrFail($id);
     
             if ($request->has('final_submit')) {
-                $data->update([
-                    'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
-                ]);
-    
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Audit Document Successfully Submitted'
-                ]);
+                // $request->total_indicator
+                $totalI =  ObservationChecklist::
+                            select('*')
+                            ->where(function ($query) {
+                                $query->where(function ($query) {
+                                        $query->whereNull('doc_path')
+                                            ->orWhereNull('link');
+                                    })
+                                    ->whereNotNull('remark_path_auditee');
+                            })
+                            ->where('observation_id','=',$obs->id)
+                            ->count();
+                            if($totalI != $request->total_indicator){
+                                return response()->json([
+                                    'success' => false,
+                                    'message' => 'Maaf masih ada document criteria yang belum lengkap'
+                                ]);
+                            } else {
+                                $data->update([
+                                        'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
+                                    ]);
+                                    return response()->json([
+                                        'success' => true,
+                                        'message' => 'Audit Document Successfully Submitted'
+                                    ]);
+                            }
             }
     
             // Tambahkan debug untuk memeriksa kondisi lain
@@ -169,6 +188,7 @@ class MyAuditController extends Controller{
         $hodBPMI = Setting::find('HODBPMI');
         if ($data->audit_status_id == 4) {
             return view('my_audit.view', [
+                'total_indicator' => $total_indicator,
                 'data' => $data,
                 'auditor' => $auditor,
                 'category' => $category,
@@ -296,17 +316,18 @@ public function deleteLink($id)
     
     if ($request->isMethod('POST')) {
         // Validasi umum
-        $this->validate($request, [
-            'person_in_charge' => ['nullable'],
-            'plan_completed' => ['nullable'],
-            'date_prepared' => ['nullable'],
-            'remark_upgrade_repair' => ['nullable'],
-        ]);
+        
     
         $action = $request->input('action');
     
         // Proses Save Draft
         if ($action === 'Save') {
+            $this->validate($request, [
+                'person_in_charge' => ['nullable'],
+                'plan_completed' => ['nullable'],
+                'date_prepared' => ['nullable'],
+                'remark_upgrade_repair' => ['nullable'],
+            ]);
             // Update data observasi terkait
             foreach ($observations as $observation) {
                 $observation->update([
@@ -332,6 +353,12 @@ public function deleteLink($id)
             return redirect()->route('my_audit.index')->with('msg', 'Save Draft Observations Success');
         }
         if ($action === 'Submit') {
+            $this->validate($request, [
+                'person_in_charge' => ['required'],
+                'plan_completed' => ['required'],
+                'date_prepared' => ['required'],
+                'remark_upgrade_repair' => ['required'],
+            ]);
             foreach ($observations as $observation) {
                 $observation->update([
                     'date_prepared' => $request->input('date_prepared'),

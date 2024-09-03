@@ -149,14 +149,15 @@
                             <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
                             <select id="periode" name="periode" class="form-select select2" value="{{ old('periode') }}" required>
                             <option value="">Select Periode</option>
-                            <?php
-                            $startYear = 2019;
-                            $endYear = $startYear + 100;
+                            @php
+                            $startYear = $prd;
+                            $endYear = now()->year + 5;
                             for ($year = $startYear; $year <= $endYear; $year++) {
                                 $nextYear = $year + 1;
-                                echo "<option value='$year/$nextYear'>$year/$nextYear</option>";
+                                $selected = ($year == now()->year ? "selected" : "");
+                                echo "<option $selected value='$year/$nextYear'>$year/$nextYear</option>";
                             }
-                            ?>
+                            @endphp
                             </select>
                         </div>
                     </div>
