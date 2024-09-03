@@ -34,18 +34,15 @@
 @endsection
 
 @section('content')
-<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+<div class="row">
         <div class="card">
             <div class="card-datatable table-responsive">
                 <div class="card-header flex-column flaex-md-row pb-0">
-                    <div class="row">
                         <div class="col-12 pt-3 pt-md-0">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
-                                </div>
-                            </div>
                             <div class="col-md-3">
                                 <select id="Select_2" class="form-control input-sm select2" data-placeholder="Status">
                                     <option value="">Status</option>
@@ -54,15 +51,13 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-            <div class="container-fluid flex-grow-1 container-p-y">
-                <table class="table" id="datatable">
                     <div class="col-md d-flex justify-content-center justify-content-md-end">
                         <a class="btn btn-primary btn-block btn-mail" title="Add new"
-                            href="{{ route('standard_category.category_add')}}">
-                            <i data-feather="plus"></i>+ Add
-                        </a>
-                    </div>
+                        href="{{ route('standard_category.category_add')}}">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
+                </div>
+                <table class="table" id="datatable">
                             <thead>
                                 <tr>
                                     <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>

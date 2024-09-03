@@ -74,13 +74,13 @@
         </ul>
     </div>
 
+    <div class="row">
     <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header flex-column flex-md-row pb-0">
             <!-- <div class="row">
                 <div class="col-12 pt-3 pt-md-0">
                     <div class="col-12"> -->
-                        <div class="row">
                         <div class="col-md-4">
                             <select id="select_criteria" class="form-control input-sm select2" data-placeholder="Criteria">
                                 <option value="">Select Criteria</option>
@@ -89,15 +89,12 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="container-fluid">
                         <div class="col-md d-flex justify-content-center justify-content-md-end">
                             <a class="btn btn-primary btn-block btn-mail" title="Add standard_statement"
                                 href="{{ route('standard_criteria.standard_statement.create')}}">
                                 <i data-feather="plus"></i>+ Add
                             </a>
                         </div>
-                        </div>
-                        <div class="container-fluid">
                         <table class="table table-hover table-sm" id="datatable" width="100%">
                             <thead>
                                 <tr>
@@ -111,6 +108,7 @@
                         </table>
                     </div>
                 </div>
+            </div>
             </div>
 @endsection
 

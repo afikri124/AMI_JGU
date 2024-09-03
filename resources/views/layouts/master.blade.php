@@ -19,7 +19,7 @@
 
 <body>
     <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             @include('layouts.sidebar')
             <!-- Layout container -->

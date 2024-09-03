@@ -141,24 +141,10 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th><b>Standard Statement</b></th>
-                                    <td>
-                                        <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                                        @error('link')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 60%">
                                         <ul class="text-primary">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 60%">
-                                        <strong>Indicator</strong>
-                                        <ul>{!! $indicator->name !!}</ul>
                                     </td>
                                     <td style="width: 35%">
                                         <div id="data-sets">
@@ -184,11 +170,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 60%" id="review-docs">
-                                        <strong>Review Document</strong>
-                                        @foreach ($statement->reviewDocs as $reviewDoc)
-                                            <ul>{!! $reviewDoc->name !!}</ul>
-                                        @endforeach
+                                    <td style="width: 60%">
+                                        <strong>Indicator</strong>
+                                        <ul>{!! $indicator->name !!}</ul>
                                     </td>
                                     <td>
                                         @if ($obsChecklist->doc_path)
@@ -218,6 +202,23 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%" id="review-docs">
+                                        <strong>Review Document</strong>
+                                        @foreach ($statement->reviewDocs as $reviewDoc)
+                                            <ul>{!! $reviewDoc->name !!}</ul>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b></label>
+                                            <div class="input-group input-group-merge has-validation">
+                                                <textarea type="text" class="form-control @error('remark_docs.*') is-invalid @enderror"
+                                                    name="remark_docs[{{ $indicator->id }}]" disabled>{{ $obsChecklist->remark_docs}}</textarea>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>

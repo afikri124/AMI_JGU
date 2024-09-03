@@ -70,19 +70,15 @@
         </ul>
     </div>
 
-    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+    <div class="row">
         <div class="card">
             <div class="card-datatable table-responsive">
                 <div class="card-header flex-column flaex-md-row pb-0">
-                    <div class="row">
                         <div class="col-12 pt-3 pt-md-0">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
                                     </div>
-                                </div>
-                            </div>
-                        <div class="row">
                         <div class="col-md-4">
                             <select id="select_category" class="form-control input-sm select2" data-placeholder="Category">
                                 <option value="">Select Category</option>
@@ -98,8 +94,6 @@
                                 <option value='false'>OFF</option>
                             </select>
                         </div>
-                        </div>
-                        <div class="container-fluid">
                             <div class="col-md d-flex justify-content-center justify-content-md-end">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#newrecord" aria-controls="offcanvasEnd" tabindex="0"
@@ -159,7 +153,9 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+    </div>
+</div>
+        </div>
             <table class="table table-hover table-sm" id="datatable" width="100%">
             <thead>
                 <tr>

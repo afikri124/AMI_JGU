@@ -21,7 +21,6 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-12">
         <form class="card" method="POST" action="">
             @csrf
             <div class="card-header">
@@ -177,8 +176,9 @@
                     <span class="btn btn-outline-secondary">Back</span>
                 </a>
             </div>
-        </form>
-    </div>
+        </div>
+        </div>
+    </form>
 </div>
 @endsection
 

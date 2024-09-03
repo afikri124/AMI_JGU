@@ -45,14 +45,15 @@
     }
 </style>
 @endsection
-        <div class="card p-3">
-            <div class="card-datatable table-responsive">
-                <div class="card-header flex-column flaex-md-row pb-0">
-                        <div class="col-12 pt-3 pt-md-0">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
-                                    </div>
+<div class="row">
+    <div class="card p-4">
+        <div class="card-datatable table-responsive">
+            <div class="card-header flex-column flex-md-row pb-0">
+                    <div class="col-12 pt-3 pt-md-0">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
+                                </div>
                 <div class="col-md-3">
                     <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
                         <option value="">Select Auditee</option>
@@ -71,7 +72,8 @@
                     </div>
                 </div>
             </div>
-            <table class="table" id="datatable">
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <table class="table" id="datatable">
                 <thead>
                     <tr>
                             <th><b>No</b></th>

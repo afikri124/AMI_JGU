@@ -116,7 +116,7 @@
 
 <style>
 .dropdown-menu li {
-  display: flex;
+  display:block;
 }
 
 .dropdown-menu li a {

@@ -17,9 +17,10 @@
 @endsection
 
 @section('content')
-<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-    <div class="row">
-        <div class="col-xl-12">
+<div class="row">
+        <div class="card-datatable table-responsive">
+            <div class="card-header flex-column flex-md-row pb-0">
+            <div class="row">
             <form class="card" method="POST" action="">
                 @csrf
                 <div class="card-header">
@@ -68,8 +69,10 @@
         </div>
     </div>
 <br>
-    <div class="row">
-        <div class="col-xl-12">
+<div class="row">
+    <div class="card-datatable table-responsive">
+        <div class="card-header flex-column flex-md-row pb-0">
+            <div class="row">
             <form class="card" method="POST" action="">
                 @csrf
                 <div class="card-header">

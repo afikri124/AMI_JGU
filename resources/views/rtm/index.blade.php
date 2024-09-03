@@ -1,4 +1,4 @@
-@extends('layouts.master')
+{{-- @extends('layouts.master')
 @section('content')
 @section('title', 'RTM')
 
@@ -156,4 +156,4 @@
     });
 });
 </script>
-@endsection
+@endsection --}}
