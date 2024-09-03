@@ -3,7 +3,7 @@
     <div class="app-brand demo ">
         <a href="{{ route('dashboard') }}" class="app-brand-link">
             <span class="app-brand-logo demo" style="margin-left: -20px">
-                <img src="{{asset('assets-landing/img/ami-jgu.png')}}" height="70" >
+                <img src="{{asset('assets-landing/img/ami-jgu.png')}}" height="70">
             </span>
         </a>
 
@@ -32,28 +32,28 @@
         @endif
 
         @if(Auth::user()->hasRole('auditor'))
-            <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
-                <a href="{{ route('observations.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-search"></i>
-                    <div data-i18n="Dashboards">Auditing</div>
-                </a>
-            </li>
+        <li class="menu-item {{ request()->segment(1) == 'observations' ? 'active' : '' }}">
+            <a href="{{ route('observations.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-search"></i>
+                <div data-i18n="Dashboards">Auditing</div>
+            </a>
+        </li>
         @endif
 
         @if(Auth::user()->hasRole('auditee'))
-            <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
-                <a href="{{ route('my_audit.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-bell"></i>
-                    <div data-i18n="Dashboards">My Audit</div>
-                </a>
-            </li>
+        <li class="menu-item {{ request()->segment(1) == 'my_audit' ? 'active' : '' }}">
+            <a href="{{ route('my_audit.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <div data-i18n="Dashboards">My Audit</div>
+            </a>
+        </li>
         @endif
         {{-- @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('lpm'))
         <li class="menu-item {{ request()->segment(1) == 'rtm' ? 'active' : '' }}">
-            <a href="{{ route('rtm.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book-bookmark"></i>
-                <div data-i18n="Dashboards">RTM</div>
-            </a>
+        <a href="{{ route('rtm.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-book-bookmark"></i>
+            <div data-i18n="Dashboards">RTM</div>
+        </a>
         </li>
         @endif --}}
 
@@ -64,27 +64,27 @@
         @endif
 
         @if(Auth::user()->hasRole('lpm'))
-            <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
-                <a href="{{ route('lpm.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-copy-alt"></i>
-                    <div data-i18n="Dashboards">LPM</div>
-                </a>
-            </li>
+        <li class="menu-item {{ request()->segment(1) == 'lpm' ? 'active' : '' }}">
+            <a href="{{ route('lpm.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-copy-alt"></i>
+                <div data-i18n="Dashboards">LPM</div>
+            </a>
+        </li>
         @endif
 
         @if(Auth::user()->hasRole('approver'))
-            <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
-                <a href="{{ route('approver.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>
-                    <div data-i18n="Dashboards">Wakil Rektor</div>
-                </a>
-            </li>
+        <li class="menu-item {{ request()->segment(1) == 'approver' ? 'active' : '' }}">
+            <a href="{{ route('approver.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons  bx bx-message-alt-check"></i>
+                <div data-i18n="Dashboards">Wakil Rektor</div>
+            </a>
+        </li>
         @endif
         {{-- <li class="menu-item {{ request()->segment(1) == 'notif_audit' ? 'active' : '' }}">
-            <a href="" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Dashboards">History</div>
-            </a>
+        <a href="" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-clipboard"></i>
+            <div data-i18n="Dashboards">History</div>
+        </a>
         </li> --}}
 
         @can('control panel.read')
@@ -146,27 +146,28 @@
                     </ul>
                 </li>
                 <li class="menu-item {{ request()->segment(2) == 'manage_unit' ? 'open active' : '' }}">
-                            <a href="" class="menu-link  menu-toggle">
-                                <div>Manage Unit</div>
+                    <a href="" class="menu-link  menu-toggle">
+                        <div>Manage Unit</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->segment(3) == 'hod_ami' ? 'active' : '' }}">
+                            <a href="{{ route('hod_ami.index') }}" class="menu-link">
+                                <div>HoD AMI</div>
                             </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item {{ request()->segment(3) == 'hod_ami' ? 'active' : '' }}">
-                                    <a href="{{ route('hod_ami.index') }}" class="menu-link">
-                                        <div>HoD AMI</div>
-                                    </a>
-                                </li>
+                        </li>
                         @endcan
                     </ul>
                 </li>
                 @endcan
             </ul>
             @if(Auth::user()->hasRole('auditee'))
-            <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
-                <a href="{{ route('documentation') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-file"></i>
-                    <div data-i18n="Documentation">Documentation</div>
-                </a>
-            </li>
-            @endif
+        <li class="menu-item {{ request()->segment(1) == 'documentation' ? 'active' : '' }}">
+            <a href="{{ route('documentation') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Documentation">Documentation</div>
+            </a>
+        </li>
+        @endif
+    </ul>
 </aside>
 <!-- / Menu -->

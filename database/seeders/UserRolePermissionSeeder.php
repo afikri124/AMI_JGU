@@ -24,7 +24,7 @@ class UserRolePermissionSeeder extends Seeder
 
         $users = [
             [
-                'email' => '092023090191@student.jgu.ac.id',
+                'email' => 'no-reply@jgu.ac.id',
                 'name' => 'Admin',
                 'username' => 'admin',
                 'roles' => ['admin', 'auditor', 'auditee', 'lpm', 'approver'],
@@ -471,7 +471,7 @@ class UserRolePermissionSeeder extends Seeder
         $permission = Permission::create(['name' => 'log-viewers.read']);
         
         // Assign permission to the admin
-        $admin = User::where('email', '092023090191@student.jgu.ac.id')->first();
+        $admin = User::where('email', 'no-reply@jgu.ac.id')->first();
         if ($admin) {
             $admin->givePermissionTo('log-viewers.read');
         }

@@ -7,63 +7,68 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/date-picker.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.css')}}">
 <style>
-
     .default-datepicker .datepicker-inline .datepicker {
-    width: auto;
-    background: #fff;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    padding: 0
-}
+        width: auto;
+        background: #fff;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        padding: 0
+    }
 
-.default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--days-names {
-    margin: 60px 0 0;
-    padding: 15px 0;
-}
+    .default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--days-names {
+        margin: 60px 0 0;
+        padding: 15px 0;
+    }
 
-.default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--cells .datepicker--cell-day {
-    height: 58px;
-    border-radius: 0;
-    /* color: #2b2b2b */
-    font-size: 20px
-}
+    .default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--cells .datepicker--cell-day {
+        height: 58px;
+        border-radius: 0;
+        /* color: #2b2b2b */
+        font-size: 20px
+    }
 
-.default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--days-names .datepicker--day-name {
-    color: #696CFF;
-    font-size: 18px
-}
+    .default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--days-names .datepicker--day-name {
+        color: #696CFF;
+        font-size: 18px
+    }
 
-.bg-card {
-    background-image: url('{{asset('/assets/img/bg.jpg')}}'); /* Ganti dengan path ke background image Anda */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white; /* Sesuaikan warna teks agar terlihat dengan baik di atas background image */
-}
+    .bg-card {
+        background-image: url('{{asset('/assets/img/bg.jpg')}}');
+        /* Ganti dengan path ke background image Anda */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: white;
+        /* Sesuaikan warna teks agar terlihat dengan baik di atas background image */
+    }
 
-h3{
-    color: #fff;
-}
+    h3 {
+        color: #fff;
+    }
 
-#greeting{
-    color: #fff
-}
+    #greeting {
+        color: #fff
+    }
 
-#txt{
-    color: #fff
-}
-.greeting-container {
-    display: flex;
-    gap: 370px; /* Atur jarak antar elemen jika diperlukan */
-}
+    #txt {
+        color: #fff
+    }
 
-.f-w-600 {
-    margin-right: 10px; /* Atur jarak sesuai kebutuhan */
-}
+    .greeting-container {
+        display: flex;
+        gap: 370px;
+        /* Atur jarak antar elemen jika diperlukan */
+    }
 
-.profile-greeting .card-body {
-    padding: 40px 20px
-}
+    .f-w-600 {
+        margin-right: 10px;
+        /* Atur jarak sesuai kebutuhan */
+    }
+
+    .profile-greeting .card-body {
+        padding: 40px 20px
+    }
+
 </style>
 @endsection
 
@@ -102,8 +107,6 @@ h3{
             </div>
         </div>
     </div>
-
-
 </div>
 @endsection
 
