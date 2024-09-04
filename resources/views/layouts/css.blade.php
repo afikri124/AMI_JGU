@@ -13,7 +13,7 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{asset('assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{asset('assets/vendor/css/theme-default.css')}}"
-    class="template-customizer-theme-css" />
+        class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
 
     <!-- Vendors CSS -->
@@ -47,8 +47,16 @@
             top: auto;
             background: #33333324;
         }
+
         #template-customizer .template-customizer-open-btn:hover {
             background: #333;
         }
+
     </style>
+    <style>
+        .dropdown-menu li {
+            display: block;
+        }
+    </style>
+
     @yield('css')
