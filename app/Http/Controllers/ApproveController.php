@@ -193,61 +193,58 @@ class ApproveController extends Controller
     }
 
 
-    public function lpm_apv_audit(Request $request, $id){
-        $data = AuditPlan::findOrFail($id);
-        $auditorId = Auth::user()->id;
+    public function lpm_apv_audit(Request $request, $id)
+{
+    $data = AuditPlan::findOrFail($id);
+    $auditorId = Auth::user()->id;
 
-        if ($request->isMethod('POST')) {
-            // dd($request);
-            $this->validate($request, [
-                'date_validated' => [''],
-                'remark_audit_lpm' => [''],
-            ]);
+    if ($request->isMethod('POST')) {
+        $this->validate($request, [
+            'date_validated' => ['required'],
+            'remark_audit_lpm' => ['required'],
+        ]);
 
-            $action = $request->input('action');
+        $remark = $request->input('remark_audit_lpm');
+        $action = $request->input('action');
 
-            if ($action === 'Approve') {
-                $remark = 'Approve';
-                $status = 6;
-            // kirim email ke auditor auditee
-            // $auditee = $data->auditee;
-            // Mail::to($auditee->email)->send(new approvRTMBylpm($data));
-            // // Email untuk auditor
-            // $auditPlanId = $data->id;
-            // $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
-            // foreach ($auditors as $auditPlanAuditor) {
-            //     $auditor = $auditPlanAuditor->auditor;
+        if ($action === 'Approve') {
+            $status = 6;
+        } elseif ($action === 'Revised') {
+        $status = 8;
+        } else {
+            return redirect()->route('lpm.index')->with('error', 'Invalid action!');
+        }
 
-            //     if ($auditor && $auditor->email) {
-            //         Mail::to($auditor->email)->send(new approvRTMBylpm($data));
-            //     }
-            // }
-
-            } elseif ($action === 'Revised') {
-                $this->validate($request, [
-                    'remark_audit_lpm' => ['required'],
-                ]);
-                $remark = $request->input('remark_audit_lpm');
-                $status = 8;
-            }
-            // kirim email ke auditor
-
-            $observation = Observation::where('audit_plan_id', $id)->get();
-
-            foreach ($observation as $obs) {
-                $obs->update([
+        // Update data Observation
+        $observations = Observation::where('audit_plan_id', $id)->get();
+        foreach ($observations as $obs) {
+            $obs->update([
                 'date_validated' => $request->date_validated,
                 'remark_audit_lpm' => $remark,
             ]);
         }
 
-                $data->update([
-                    'audit_status_id' => $status,
-                ]);
-            }
+        // Update status AuditPlan
+        $data->update([
+            'audit_status_id' => $status,
+        ]);
 
-            return redirect()->route('lpm.index')->with('msg', 'Audit Report Updated by LPM!!');
-        }
+        // Kirim email ke auditee
+        // $auditee = $data->auditee;
+        // Mail::to($auditee->email)->send(new approvRTMBylpm($data));
+
+        // $auditPlanId = $data->id;
+        // $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
+        // foreach ($auditors as $auditPlanAuditor) {
+        //     $auditor = $auditPlanAuditor->auditor;
+        //     if ($auditor && $auditor->email) {
+        //         Mail::to($auditor->email)->send(new approvRTMBylpm($data));
+        //     }
+        // }
+
+        return redirect()->route('lpm.index')->with('msg', 'Audit Report Updated by LPM!');
+    }
+}
 
     public function rtm(Request $request){
         $data = AuditPlan::all();

@@ -173,7 +173,7 @@
                         <i class="text-danger"><b>* Please comment on why you disagree with the above standards.</b></i>
                     </div>
                     <div class="text-end" id="button-container">
-                        <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revised</button>
+                        <button class="btn btn-primary me-1" type="submit" name="action" value="Revised">Revision</button>
                         <a href="" class="btn btn-outline-secondary">Back</a>
                     </div>
                 </form>

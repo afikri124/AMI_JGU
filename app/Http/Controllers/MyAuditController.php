@@ -66,7 +66,7 @@ class MyAuditController extends Controller{
                             if($totalI != $request->total_indicator){
                                 return response()->json([
                                     'success' => false,
-                                    'message' => 'Maaf masih ada document criteria yang belum lengkap'
+                                    'message' => 'Sorry there are incomplete documents'
                                 ]);
                             } else {
                                 $data->update([
