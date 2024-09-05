@@ -60,8 +60,8 @@ class AuditStatusSeeder extends Seeder
             "color" => "success"],
 
             ["id" => "12",
-            "title" => "Reuploaded",
-            "color" => "primary"],
+            "title" => "Audit Updated",
+            "color" => "secondary"],
 
             ["id" => "13",
             "title" => "Standard Updated",
@@ -73,7 +73,7 @@ class AuditStatusSeeder extends Seeder
 
             ["id" => "15",
             "title" => "Audit to LPM",
-            "color" => "secondary"],
+            "color" => "warning"],
         ];
 
         foreach ($data as $x) {

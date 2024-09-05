@@ -39,52 +39,54 @@ class MyAuditController extends Controller{
     $auditorId = Auth::user()->id;
     $total_indicator = 0;
 
-    if ($request->isMethod('POST')) {
-        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
+if ($request->isMethod('POST')) {
+    $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
 
-        $obs = Observation::firstOrCreate([
-            'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditor->id,
-        ]);
+    $obs = Observation::firstOrCreate([
+        'audit_plan_id' => $id,
+        'audit_plan_auditor_id' => $auditPlanAuditor->id,
+    ]);
 
-        if ($request->ajax()) {
-            $data = AuditPlan::findOrFail($id);
-    
-            if ($request->has('final_submit')) {
-                // $request->total_indicator
-                $totalI =  ObservationChecklist::
-                            select('*')
-                            ->where(function ($query) {
-                                $query->where(function ($query) {
-                                        $query->whereNull('doc_path')
-                                            ->orWhereNull('link');
-                                    })
-                                    ->whereNotNull('remark_path_auditee');
-                            })
-                            ->where('observation_id','=',$obs->id)
-                            ->count();
-                            if($totalI != $request->total_indicator){
-                                return response()->json([
-                                    'success' => false,
-                                    'message' => 'Sorry there are incomplete documents'
-                                ]);
-                            } else {
-                                $data->update([
-                                        'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
-                                    ]);
-                                    return response()->json([
-                                        'success' => true,
-                                        'message' => 'Audit Document Successfully Submitted'
-                                    ]);
-                            }
+    if ($request->ajax()) {
+        $data = AuditPlan::findOrFail($id);
+
+        if ($request->has('final_submit')) {
+            // Menghitung total checklist berdasarkan syarat yang baru
+            $totalI = ObservationChecklist::
+                        select('*')
+                        ->where(function ($query) {
+                            $query->where(function ($query) {
+                                    // Harus ada salah satu antara file atau link yang diisi
+                                    $query->whereNotNull('doc_path')
+                                        ->orWhereNotNull('link');
+                                })
+                                // Komentar/remark harus selalu diisi
+                                ->whereNotNull('remark_path_auditee');
+                        })
+                        ->where('observation_id', '=', $obs->id)
+                        ->count();
+
+            if ($totalI != $request->total_indicator) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, there are incomplete documents. Ensure file or link is filled and remark is provided.'
+                ]);
+            } else {
+                $data->update([
+                    'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
+                ]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Audit Document Successfully Submitted'
+                ]);
             }
-    
-            // Tambahkan debug untuk memeriksa kondisi lain
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to submit audit document'
-            ]);
-        } elseif ($request->has('save_file')) {
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to submit audit document'
+        ]);
+    } elseif ($request->has('save_file')) {
             // Logika untuk tombol save file
             $this->validate($request, [
                 'doc_path' => 'nullable|mimes:png,jpg,jpeg,pdf,xls,xlsx|max:50000',

@@ -317,6 +317,7 @@ class ObservationController extends Controller
     //remark audit report
     public function remark($id)
     {
+        $locations = Location::orderBy('title')->get();
         $data = AuditPlan::findOrFail($id);
         $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
         $auditPlanAuditorIds = $auditor->pluck('id');
@@ -346,7 +347,7 @@ class ObservationController extends Controller
         $hodBPMI = Setting::find('HODBPMI');
 
         return view('observations.remark',
-        compact('standardCategories', 'standardCriterias',
+        compact('standardCategories', 'standardCriterias', 'locations',
         'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
     }
 
@@ -355,45 +356,90 @@ class ObservationController extends Controller
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
 
-        $observation = Observation::where('audit_plan_id', $id)->get();
+        $observations = Observation::where('audit_plan_id', $id)->get();
 
         if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'remark_plan' => [''],
-                'date_checked' => [''],
-                'remark_description' => [''],
-                'obs_checklist_option' => [''],
-                'remark_success_failed' => [''],
-                'remark_recommend' => [''],
-            ]);
-
-            foreach ($observation as $obs) {
-                $obs->update([
-                'remark_plan' => $request->remark_plan,
-                'date_checked' => $request->date_checked,
-            ]);
-        }
-
-            foreach ($request->obs_checklist_option as $key => $obs_c) {
-                $checklists = ObservationChecklist::where('observation_id', $obs->id)
-                    ->where('indicator_id', $key)
-                    ->get(); // Use get() instead of firstOrFail()
-
-                foreach ($checklists as $checklist) {
-                    $checklist->update([
-                        'remark_description' => $request->remark_description[$key] ?? '',
-                        'obs_checklist_option' => $obs_c ?? '',
-                        'remark_success_failed' => $request->remark_success_failed[$key] ?? '',
-                        'remark_recommend' => $request->remark_recommend[$key] ?? '',
+            // dd($request->all());
+            
+    
+            $action = $request->input('action');
+    
+            // Proses Save Draft
+            if ($action === 'Save') {
+                foreach ($observations as $observation) {
+                    $observation->update([
+                        'location_id' => $request->input('location_id'),
+                        'remark_plan' => $request->input('remark_plan'),
+                        'date_checked' => $request->input('date_checked'),
+                    ]);
+    
+                    foreach ($request->indicator_id as $index => $indicatorId) {
+                        ObservationChecklist::updateOrCreate(
+                            [
+                                'observation_id' => $observation->id,
+                                'indicator_id' => $indicatorId,
+                            ],
+                            [
+                                'plan_completed' => $request->plan_completed[$index] ?? null,
+                                'person_in_charge' => $request->person_in_charge[$index] ?? null,
+                                'remark_upgrade_repair' => $request->remark_upgrade_repair[$index] ?? null,
+                                'remark_description' => $request->remark_description[$index] ?? null,
+                                'obs_checklist_option' => $request->obs_checklist_option[$index] ?? null,
+                                'remark_success_failed' => $request->remark_success_failed[$index] ?? null,
+                                'remark_recommend' => $request->remark_recommend[$index] ?? null,
+                            ]
+                        );
+                    }
+                }
+    
+                return redirect()->route('observations.index')->with('msg', 'Save Draft Observations Success');
+            }
+    
+            // Proses Submit
+            if ($action === 'Submit') {
+                $this->validate($request, [
+                    'location_id' => ['required'],
+                    'remark_plan' => ['required'],
+                    'date_checked' => ['required'],
+                    'remark_description.*' => ['required'],
+                    'obs_checklist_option.*' => ['required'],
+                    'remark_success_failed.*' => ['required'],
+                    'remark_recommend.*' => ['required'],                    
+                    'plan_completed.*' => ['required'],
+                    'person_in_charge.*' => ['required'],
+                    'remark_upgrade_repair.*' => ['required'],
+                ]);
+                foreach ($observations as $observation) {
+                    $observation->update([
+                        'location_id' => $request->input('location_id'),
+                        'remark_plan' => $request->input('remark_plan'),
+                        'date_checked' => $request->input('date_checked'),
+                    ]);
+    
+                    foreach ($request->indicator_id as $index => $indicatorId) {
+                        ObservationChecklist::updateOrCreate(
+                            [
+                                'observation_id' => $observation->id,
+                                'indicator_id' => $indicatorId,
+                            ],
+                            [
+                                'plan_completed' => $request->plan_completed[$index] ?? null,
+                                'person_in_charge' => $request->person_in_charge[$index] ?? null,
+                                'remark_upgrade_repair' => $request->remark_upgrade_repair[$index] ?? null,
+                                'remark_description' => $request->remark_description[$index] ?? null,
+                                'obs_checklist_option' => $request->obs_checklist_option[$index] ?? null,
+                                'remark_success_failed' => $request->remark_success_failed[$index] ?? null,
+                                'remark_recommend' => $request->remark_recommend[$index] ?? null,
+                            ]
+                        );
+                    }
+                    $data->update([
+                        'audit_status_id' => '12', // Ganti dengan ID status audit yang sesuai
                     ]);
                 }
+    
+                return redirect()->route('observations.index')->with('msg', 'Observations Updated Successfully');
             }
-
-            $data->update([
-                'audit_status_id'   => '6',
-            ]);
-
-            return redirect()->route('observations.index')->with('msg', 'Audit Report Updated Successfully');
         }
     }
 
