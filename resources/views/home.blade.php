@@ -208,7 +208,6 @@
                                     loading="lazy"></iframe>
                             </div>
 
-
                             <footer>
                                 <p> Copyright © {{ (date('Y')=="2022"?date('Y'):"2022-".date('Y')) }} made with ❤️ by <a
                                         href="https://itic.jgu.ac.id">ITIC JGU</a>.<br><small

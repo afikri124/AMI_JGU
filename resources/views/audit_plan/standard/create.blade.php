@@ -31,11 +31,11 @@
     </div>
     <div class="card-body">
         <div class="row">
-            @foreach($auditors as $auditor)
+            @foreach($auditors as $key => $auditor)
                 <div class="col-lg-6 col-md-12 mb-3">
-                <label class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                <input type="text" class="form-control bg-user" value="{{ $auditor->auditor->name }}" readonly>
-                <input type="hidden" name="auditor_id[]" value="{{ $auditor->id }}">
+                    <label class="form-label"><b>Auditor {{ $key + 1 }}</b></label>
+                    <input type="text" class="form-control bg-user" value="{{ $auditor->auditor->name }}" readonly>
+                    <input type="hidden" name="auditor_id[]" value="{{ $auditor->id }}">
                     <p></p>
                 <div class="form-group">
                     <label for="standard_category_id_{{ $auditor->id }}" class="form-label"><b>Category</b><i class="text-danger">*</i></label>
