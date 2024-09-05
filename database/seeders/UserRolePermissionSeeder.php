@@ -19,7 +19,7 @@ class UserRolePermissionSeeder extends Seeder
     {
         $default_user_value = [
             'email_verified_at' => now(),
-            'password' => bcrypt('adminadmin'),
+            // 'password' => bcrypt('adminadmin'),
         ];
 
         $users = [
@@ -28,6 +28,7 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Admin',
                 'username' => 'admin',
                 'roles' => ['admin', 'auditor', 'auditee', 'lpm', 'approver'],
+                'password' => bcrypt('adminadmin'),
             ],
             [
                 'email' => 'zidanazzahra916@gmail.com',
@@ -37,6 +38,7 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '081384810569',
                 'nidn' => '092023090191',
                 'roles' => ['auditee', 'auditor'],
+                'password' => bcrypt('adminadmin'),
             ],
             [
                 'email' => 'rofiqabdul983@gmail.com',
@@ -46,6 +48,7 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '082258485039',
                 'nidn' => '092023090180',
                 'roles' => ['auditor', 'auditee'],
+                'password' => bcrypt('adminadmin'),
             ],
             [
                 'email' => '092023090187@student.jgu.ac.id',
@@ -55,6 +58,7 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '089602928926',
                 'nidn' => '092023090187',
                 'roles' => ['lpm', 'admin'],
+                'password' => bcrypt('adminadmin'),
             ],
             [
                 'email' => 'approver@gmail.com',
@@ -64,6 +68,7 @@ class UserRolePermissionSeeder extends Seeder
                 'no_phone' => '08960292567',
                 'nidn' => '092023090190',
                 'roles' => ['approver', 'auditee', 'auditor'],
+                'password' => bcrypt('adminadmin'),
             ],
 
             // dosen asli
@@ -110,7 +115,7 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'rizki@jgu.ac.id',
+                'email' => 'farmasita@jgu.ac.id',
                 'name' => 'Rizki Farmasita Budiastuti',
                 'username' => 'S092019020002',
                 'password' => 'ami123',
@@ -138,20 +143,20 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'ribut@jgu.ac.id',
+                'email' => 'nawang_sari@jgu.ac.id',
                 'name' => 'Ribut Nawang Sari',
                 'username' => 'S092012120082',
                 'password' => 'ami123',
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'mohammad@jgu.ac.id',
+                'email' => 'wahyono@jgu.ac.id',
                 'name' => 'Mohammad Wahyono',
                 'username' => 'S092019020001',
                 'password' => 'ami123',
                 'roles' => ['auditee'],
             ],[
-                'email' => 'dedy@jgu.ac.id',
+                'email' => 'dedyrutama@jgu.ac.id',
                 'name' => 'Dedy Rutama',
                 'username' => 'S092012120023',
                 'password' => 'ami123',
@@ -179,7 +184,7 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'mohamad@jgu.ac.id',
+                'email' => 'mzaenudin@jgu.ac.id',
                 'name' => 'Mohamad Zaenudin',
                 'username' => 'S092019030006',
                 'password' => 'ami123',
@@ -445,7 +450,7 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'nur@jgu.ac.id',
+                'email' => 'nurfitridewi@jgu.ac.id',
                 'name' => 'Nur Fitri Dewi',
                 'username' => 'S092019090008',
                 'password' => 'ami123',
@@ -480,28 +485,28 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'dwi rachmawati@jgu.ac.id',
+                'email' => 'dwi@jgu.ac.id',
                 'name' => 'Dwi Rachmawati',
                 'username' => 'S092019030013',
                 'password' => 'ami123',
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'ahmad pitra@jgu.ac.id',
+                'email' => 'ahmad_pitra@msu.edu.my',
                 'name' => 'Ahmad Pitra',
                 'username' => 'S092021030019',
                 'password' => 'ami123',
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'ali ridho@jgu.ac.id',
+                'email' => 'aliridho@jgu.ac.id',
                 'name' => 'Ali Ridho',
                 'username' => 'S092019040002',
                 'password' => 'ami123',
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'suci ayu sudari@jgu.ac.id',
+                'email' => 'suci@jgu.ac.id',
                 'name' => 'Suci Ayu Sudari',
                 'username' => 'S092019090002',
                 'password' => 'ami123',
