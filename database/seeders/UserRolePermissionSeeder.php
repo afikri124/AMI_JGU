@@ -110,7 +110,7 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'rizki@jgu.ac.id',
+                'email' => 'farmasita@jgu.ac.id',
                 'name' => 'Rizki Farmasita Budiastuti',
                 'username' => 'S092019020002',
                 'password' => 'S092019020002',
@@ -138,20 +138,21 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'ribut@jgu.ac.id',
+                'email' => 'nawang_sari@jgu.ac.id',
                 'name' => 'Ribut Nawang Sari',
                 'username' => 'S092012120082',
                 'password' => 'S092012120082',
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'mohammad@jgu.ac.id',
+                'email' => 'wahyono@jgu.ac.id',
                 'name' => 'Mohammad Wahyono',
                 'username' => 'S092019020001',
                 'password' => 'S092019020001',
                 'roles' => ['auditee'],
-            ],[
-                'email' => 'dedy@jgu.ac.id',
+            ],
+            [
+                'email' => 'dedyrutama@jgu.ac.id',
                 'name' => 'Dedy Rutama',
                 'username' => 'S092012120023',
                 'password' => 'S092012120023',
@@ -179,7 +180,7 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'mohamad@jgu.ac.id',
+                'email' => 'mzaenudin@jgu.ac.id',
                 'name' => 'Mohamad Zaenudin',
                 'username' => 'S092019030006',
                 'password' => 'S092019030006',
@@ -445,7 +446,7 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
-                'email' => 'nur@jgu.ac.id',
+                'email' => 'nurfitridewi@jgu.ac.id',
                 'name' => 'Nur Fitri Dewi',
                 'username' => 'S092019090008',
                 'password' => 'S092019090008',
@@ -494,6 +495,20 @@ class UserRolePermissionSeeder extends Seeder
                 'roles' => ['auditee'],
             ],
             [
+                'email' => 'dwi@jgu.ac.id',
+                'name' => 'Dwi Rachmawati',
+                'username' => 'S092019030013',
+
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'ahmad_pitra@msu.edu.my',
+                'name' => 'Ahmad Pitra',
+                'username' => 'S092021030019',
+
+                'roles' => ['auditee'],
+            ],
+            [
                 'email' => 'aliridho@jgu.ac.id',
                 'name' => 'Ali Ridho',
                 'username' => 'S092019040002',
@@ -505,6 +520,13 @@ class UserRolePermissionSeeder extends Seeder
                 'name' => 'Suci Ayu Sudari',
                 'username' => 'S092019090002',
                 'password' => 'S092019090002',
+                'roles' => ['auditee'],
+            ],
+            [
+                'email' => 'suci@jgu.ac.id',
+                'name' => 'Suci Ayu Sudari',
+                'username' => 'S092019090002',
+
                 'roles' => ['auditee'],
             ],
         ];
@@ -526,6 +548,9 @@ class UserRolePermissionSeeder extends Seeder
         foreach ($users as $userData) {
             $roles = $userData['roles'];
             unset($userData['roles']);
+            if($userData['username'] != 'admin'){
+                $default_user_value['password'] = bcrypt($userData['username']); // password default = username, kecuali user admin
+            }
             $user = User::create(array_merge($userData, $default_user_value));
             $user->assignRole($roles);
         }
