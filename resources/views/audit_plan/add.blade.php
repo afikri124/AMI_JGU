@@ -90,9 +90,9 @@
                     <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="auditor_id" class="form-label"><b>Auditor 1</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id[]" id="auditor_id" class="form-select select2" required>
-                                <option value="">Select Auditor</option>
+                            <label for="auditor_1_id" class="form-label"><b>Auditor 1</b><i class="text-danger">*</i></label>
+                            <select name="auditor_id[]" id="auditor_1_id" class="form-select select2" required>
+                                <option value="">Select Auditor 1</option>
                                 @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
                                     {{$role->name}} (
@@ -105,11 +105,12 @@
                             </select>
                         </div>
                     </div>
+                    
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="auditor_id" class="form-label"><b>Auditor 2</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id[]" id="auditor_id" class="form-select select2" required>
-                                <option value="">Select Auditor</option>
+                            <label for="auditor_2_id" class="form-label"><b>Auditor 2</b><i class="text-danger">*</i></label>
+                            <select name="auditor_id[]" id="auditor_2_id" class="form-select select2" required>
+                                <option value="">Select Auditor 2</option>
                                 @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
                                     {{$role->name}} (
@@ -121,7 +122,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div>                    
                     <p></p>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
@@ -215,8 +216,13 @@
 <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $('#auditor_id').select2({
-            placeholder: "  Select Auditor",
+        $('#auditor_1_id').select2({
+            placeholder: "Select Auditor 1",
+            allowClear: true
+        });
+
+        $('#auditor_2_id').select2({
+            placeholder: "Select Auditor 2",
             allowClear: true
         });
         $('#location_id').select2({
