@@ -126,7 +126,7 @@
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}">
                                             @csrf
                                             <div>
-                                                <label class="form-label" for="remark_path_auditee"><b>Remark Document By Auditee</b></label>
+                                                <label class="form-label" for="remark_path_auditee"><b>Remark Document</b><i class="text-danger">*</i></label>
                                                 <div class="input-group input-group-merge has-validation">
                                                     <textarea type="text" class="form-control @error('remark_path_auditee') is-invalid @enderror"
                                                     name="remark_path_auditee" placeholder="MAX 250 characters...">{{ $checklist->remark_path_auditee ?? '' }}</textarea>

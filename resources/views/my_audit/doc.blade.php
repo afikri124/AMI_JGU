@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'List Standard Auditee')
+@section('title', 'View Remark Document Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -140,15 +140,32 @@
                         <label for="doc_path" class="form-label large-text"><b>Audit Document</b></label>
                         <br>
                         @if ($obsChecklist->doc_path)
-                            @php
-                                // Mengambil nama file tanpa ID di depannya jika menggunakan underscore sebagai pemisah
-                                $fileName = basename($obsChecklist->doc_path);
-                                $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName); // Menghilangkan ID di depan nama file
-                            @endphp
-                            <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
-                                {{ $fileNameWithoutId }}
+                        @php
+                            $fileName = basename($obsChecklist->doc_path);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                        @endphp
+                        <strong class="form-label">File: </strong>
+                        <a href="{{ asset($obsChecklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                        @endif
+                        @error('doc_path')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        <br>
+                        @if ($obsChecklist->link)
+                            <strong class="form-label">Link: </strong>
+                            <a href="{{ asset($obsChecklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 450px;">
+                                {{ $obsChecklist->link }}
                             </a>
                         @endif
+                        @error('link')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </td>
             <tr>

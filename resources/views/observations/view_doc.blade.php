@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'List Standard Auditee')
+@section('title', 'Review Standard Auditee')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -183,10 +183,10 @@
                 </td>
                 <td>
                     <div>
-                        <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b></label>
+                        <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b><i class="text-primary">*</i></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control @error('remark_docs.*') is-invalid @enderror"
-                                name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters...">{{ old('remark_docs.' . $indicator->id) }}</textarea>
+                                name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..." required></textarea>
                         </div>
                     </div>
                 </td>                

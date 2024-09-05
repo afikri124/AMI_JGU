@@ -197,7 +197,9 @@
                         var html = '';
                         if (row.auditstatus.id === 1 ||  row.auditstatus.id === 2) {
                             html = `<a class="badge bg-warning badge-icon" title="Edit Audit Plan" href="{{ url('edit_audit/') }}/${row.id}">
-                                    <i class="bx bx-pencil"></i></a>`;
+                                    <i class="bx bx-pencil"></i></a>
+                                    <a class="badge bg-danger badge-icon" title="Delete Audit Plan" style="cursor:pointer" onclick="DeleteId('${row.id}', '${row.auditee.name}')">
+                                    <i class="bx bx-trash icon-white"></i></a>`;
                         }
                         else if (row.auditstatus.id === 1 ||  row.auditstatus.id === 2 || row.auditstatus.id === 5 || row.auditstatus.id === 13) {
                             html = `<a class="badge bg-dark badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
@@ -221,8 +223,8 @@
 
     function DeleteId(id, data) {
         swal({
-                title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                title: "Are you sure?",
+                text: "After deleting, the data ("+data+") cannot be recovered!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
