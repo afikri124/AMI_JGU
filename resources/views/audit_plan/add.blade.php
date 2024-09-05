@@ -76,8 +76,39 @@
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="auditor_id" class="form-label"><b>Auditor</b><i class="text-danger">*</i></label>
-                            <select name="auditor_id[]" id="auditor_id" class="form-select select2"  multiple required>
+                            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
+                            <select name="department_id" id="department_id" class="form-select select2" value="{{ old('department_id') }}" required>
+                                <option value="">Select Department</option>
+                                @foreach($departments as $d)
+                                <option value="{{$d->id}}" {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                                    {{$d->name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label for="auditor_id" class="form-label"><b>Auditor 1</b><i class="text-danger">*</i></label>
+                            <select name="auditor_id[]" id="auditor_id" class="form-select select2" required>
+                                <option value="">Select Auditor</option>
+                                @foreach($auditor as $role)
+                                <option value="{{$role->id}}" {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
+                                    {{$role->name}} (
+                                    @foreach ($role->roles as $x)
+                                    {{ $x->name}}
+                                    @endforeach
+                                    )
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label for="auditor_id" class="form-label"><b>Auditor 2</b><i class="text-danger">*</i></label>
+                            <select name="auditor_id[]" id="auditor_id" class="form-select select2" required>
                                 <option value="">Select Auditor</option>
                                 @foreach($auditor as $role)
                                 <option value="{{$role->id}}" {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
@@ -107,14 +138,11 @@
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
-                            <label for="department_id" class="form-label"><b>Department</b><i class="text-danger">*</i></label>
-                            <select name="department_id" id="department_id" class="form-select select2" value="{{ old('department_id') }}" required>
-                                <option value="">Select Department</option>
-                                @foreach($departments as $d)
-                                <option value="{{$d->id}}" {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
-                                    {{$d->name}}
-                                </option>
-                                @endforeach
+                            <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
+                            <select name="type_audit" id="type_audit" class="form-select select2" value="{{ old('type_audit') }}" required>
+                                <option value="">Select Type Audit</option>
+                                <option value="Reguler">Reguler</option>
+                                <option value="Permintaan">Permintaan</option>
                             </select>
                         </div>
                     </div>
@@ -144,11 +172,11 @@
                         </div>
                     </div>
                     <p></p>
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12" hidden>
                         <div class="form-group">
                             <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
-                            <select id="periode" name="periode" class="form-select select2" value="{{ old('periode') }}" required>
-                            <option value="">Select Periode</option>
+                            <select id="periode" name="periode" class="form-select select2" value="{{ old('periode') }}" required >
+                            <option  value="">Select Periode</option>
                             @php
                             $startYear = $prd;
                             $endYear = now()->year + 5;
@@ -158,16 +186,6 @@
                                 echo "<option $selected value='$year/$nextYear'>$year/$nextYear</option>";
                             }
                             @endphp
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="form-group">
-                            <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
-                            <select name="type_audit" id="type_audit" class="form-select select2" value="{{ old('type_audit') }}" required>
-                                <option value="">Select Type Audit</option>
-                                <option value="Reguler">Reguler</option>
-                                <option value="Permintaan">Permintaan</option>
                             </select>
                         </div>
                     </div>
