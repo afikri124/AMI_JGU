@@ -39,52 +39,54 @@ class MyAuditController extends Controller{
     $auditorId = Auth::user()->id;
     $total_indicator = 0;
 
-    if ($request->isMethod('POST')) {
-        $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
+if ($request->isMethod('POST')) {
+    $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
 
-        $obs = Observation::firstOrCreate([
-            'audit_plan_id' => $id,
-            'audit_plan_auditor_id' => $auditPlanAuditor->id,
-        ]);
+    $obs = Observation::firstOrCreate([
+        'audit_plan_id' => $id,
+        'audit_plan_auditor_id' => $auditPlanAuditor->id,
+    ]);
 
-        if ($request->ajax()) {
-            $data = AuditPlan::findOrFail($id);
-    
-            if ($request->has('final_submit')) {
-                // $request->total_indicator
-                $totalI =  ObservationChecklist::
-                            select('*')
-                            ->where(function ($query) {
-                                $query->where(function ($query) {
-                                        $query->whereNull('doc_path')
-                                            ->orWhereNull('link');
-                                    })
-                                    ->whereNotNull('remark_path_auditee');
-                            })
-                            ->where('observation_id','=',$obs->id)
-                            ->count();
-                            if($totalI != $request->total_indicator){
-                                return response()->json([
-                                    'success' => false,
-                                    'message' => 'Sorry there are incomplete documents'
-                                ]);
-                            } else {
-                                $data->update([
-                                        'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
-                                    ]);
-                                    return response()->json([
-                                        'success' => true,
-                                        'message' => 'Audit Document Successfully Submitted'
-                                    ]);
-                            }
+    if ($request->ajax()) {
+        $data = AuditPlan::findOrFail($id);
+
+        if ($request->has('final_submit')) {
+            // Menghitung total checklist berdasarkan syarat yang baru
+            $totalI = ObservationChecklist::
+                        select('*')
+                        ->where(function ($query) {
+                            $query->where(function ($query) {
+                                    // Harus ada salah satu antara file atau link yang diisi
+                                    $query->whereNotNull('doc_path')
+                                        ->orWhereNotNull('link');
+                                })
+                                // Komentar/remark harus selalu diisi
+                                ->whereNotNull('remark_path_auditee');
+                        })
+                        ->where('observation_id', '=', $obs->id)
+                        ->count();
+
+            if ($totalI != $request->total_indicator) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, there are incomplete documents. Ensure file or link is filled and remark is provided.'
+                ]);
+            } else {
+                $data->update([
+                    'audit_status_id' => '11', // Ganti dengan ID status audit yang sesuai
+                ]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Audit Document Successfully Submitted'
+                ]);
             }
-    
-            // Tambahkan debug untuk memeriksa kondisi lain
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to submit audit document'
-            ]);
-        } elseif ($request->has('save_file')) {
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to submit audit document'
+        ]);
+    } elseif ($request->has('save_file')) {
             // Logika untuk tombol save file
             $this->validate($request, [
                 'doc_path' => 'nullable|mimes:png,jpg,jpeg,pdf,xls,xlsx|max:50000',
@@ -310,16 +312,16 @@ public function deleteLink($id)
 {
     $data = AuditPlan::findOrFail($id);
     $auditorId = Auth::user()->id;
-    
+
     // Ambil semua data observasi terkait audit plan
     $observations = Observation::where('audit_plan_id', $id)->get();
-    
+
     if ($request->isMethod('POST')) {
         // Validasi umum
-        
-    
+
+
         $action = $request->input('action');
-    
+
         // Proses Save Draft
         if ($action === 'Save') {
             $this->validate($request, [
@@ -333,7 +335,7 @@ public function deleteLink($id)
                 $observation->update([
                     'date_prepared' => $request->input('date_prepared'),
                 ]);
-    
+
                 // Update checklist observasi
                 foreach ($request->indicator_id as $index => $indicatorId) {
                     ObservationChecklist::updateOrCreate(
@@ -349,7 +351,7 @@ public function deleteLink($id)
                     );
                 }
             }
-    
+
             return redirect()->route('my_audit.index')->with('msg', 'Save Draft Observations Success');
         }
         if ($action === 'Submit') {
@@ -363,7 +365,7 @@ public function deleteLink($id)
                 $observation->update([
                     'date_prepared' => $request->input('date_prepared'),
                 ]);
-    
+
                 // Update checklist observasi
                 foreach ($request->indicator_id as $index => $indicatorId) {
                     ObservationChecklist::updateOrCreate(
@@ -419,77 +421,122 @@ public function deleteLink($id)
     {
         $data = AuditPlan::findOrFail($id);
         $auditorId = Auth::user()->id;
-
-        if (Auth::user()->role == 'auditee') {
-        }
-
-        $files = $request->file('doc_path_rtm');
-        $filePaths = [];
-
-        if ($files) {
-            foreach ($files as $index => $file) {
-                $ext = $file->extension();
-                $name = str_replace(' ', '_', $file->getClientOriginalName());
-                $fileName = Auth::user()->id . '_' . $name;
-                $folderName = "storage/FILE/" . Carbon::now()->format('Y/m');
-                $path = public_path($folderName);
-
-                if (!File::exists($path)) {
-                    File::makeDirectory($path, 0755, true); // Create folder if not exists
-                }
-
-                $upload = $file->move($path, $fileName);
-                if ($upload) {
-                    $filePaths[$index] = $folderName . "/" . $fileName;
-                } else {
-                    $filePaths[$index] = null;
-                }
-            }
-        }
-
-        // Retrieve the observation using the ID
-        $observation = Observation::where('audit_plan_id', $id)->get();
-
+        $observations = Observation::where('audit_plan_id', $id)->get();
         $auditPlanAuditor = AuditPlanAuditor::where('audit_plan_id', $id)->first();
+
         if ($request->isMethod('POST')) {
-            $this->validate($request, [
-                'remark_rtm_auditee' => ['array', 'nullable'],
-            ]);
-
-            foreach ($observation as $obs) {
+            // Update observation records
+            foreach ($observations as $obs) {
                 $obs->update([
-                'audit_plan_id' => $observation->id,
-                'audit_plan_auditor_id' => $auditPlanAuditor->id,
-            ]);
-        }
+                    'audit_plan_id' => $data->id,
+                    'audit_plan_auditor_id' => $auditPlanAuditor->id,
+                ]);
+            }
 
-            foreach ($request->indicator_ids as $index => $indicatorId) {
+            // Final Submit Logic
+            if ($request->ajax()) {
+                if ($request->has('final_submit')) {
+                    // Validate checklist
+                    $totalRtm = Rtm::where(function ($query) use ($obs) {
+                        $query->whereNotNull('doc_path_rtm')
+                              ->whereNotNull('remark_rtm_auditee')
+                              ->where('observation_id', $obs->id);
+                    })->count();
+
+                    if ($totalRtm != $request->total_indicator) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Incomplete documents. Ensure files/links and remarks are provided.'
+                        ]);
+                    }
+
+                    // Update audit status
+                    $data->update(['audit_status_id' => '6']);
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Document RTM uploaded/updated successfully!'
+                    ]);
+                }
+
+                return response()->json(['success' => false, 'message' => 'Failed to submit audit document']);
+            }
+
+            // Save File Logic
+            if ($request->has('save_file')) {
+                $this->validate($request, [
+                    'doc_path_rtm' => 'nullable|mimes:png,jpg,jpeg,pdf,xls,xlsx|max:50000',
+                ]);
+
+                $filePaths = [];
+                if ($request->hasFile('doc_path_rtm')) {
+                    foreach ($request->file('doc_path_rtm') as $index => $file) {
+                        $fileName = Auth::user()->id . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+                        $folderName = "storage/FILE/RTM" . Carbon::now()->format('Y/m');
+                        $path = public_path($folderName);
+
+                        if (!File::exists($path)) {
+                            File::makeDirectory($path, 0755, true);
+                        }
+
+                        $filePath = $file->move($path, $fileName);
+                        $filePaths[$index] = $folderName . "/" . $fileName;
+                    }
+                }
+
+                    Rtm::updateOrCreate(
+                        [
+                            'observation_id' => $obs->id,
+                            'indicator_id' => $request->indicator_id,
+                        ],
+                        [
+                            'doc_path_rtm' => $filePaths,
+                        ]
+                    );
+
+                return redirect()->route('my_audit.edit_rtm', $data->id)->with('msg', 'File Successfully Uploaded');
+            } elseif ($request->has('save_link')) {
+                // Logika untuk tombol save link
+                $this->validate($request, [
+                    'link_rtm' => 'nullable|max:500000',
+                ]);
+
                 Rtm::updateOrCreate(
                     [
-                        'observation_id' => $observation->id,
-                        'indicator_id' => $indicatorId,
+                        'observation_id' => $obs->id,
+                        'indicator_id' => $request->indicator_id,
                     ],
                     [
-                        'remark_rtm_auditee' => $request->remark_rtm_auditee[$indicatorId] ?? null,
-                        'doc_path_rtm' => $filePaths[$index] ?? null,
+                        'link_rtm' => $request->link_rtm,
                     ]
                 );
-            }
 
-            $data->update([
-                'audit_status_id'   => '10',
-            ]);
-            // kirim Email ke Auditor
-            $auditPlanId = $data->id;
-            $auditors = AuditPlanAuditor::where('audit_plan_id', $auditPlanId)->with('auditor')->get();
-            foreach ($auditors as $auditPlanAuditor) {
-                $auditor = $auditPlanAuditor->auditor;
+                return redirect()->route('my_audit.edit_rtm', $data->id)->with('msg', 'Link Successfully Saved');
+            } elseif ($request->has('save_remark')) {
+                $this->validate($request, [
+                    'remark_rtm_auditee' => 'required|max:250',
+                ]);
 
-                if ($auditor && $auditor->email) {
-                    Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
-                }
+                    Rtm::updateOrCreate(
+                        [
+                            'observation_id' => $obs->id,
+                            'indicator_id' => $request->indicator_id,
+                        ],
+                        [
+                            'remark_rtm_auditee' => $request->remark_rtm_auditee,
+                        ]
+                    );
+
+                // Load related data for the view
+                // $auditors = AuditPlanAuditor::where('audit_plan_id', $data->id)->with('auditor')->get();
+                // foreach ($auditors as $auditPlanAuditor) {
+                //     $auditor = $auditPlanAuditor->auditor;
+                //     if ($auditor && $auditor->email) {
+                //         Mail::to($auditor->email)->send(new auditeeUploadDoc($data));
+                //     }
+                // }
+
+                return redirect()->route('my_audit.edit_rtm', $data->id)->with('msg', 'Remark Successfully Saved');
             }
-            return redirect()->route('my_audit.index')->with('msg', 'Document RTM uploaded/updated successfully!!');
         }
 
         $data = AuditPlan::findOrFail($id);
@@ -513,11 +560,41 @@ public function deleteLink($id)
         $observations = Observation::where('audit_plan_id', $id)->get();
         $observationIds = $observations->pluck('id');
         $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
+        $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         return view('my_audit.edit_rtm',
-        compact('standardCategories', 'standardCriterias',
+        compact('standardCategories', 'standardCriterias', 'rtm',
         'auditor', 'data', 'category', 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
+    }
+
+    public function deleteFileRTM($id)
+    {
+        $checklist = Rtm::findOrFail($id);
+
+        // Hapus file fisik jika ada
+        if ($checklist->doc_path_rtm && File::exists(public_path($checklist->doc_path_rtm))) {
+            File::delete(public_path($checklist->doc_path_rtm));
+        }
+
+        // Hapus file path dari database
+        $checklist->doc_path_rtm = null;
+        $checklist->save();
+
+        return redirect()->back()->with('msg', 'File RTM successfully deleted');
+    }
+
+    public function deleteLinkRTM($id)
+    {
+        $checklist = Rtm::findOrFail($id);
+
+        // Hapus link dari database jika ada
+        if ($checklist->link_rtm) {
+            $checklist->link_rtm = null;
+            $checklist->save();
+        }
+
+        return redirect()->back()->with('msg', 'Link RTM successfully deleted');
     }
 
     public function rtm($id){

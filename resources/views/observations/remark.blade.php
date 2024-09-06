@@ -90,43 +90,38 @@
     <form method="POST" action="{{ route('observations.update_remark', $data->id) }}"
     enctype="multipart/form-data">
     @csrf
-      <strong class="text-primary">Category Standard</strong>
-        @foreach ($standardCategories as $category)
-            <h6 class="mb-0" name="standard_category_id" id="standard_category_id">
-                {{ $category->description }}
-            </h6>
-        @endforeach
-        <p></p>
-        <strong class="text-primary">Criteria Standard</strong>
-        @foreach ($standardCriterias as $criteria)
-            <h6 class="mb-0" name="standard_criteria_id" id="standard_criteria_id">
-                {{ $criteria->title }}
-            </h6>
-        @endforeach
-        <p></p>
+    <center>
+        <h3 style="color: black; font-family: Arial, Helvetica, sans-serif">FORM UPDATE AUDITING ASSESSMENT</h3>
+    </center>
+        <div class="col-md-6">
+            <div class="hidden">
+                <label for="location_id" class="form-label"><b>Location</b></label>
+                <select name="location_id" id="location_id" class="form-select select2" required>
+                    <option value="">Select Location</option>
+                    @foreach($locations as $d)
+                        <option value="{{ $d->id }}" {{ $data->location_id == $d->id ? 'selected' : '' }}>
+                            {{ $d->title }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    <hr style="color:black">
     @foreach ($standardCriterias as $criteria)
-        <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+        <h6 class="mb-3" style="color: black"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
         @foreach ($criteria->statements as $no => $statement)
-        @foreach ($statement->indicators as $indicator)
-        @foreach ($observations as $observation)
-            @php
-                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
-                $filteredObs = $obs_c->where('observation_id', $observation->id)
-                                        ->where('indicator_id', $indicator->id);
-            @endphp
-            @foreach ($filteredObs as $obsChecklist)
+            @foreach ($statement->indicators as $indicator)
+                @foreach ($observations as $observation)
+                    @php
+                        $filteredObs = $obs_c->where('observation_id', $observation->id)
+                                            ->where('indicator_id', $indicator->id);
+                    @endphp
+                   @foreach ($filteredObs as $index => $obsChecklist)
+                   <input type="hidden" name="indicator_id[{{ $index }}]" value="{{ $indicator->id }}">
         <table class="table table-bordered">
             <tr>
                 <th><b>Standard Statement</b></th>
-                <td>
-                    <a href="{{ $data->link }}" target="_blank">{{ $data->link }}</a>
-                    @error('link')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </td>
             </tr>
             <tr>
                 <td style="width: 60%">
@@ -142,20 +137,20 @@
                     <div id="data-sets">
                         <div id="data-set">
                             <div class="checkbox-group">
-                                <input type="radio" id="ks_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
-                                <label for="ks_{{ $observation->id }}">KS</label>
+                                <input type="radio" id="ks" name="obs_checklist_option[{{ $index }}]" value="KS" {{ $obsChecklist->obs_checklist_option == 'KS' ? 'checked' : '' }} />
+                                <label for="ks">KS</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" id="obs_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
-                                <label for="obs_{{ $observation->id }}">OBS</label>
+                                <input type="radio" id="obs" name="obs_checklist_option[{{ $index }}]" value="OBS" {{ $obsChecklist->obs_checklist_option == 'OBS' ? 'checked' : '' }} />
+                                <label for="obs">OBS</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" id="kts_minor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
-                                <label for="kts_minor_{{ $observation->id }}">KTS MINOR</label>
+                                <input type="radio" id="kts_minor" name="obs_checklist_option[{{ $index }}]" value="KTS MINOR" {{ $obsChecklist->obs_checklist_option == 'KTS MINOR' ? 'checked' : '' }} />
+                                <label for="kts_minor">KTS MINOR</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="radio" id="kts_mayor_{{ $observation->id }}" name="obs_checklist_option[{{ $indicator->id }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
-                                <label for="kts_mayor_{{ $observation->id }}">KTS MAYOR</label>
+                                <input type="radio" id="kts_mayor" name="obs_checklist_option[{{ $index }}]" value="KTS MAYOR" {{ $obsChecklist->obs_checklist_option == 'KTS MAYOR' ? 'checked' : '' }} />
+                                <label for="kts_mayor">KTS MAYOR</label>
                             </div>
                         </div>
                     </div>
@@ -203,7 +198,7 @@
                     <label for="remark_description" class="form-label">
                         <b>Deskripsi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_description" name="remark_description[{{ $indicator->id }}]"
+                    <textarea id="remark_description" name="remark_description[{{ $index }}]"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_description ?? '' }}</textarea>
                     @error('remark_description.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -217,7 +212,7 @@
                     <label for="remark_success_failed" class="form-label">
                         <b>Faktor Pendukung Keberhasilan/Kegagalan:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $indicator->id }}]"
+                    <textarea id="remark_success_failed" name="remark_success_failed[{{ $index }}]"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_success_failed ?? '' }}</textarea>
                     @error('remark_success_failed.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -231,7 +226,7 @@
                     <label for="remark_recommend" class="form-label">
                         <b>Rekomendasi Audit:</b><i class="text-danger">*</i>
                     </label>
-                    <textarea id="remark_recommend" name="remark_recommend[{{ $indicator->id }}]"
+                    <textarea id="remark_recommend" name="remark_recommend[{{ $index }}]"
                     class="form-control" maxlength="250" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_recommend ?? '' }}</textarea>
                     @error('remark_recommend.' . $obsChecklist->indicator_id)
                         <span class="invalid-feedback" role="alert">
@@ -244,7 +239,7 @@
                 <td colspan="3">
                     <label for="remark_upgrade_repair" class="form-label"><b>Rencana Peningkatan/Perbaikan:</b><i class="text-danger">*</i></label>
                     <textarea type="text" id="remark_upgrade_repair" class="form-control"
-                        name="remark_upgrade_repair_{{ $observation->id }}" maxlength="250"
+                        name="remark_upgrade_repair[{{ $index }}]" maxlength="250"
                         placeholder="MAX 250 characters...">{{ $obsChecklist->remark_upgrade_repair ?? '' }}</textarea>
                         @error('remark_upgrade_repair')
                         <span class="invalid-feedback" role="alert">
@@ -258,7 +253,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 mb-3">
                             <label for="person_in_charge" class="form-label"><b>Pihak yang Bertanggung Jawab</b><i class="text-danger">*</i></label>
-                            <input type="text" id="person_in_charge" class="form-control" name="person_in_charge" value="{{$obsChecklist->person_in_charge}}"
+                            <input type="text" id="person_in_charge" class="form-control" name="person_in_charge[{{ $index }}]" value="{{$obsChecklist->person_in_charge}}"
                                     placeholder="Pihak Bertanggung Jawab...">
                                     @error('person_in_charge')
                                     <span class="invalid-feedback" role="alert">
@@ -268,7 +263,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 mb-3">
                             <label for="plan_completed" class="form-label"><b>Jadwal Penyelesaian</b><i class="text-danger">*</i></label>
-                            <input type="date" class="form-control" name="plan_completed" id="plan_completed" value="{{$obsChecklist->plan_completed}}"
+                            <input type="date" class="form-control" name="plan_completed[{{ $index }}]" id="plan_completed" value="{{$obsChecklist->plan_completed}}"
                                     placeholder="YYYY-MM-DD">
                                     @error('plan_completed')
                                         <span class="invalid-feedback" role="alert">
@@ -315,16 +310,18 @@
                     @enderror
                 </div>
             </div>
-            <p></p>
-            <div class="text-end">
-                <button class="btn btn-primary me-1" type="submit">Submit</button>
-                <a href="{{ url()->previous() }}">
-                    <span class="btn btn-outline-secondary">Back</span>
-                </a>
+            <div class="card-footer d-flex justify-content-between align-items-end">
+                <div class="d-flex">
+                    <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Save">Save Draft</button>
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-primary me-2" type="submit" name="action" value="Submit">Submit</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary me-1">Back</a>
+                </div>
             </div>
+        </form>
         </div>
       </div>
-    </form>
   </div>
   </div>
 @endsection

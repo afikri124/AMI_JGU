@@ -57,12 +57,6 @@
                                     <td style="width: 65%">
                                         <ul style="color: black;">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 60%">
-                                        <strong>Indicator</strong>
-                                        <ul>{!! $indicator->name !!}</ul>
-                                    </td>
                                     <td>
                                         <!-- Form untuk Upload Document -->
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}" enctype="multipart/form-data">
@@ -74,7 +68,7 @@
                                                 @error('doc_path')
                                                     <div class="text-danger-custom">Please upload a valid document. The file size should not exceed 50MB.</div>
                                                 @enderror
-                                
+
                                                 @if ($checklist && $checklist->doc_path)
                                                     @php
                                                         $fileName = basename($checklist->doc_path);
@@ -84,8 +78,8 @@
                                                     <a href="{{ asset($checklist->doc_path) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 500px;">
                                                         {{ $fileNameWithoutId }}
                                                     </a>
-                                                        <button formaction="{{ route('my_audit.delete_file', ['id' => $checklist->id]) }}" 
-                                                                class="btn btn-danger btn-sm" type="submit" 
+                                                        <button formaction="{{ route('my_audit.delete_file', ['id' => $checklist->id]) }}"
+                                                                class="btn btn-danger btn-sm" type="submit"
                                                                 onclick="return confirm('Are you sure you want to delete this file?');">
                                                             Delete File
                                                         </button>
@@ -94,7 +88,14 @@
                                                 <button class="btn btn-success btn-sm mt-2" type="submit" name="save_file">Save</button>
                                             </div>
                                         </form>
-                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%">
+                                        <strong>Indicator</strong>
+                                        <ul>{!! $indicator->name !!}</ul>
+                                    </td>
+                                    <td>
                                         <!-- Form untuk Link Document -->
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}">
                                             @csrf
@@ -105,14 +106,14 @@
                                                 @error('link')
                                                     <div class="text-danger-custom">Please provide a valid document link.</div>
                                                 @enderror
-                                
+
                                                 @if ($checklist && $checklist->link)
                                                     <strong class="form-label">Link: </strong>
                                                     <a href="{{ asset($checklist->link) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 500px;">
                                                         {{ $checklist->link }}
                                                     </a>
-                                                        <button formaction="{{ route('my_audit.delete_link', ['id' => $checklist->id]) }}" 
-                                                                class="btn btn-danger btn-sm" type="submit" 
+                                                        <button formaction="{{ route('my_audit.delete_link', ['id' => $checklist->id]) }}"
+                                                                class="btn btn-danger btn-sm" type="submit"
                                                                 onclick="return confirm('Are you sure you want to delete this link?');">
                                                             Delete Link
                                                         </button>
@@ -121,8 +122,16 @@
                                                 <button class="btn btn-success btn-sm mt-2" type="submit" name="save_link">Save</button>
                                             </div>
                                         </form>
-                                
-                                        <!-- Form untuk Remark Path Auditee -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%" id="review-docs">
+                                        <strong>Review Document</strong>
+                                        @foreach ($statement->reviewDocs as $reviewDoc)
+                                            <ul>{!! $reviewDoc->name !!}</ul>
+                                        @endforeach
+                                    </td>
+                                    <td>
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}">
                                             @csrf
                                             <div>
@@ -152,7 +161,7 @@
                         <button class="btn btn-primary me-1" type="button" onclick="confirmSubmit()">Submit</button>
                         <a class="btn btn-outline-primary" href="{{ route('my_audit.index') }}">Cancel</a>
                     </form>
-                </div>              
+                </div>
             </div>
         </div>
     </div>

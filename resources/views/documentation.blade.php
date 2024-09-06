@@ -37,9 +37,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                <h5>Buku Panduan</h5>
+                                </div>
+                                <div class="d-none d-md-block">
+                                    <iframe src="{{asset('assets/Panduan_AMI.pdf')}}" style="width:100%; height:650px;" frameborder="0"></iframe>
+                                </div>
+                                <div class="text-center pb-4">
+                                    <a href="{{asset('assets/Panduan_AMI.pdf')}}" class="btn btn-primary" target="_blank">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 @endsection

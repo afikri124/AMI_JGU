@@ -851,14 +851,14 @@ com
     position: relative;
     overflow: hidden;
   }
-  
+
   .vision-mission h2 {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 50px;
     color: #000000;
   }
-  
+
   .content-container {
     display: flex;
     justify-content: center;
@@ -866,7 +866,7 @@ com
     flex-wrap: wrap;
     gap: 40px;
   }
-  
+
   .vision, .mission {
     max-width: 500px;
     padding: 30px;
@@ -878,7 +878,7 @@ com
     border-left: 5px solid #e74c3c;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
-  
+
   .title-decorator {
     height: 5px;
     width: 60px;
@@ -887,31 +887,31 @@ com
     top: 20px;
     left: 20px;
   }
-  
+
   .vision h3, .mission h3 {
     font-size: 32px;
     font-weight: 600;
     margin: 20px 0;
     color: #e74c3c;
   }
-  
+
   .vision p, .mission ul {
     font-size: 18px;
     line-height: 1.6;
     color: #f1f1f1; /* Warna teks yang lebih terang untuk kontras */
   }
-  
+
   .mission ul {
     list-style: none;
     padding: 0;
   }
-  
+
   .mission li {
     margin-bottom: 15px;
     padding-left: 25px;
     position: relative;
   }
-  
+
   .mission li::before {
     content: '•';
     color: #e74c3c;
@@ -958,7 +958,7 @@ com
     z-index: 3;
   }
 
-  
+
   /*--------------------------------------------------------------
   # Contact Section
   --------------------------------------------------------------*/
@@ -967,41 +967,41 @@ com
     text-align: center;
     background-color: #f9f9f9;
   }
-  
+
   .contact h2 {
     font-size: 36px;
     font-weight: 700;
     color: #333;
     margin-bottom: 20px;
   }
-  
+
   .contact p {
     font-size: 18px;
     color: #555;
     margin-bottom: 30px;
   }
-  
+
   .social-media {
     margin-bottom: 40px;
   }
-  
+
   .social-link {
     display: inline-block;
     margin: 0 15px;
     text-decoration: none;
     transition: transform 0.3s, opacity 0.3s;
   }
-  
+
   .social-link img {
     width: 40px; /* Ubah ukuran sesuai kebutuhan */
     height: 40px;
   }
-  
+
   .social-link:hover {
     transform: scale(1.1);
     opacity: 0.8;
   }
-  
+
   .map {
     max-width: 100%;
     height: 450px;
@@ -1009,9 +1009,10 @@ com
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
-  
-  footer {  
+
+  footer {
     color: white;
     padding: 10px 0;
     text-align: left;
   }
+  
