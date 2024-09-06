@@ -107,7 +107,7 @@ class ApproveController extends Controller
         $hodLPM = Setting::find('HODLPM');
         $hodBPMI = Setting::find('HODBPMI');
         $StatusCheck = [1, 2, 5, 13,];
-        $StatusReport = [8, 15];
+        $StatusReport = [8, 15, 12];
 
         if (in_array($data->audit_status_id, $StatusCheck)) {
             return view('lpm.check', [
@@ -137,61 +137,6 @@ class ApproveController extends Controller
             ]);
         }
     }
-
-    public function lpm_edit($id){
-        $data = AuditPlan::findOrFail($id);
-        $locations = Location::orderBy('title')->get();
-        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)
-        ->with('auditor:id,name')
-        ->firstOrFail();
-        $category = StandardCategory::orderBy('description')->get();
-        $criteria = StandardCriteria::orderBy('title')->get();
-
-        $auditorId = Auth::user()->id;
-        $auditorData = AuditPlanAuditor::where('auditor_id', $auditorId)->where('audit_plan_id', $id)->firstOrFail();
-
-        $categories = AuditPlanCategory::where('audit_plan_auditor_id', $auditorData->id)->get();
-        $criterias = AuditPlanCriteria::where('audit_plan_auditor_id', $auditorData->id)->get();
-
-        $standardCategoryIds = $categories->pluck('standard_category_id');
-        $standardCriteriaIds = $criterias->pluck('standard_criteria_id');
-
-        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->get();
-        $standardCriterias = StandardCriteria::with('statements')
-                        ->with('statements.indicators')
-                        ->with('statements.reviewDocs')
-                        ->whereIn('id', $standardCriteriaIds)
-                        ->groupBy('id','title','status','standard_category_id','created_at','updated_at')
-                        ->get();
-        $observations = Observation::where('audit_plan_id', $id)->get();
-        $observationIds = $observations->pluck('id');
-        $obs_c = ObservationChecklist::whereIn('observation_id', $observationIds)->get();
-        $hodLPM = Setting::find('HODLPM');
-        $hodBPMI = Setting::find('HODBPMI');
-        $rtm = Rtm::whereIn('observation_id', $observationIds)->get();
-        $pdf = Pdf::loadView('pdf.audit_report',
-        $data = [
-            'data' => $data,
-            'locations' => $locations,
-            'auditor' => $auditor,
-            'category' => $category,
-            'criteria' => $criteria,
-            'standardCriterias' => $standardCriterias,
-            'observations' => $observations,
-            'obs_c' => $obs_c,
-            'rtm' => $rtm,
-            'hodLPM' => $hodLPM,
-            'hodBPMI' => $hodBPMI
-        ]);
-    // dd( $standardCriterias, $auditor, $data, $observations, $obs_c, $hodLPM, $hodBPMI);
-
-    return $pdf->stream('make-report.pdf');
-        // return view('lpm.print',
-        // compact('standardCategories', 'standardCriterias',
-        // 'auditorData', 'auditor', 'data', 'category',
-        // 'criteria', 'observations', 'obs_c', 'hodLPM', 'hodBPMI'));
-    }
-
 
     public function lpm_apv_audit(Request $request, $id)
 {

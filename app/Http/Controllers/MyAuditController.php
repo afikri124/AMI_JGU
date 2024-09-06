@@ -483,7 +483,6 @@ public function deleteLink($id)
                     }
                 }
 
-                // Update each observation checklist with its file path
                     Rtm::updateOrCreate(
                         [
                             'observation_id' => $obs->id,
