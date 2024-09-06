@@ -15,6 +15,7 @@ class Rtm extends Model
         'observation_id',
         'indicator_id',
         'doc_path_rtm',
+        'link_rtm',
         'status',
         'remark_rtm_auditee',
         'remark_rtm_auditor'

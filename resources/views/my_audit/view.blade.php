@@ -57,12 +57,6 @@
                                     <td style="width: 65%">
                                         <ul style="color: black;">{{ $loop->parent->iteration }}. {{ $statement->name }}</ul>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 60%">
-                                        <strong>Indicator</strong>
-                                        <ul>{!! $indicator->name !!}</ul>
-                                    </td>
                                     <td>
                                         <!-- Form untuk Upload Document -->
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}" enctype="multipart/form-data">
@@ -94,7 +88,14 @@
                                                 <button class="btn btn-success btn-sm mt-2" type="submit" name="save_file">Save</button>
                                             </div>
                                         </form>
-
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%">
+                                        <strong>Indicator</strong>
+                                        <ul>{!! $indicator->name !!}</ul>
+                                    </td>
+                                    <td>
                                         <!-- Form untuk Link Document -->
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}">
                                             @csrf
@@ -121,13 +122,16 @@
                                                 <button class="btn btn-success btn-sm mt-2" type="submit" name="save_link">Save</button>
                                             </div>
                                         </form>
-
-                                        <td style="width: 60%" id="review-docs">
-                                            <strong>Review Document</strong>
-                                            @foreach ($statement->reviewDocs as $reviewDoc)
-                                                <ul>{!! $reviewDoc->name !!}</ul>
-                                            @endforeach
-                                        </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 60%" id="review-docs">
+                                        <strong>Review Document</strong>
+                                        @foreach ($statement->reviewDocs as $reviewDoc)
+                                            <ul>{!! $reviewDoc->name !!}</ul>
+                                        @endforeach
+                                    </td>
+                                    <td>
                                         <form method="POST" action="{{ route('my_audit.my_standard', $data->id) }}">
                                             @csrf
                                             <div>

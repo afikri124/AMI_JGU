@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('indicator_id')->nullable();
             $table->foreign('indicator_id')->references('id')->on('indicators')->onDelete('cascade');
             $table->string('doc_path_rtm')->nullable();
-            $table->string('link')->nullable();
+            $table->string('link_rtm')->nullable();
             $table->string('status')->nullable();
             $table->string('remark_rtm_auditee')->nullable();
             $table->string('remark_rtm_auditor')->nullable();

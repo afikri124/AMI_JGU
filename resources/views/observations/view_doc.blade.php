@@ -186,7 +186,7 @@
                         <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b><i class="text-primary">*</i></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control @error('remark_docs.*') is-invalid @enderror"
-                                name="remark_docs[{{ $index }}]" placeholder="MAX 250 characters..." required>{{ $obsChecklist->remark_docs}}</textarea>
+                                name="remark_docs[{{ $index }}]" placeholder="MAX 250 characters...">{{ $obsChecklist->remark_docs}}</textarea>
                         </div>
                     </div>
                 </td>

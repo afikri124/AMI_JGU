@@ -36,6 +36,7 @@ class UserRolePermissionSeeder extends Seeder
                 'gender' => 'M',
                 'no_phone' => '081384810569',
                 'nidn' => '092023090191',
+                'password' => '092023090191',
                 'roles' => ['auditee', 'auditor'],
             ],
             [
@@ -45,6 +46,7 @@ class UserRolePermissionSeeder extends Seeder
                 'gender' => 'M',
                 'no_phone' => '082258485039',
                 'nidn' => '092023090180',
+                'password' => '092023090180',
                 'roles' => ['auditor', 'auditee'],
             ],
             [
@@ -54,6 +56,7 @@ class UserRolePermissionSeeder extends Seeder
                 'gender' => 'L',
                 'no_phone' => '089602928926',
                 'nidn' => '092023090187',
+                'password' => '092023090187',
                 'roles' => ['auditee', 'admin', 'auditor'],
             ],
             [
@@ -63,6 +66,7 @@ class UserRolePermissionSeeder extends Seeder
                 'gender' => 'L',
                 'no_phone' => '08960292567',
                 'nidn' => '092023090190',
+                'password' => '092023090190',
                 'roles' => ['approver', 'auditee', 'auditor'],
             ],
 

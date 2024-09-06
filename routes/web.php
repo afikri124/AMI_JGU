@@ -87,11 +87,10 @@ Route::group(['middleware' => ['auth', 'role:admin, auditee']], function () {
         Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
         Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
         Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
-        Route::any('/save_file/{id}', [MyAuditController::class, 'saveFile'])->name('my_audit.save_file');
-        Route::any('/save_link/{id}', [MyAuditController::class, 'saveLink'])->name('my_audit.save_link');
-        Route::any('/save_remark/{id}', [MyAuditController::class, 'saveRemark'])->name('my_audit.save_remark');
         Route::any('/delete_file/{id}', [MyAuditController::class, 'deleteFile'])->name('my_audit.delete_file');
         Route::any('/delete_link/{id}', [MyAuditController::class, 'deleteLink'])->name('my_audit.delete_link');
+        Route::any('/delete_file_rtm/{id}', [MyAuditController::class, 'deleteFileRTM'])->name('my_audit.delete_file_rtm');
+        Route::any('/delete_link_rtm/{id}', [MyAuditController::class, 'deleteLinkRTM'])->name('my_audit.delete_link_rtm');
     });
 });
 
