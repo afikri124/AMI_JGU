@@ -85,6 +85,12 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+    @if(session('msg'))
+        <div class="alert alert-primary alert-dismissible" role="alert">
+            {{ session('msg') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     @if ($errors->any())
     <div class="alert alert-danger outline alert-dismissible fade show" role="alert">
         <ul>
@@ -123,7 +129,6 @@
         @foreach ($statement->indicators as $indicator)
         @foreach ($observations as $observation)
             @php
-                // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
                 $filteredObs = $obs_c->where('observation_id', $observation->id)
                                         ->where('indicator_id', $indicator->id);
             @endphp
@@ -165,11 +170,62 @@
                     <ul>{!! $indicator->name !!}</ul>
                 </td>
                 <td>
-                    <div class="form-group mb-3">
-                        <label for="doc_path_rtm" class="form-label large-text"><b>Upload Document</b><i class="text-danger">*</i></label>
-                        <input type="file" class="form-control" name="doc_path_rtm[]" accept=".png,.jpg,.jpeg,.pdf">
-                        <input type="hidden" name="indicator_ids[]" value="{{ old('indicator_ids[]', $indicator->id) }}">
-                    </div>
+                <form method="POST" action="{{ route('my_audit.edit_rtm', $data->id) }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group mb-3">
+                    <label for="doc_path_rtm" class="form-label large-text"><b>Upload Document | </b><i style="color: black;">MAX. 50mb</i></label>
+                    <input type="file" class="form-control @error('doc_path_rtm') is-invalid @enderror" name="doc_path_rtm" accept=".png,.jpg,.jpeg,.pdf,.xls,.xlsx">
+                    <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
+                    @error('doc_path_rtm')
+                        <div class="text-danger-custom">Please upload a valid document. The file size should not exceed 50MB.</div>
+                    @enderror
+
+                    @if ($obsChecklist && $obsChecklist->doc_path_rtm)
+                        @php
+                            $fileName = basename($obsChecklist->doc_path_rtm);
+                            $fileNameWithoutId = preg_replace('/^\d+_/', '', $fileName);
+                        @endphp
+                        <strong class="form-label">File: </strong>
+                        <a href="{{ asset($obsChecklist->doc_path_rtm) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 500px;">
+                            {{ $fileNameWithoutId }}
+                        </a>
+                            <button formaction="{{ route('my_audit.delete_file_rtm', ['id' => $obsChecklist->id]) }}"
+                                    class="btn btn-danger btn-sm" type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this file?');">
+                                Delete File
+                            </button>
+                        </div>
+                    @endif
+                    <button class="btn btn-success btn-sm mt-2" type="submit" name="save_file">Save</button>
+                </div>
+            </form>
+
+            <!-- Form untuk Link Document -->
+            <form method="POST" action="{{ route('my_audit.edit_rtm', $data->id) }}">
+                @csrf
+                <div class="form-group mb-3">
+                    <label for="link_rtm" class="form-label large-text"><b>Link Document</b></label>
+                    <input type="text" class="form-control @error('link_rtm') is-invalid @enderror" name="link_rtm" placeholder="Link Drive/Document Audit" value="{{ $obsChecklist->link_rtm ?? '' }}">
+                    <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
+                    @error('link_rtm')
+                        <div class="text-danger-custom">Please provide a valid document link_rtm.</div>
+                    @enderror
+
+                    @if ($obsChecklist && $obsChecklist->link_rtm)
+                        <strong class="form-label">Link: </strong>
+                        <a href="{{ asset($obsChecklist->link_rtm) }}" target="_blank" style="word-wrap: break-word; display: inline-block; max-width: 500px;">
+                            {{ $obsChecklist->link_rtm }}
+                        </a>
+                            <button formaction="{{ route('my_audit.delete_link_rtm', ['id' => $obsChecklist->id]) }}"
+                                    class="btn btn-danger btn-sm" type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this link?');">
+                                Delete Link
+                            </button>
+                        </div>
+                    @endif
+                    <button class="btn btn-success btn-sm mt-2" type="submit" name="save_link">Save</button>
+                </div>
+            </form>
                 </td>
             </tr>
             <tr>
@@ -180,13 +236,21 @@
                     @endforeach
                 </td>
                 <td>
-                    <div>
-                        <label class="form-label" for="basicDate"><b>Remark RTM Auditee</b></label>
-                        <div class="input-group input-group-merge has-validation">
-                            <textarea type="text" class="form-control @error('remark_rtm_auditee') is-invalid @enderror"
-                            name="remark_rtm_auditee[{{ $indicator->id }}]" placeholder="MAX 250 characters..."></textarea>
+                    <form method="POST" action="{{ route('my_audit.edit_rtm', $data->id) }}">
+                        @csrf
+                        <div>
+                            <label class="form-label" for="remark_rtm_auditee"><b>Remark Document RTM</b><i class="text-danger">*</i></label>
+                            <div class="input-group input-group-merge has-validation">
+                                <textarea type="text" class="form-control @error('remark_rtm_auditee') is-invalid @enderror"
+                                name="remark_rtm_auditee" placeholder="MAX 250 characters...">{{ $checklist->remark_rtm_auditee ?? '' }}</textarea>
+                                @error('remark_rtm_auditee')
+                                    <div class="text-danger-custom">Please provide a remark. Maximum 250 characters allowed.</div>
+                                @enderror
+                            </div>
+                            <input type="hidden" name="indicator_id" value="{{ $indicator->id }}">
+                            <button class="btn btn-success btn-sm mt-2" type="submit" name="save_remark">Save</button>
                         </div>
-                    </div>
+                    </form>
                 </td>
             </tr>
             <tr>

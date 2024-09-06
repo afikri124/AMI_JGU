@@ -112,18 +112,18 @@
             </h6>
         @endforeach
         <p></p>
-    @foreach ($standardCriterias as $criteria)
-        <h6 class="text-primary"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
+        @foreach ($standardCriterias as $criteria)
+            <h6 class="mb-3" style="color: black"><b>{{ $loop->iteration }}. {{ $criteria->title }}</b></h6>
 
-        @foreach ($criteria->statements as $no => $statement)
-    @foreach ($statement->indicators as $indicator)
-    @foreach ($observations as $observation)
-        @php
-            // Ambil daftar ObservationChecklist berdasarkan observation_id dan indicator_id
-            $filteredObs = $obs_c->where('observation_id', $observation->id)
+            @foreach ($criteria->statements as $no => $statement)
+            @foreach ($statement->indicators as $indicator)
+            @foreach ($observations as $observation)
+            @php
+                $filteredObs = $obs_c->where('observation_id', $observation->id)
                                     ->where('indicator_id', $indicator->id);
-        @endphp
-        @foreach ($filteredObs as $obsChecklist)
+            @endphp
+            @foreach ($filteredObs as $index => $obsChecklist)
+        <input type="hidden" name="indicator_id[{{ $index }}]" value="{{ $indicator->id }}">
         <table class="table table-bordered">
             <tr>
                 <td style="width: 60%">
@@ -186,10 +186,10 @@
                         <label class="form-label" for="basicDate"><b>Remark Document By Auditor</b><i class="text-primary">*</i></label>
                         <div class="input-group input-group-merge has-validation">
                             <textarea type="text" class="form-control @error('remark_docs.*') is-invalid @enderror"
-                                name="remark_docs[{{ $indicator->id }}]" placeholder="MAX 250 characters..." required></textarea>
+                                name="remark_docs[{{ $index }}]" placeholder="MAX 250 characters..." required>{{ $obsChecklist->remark_docs}}</textarea>
                         </div>
                     </div>
-                </td>                
+                </td>
             </tr>
         </table>
         <hr>
@@ -198,12 +198,15 @@
     @endforeach
 @endforeach
 @endforeach
-    <div class="card-footer text-end">
-        <button class="btn btn-primary me-1" type="submit">Submit</button>
-        <a href="{{ url()->previous() }}">
-            <span class="btn btn-outline-secondary">Back</span>
-        </a>
-    </div>
+        <div class="card-footer d-flex justify-content-between align-items-end">
+            <div class="d-flex">
+                <button class="btn me-1" style="background-color: #06D001; color: white;" type="submit" name="action" value="Save">Save Draft</button>
+            </div>
+            <div class="d-flex">
+                <button class="btn btn-primary me-2" type="submit" name="action" value="Submit">Submit</button>
+                <a href="{{ url()->previous() }}" class="btn btn-outline-primary me-1">Back</a>
+            </div>
+        </div>
     </form>
   </div>
   </div>

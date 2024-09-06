@@ -223,12 +223,8 @@
                         }
                         else if (row.auditstatus.id === 6 || row.auditstatus.id === 14 ) {
                             x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('/view/${row.id}') }}">
-                                    <i class="bx bx-printer"></i></a>`;
-                        }
-                        else if (row.auditstatus.id === 10 || row.auditstatus.id === 9) {
-                            x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('my_audit/obs/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>
-                                <a class="badge bg-warning" title="Edit RTM Report" href="{{ url('my_audit/edit_rtm/${row.id}') }}">
+                                    <a class="badge bg-warning" title="Edit RTM Report" href="{{ url('my_audit/edit_rtm/${row.id}') }}">
                                     <i class="bx bx-pencil"></i></a>`;
                         }
                         return x;
