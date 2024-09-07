@@ -228,4 +228,10 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::any('/', [SettingController::class, 'hod_ami'])->name('hod_ami.index');
         });
     });
+
+    Route::group(['prefix' => 'manage_unit'], function () {
+        Route::group(['prefix' => 'hod_ami'], function () {
+            Route::any('/', [SettingController::class, 'hod_ami'])->name('hod_ami.index');
+        });
+    });
 });

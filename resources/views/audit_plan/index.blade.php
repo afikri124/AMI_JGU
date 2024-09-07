@@ -14,23 +14,6 @@
 
 @section('style')
 <style>
-    table.dataTable tbody td {
-        vertical-align: middle;
-    }
-
-    table.dataTable td:nth-child(2) {
-        max-width: 120px;
-    }
-
-    table.dataTable td:nth-child(3) {
-        max-width: 100px;
-    }
-
-    table.dataTable td {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
 
     .badge-icon {
         display: inline-block;
@@ -39,53 +22,46 @@
         margin-right: 0.1em;
     }
 
-    .icon-white
-    {
+    .icon-white {
         color: white;
     }
+
 </style>
 @endsection
-<div class="row">
-    <div class="card p-4">
-        <div class="card-datatable table-responsive">
-            <div class="card-header flex-column flex-md-row pb-0">
-                    <div class="col-12 pt-3 pt-md-0">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
-                                </div>
-                <div class="col-md-3">
-                    <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
-                        <option value="">Select Auditee</option>
-                        @foreach($auditee as $d)
-                        <option value="{{ $d->id }}">{{ $d->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                        <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
-                                href="{{ route('audit_plan.add')}}">
-                                <i data-feather="plus"></i>+ Add
-                            </a>
-                            </div>
-                        </div>
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <div class="card-header">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
+                            <option value="">Select Auditee</option>
+                            @foreach($auditee as $d)
+                            <option value="{{ $d->id }}">{{ $d->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                    <div class="col-md d-flex justify-content-center justify-content-md-end">
+                        <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
+                            href="{{ route('audit_plan.add')}}">
+                            <i data-feather="plus"></i>+ Add
+                        </a>
+                    </div>
+                    <table class="table" id="datatable">
+                        <thead>
+                            <tr>
+                                <th><b>No</b></th>
+                                <th width="20%"><b>Auditee</b></th>
+                                <th width="35%"><b>Schedule</b></th>
+                                <th width="10%"><b>Status</b></th>
+                                <th width="20%"><b>Location</b></th>
+                                <th width="15%"><b>Action</b></th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-            <div class="container-xxl flex-grow-1 container-p-y">
-                <table class="table" id="datatable">
-                <thead>
-                    <tr>
-                            <th><b>No</b></th>
-                            <th width="20%"><b>Auditee</b></th>
-                            <th width="35%"><b>Schedule</b></th>
-                            <th width="10%"><b>Status</b></th>
-                            <th width="20%"><b>Location</b></th>
-                            <th width="15%"><b>Action</b></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -98,7 +74,8 @@
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> <!-- Memuat lokal Indonesia untuk moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script>
+<!-- Memuat lokal Indonesia untuk moment.js -->
 
 @if(session('msg'))
 <script type="text/javascript">
@@ -111,6 +88,7 @@
             }
         });
     });
+
 </script>
 @endif
 <script>
@@ -124,6 +102,7 @@
             });
         })(jQuery);
     }, 350);
+
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -139,7 +118,7 @@
                 url: "{{ route('audit_plan.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_auditee = $('#select_auditee').val()
+                        d.select_auditee = $('#select_auditee').val()
                 },
             },
             columnDefs: [{
@@ -162,24 +141,28 @@
                             row.idd + `') }}">` + row.auditee.name + `</a>`;
 
                         if (row.auditee.no_phone) {
-                            html += `<br><a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
+                            html += `<br><a href="tel:` + row.auditee.no_phone +
+                                `" class="text-muted" style="font-size: 0.8em;">` +
+                                `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone +
+                                `</a>`;
                         }
                         return html;
                     },
                 },
                 {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
+                    data: null, // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
                     render: function (data, type, row, meta) {
                         // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        var formattedStartDate = moment(row.date_start).format(
+                            'DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format(
+                            'DD MMMM YYYY, HH:mm');
                         return formattedStartDate + ' - ' + formattedEndDate;
                     },
                     orderable: false
                 },
                 {
-                    render: function(data, type, row, meta) {
+                    render: function (data, type, row, meta) {
                         var html =
                             `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
                         return html;
@@ -188,24 +171,24 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                            return row.location;
+                        return row.location;
                     },
                     orderable: false
                 },
                 {
                     render: function (data, type, row, meta) {
                         var html = '';
-                        if (row.auditstatus.id === 1 ||  row.auditstatus.id === 2) {
+                        if (row.auditstatus.id === 1 || row.auditstatus.id === 2) {
                             html = `<a class="badge bg-warning badge-icon" title="Edit Audit Plan" href="{{ url('edit_audit/') }}/${row.id}">
                                     <i class="bx bx-pencil"></i></a>
                                     <a class="badge bg-danger badge-icon" title="Delete Audit Plan" style="cursor:pointer" onclick="DeleteId('${row.id}', '${row.auditee.name}')">
                                     <i class="bx bx-trash icon-white"></i></a>`;
-                        }
-                        else if (row.auditstatus.id === 1 ||  row.auditstatus.id === 2 || row.auditstatus.id === 5 || row.auditstatus.id === 13) {
+                        } else if (row.auditstatus.id === 1 || row.auditstatus.id === 2 || row
+                            .auditstatus.id === 5 || row.auditstatus.id === 13) {
                             html = `<a class="badge bg-dark badge-icon" title="Edit Auditor Standard" href="{{ url('audit_plan/standard/edit/') }}/${row.id}">
                                         <i class="bx bx-show-alt icon-white"></i></a>`;
-                        }
-                        else if (row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 6 || row.auditstatus.id === 14 ) {
+                        } else if (row.auditstatus.id === 1 || row.auditstatus.id === 2 || row
+                            .auditstatus.id === 6 || row.auditstatus.id === 14) {
                             html = `<a class="badge bg-danger badge-icon" title="Delete Audit Plan" style="cursor:pointer" onclick="DeleteId('${row.id}', '${row.auditee.name}')">
                                     <i class="bx bx-trash icon-white"></i></a>`;
                         }
@@ -224,7 +207,7 @@
     function DeleteId(id, data) {
         swal({
                 title: "Are you sure?",
-                text: "After deleting, the data ("+data+") cannot be recovered!",
+                text: "After deleting, the data (" + data + ") cannot be recovered!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,

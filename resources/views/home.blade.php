@@ -36,22 +36,22 @@
   ======================================================== -->
 </head>
 
-<body class="index-page">
+<body class="index-page mobile-nav-active" data-aos-easing="ease-in-out" data-aos-duration="600" data-aos-delay="0">
+    <header id="header" class="header fixed-top"></header>
     <div class="branding d-flex align-items-center">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand" href="#page-top"><img src="assets-landing/img/logo-white.png" height="55"
-                        width="115" /></a>
-
+                        width="115" />
                 </a>
                 <nav id="navmenu" class="navmenu">
                     <ul>
                         <li><a href="#hero" class="active">HOME</a></li>
-                        <li><a href="#about">ABOUT</a></li>
-                        <li><a href="#vision-mission">VISI & MISI</a></li>
-                        <li><a href="#contact">CONTACT</a></li>
-                        <li><a href="login-ami"><button type="button" class="btn btn-danger">Login </button></a>
+                        <li><a href="#about" class="active">ABOUT</a></li>
+                        <li><a href="#vision-mission" class="active">VISI & MISI</a></li>
+                        <li><a href="#contact" class="active">CONTACT</a></li>
+                        <li><a href="login-ami" class="active"><button type="button" class="btn btn-danger" class="active">Login </button></a>
                         </li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -217,7 +217,6 @@
                                 </p>
                             </footer>
                         </section>
-
 
                         <!-- Scroll Top -->
                         <a href="#" id="scroll-top"

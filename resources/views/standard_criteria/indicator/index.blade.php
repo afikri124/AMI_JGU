@@ -37,13 +37,14 @@
         margin-right: 0.1em;
     }
 
-    .icon-white
-    {
+    .icon-white {
         color: white;
     }
+
     .checkbox label::before {
         border: 1px solid #333;
     }
+
 </style>
 @endsection
 
@@ -56,59 +57,57 @@
 
 
 @section('content')
-    <div class="col-md-12">
-        <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+<div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
-                        class="bx bx-add-to-queue me-1"></i>
-                    Data Standard</a></li>
+                    class="bx bx-add-to-queue me-1"></i>
+                Data Standard</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
-                        class="bx bx-chart me-1"></i>
-                    Standard Statement</a></li>
+                    class="bx bx-chart me-1"></i>
+                Standard Statement</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route('standard_criteria.indicator.index') }}"><i
-                        class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Indicator</a></li>
+                    class="bx bx-bar-chart-alt-2 me-1"></i>
+                Indicator</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route ('standard_criteria.review_docs')}}"><i
-                        class="bx bx-folder-open me-1"></i>
-                    List Document</a></li>
-        </ul>
-    </div>
+                    class="bx bx-folder-open me-1"></i>
+                List Document</a></li>
+    </ul>
+</div>
 
-    <div class="row">
 <div class="card">
     <div class="card-datatable table-responsive">
-        <div class="card-header flex-column flex-md-row pb-0">
-            <!-- <div class="row">
-                <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12"> -->
-                        <div class="col-md-4">
-                            <select id="select_statement" class="form-control input-sm select2" data-placeholder="Standard Statement">
-                                <option value="">Select Standard Statement</option>
-                                @foreach($statement as $d)
-                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add statement"
-                                href="{{ route('standard_criteria.indicator.create')}}">
-                                <i data-feather="plus"></i>+ Add
-                            </a>
-                        </div>
-                        <table class="table table-hover table-sm" id="datatable" width="100%">
-                            <thead>
-                                <tr>
-                                    <th width="15px">No</th>
-                                    <th>Indicator</th>
-                                    <th >Standard Statement</th>
-                                    <th width="15px">Standard Criteria</th>
-                                    <th width="5px">Action</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-4">
+                    <select id="select_statement" class="form-control input-sm select2"
+                        data-placeholder="Standard Statement">
+                        <option value="">Select Standard Statement</option>
+                        @foreach($statement as $d)
+                        <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add statement"
+                        href="{{ route('standard_criteria.indicator.create')}}">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
+                </div>
+                <table class="table table-hover table-sm" id="datatable" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="15px">No</th>
+                            <th>Indicator</th>
+                            <th>Standard Statement</th>
+                            <th width="15px">Standard Criteria</th>
+                            <th width="5px">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
@@ -143,6 +142,7 @@
             });
         })(jQuery);
     }, 350);
+
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -160,7 +160,7 @@
                 url: "{{ route('standard_criteria.data_indicator') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_statement = $('#select_statement').val()
+                        d.select_statement = $('#select_statement').val()
                 },
             },
             columns: [{
@@ -186,13 +186,15 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
+                        var html =
+                            `<a class="text-success" title="${row.statement.name}" href="">${row.statement.name}</a>`;
                         return html;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                        var html =
+                            `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
                         return html;
                     },
                 },
@@ -222,7 +224,7 @@
     function DeleteId(id, data) {
         swal({
                 title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                text: "Setelah dihapus, data (" + data + ") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,

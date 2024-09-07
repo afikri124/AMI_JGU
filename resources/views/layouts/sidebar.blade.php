@@ -8,7 +8,7 @@
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto bg-dark">
-            <i class="bx bx-transfer-alt bx-sm align-middle"></i>
+            <i class="bx bx-chevron-right bx-sm align-middle"></i>
         </a>
     </div>
     <div class="menu-inner-shadow"></div>
