@@ -30,6 +30,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+
     .badge-icon {
         display: inline-block;
         font-size: 1em;
@@ -37,13 +38,14 @@
         margin-right: 0.1em;
     }
 
-    .icon-white
-    {
+    .icon-white {
         color: white;
     }
+
     .checkbox label::before {
         border: 1px solid #333;
     }
+
 </style>
 @endsection
 
@@ -56,59 +58,56 @@
 
 
 @section('content')
-    <div class="col-md-12">
-        <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+<div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.criteria') }}"><i
-                        class="bx bx-add-to-queue me-1"></i>
-                    Data Standard</a></li>
+                    class="bx bx-add-to-queue me-1"></i>
+                Data Standard</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.standard_statement') }}"><i
-                        class="bx bx-chart me-1"></i>
-                    Standard Statement</a></li>
+                    class="bx bx-chart me-1"></i>
+                Standard Statement</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('standard_criteria.indicator.index') }}"><i
-                        class="bx bx-bar-chart-alt-2 me-1"></i>
-                    Indicator</a></li>
+                    class="bx bx-bar-chart-alt-2 me-1"></i>
+                Indicator</a></li>
         <li class="nav-item"><a class="nav-link active" href="{{ route ('standard_criteria.review_docs')}}"><i
-                        class="bx bx-folder-open me-1"></i>
-                    List Document</a></li>
-        </ul>
-    </div>
+                    class="bx bx-folder-open me-1"></i>
+                List Document</a></li>
+    </ul>
+</div>
 
-    <div class="row">
 <div class="card">
     <div class="card-datatable table-responsive">
-        <div class="card-header flex-column flex-md-row pb-0">
-            <!-- <div class="row">
-                <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12"> -->
-                        <div class="col-md-4">
-                            <select id="select_indicatoe" class="form-control input-sm select2" data-placeholder="indicator">
-                                <option value="">Select indicator</option>
-                                @foreach($indicators as $d)
-                                <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md d-flex justify-content-center justify-content-md-end">
-                            <a class="btn btn-primary btn-block btn-mail" title="Add Standard Statement"
-                                href="{{ route('standard_criteria.review_docs.create')}}">
-                                <i data-feather="plus"></i>+ Add
-                            </a>
-                        </div>
-                        <table class="table table-hover table-sm" id="datatable" width="100%">
-                            <thead>
-                                <tr>
-                                    <th width="20px">No</th>
-                                    <th>List Document</th>
-                                    <th>Indicator</th>
-                                    <th width="15px">Standard Criteria</th>
-                                    <th width="40px">Action</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-4">
+                    <select id="select_indicatoe" class="form-control input-sm select2" data-placeholder="indicator">
+                        <option value="">Select indicator</option>
+                        @foreach($indicators as $d)
+                        <option value="{{ $d->id }}">{{ $d->id }} {{ $d->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add Standard Statement"
+                        href="{{ route('standard_criteria.review_docs.create')}}">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
+                </div>
+                <table class="table table-hover table-sm" id="datatable" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="20px">No</th>
+                            <th>List Document</th>
+                            <th>Indicator</th>
+                            <th width="15px">Standard Criteria</th>
+                            <th width="40px">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
@@ -143,6 +142,7 @@
             });
         })(jQuery);
     }, 350);
+
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -160,7 +160,7 @@
                 url: "{{ route('standard_criteria.data_docs') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.select_statement = $('#select_statement').val()
+                        d.select_statement = $('#select_statement').val()
                 },
             },
             columns: [{
@@ -186,21 +186,23 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-success" style="text-overflow: ellipsis;" title="${row.indicator.name}" href="">${row.indicator.name}</a>`;
+                        var html =
+                            `<a class="text-success" style="text-overflow: ellipsis;" title="${row.indicator.name}" href="">${row.indicator.name}</a>`;
                         return html;
                     },
                 },
                 {
                     render: function (data, type, row, meta) {
-                    // Check if row.category exists and has an id
-                    if (row.criteria && row.criteria.title) {
-                        var html = `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
-                        return html;
-                    } else {
-                        return ''; // Return empty string or handle the case where category.title is missing
-                    }
+                        // Check if row.category exists and has an id
+                        if (row.criteria && row.criteria.title) {
+                            var html =
+                                `<a class="text-danger" title="${row.criteria.title}" href="">${row.criteria.title}</a>`;
+                            return html;
+                        } else {
+                            return ''; // Return empty string or handle the case where category.title is missing
+                        }
+                    },
                 },
-            },
                 {
                     render: function (data, type, row, meta) {
                         var x = row.id;
@@ -227,7 +229,7 @@
     function DeleteId(id, data) {
         swal({
                 title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                text: "Setelah dihapus, data (" + data + ") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,

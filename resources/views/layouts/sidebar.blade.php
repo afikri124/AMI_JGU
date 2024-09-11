@@ -1,14 +1,14 @@
 <!-- Menu -->
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme no-print">
     <div class="app-brand demo ">
-        <a href="{{ route('dashboard') }}" class="app-brand-link">
+        <a href="{{ route('home') }}" class="app-brand-link">
             <span class="app-brand-logo demo" style="margin-left: -20px">
                 <img src="{{asset('assets-landing/img/ami-jgu.png')}}" height="70">
             </span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto bg-dark">
-            <i class="bx bx-transfer-alt bx-sm align-middle"></i>
+            <i class="bx bx-chevron-right bx-sm align-middle"></i>
         </a>
     </div>
     <div class="menu-inner-shadow"></div>

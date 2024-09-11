@@ -41,7 +41,6 @@ class GoogleController extends Controller
             $user = Socialite::driver('google')->user();
       
             $finduser = User::where('google_id', $user->id)->first();
-      
             if($finduser){
                 Auth::loginUsingId($finduser->id);
                 Auth::user()->user_avatar = $user->avatar;
@@ -64,7 +63,7 @@ class GoogleController extends Controller
                     // echo "User tidak terdaftar";
                     $img = "<img style='max-width: 100px;border-radius: 50%;' src='$user->avatar'>";
                     $msg = "$img<br><br>Sorry, $user->name ($user->email)<br>is not registered.<br>Please contact the administrator!";
-                    return view('user.error', compact('msg'));
+                    return view('auth.error', compact('msg'));
                 }
             }
         } catch (Exception $e) {

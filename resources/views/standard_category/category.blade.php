@@ -2,7 +2,6 @@
 @section('title', 'Standard Category')
 
 @section('css')
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}">
@@ -13,16 +12,18 @@
 
 @section('style')
 <style>
-.badge-icon {
-    display: inline-block;
-    font-size: 1em;
-    padding: 0.3em;
-    margin-right: 0.1em;
-}
-
-.icon-white {
-        color: #ffffff; /* Warna putih */
+    .badge-icon {
+        display: inline-block;
+        font-size: 1em;
+        padding: 0.3em;
+        margin-right: 0.1em;
     }
+
+    .icon-white {
+        color: #ffffff;
+        /* Warna putih */
+    }
+
 </style>
 @endsection
 
@@ -34,43 +35,35 @@
 @endsection
 
 @section('content')
-<div class="row">
-        <div class="card">
-            <div class="card-datatable table-responsive">
-                <div class="card-header flex-column flaex-md-row pb-0">
-                        <div class="col-12 pt-3 pt-md-0">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
-                                    </div>
-                            <div class="col-md-3">
-                                <select id="Select_2" class="form-control input-sm select2" data-placeholder="Status">
-                                    <option value="">Status</option>
-                                    <option value='true'>ON</option>
-                                    <option value='false'>OFF</option>
-                                </select>
-                            </div>
-                        </div>
-                    <div class="col-md d-flex justify-content-center justify-content-md-end">
-                        <a class="btn btn-primary btn-block btn-mail" title="Add new"
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-3">
+                    <select id="Select_2" class="form-control input-sm select2" data-placeholder="Status">
+                        <option value="">Status</option>
+                        <option value='true'>ON</option>
+                        <option value='false'>OFF</option>
+                    </select>
+                </div>
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add new"
                         href="{{ route('standard_category.category_add')}}">
                         <i data-feather="plus"></i>+ Add
                     </a>
                 </div>
                 <table class="table" id="datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>
-                                    <th scope="col"><b>Title</b></th>
-                                    <th scope="col"><b>Description</b></th>
-                                    <th scope="col"><b>Status</b></th>
-                                    <th scope="col"><b>Required</b></th>
-                                    <th scope="col"><b>Action</b></th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
+                    <thead>
+                        <tr>
+                            <th scope="col" width="60px" class="text-center"><b>Code ID</b></th>
+                            <th scope="col"><b>Title</b></th>
+                            <th scope="col"><b>Description</b></th>
+                            <th scope="col"><b>Status</b></th>
+                            <th scope="col"><b>Required</b></th>
+                            <th scope="col"><b>Action</b></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -110,6 +103,7 @@
             });
         })(jQuery);
     }, 350);
+
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -127,10 +121,10 @@
                 url: "{{ route('standard_category.data') }}",
                 data: function (d) {
                     d.search = $('input[type="search"]').val(),
-                    d.status = $('#Select_2').val()
+                        d.status = $('#Select_2').val()
                 },
             },
-                columns: [{
+            columns: [{
                     render: function (data, type, row, meta) {
                         console.log(row);
                         var x = row.id.toString();
@@ -150,7 +144,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        if(row.status == 1){
+                        if (row.status == 1) {
                             var x = '<span class="badge rounded-pill bg-success">ON</span>';
                         } else {
                             var x = '<span class="badge rounded-pill bg-danger">OFF</span>';
@@ -164,8 +158,7 @@
                         var x = "";
                         if (row.is_required) {
                             x = '<i class="bx bx-check text-warning"></i>';
-                        }
-                        else{
+                        } else {
                             x = '<i class="bx bx-x text-danger"></i>';
                         }
                         return x;
@@ -173,7 +166,7 @@
                     className: "text-center"
                 },
                 {
-                    render: function(data, type, row, meta) {
+                    render: function (data, type, row, meta) {
                         var html =
                             `<a class="badge bg-warning badge-icon" title="Edit" style="cursor:pointer" href="{{ url('setting/manage_standard/category/category_edit/') }}/${row.id}">
                             <i class="bx bx-pencil"></i></a>
@@ -196,7 +189,7 @@
     function DeleteId(id, data) {
         swal({
                 title: "Apa kamu yakin?",
-                text: "Setelah dihapus, data ("+data+") tidak dapat dipulihkan!",
+                text: "Setelah dihapus, data (" + data + ") tidak dapat dipulihkan!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,

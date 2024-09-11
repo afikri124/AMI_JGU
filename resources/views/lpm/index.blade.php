@@ -14,77 +14,102 @@
 
 <style>
     .modal-header .modal-title {
-            font-weight: normal; /* Ensure the modal title is not bold */
+        font-weight: normal;
+        /* Ensure the modal title is not bold */
     }
+
     .modal-body {
-        font-weight: normal; /* Ensure modal body text is not bold */
+        font-weight: normal;
+        /* Ensure modal body text is not bold */
     }
+
     .modal-footer {
-        font-weight: normal; /* Ensure modal footer text is not bold */
+        font-weight: normal;
+        /* Ensure modal footer text is not bold */
     }
-    body, h1, h2, h3, h4, h5, h6, p, span, a, div {
-        font-weight: normal; /* Ensure these elements are not bold */
+
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    a,
+    div {
+        font-weight: normal;
+        /* Ensure these elements are not bold */
     }
+
     .badge-icon {
         display: inline-block;
         font-size: 1em;
         padding: 0.4em;
         margin-right: 0.1em;
     }
-    .icon-white
-    {
+
+    .icon-white {
         color: white;
     }
+
     table.dataTable tbody tr {
-        height: 50px; /* Adjust the height as needed */
+        height: 50px;
+        /* Adjust the height as needed */
     }
+
     /* Increase padding for table cells */
     table.dataTable tbody td {
-        padding: 0.6rem; /* Adjust padding for more space within cells */
-        vertical-align: middle; /* Vertically align text */
+        padding: 0.6rem;
+        /* Adjust padding for more space within cells */
+        vertical-align: middle;
+        /* Vertically align text */
     }
+
     /* Optional: Adjust font size if necessary */
-    table.dataTable tbody td, table.dataTable tbody th {
-        font-size: 0.97rem; /* Increase font size if the text appears too small */
+    table.dataTable tbody td,
+    table.dataTable tbody th {
+        font-size: 0.97rem;
+        /* Increase font size if the text appears too small */
     }
+
     table.dataTable td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .close {
-            font-size: 1.5rem; /* Adjust font size as needed */
-            padding: 0.5rem;  /* Adjust padding to increase button size */
-        }
+        font-size: 1.5rem;
+        /* Adjust font size as needed */
+        padding: 0.5rem;
+        /* Adjust padding to increase button size */
+    }
+
 </style>
 
-<div class="row">
-    <div class="card">
-        <div class="card-datatable table-responsive">
-            <div class="card-header flex-column flaex-md-row pb-0">
-                <div class="col-12 pt-3 pt-md-0">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="offset-md-0 col-md-0 text-md-end text-center pt-3 pt-md-0">
-                            </div>
-                        <div class="container-fluid flex-grow-1 container-p-y">
-                        <table class="table table-hover table-sm" id="datatable" width="100%">
-                        <thead>
-                            <tr>
-                                <th width="5%"><b>No</b></th>
-                                <th width="15%"><b>Auditee</b></th>
-                                <th width="25%"><b>Schedule</b></th>
-                                <th width="10%"><b>Location</b></th>
-                                <th width="5%"><b>Auditor</b></th>
-                                <th width="10%"><b>Status</b></th>
-                                <!-- <th width="5%"><b>Doc</b></th> -->
-                                <th width="10%"><b>Action</b></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <div class="card-header">
+            <div class="row">
+                <table class="table table-hover table-sm" id="datatable" width="100%">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-priority="1" width="20px">No</th>
+                            <th scope="col" data-priority="2">Auditee</th>
+                            <th scope="col">Schedule</th>
+                            <th scope="col" data-priority="4">Location</th>
+                            <th scope="col">Auditor</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" data-priority="3" width="65px">Action</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -97,8 +122,10 @@
 <script src="{{asset('assets/vendor/libs/datatables/buttons.bootstrap5.js')}}"></script>
 <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script>
+<script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/moment/id.js')}}"></script>
+{{-- <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> --}}
 @if(session('msg'))
 <script type="text/javascript">
     //swall message notification
@@ -110,6 +137,7 @@
             }
         });
     });
+
 </script>
 @endif
 <script type="text/javascript">
@@ -143,28 +171,33 @@
                     render: function (data, type, row, meta) {
                         var html = `<a class="text-primary" title="` + row.auditee.name +
                             `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}" style="display: block; margin-bottom: 0.1em;">` + row.auditee.name + `</a>`;
+                            row.idd + `') }}" style="display: block; margin-bottom: 0.1em;">` +
+                            row.auditee.name + `</a>`;
 
                         if (row.auditee.no_phone) {
-                            html += `<a href="tel:` + row.auditee.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                    `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone + `</a>`;
+                            html += `<a href="tel:` + row.auditee.no_phone +
+                                `" class="text-muted" style="font-size: 0.8em;">` +
+                                `<i class="fas fa-phone-alt"></i> ` + row.auditee.no_phone +
+                                `</a>`;
                         }
                         return html;
                     },
                 },
                 {
-                    data: null,  // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
+                    data: null, // Kita akan menggabungkan date_start dan date_end, jadi tidak ada sumber data spesifik
                     render: function (data, type, row, meta) {
                         // Menggunakan moment.js untuk memformat tanggal
-                        var formattedStartDate = moment(row.date_start).format('DD MMMM YYYY, HH:mm');
-                        var formattedEndDate = moment(row.date_end).format('DD MMMM YYYY, HH:mm');
+                        var formattedStartDate = moment(row.date_start).format(
+                            'DD MMMM YYYY, HH:mm');
+                        var formattedEndDate = moment(row.date_end).format(
+                            'DD MMMM YYYY, HH:mm');
                         return formattedStartDate + ' - ' + formattedEndDate;
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
 
-                            return row.location;
+                        return row.location;
                     },
                 },
                 {
@@ -173,12 +206,17 @@
                         if (row.auditor) {
                             row.auditor.forEach(function (auditor) {
                                 if (auditor.auditor) {
-                                    html += `<code><span title="` + auditor.auditor.name +
-                                        `" style="font-size: 1.2em;">` + auditor.auditor.name + `</span></code><br>`;
+                                    html += `<code><span title="` + auditor.auditor
+                                        .name +
+                                        `" style="font-size: 1.2em;">` + auditor.auditor
+                                        .name + `</span></code><br>`;
 
                                     if (auditor.auditor.no_phone) {
-                                        html += `<a href="tel:` + auditor.auditor.no_phone + `" class="text-muted" style="font-size: 0.8em;">` +
-                                                `<i class="fas fa-phone-alt"></i> ` + auditor.auditor.no_phone + `</a><br>`;
+                                        html += `<a href="tel:` + auditor.auditor
+                                            .no_phone +
+                                            `" class="text-muted" style="font-size: 0.8em;">` +
+                                            `<i class="fas fa-phone-alt"></i> ` +
+                                            auditor.auditor.no_phone + `</a><br>`;
                                     }
                                 }
                             });
@@ -187,7 +225,7 @@
                     },
                 },
                 {
-                    render: function(data, type, row, meta) {
+                    render: function (data, type, row, meta) {
                         var html =
                             `<span class="badge bg-${row.auditstatus.color}">${row.auditstatus.title}</span>`;
                         return html;
@@ -206,24 +244,23 @@
                 //     },
                 // },
                 {
-                    render: function(data, type, row, meta) {
+                    render: function (data, type, row, meta) {
                         var x = '';
 
                         // Check if auditstatus is '1' or '2'
                         if (row.auditstatus.id === 6) {
                             x = `<a class="badge bg-primary" title="Print Make Report" href="{{ url('/view/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`;
-                        }
-                        else if(row.auditstatus.id === 1 || row.auditstatus.id === 2 || row.auditstatus.id === 13 ){
+                        } else if (row.auditstatus.id === 1 || row.auditstatus.id === 2 || row
+                            .auditstatus.id === 13) {
                             x = `<a class="badge bg-warning" title="Determine Standard" href="{{ url('lpm/lpm_standard/${row.id}') }}">
                             <i class="bx bx-pencil"></i></a>`
-                        }
-                        else if(row.auditstatus.id === 14){
-                                x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('lpm/rtm_edit/${row.id}') }}">
+                        } else if (row.auditstatus.id === 14) {
+                            x = `<a class="badge bg-danger" title="Print RTM" href="{{ url('lpm/rtm_edit/${row.id}') }}">
                                     <i class="bx bx-printer"></i></a>`
-                        }
-                        else if(row.auditstatus.id === 8 || row.auditstatus.id === 15 || row.auditstatus.id === 12 ){
-                                x = `<a class="badge bg-warning" title="Remark Make Report By LPM" href="{{ url('lpm/lpm_standard/${row.id}') }}">
+                        } else if (row.auditstatus.id === 8 || row.auditstatus.id === 15 || row
+                            .auditstatus.id === 12) {
+                            x = `<a class="badge bg-warning" title="Remark Make Report By LPM" href="{{ url('lpm/lpm_standard/${row.id}') }}">
                                     <i class="bx bx-pencil"></i></a>`
                         }
                         return x;
@@ -238,7 +275,7 @@
     function approveId(id, data) {
         swal({
                 title: "Cek kembali document!",
-                text: "Apakah Make Report ("+data+") sudah sesuai?!",
+                text: "Apakah Make Report (" + data + ") sudah sesuai?!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -252,12 +289,12 @@
                             "id": id,
                             "_token": $("meta[name='csrf-token']").attr("content"),
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response.success) {
                                 swal({
                                     icon: 'success',
                                     title: 'Acc!',
-                                    text: 'Document ('+data+') berhasil di Acc',
+                                    text: 'Document (' + data + ') berhasil di Acc',
                                     customClass: {
                                         confirmButton: 'btn btn-success'
                                     }
