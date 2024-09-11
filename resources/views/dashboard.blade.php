@@ -75,7 +75,7 @@
 @section('content')
 <div class="app-calendar-wrapper">
     <div class="row">
-        <div class="col-xl-7 col-lg-10 xl-40 morning-sec box-col-8">
+        <div class="col-xl-7 col-lg-10 xl-40 morning-sec box-col-8 mb-4">
             <div class="card profile-greeting bg-card">
                 <div class="card-body pb-0">
                     <div class="media">

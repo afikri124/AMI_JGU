@@ -33,11 +33,11 @@
                             <span class="align-middle"><i class="bx bx-moon me-2"></i>Dark</span>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
                             <span class="align-middle"><i class="bx bx-desktop me-2"></i>System</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
 
@@ -92,7 +92,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" target="_blank" href="https://wa.me/+62881082124678">
+                        <a class="dropdown-item" target="_blank" href="https://s.jgu.ac.id/m/itic">
                             <i class="bx bx-support me-2"></i>
                             <span class="align-middle">Support</span>
                         </a>

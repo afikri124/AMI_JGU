@@ -112,43 +112,15 @@ button:hover {
             <a href="{{ route('home') }}"><img src="{{ asset('../assets-landing/img/ami-jgu.png') }}" alt="Logo" /></a>
         </div>
         <div class="forgot-password-container">
-            <h2>Reset Password</h2>
-            <p>Enter Your New Password</p>
-
-        <form method="POST" action="{{ route('password.store') }}">
-            @csrf
-            
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-            <!-- Email Address -->
-            <div class="input-group">
-                <label for="email">Email</label>
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="login-main text-danger text-center">
+                @if(isset($msg))
+                {!! $msg !!}
+                @else
+                <h1>ERROR!</h1>
+                @endif
             </div>
+        </div>
 
-            <!-- Password -->
-            <div class="input-group">
-                <label for="email">Password</label>
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="input-group">
-                <label for="email">Confirm Password</label>
-                <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Reset Password') }}
-                </x-primary-button>
-            </div>
-
-        </form>
     </div>
 </body>
 </html>
