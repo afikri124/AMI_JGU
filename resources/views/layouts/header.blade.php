@@ -33,11 +33,6 @@
                             <span class="align-middle"><i class="bx bx-moon me-2"></i>Dark</span>
                         </a>
                     </li>
-                    {{-- <li>
-                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
-                            <span class="align-middle"><i class="bx bx-desktop me-2"></i>System</span>
-                        </a>
-                    </li> --}}
                 </ul>
             </li>
 
@@ -85,8 +80,8 @@
                         </a>
                     </li>
                     <li class="">
-                        <a class="dropdown-item {{ Route::currentRouteName() == 'settings.index' ? 'active' : '' }}"
-                            href="{{ route('settings.index') }}">
+                        <a class="dropdown-item {{ Route::currentRouteName() == 'change-password' ? 'active' : '' }}"
+                            href="{{ route('change-password') }}">
                             <i class="bx bx-lock-open-alt me-2"></i>
                             <span class="align-middle">Change Password</span>
                         </a>

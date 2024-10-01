@@ -23,7 +23,7 @@
     .default-datepicker .datepicker-inline .datepicker .datepicker--content .datepicker--days .datepicker--cells .datepicker--cell-day {
         height: 58px;
         border-radius: 0;
-        /* color: #2b2b2b */
+        color: #2b2b2b
         font-size: 20px
     }
 
@@ -34,12 +34,10 @@
 
     .bg-card {
         background-image: url('{{asset('/assets/img/bg.jpg')}}');
-        /* Ganti dengan path ke background image Anda */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         color: white;
-        /* Sesuaikan warna teks agar terlihat dengan baik di atas background image */
     }
 
     h3 {
@@ -54,15 +52,8 @@
         color: #fff
     }
 
-    .greeting-container {
-        display: flex;
-        gap: 370px;
-        /* Atur jarak antar elemen jika diperlukan */
-    }
-
     .f-w-600 {
         margin-right: 10px;
-        /* Atur jarak sesuai kebutuhan */
     }
 
     .profile-greeting .card-body {
@@ -75,9 +66,9 @@
 @section('content')
 <div class="app-calendar-wrapper">
     <div class="row">
-        <div class="col-xl-7 col-lg-10 xl-40 morning-sec box-col-8 mb-4">
+        <div class="col-xl-6 col-lg-10 xl-40 morning-sec box-col-8 mb-4">
             <div class="card profile-greeting bg-card">
-                <div class="card-body pb-0">
+                <div class="card-body pb-0" style="min-height: 550px;">
                     <div class="media">
                         <div class="media-body">
                             <div class="greeting-user m-0">
@@ -85,8 +76,10 @@
                                     <h4 class="f-w-600 font-light m-0 mb-" id="greeting"></h4>
                                     <h4><span id="txt"></span></h4>
                                 </div>
-                                <h3>{{ Auth::user()->name }}</h3>
-                                <i class="emaill">{{ Auth::user()->email }}</i>
+                                <h3>{{ Auth::user()->name }} <i class="emaill">({{ Auth::user()->email }})</i></h3>
+                                @foreach(Auth::user()->roles as $x)
+                                <i class="badge rounded-pill bg-primary">{{ $x->name }}</i>
+                                @endforeach
                             </div>
                         </div>
 
@@ -97,9 +90,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-5 col-lg-12 xl-50 calendar-sec box-col-6">
+        <div class="col-xl-6 col-lg-12 xl-50 calendar-sec box-col-6">
             <div class="card gradient-primary o-hidden">
-                <div class="card-body pb-10">
+                <div class="card-body pb-10" style="min-height: 550px;">
                     <div class="default-datepicker">
                         <div class="datepicker-here" data-language="en" style="max-width: 100%;" alt=""></div>
                     </div>

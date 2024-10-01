@@ -14,7 +14,6 @@
 
 @section('style')
 <style>
-
     .badge-icon {
         display: inline-block;
         font-size: 1em;
@@ -31,37 +30,37 @@
 <div class="card">
     <div class="card-datatable table-responsive">
         <div class="card-header">
-                <div class="row">
-                    <div class="col-md-3">
-                        <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
-                            <option value="">Select Auditee</option>
-                            @foreach($auditee as $d)
-                            <option value="{{ $d->id }}">{{ $d->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md d-flex justify-content-center justify-content-md-end">
-                        <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
-                            href="{{ route('audit_plan.add')}}">
-                            <i data-feather="plus"></i>+ Add
-                        </a>
-                    </div>
-                    <table class="table" id="datatable">
-                        <thead>
-                            <tr>
-                                <th><b>No</b></th>
-                                <th width="20%"><b>Auditee</b></th>
-                                <th width="35%"><b>Schedule</b></th>
-                                <th width="10%"><b>Status</b></th>
-                                <th width="20%"><b>Location</b></th>
-                                <th width="15%"><b>Action</b></th>
-                            </tr>
-                        </thead>
-                    </table>
+            <div class="row">
+                <div class="col-md-3">
+                    <select id="select_auditee" class="form-control input-sm select2" data-placeholder="Auditee">
+                        <option value="">Select Auditee</option>
+                        @foreach($auditee as $d)
+                        <option value="{{ $d->id }}">{{ $d->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                <div class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a class="btn btn-primary btn-block btn-mail" title="Add Audit Plan"
+                        href="{{ route('audit_plan.add')}}">
+                        <i data-feather="plus"></i>+ Add
+                    </a>
+                </div>
+                <table class="table table-hover table-sm dataTable no-footer dtr-inline collapsed" id="datatable">
+                    <thead>
+                        <tr>
+                            <th><b>No</b></th>
+                            <th width="20%"><b>Auditee</b></th>
+                            <th width="35%"><b>Schedule</b></th>
+                            <th width="10%"><b>Status</b></th>
+                            <th width="20%"><b>Location</b></th>
+                            <th width="150px"><b>Action</b></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
@@ -75,9 +74,6 @@
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/moment/id.js')}}"></script>
-{{-- <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/locale/id.js"></script> --}}
-<!-- Memuat lokal Indonesia untuk moment.js -->
 
 @if(session('msg'))
 <script type="text/javascript">
@@ -112,7 +108,7 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ordering: true,
+            ordering: false,
             language: {
                 searchPlaceholder: 'Search data..'
             },
@@ -138,9 +134,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var html = `<a class="text-primary" title="` + row.auditee.name +
-                            `" href="{{ url('setting/manage_account/users/edit/` +
-                            row.idd + `') }}">` + row.auditee.name + `</a>`;
+                        var html = `<b>` + row.auditee.name + `</b>`;
 
                         if (row.auditee.no_phone) {
                             html += `<br><a href="tel:` + row.auditee.no_phone +

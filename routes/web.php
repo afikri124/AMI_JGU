@@ -42,14 +42,14 @@ Route::get('/login/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [GoogleController::class, 'handleCallback']);
 //Profile
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'showEditForm'])->name('profile.edit');
     Route::post('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 });
-//setting
+//change password
 Route::middleware(['auth'])->group(function () {
-    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
-    Route::post('settings/change-password', [SettingController::class, 'changePassword'])->name('settings.changePassword');
+    Route::get('change-password', [SettingController::class, 'change_password'])->name('change-password');
+    Route::post('change-password/update', [SettingController::class, 'update_password'])->name('change-password.update');
 });
 
 Route::get('/documentation', [DashboardController::class, 'documentation'])->name('documentation');
@@ -210,7 +210,6 @@ Route::group(['prefix' => 'setting', 'middleware' => ['auth']], function () {
             Route::get('/edit_indicator/indicator/{id}', [StandardCriteriaController::class, 'edit_indicator'])->name('edit_indicator.indicator');
             Route::put('/update_indicator/{id}', [StandardCriteriaController::class, 'update_indicator'])->name('update_indicator');
             Route::delete('/delete_indicator', [StandardCriteriaController::class, 'delete_indicator'])->name('indicator.delete_indicator');
-
 
             // Route Review Document
             Route::get('/review_docs', [StandardCriteriaController::class, 'review_docs'])->name('standard_criteria.review_docs');

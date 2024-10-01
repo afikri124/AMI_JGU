@@ -10,12 +10,12 @@ use App\Models\User;
 
 class SettingController extends Controller
 {
-    public function index()
+    public function change_password()
     {
-        return view('settings.index');
+        return view('settings.change-password');
     }
 
-    public function changePassword(Request $request)
+    public function update_password(Request $request)
     {
         // Validasi input
         $validator = Validator::make($request->all(), [
