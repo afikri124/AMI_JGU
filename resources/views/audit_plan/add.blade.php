@@ -1,5 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Create Audit Plan')
+@section('breadcrumb-items')
+<span class="text-muted fw-light">Audit Plan /</span>
+@endsection
+@section('title', 'Add')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
@@ -12,12 +15,7 @@
     .input-validation-error~.select2 .select2-selection {
         border: 1px solid red;
     }
-
 </style>
-@endsection
-
-@section('breadcrumb-title')
-<!-- <h3>User Profile</h3> -->
 @endsection
 
 @section('content')
@@ -25,12 +23,52 @@
     <form class="" method="POST" action="">
         @csrf
         <div class="card-header">
-            <h4><b>Create Audit Plan</b></h4>
+            <h4><b>Add Audit Plan</b></h4>
             <hr class="my-0">
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="form-group">
+                        <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
+                        <select name="type_audit" id="type_audit"
+                            class="form-select @error('type_audit') is-invalid @enderror select2">
+                            <option {{ (old('type_audit') == "" ? "Selected" : "") }} value="">Select Type Audit
+                            </option>
+                            <option {{ (old('type_audit') == "Reguler" ? "Selected" : "") }} value="Reguler">Reguler
+                            </option>
+                            <option {{ (old('type_audit') == "Permintaan" ? "Selected" : "") }} value="Permintaan">
+                                Permintaan</option>
+                        </select>
+                        @error('type_audit')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="form-group">
+                        <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
+                        <select id="periode" name="periode"
+                            class="form-select @error('periode') is-invalid @enderror select2">
+                            @php
+                            $startYear = $prd;
+                            $endYear = now()->year + 5;
+                            for ($year = $startYear; $year <= $endYear; $year++) { $nextYear=$year + 1;
+                                $selected=($year==now()->year ? "selected" : "");
+                                echo "<option $selected value='$year/$nextYear'>$year/$nextYear</option>";
+                                }
+                                @endphp
+                        </select>
+                        @error('periode')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
                         <label class="form-label" for="basicDate"><b>Date Start</b><i class="text-danger">*</i></label>
                         <div class="input-group input-group-merge has-validation">
@@ -45,9 +83,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
-                        <label class="form-label" for="basicDate"><b>Date End</b><i class="text-danger">*</i></label>
+                        <label class="form-label" for="basicDate"><b>date End</b><i class="text-danger">*</i></label>
                         <div class="input-group input-group-merge has-validation">
                             <input type="datetime-local" class="form-control @error('date_end') is-invalid @enderror"
                                 name="date_end" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime"
@@ -60,104 +98,54 @@
                         </div>
                     </div>
                 </div>
-                <p></p>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
-                        <label for="auditee_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
-                        <select name="auditee_id" id="auditee_id" class="form-select select2"
-                            value="{{ old('auditee_id') }}" required>
-                            <option value="">Select Auditee</option>
-                            @foreach($auditee as $role)
-                            <option value="{{$role->id}}"
-                                {{ (in_array($role->id, old('auditee') ?? []) ? "selected": "") }}>
-                                {{$role->name}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                        <label for="department_id" class="form-label"><b>Department</b><i
-                                class="text-danger">*</i></label>
-                        <select name="department_id" id="department_id" class="form-select select2"
-                            value="{{ old('department_id') }}" required>
+                        <label for="department_id" class="form-label"><b>Department</b>
+                            <i class="text-danger">*</i></label>
+                        <select name="department" id="department_id"
+                            class="form-select @error('department') is-invalid @enderror select2"
+                            value="{{ old('department') }}">
                             <option value="">Select Department</option>
                             @foreach($departments as $d)
-                            <option value="{{$d->id}}"
-                                {{ (in_array($d->id, old('departments') ?? []) ? "selected": "") }}>
+                            <option value="{{$d->id}}" {{ ($d->id == old('department') ? "selected": "") }}>
                                 {{$d->name}}
                             </option>
                             @endforeach
                         </select>
+                        @error('department')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
-                <p></p>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
-                        <label for="auditor_1_id" class="form-label"><b>Auditor 1</b><i
-                                class="text-danger">*</i></label>
-                        <select name="auditor_id[]" id="auditor_1_id" class="form-select select2" required>
-                            <option value="">Select Auditor 1</option>
-                            @foreach($auditor as $role)
-                            <option value="{{$role->id}}"
-                                {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
-                                {{$role->name}}
+                        <label for="auditee_id" class="form-label"><b>Auditee</b><i class="text-danger">*</i></label>
+                        <select name="auditee" id="auditee_id"
+                            class="form-select @error('auditee') is-invalid @enderror select2"
+                            value="{{ old('auditee') }}">
+                            <option value="">Select Auditee</option>
+                            @foreach($auditee as $x)
+                            <option value="{{$x->id}}" {{ ($x->id == old('auditee') ? "selected": "") }}>
+                                {{$x->name}}
                             </option>
                             @endforeach
                         </select>
+                        @error('auditee')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
-
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
-                        <label for="auditor_2_id" class="form-label"><b>Auditor 2</b><i
-                                class="text-danger">*</i></label>
-                        <select name="auditor_id[]" id="auditor_2_id" class="form-select select2" required>
-                            <option value="">Select Auditor 2</option>
-                            @foreach($auditor as $role)
-                            <option value="{{$role->id}}"
-                                {{ (in_array($role->id, old('auditor') ?? []) ? "selected": "") }}>
-                                {{$role->name}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <p></p>
-                <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                        <label for="location_id" class="form-label"><b>Location</b><i class="text-danger">*</i></label>
-                        <select name="location_id" id="location_id" class="form-select select2"
-                            value="{{ old('location_id') }}" required>
-                            <option value="">Select Location</option>
-                            @foreach($locations as $d)
-                            <option value="{{$d->id}}"
-                                {{ (in_array($d->id, old('locations') ?? []) ? "selected": "") }}>
-                                {{$d->title}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                        <label for="type_audit" class="form-label"><b>Type Audit</b><i class="text-danger">*</i></label>
-                        <select name="type_audit" id="type_audit" class="form-select select2"
-                            value="{{ old('type_audit') }}" required>
-                            <option value="">Select Type Audit</option>
-                            <option value="Reguler">Reguler</option>
-                            <option value="Permintaan">Permintaan</option>
-                        </select>
-                    </div>
-                </div>
-                <p></p>
-                <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                        <label for="head_major" class="form-label"><b>Head Of Study Program</b><i
-                                class="text-danger">*</i></label>
-                        <input type="text" id="head_major" class="form-control" name="head_major"
-                            placeholder="Example: Ariep Jaenul, S.pd., M.Sc.Eng">
+                        <label for="head_major" class="form-label"><b>Head Of Study Program</b>
+                            <i class="text-danger">*</i></label>
+                        <input type="text" id="head_major"
+                            class="form-control @error('head_major') is-invalid @enderror" name="head_major"
+                            placeholder="Example: Ariep Jaenul, S.pd., M.Sc.Eng" value="{{ old('head_major') }}">
                         @error('head_major')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -165,12 +153,13 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
                         <label for="upm_major" class="form-label"><b>UPM Of Study Program</b><i
                                 class="text-danger">*</i></label>
-                        <input type="text" id="upm_major" class="form-control" name="upm_major"
-                            placeholder="Example: Ariep Jaenul, S.pd., M.Sc.Eng">
+                        <input type="text" id="upm_major" class="form-control @error('upm_major') is-invalid @enderror"
+                            name="upm_major" placeholder="Example: Ariep Jaenul, S.pd., M.Sc.Eng"
+                            value="{{ old('upm_major') }}">
                         @error('upm_major')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -178,22 +167,44 @@
                         @enderror
                     </div>
                 </div>
-                <p></p>
-                <div class="col-lg-6 col-md-12" hidden>
+                <div class="col-lg-6 col-md-12 mb-3">
                     <div class="form-group">
-                        <label for="periode" class="form-label"><b>Periode</b><i class="text-danger">*</i></label>
-                        <select id="periode" name="periode" class="form-select select2" value="{{ old('periode') }}"
-                            required>
-                            <option value="">Select Periode</option>
-                            @php
-                            $startYear = $prd;
-                            $endYear = now()->year + 5;
-                            for ($year = $startYear; $year <= $endYear; $year++) { $nextYear=$year + 1;
-                                $selected=($year==now()->year ? "selected" : "");
-                                echo "<option $selected value='$year/$nextYear'>$year/$nextYear</option>";
-                                }
-                                @endphp
+                        <label for="auditor_1_id" class="form-label"><b>Auditor 1</b><i
+                                class="text-danger">*</i></label>
+                        <select name="auditor_1" id="auditor_1_id"
+                            class="form-select @error('auditor_1') is-invalid @enderror select2">
+                            <option value="">Select Auditor 1</option>
+                            @foreach($auditor as $x)
+                            <option value="{{$x->id}}" {{ ($x->id == old('auditor_1') ? "selected": "") }}>
+                                {{$x->name}}
+                            </option>
+                            @endforeach
                         </select>
+                        @error('auditor_1')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="form-group">
+                        <label for="auditor_2_id" class="form-label"><b>Auditor 2</b><i
+                                class="text-danger">*</i></label>
+                        <select name="auditor_2" id="auditor_2_id"
+                            class="form-select @error('auditor_2') is-invalid @enderror select2">
+                            <option value="">Select Auditor 2</option>
+                            @foreach($auditor as $x)
+                            <option value="{{$x->id}}" {{ ($x->id == old('auditor_2') ? "selected": "") }}>
+                                {{$x->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('auditor_2')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="card-footer text-end">
