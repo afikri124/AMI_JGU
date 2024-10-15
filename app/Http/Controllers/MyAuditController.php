@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
@@ -31,6 +32,61 @@ class MyAuditController extends Controller{
     public function index(Request $request){
         $data = AuditPlan::all();
         return view('my_audit.index', compact('data'));
+    }
+
+    public function myStandard($id) {
+        $auditor = AuditPlanAuditor::where('audit_plan_id', $id)->get();
+        $auditPlanAuditorIds = $auditor->pluck('id');
+        $category = AuditPlanCategory::whereIn('audit_plan_auditor_id', $auditPlanAuditorIds)->get();
+        $standardCategoryIds = $category->pluck('standard_category_id');
+        $standardCategories = StandardCategory::whereIn('id', $standardCategoryIds)->orderBy('description')->get();
+
+        $standardCriterias = StandardCriteria::select(
+                                                'standard_criterias.*', 
+                                                DB::raw('GROUP_CONCAT(DISTINCT standard_statements.name) as statement_names'), 
+                                                DB::raw('GROUP_CONCAT(DISTINCT indicators.name) as indicator_names'),
+                                                'audit_plan_auditors.audit_plan_id'
+                                            )
+                                            ->join('audit_plan_criterias', 'standard_criterias.id', '=', 'audit_plan_criterias.standard_criteria_id')
+                                            ->join('audit_plan_auditors', 'audit_plan_criterias.audit_plan_auditor_id', '=', 'audit_plan_auditors.id')
+                                            ->join('standard_statements', 'standard_statements.standard_criteria_id', '=', 'standard_criterias.id')
+                                            ->join('indicators', 'indicators.standard_statement_id', '=', 'standard_statements.id')
+                                            ->where('audit_plan_auditors.audit_plan_id', $id)
+                                            ->groupBy(
+                                                'standard_criterias.id', 
+                                                'standard_criterias.title', 
+                                                'standard_criterias.status', 
+                                                'standard_criterias.standard_category_id', 
+                                                'standard_criterias.created_at', 
+                                                'standard_criterias.updated_at',
+                                                'audit_plan_auditors.audit_plan_id'
+                                            )
+                                            ->orderBy('standard_criterias.title')
+                                            ->get();
+        
+        return view('my-audit.view', compact('standardCategories', 'standardCriterias'));
+    }
+
+    public function ajaxMyStandard($id) {
+        if (request()->ajax()) {
+            $standardCriterias = StandardCriteria::select(
+                                                    'standard_criterias.*', 
+                                                    'standard_statements.name as statement_name', 
+                                                    'indicators.name as indicator_name',
+                                                    'review_docs.name as review_doc_name'
+                                                )
+                                                ->join('audit_plan_criterias', 'standard_criterias.id', '=', 'audit_plan_criterias.standard_criteria_id')
+                                                ->join('audit_plan_auditors', 'audit_plan_criterias.audit_plan_auditor_id', '=', 'audit_plan_auditors.id')
+                                                ->join('standard_statements', 'standard_statements.standard_criteria_id', '=', 'standard_criterias.id')
+                                                ->join('indicators', 'indicators.standard_statement_id', '=', 'standard_statements.id')
+                                                ->leftJoin('review_docs', 'standard_statements.id', '=', 'review_docs.standard_statement_id')
+                                                ->where('audit_plan_auditors.audit_plan_id', $id)
+                                                ->orderBy('standard_criterias.title')
+                                                ->get();
+
+            return DataTables::of($standardCriterias)->addIndexColumn()->addColumn('action', 'my-audit.action')->rawColumns(['action'])->make(true);
+        }
+        
     }
 
     public function my_standard(Request $request, $id){

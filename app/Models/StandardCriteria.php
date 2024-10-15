@@ -42,4 +42,14 @@ class StandardCriteria extends Model
     {
         return $this->hasMany(ReviewDocs::class, 'standard_criteria_id');
     }
+
+    public function auditPlanCriterias()
+    {
+        return $this->hasMany(AuditPlanCriteria::class);
+    }
+
+    public function standardStatements()
+    {
+        return $this->hasMany(StandardStatement::class);
+    }
 }

@@ -31,4 +31,9 @@ class AuditPlanCriteria extends Model
     {
         return $this->belongsTo(Indicator::class, 'standard_criteria_id', 'standard_criteria_id');
     }
+
+    public function auditPlanAuditor()
+    {
+        return $this->belongsTo(AuditPlanAuditor::class);
+    }
 }

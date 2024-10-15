@@ -84,7 +84,8 @@ Route::group(['middleware' => ['auth', 'role:admin, auditee']], function () {
         Route::any('/update/{id}', [MyAuditController::class, 'update'])->name('my_audit.update');
         Route::get('/obs/{id}', [MyAuditController::class, 'obs'])->name('my_audit.obs');
         Route::any('/show/{id}', [MyAuditController::class, 'show'])->name('my_audit.show');
-        Route::any('/my_standard/{id}', [MyAuditController::class, 'my_standard'])->name('my_audit.my_standard');
+        Route::any('/my_standard/{id}', [MyAuditController::class, 'myStandard'])->name('my_audit.my_standard');
+        Route::any('/my_standard/{id}/ajax', [MyAuditController::class, 'ajaxMyStandard'])->name('my_audit.my_standard.ajax');
         Route::any('/edit_rtm/{id}', [MyAuditController::class, 'edit_rtm'])->name('my_audit.edit_rtm');
         Route::any('/rtm/{id}', [MyAuditController::class, 'rtm'])->name('my_audit.rtm');
         Route::any('/delete_file/{id}', [MyAuditController::class, 'deleteFile'])->name('my_audit.delete_file');

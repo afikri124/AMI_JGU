@@ -384,13 +384,13 @@ class ComposerStaticInit7b1ef9b8c9bb04a20e3b271997afc63b
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
-            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
-            1 => __DIR__ . '/..' . '/spatie/ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -759,8 +759,10 @@ class ComposerStaticInit7b1ef9b8c9bb04a20e3b271997afc63b
         'App\\Http\\Requests\\UpdateDosenRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateDosenRequest.php',
         'App\\Http\\Requests\\UpdateLocationRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateLocationRequest.php',
         'App\\Http\\Requests\\UpdateNotificationAuditRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateNotificationAuditRequest.php',
+        'App\\Mail\\approvRTMBylpm' => __DIR__ . '/../..' . '/app/Mail/approvRTMBylpm.php',
         'App\\Mail\\approveStandardToAdmin' => __DIR__ . '/../..' . '/app/Mail/approveStandardToAdmin.php',
         'App\\Mail\\auditeeUploadDoc' => __DIR__ . '/../..' . '/app/Mail/auditeeUploadDoc.php',
+        'App\\Mail\\auditingFinish' => __DIR__ . '/../..' . '/app/Mail/auditingFinish.php',
         'App\\Mail\\deletedAuditPlan' => __DIR__ . '/../..' . '/app/Mail/deletedAuditPlan.php',
         'App\\Mail\\documenUploded' => __DIR__ . '/../..' . '/app/Mail/documenUploded.php',
         'App\\Mail\\notifUplodeDocAuditee' => __DIR__ . '/../..' . '/app/Mail/notifUplodeDocAuditee.php',
